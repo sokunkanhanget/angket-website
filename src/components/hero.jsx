@@ -1,98 +1,132 @@
-import { ShieldCheck, Send, Lock, Users, AlertTriangle } from "lucide-react"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { TELEGRAM_BOT_URL } from "@/lib/config"
+import { useLang } from "@/lib/i18n"
+import { TELEGRAM_BOT_URL } from "@/lib/data"
+import { IconSend, IconShield, IconWarning } from "./icons"
 
-export function Hero({ reportCount }) {
+export function Hero() {
+  const { t } = useLang()
+
   return (
-    <section id="top" className="relative overflow-hidden border-b border-border bg-gradient-to-b from-accent/40 to-background">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 md:py-24 lg:grid-cols-2">
+    <section className="hero" id="home" aria-labelledby="hero-title">
+      <div className="container hero-grid">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3 py-1 text-xs font-medium text-primary">
-            <ShieldCheck className="h-3.5 w-3.5" />
-            Community-powered scam protection
-          </div>
-
-          <h1 className="mt-5 text-balance font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            Expose scams. Protect people. Fight back together.
+          <span className="eyebrow rise">
+            <IconShield style={{ width: "1em", height: "1em" }} />
+            <span>{t({ en: "Free safety bot on Telegram", km: "Bot សុវត្ថិភាពឥតគិតថ្លៃនៅលើ Telegram" })}</span>
+          </span>
+          <h1 id="hero-title" className="rise d1">
+            {t({
+              en: "Not Sure If It’s a Scam? Check Before You Trust.",
+              km: "មិនច្បាស់ថាវាជាការបោកប្រាស់ឬទេ? ពិនិត្យមុនពេលជឿ។",
+            })}
           </h1>
-
-          <p className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
-            GuardReport is a trusted community platform where you can report scams and fake offers,
-            share your experience, and warn others before they get hurt. Every report helps someone
-            avoid a trap.
+          <p className="lede rise d2">
+            {t({
+              en: "Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. Get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions.",
+              km: "Angket ជួយអ្នកកំណត់អត្តសញ្ញាណសារ តំណភ្ជាប់ និងព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត តាមរយៈ Chatbot Telegram របស់យើង។ ទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន យល់ពីលំនាំគួរឲ្យសង្ស័យ ហើយធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពជាងមុន។",
+            })}
           </p>
-
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#report" className={cn(buttonVariants({ size: "lg" }), "gap-2")}>
-              <AlertTriangle className="h-4 w-4" />
-              Report your experience
+          <div className="hero-ctas rise d3">
+            <a className="btn btn-primary btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
+              <IconSend />
+              <span>{t({ en: "Check with Telegram", km: "ពិនិត្យតាម Telegram" })}</span>
             </a>
-            <a
-              href={TELEGRAM_BOT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ size: "lg", variant: "outline" }), "gap-2 bg-transparent")}
-            >
-              <Send className="h-4 w-4" />
-              Report via Telegram
+            <a className="link-arrow" href="#how">
+              <span>{t({ en: "Learn How It Works ↓", km: "ស្វែងយល់ពីរបៀបដំណើរការ ↓" })}</span>
             </a>
           </div>
-
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-muted-foreground">
-            <span className="flex items-center gap-2">
-              <Lock className="h-4 w-4 text-primary" /> Anonymous &amp; secure
-            </span>
-            <span className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-primary" /> {reportCount.toLocaleString()}+ reports shared
-            </span>
-          </div>
+          <p className="hero-trust rise d3">
+            {t({
+              en: "Free to use · Results are estimates, not guarantees · Community-powered reports",
+              km: "ប្រើប្រាស់ឥតគិតថ្លៃ · លទ្ធផលជាការប៉ាន់ស្មាន មិនមែនការធានា · របាយការណ៍ពីសហគមន៍",
+            })}
+          </p>
         </div>
 
-        <div className="relative">
-          <ReportPreviewCard />
+        <div className="phone-wrap rise d2">
+          <div
+            className="phone"
+            role="img"
+            aria-label={t({
+              en: "Example conversation: a forwarded prize message, and Angket replying with an estimated scam risk of 86 percent, the reasons it may be suspicious, and a safety recommendation.",
+              km: "គំរូការសន្ទនា៖ សាររង្វាន់ដែលបានបញ្ជូនបន្ត ហើយ Angket ឆ្លើយតបដោយប៉ាន់ស្មានហានិភ័យបោកប្រាស់ ៨៦ ភាគរយ ជាមួយមូលហេតុ និងអនុសាសន៍សុវត្ថិភាព។",
+            })}
+          >
+            <div className="chat-head" aria-hidden="true">
+              <span className="avatar">
+                <IconShield check style={{ width: 18, height: 18 }} />
+              </span>
+              <div>
+                <strong>Angket Bot</strong>
+                <small>{t({ en: "online", km: "លើបណ្ដាញ" })}</small>
+              </div>
+            </div>
+            <div className="chat-body" aria-hidden="true">
+              <div className="bubble user">
+                <span className="tag">{t({ en: "Forwarded message", km: "សារបញ្ជូនបន្ត" })}</span>
+                <span>
+                  {t({
+                    en: "Congratulations! You won a $500 cash prize. Pay a $15 processing fee within 2 hours to claim your reward.",
+                    km: "អបអរសាទរ! អ្នកបានជាប់រង្វាន់សាច់ប្រាក់ 500 ដុល្លារ។ សូមបង់ថ្លៃដំណើរការ 15 ដុល្លារក្នុងរយៈពេល 2 ម៉ោង ដើម្បីទទួលរង្វាន់។",
+                  })}
+                </span>
+                <span className="stamp">12:03</span>
+              </div>
+              <div className="bubble bot">
+                <div className="risk-head">
+                  <h3>
+                    <IconWarning style={{ width: 15, height: 15, color: "#b45309" }} />
+                    <span>{t({ en: "Estimated scam risk", km: "ហានិភ័យបោកប្រាស់ប៉ាន់ស្មាន" })}</span>
+                  </h3>
+                  <span className="risk-chip">{t({ en: "Potentially risky", km: "អាចមានហានិភ័យ" })}</span>
+                </div>
+                <div className="risk-row">
+                  <div className="gauge">
+                    <svg viewBox="0 0 80 80">
+                      <circle className="track" cx="40" cy="40" r="34" />
+                      <circle className="val" cx="40" cy="40" r="34" transform="rotate(-90 40 40)" />
+                    </svg>
+                    <div className="pct">
+                      <strong>86%</strong>
+                      <span>{t({ en: "estimate", km: "ប៉ាន់ស្មាន" })}</span>
+                    </div>
+                  </div>
+                  <p className="risk-meta">
+                    <span>
+                      {t({
+                        en: "This message shows several common scam patterns.",
+                        km: "សារនេះបង្ហាញលំនាំបោកប្រាស់ច្រើនយ៉ាងធម្មតា។",
+                      })}
+                    </span>
+                  </p>
+                </div>
+                <p className="why-title">{t({ en: "Why it may be suspicious:", km: "ហេតុអ្វីវាអាចគួរឲ្យសង្ស័យ៖" })}</p>
+                <ul className="why-list">
+                  <li>{t({ en: "Urgency pressure (“within 2 hours”)", km: "ការបង្ខំឲ្យប្រញាប់ («ក្នុងរយៈពេល 2 ម៉ោង»)" })}</li>
+                  <li>{t({ en: "Asks for an upfront payment", km: "សុំបង់ប្រាក់មុន" })}</li>
+                  <li>{t({ en: "Unfamiliar link destination", km: "តំណភ្ជាប់ទៅកាន់អាសយដ្ឋានមិនស្គាល់" })}</li>
+                  <li>{t({ en: "A prize you never entered for", km: "រង្វាន់ដែលអ្នកមិនបានចូលរួម" })}</li>
+                </ul>
+                <p className="reco">
+                  <IconShield check />
+                  <span>
+                    {t({
+                      en: "Suggested next step: don’t pay or share personal information. Verify through official channels first.",
+                      km: "ជំហានបន្ទាប់ដែលផ្ដល់យោបល់៖ កុំបង់ប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។ ផ្ទៀងផ្ទាត់តាមបណ្ដាញផ្លូវការជាមុនសិន។",
+                    })}
+                  </span>
+                </p>
+                <span className="stamp">12:04 ✓✓</span>
+              </div>
+            </div>
+          </div>
+          <p className="chat-note">
+            {t({
+              en: "Example reply. Every result is an estimate to help you decide — not a confirmation.",
+              km: "ចម្លើយគំរូ។ លទ្ធផលទាំងអស់ជាការប៉ាន់ស្មាន ដើម្បីជួយការសម្រេចចិត្ត — មិនមែនជាការបញ្ជាក់ទេ។",
+            })}
+          </p>
         </div>
       </div>
     </section>
-  )
-}
-
-function ReportPreviewCard() {
-  return (
-    <div className="relative mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-5 shadow-xl shadow-primary/5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <ShieldCheck className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-foreground">Verified Report</p>
-            <p className="text-xs text-muted-foreground">Community submitted</p>
-          </div>
-        </div>
-        <span className="rounded-full bg-destructive/10 px-2.5 py-1 text-xs font-medium text-destructive">
-          Scam
-        </span>
-      </div>
-
-      <div className="mt-4 space-y-3">
-        <div className="rounded-lg border border-border bg-muted/40 p-3">
-          <p className="text-xs font-medium text-muted-foreground">Fake Job Offer</p>
-          <p className="mt-1 text-sm font-medium text-foreground">
-            "Remote data-entry job asked for a $200 onboarding fee upfront."
-          </p>
-        </div>
-        <div className="flex gap-3">
-          <div className="flex-1 rounded-lg border border-border bg-muted/40 p-3">
-            <p className="text-xs text-muted-foreground">Platform</p>
-            <p className="text-sm font-semibold text-foreground">WhatsApp</p>
-          </div>
-          <div className="flex-1 rounded-lg border border-border bg-muted/40 p-3">
-            <p className="text-xs text-muted-foreground">Reported loss</p>
-            <p className="text-sm font-semibold text-foreground">$200</p>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }

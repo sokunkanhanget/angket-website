@@ -1,0 +1,1564 @@
+<!doctype html>
+<html lang="en">
+<!--
+  ============================================================
+  ANGKET — Landing Page (single self-contained static file)
+  ============================================================
+  !! BEFORE LAUNCH !!
+  The Telegram bot does not exist yet. The placeholder link
+  https://t.me/AngketBot is defined ONCE as the JavaScript
+  constant TELEGRAM_BOT_URL (search the <script> section below)
+  and is applied automatically to every "Try Angket" /
+  "Check with Telegram" / "Open Angket on Telegram" link.
+
+  Swap it for the real bot link there, e.g.:
+      const TELEGRAM_BOT_URL = "https://t.me/YourRealBot";
+  ============================================================
+-->
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Angket helps you identify suspicious messages, links, and online information through a Telegram chatbot. Get an estimated scam risk percentage and make safer decisions."
+  />
+  <title>Angket — Check Before You Trust</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%232563eb' d='M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z'/%3E%3C/svg%3E" />
+
+  <!-- Fonts: Space Grotesk (EN headlines) + Inter (EN body) + Noto Sans Khmer (KM) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --blue-800: #1e40af;
+      --blue-700: #1d4ed8;
+      --blue-600: #2563eb;
+      --blue-500: #3b82f6;
+      --blue-300: #93c5fd;
+      --blue-200: #bfdbfe;
+      --blue-100: #dbeafe;
+      --blue-50: #eff6ff;
+
+      --navy-900: #0d1730;
+      --navy-800: #12234d;
+
+      --ink: #0f172a;
+      --text: #35435c;
+      --muted: #56657f;
+      --faint: #7d8aa3;
+      --border: #e3e9f3;
+      --surface: #f5f8fd;
+      --white: #ffffff;
+
+      --amber-bg: #fff7e0;
+      --amber-border: #fbe49b;
+      --amber-text: #8a5206;
+      --red-600: #dc2626;
+      --green-bg: #ebfdf3;
+      --green-border: #c9efd9;
+      --green-text: #14713d;
+
+      --radius-sm: 10px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 50px rgba(23, 58, 138, 0.16);
+
+      --container: 1120px;
+      --header-h: 70px;
+
+      --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --font-km: "Noto Sans Khmer", "Inter", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--surface);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+    html.km body,
+    html.km h1, html.km h2, html.km h3, html.km h4 { font-family: var(--font-km); }
+    html.km body { line-height: 1.9; }
+    html.km h1, html.km h2, html.km h3 { line-height: 1.6; letter-spacing: 0; }
+    html.km .btn, html.km .chip-btn, html.km .lang-btn { padding-top: 0.42rem; padding-bottom: 0.42rem; }
+    html.km .eyebrow, html.km .bubble .tag, html.km .gauge .pct span,
+    html.km .popular h3, html.km .site-footer h3 { text-transform: none; letter-spacing: 0; font-size: 0.9em; }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: var(--blue-700); text-decoration: none; }
+    ul, ol { list-style: none; }
+    section { padding: 4.75rem 0; scroll-margin-top: calc(var(--header-h) + 10px); }
+
+    .container { width: min(var(--container), 100% - 2rem); margin-inline: auto; }
+
+    :focus-visible { outline: 3px solid var(--blue-300); outline-offset: 2px; border-radius: 6px; }
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 300;
+      background: var(--blue-700); color: #fff; padding: 0.75rem 1rem;
+      border-radius: 0 0 10px 0; font-weight: 600;
+    }
+    .skip-link:focus { left: 0; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .rise { animation: rise 0.6s ease both; }
+    .rise.d1 { animation-delay: 0.08s; } .rise.d2 { animation-delay: 0.16s; } .rise.d3 { animation-delay: 0.24s; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      font: inherit; font-weight: 600; font-size: 0.95rem;
+      border-radius: 999px; border: 1px solid transparent; cursor: pointer;
+      padding: 0.62rem 1.25rem; white-space: nowrap;
+      transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+    .btn-primary { background: var(--blue-600); color: #fff; box-shadow: var(--shadow-sm); }
+    .btn-primary:hover { background: var(--blue-700); transform: translateY(-1px); }
+    .btn-outline { background: #fff; color: var(--blue-700); border-color: var(--blue-200); }
+    .btn-outline:hover { background: var(--blue-50); }
+    .btn-white { background: #fff; color: var(--blue-800); box-shadow: 0 8px 24px rgba(4, 16, 46, 0.28); }
+    .btn-white:hover { background: var(--blue-50); transform: translateY(-1px); }
+    .btn-ghost-light { background: transparent; color: #dbe7ff; border-color: rgba(255, 255, 255, 0.45); }
+    .btn-ghost-light:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+    .btn-lg { padding: 0.88rem 1.7rem; font-size: 1.03rem; }
+    html.km .btn-lg { padding-top: 0.62rem; padding-bottom: 0.62rem; }
+
+    .icon {
+      width: 1.15em; height: 1.15em; flex: none;
+      stroke: currentColor; stroke-width: 2; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--blue-700); background: var(--blue-50);
+      border: 1px solid var(--blue-100); border-radius: 999px; padding: 0.3rem 0.85rem;
+    }
+    html.km .eyebrow { font-size: 0.85rem; }
+    .eyebrow.on-dark { color: #cfe1ff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); }
+
+    .section-head { max-width: 680px; margin-bottom: 2.5rem; }
+    .section-head.center { margin-inline: auto; text-align: center; }
+    .section-head h2 { font-size: clamp(1.6rem, 3.4vw, 2.15rem); font-weight: 700; margin: 0.9rem 0 0.6rem; }
+    .section-head p { color: var(--muted); font-size: 1.02rem; }
+
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { height: var(--header-h); display: flex; align-items: center; gap: 1.5rem; }
+
+    .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.22rem; color: var(--ink); }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-800));
+      display: grid; place-items: center; color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .brand-mark .icon { width: 20px; height: 20px; }
+    .brand b { color: var(--blue-600); }
+
+    .nav-links { display: flex; gap: 1.45rem; margin-inline: auto; }
+    .nav-links a { color: var(--muted); font-weight: 600; font-size: 0.93rem; padding: 0.35rem 0.1rem; transition: color 0.15s ease; }
+    .nav-links a:hover { color: var(--blue-700); }
+
+    .nav-actions { display: flex; align-items: center; gap: 0.65rem; margin-left: auto; }
+
+    .lang-switch {
+      display: inline-flex; align-items: center; gap: 0.15rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.2rem;
+    }
+    .lang-btn {
+      font: inherit; font-size: 0.83rem; font-weight: 700;
+      border: none; background: transparent; color: var(--muted);
+      border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer;
+    }
+    .lang-btn[aria-pressed="true"] { background: var(--blue-600); color: #fff; }
+
+    .menu-btn {
+      display: none; place-items: center; width: 42px; height: 42px;
+      border-radius: 10px; border: 1px solid var(--border); background: #fff;
+      color: var(--ink); cursor: pointer;
+    }
+    .mobile-menu { display: none; border-top: 1px solid var(--border); background: #fff; padding: 0.9rem 0 1.1rem; }
+    .mobile-menu.open { display: block; }
+    .mobile-menu nav { display: grid; gap: 0.15rem; }
+    .mobile-menu a.m-link { padding: 0.72rem 0.45rem; font-weight: 600; color: var(--ink); border-radius: 10px; }
+    .mobile-menu a.m-link:hover { background: var(--blue-50); }
+    .mobile-menu .btn { width: 100%; margin-top: 0.7rem; }
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 4.75rem 0 5.25rem;
+      background:
+        radial-gradient(700px 380px at 85% -10%, var(--blue-100), transparent 70%),
+        radial-gradient(520px 320px at -10% 110%, #e6f0ff, transparent 70%),
+        var(--surface);
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.04fr 0.96fr; gap: 3.25rem; align-items: center; }
+    .hero h1 { font-size: clamp(2.05rem, 4.6vw, 3.15rem); line-height: 1.13; letter-spacing: -0.03em; font-weight: 700; margin: 1rem 0; }
+    .hero .lede { color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.11rem); max-width: 34em; }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.8rem; }
+    .link-arrow { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 600; padding: 0.88rem 0.35rem; }
+    .link-arrow:hover { color: var(--blue-800); text-decoration: underline; }
+    .hero-trust { margin-top: 1.15rem; font-size: 0.84rem; color: var(--faint); }
+
+    .phone-wrap { position: relative; max-width: 430px; margin-inline: auto; width: 100%; }
+    .phone-wrap::before {
+      content: ""; position: absolute; inset: -36px -48px auto auto; width: 230px; height: 230px;
+      background: radial-gradient(closest-side, var(--blue-100), transparent 72%);
+      z-index: -1;
+    }
+    .phone { background: #fff; border: 1px solid var(--border); border-radius: 26px; box-shadow: var(--shadow-lg); padding: 0.7rem; }
+    .chat-head {
+      display: flex; align-items: center; gap: 0.65rem;
+      background: linear-gradient(135deg, #38bdf8, #0369a1);
+      color: #fff; border-radius: 18px 18px 6px 6px; padding: 0.7rem 0.9rem;
+    }
+    .chat-head .avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.22); display: grid; place-items: center; }
+    .chat-head strong { font-size: 0.92rem; display: block; line-height: 1.2; }
+    .chat-head small { font-size: 0.72rem; opacity: 0.85; }
+    .chat-body { background: #eef3f9; border-radius: 6px 6px 18px 18px; padding: 0.85rem; display: grid; gap: 0.6rem; margin-top: 2px; }
+    .bubble { max-width: 94%; border-radius: 14px; padding: 0.6rem 0.8rem; font-size: 0.85rem; line-height: 1.5; }
+    .bubble .tag { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.75; margin-bottom: 0.2rem; }
+    .bubble.user { background: var(--blue-600); color: #fff; margin-left: auto; border-bottom-right-radius: 4px; }
+    .bubble.bot { background: #fff; border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+    .stamp { display: block; text-align: right; font-size: 0.68rem; opacity: 0.55; margin-top: 0.3rem; }
+
+    .risk-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+    .risk-head h3 { font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem; letter-spacing: -0.01em; }
+    .risk-chip {
+      font-size: 0.72rem; font-weight: 700; color: var(--amber-text);
+      background: var(--amber-bg); border: 1px solid var(--amber-border);
+      border-radius: 999px; padding: 0.14rem 0.6rem;
+    }
+    .risk-row { display: flex; align-items: center; gap: 0.9rem; padding: 0.15rem 0 0.4rem; }
+    .gauge { position: relative; width: 76px; height: 76px; flex: none; }
+    .gauge svg { width: 100%; height: 100%; }
+    .gauge .track { fill: none; stroke: var(--blue-100); stroke-width: 8; }
+    .gauge .val { fill: none; stroke: var(--red-600); stroke-width: 8; stroke-linecap: round; stroke-dasharray: 213.6; stroke-dashoffset: 29.9; }
+    .gauge .pct { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
+    .gauge .pct strong { font-family: var(--font-display); font-size: 1.28rem; color: var(--red-600); line-height: 1; }
+    .gauge .pct span { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--faint); }
+    .risk-meta { font-size: 0.78rem; color: var(--muted); }
+    .risk-meta strong { color: var(--amber-text); }
+
+    .why-title { font-size: 0.78rem; font-weight: 700; color: var(--ink); margin: 0.35rem 0 0.25rem; }
+    .why-list li { display: flex; gap: 0.4rem; align-items: baseline; font-size: 0.79rem; color: var(--text); padding: 0.1rem 0; }
+    .why-list li::before { content: "•"; color: var(--red-600); font-weight: 800; }
+    .reco {
+      display: flex; gap: 0.5rem; align-items: flex-start;
+      background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green-text);
+      border-radius: var(--radius-sm); padding: 0.55rem 0.7rem;
+      font-size: 0.78rem; line-height: 1.5; margin-top: 0.55rem;
+    }
+    .reco .icon { margin-top: 0.12rem; }
+    .chat-note { margin-top: 0.95rem; font-size: 0.79rem; color: var(--faint); text-align: center; max-width: 42ch; margin-inline: auto; }
+
+    .problems { background: #fff; border-block: 1px solid var(--border); }
+    .prob-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .prob-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.5rem 1.4rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .prob-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .prob-ic {
+      width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
+      display: grid; place-items: center; background: #fff;
+      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+      margin-bottom: 0.9rem;
+    }
+    .prob-card h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
+    .prob-card p { color: var(--muted); font-size: 0.92rem; }
+    .problem-note {
+      margin: 2.6rem auto 0; max-width: 660px; text-align: center;
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(1.08rem, 2.2vw, 1.32rem); line-height: 1.5;
+    }
+    .problem-note span { color: var(--blue-700); }
+
+    .solution-lead { color: var(--muted); font-size: 1.05rem; max-width: 54em; }
+    .func-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 2.2rem; }
+    .func-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.5rem 1.3rem; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      position: relative; overflow: hidden;
+    }
+    .func-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .func-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--blue-500), var(--blue-800)); opacity: 0; transition: opacity 0.2s ease; }
+    .func-card:hover::before { opacity: 1; }
+    .func-ic {
+      width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
+      display: grid; place-items: center; background: var(--blue-50);
+      border: 1px solid var(--blue-100); margin-bottom: 0.9rem;
+    }
+    .func-card h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
+    .func-card p { color: var(--muted); font-size: 0.9rem; }
+
+    .how { background: #fff; border-block: 1px solid var(--border); }
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.1rem; }
+    .flow-step {
+      position: relative; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.5rem 1.25rem 1.35rem;
+    }
+    .flow-step .step-num {
+      position: absolute; top: -13px; left: 1.25rem;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--blue-600); color: #fff; font-size: 0.78rem; font-weight: 700;
+      display: grid; place-items: center; box-shadow: var(--shadow-sm);
+    }
+    .flow-step .step-emoji { font-size: 1.7rem; margin: 0.35rem 0 0.6rem; }
+    .flow-step h3 { font-size: 1.02rem; margin-bottom: 0.3rem; }
+    .flow-step p { color: var(--muted); font-size: 0.89rem; }
+    .flow-arrow {
+      position: absolute; top: 50%; right: -0.95rem; transform: translateY(-50%);
+      color: var(--blue-300); font-size: 1.35rem; font-weight: 700; z-index: 2;
+    }
+    .how-note {
+      display: flex; gap: 0.55rem; align-items: baseline; justify-content: center;
+      margin-top: 2.2rem; font-size: 0.87rem; color: var(--faint); text-align: left;
+    }
+    .how-note .icon { color: var(--blue-500); flex: none; transform: translateY(2px); }
+
+    .tg-band {
+      position: relative; overflow: hidden; color: #fff;
+      background:
+        radial-gradient(640px 340px at 90% 0%, rgba(56,189,248,.35), transparent 70%),
+        radial-gradient(520px 320px at 0% 100%, rgba(37,99,235,.55), transparent 70%),
+        linear-gradient(135deg, var(--navy-900), var(--blue-800));
+    }
+    .tg-inner { text-align: center; max-width: 780px; margin-inline: auto; }
+    .tg-band h2 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); margin: 1rem 0 0.7rem; }
+    .tg-band .tg-copy { color: #c9d8f5; font-size: 1.04rem; }
+    .tg-steps-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; margin: 1.7rem 0 2rem; }
+    .tg-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.22);
+      border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.87rem; font-weight: 600; color: #eaf1ff;
+    }
+    .tg-pill i { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: #fff; color: var(--blue-800); font-size: 0.72rem; font-weight: 800; display: grid; place-items: center; }
+    .tg-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; }
+    .tg-free { margin-top: 1.1rem; font-size: 0.82rem; color: #9fb4dd; }
+    .reports { background: var(--surface); }
+    .report-tools { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; margin-bottom: 1.9rem; }
+    .search-wrap { position: relative; flex: 1 1 230px; max-width: 350px; }
+    .search-wrap .icon {
+      position: absolute; left: 0.85rem; top: 50%; transform: translateY(-50%);
+      color: var(--faint); width: 17px; height: 17px; pointer-events: none;
+    }
+    .control, select.control, textarea.control {
+      width: 100%; font: inherit; color: var(--ink);
+      background: #fff; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.62rem 0.85rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .control::placeholder { color: var(--faint); }
+    .control:focus { outline: none; border-color: var(--blue-500); box-shadow: 0 0 0 3px var(--blue-100); }
+    .search-wrap .control { padding-left: 2.5rem; }
+    select.control { width: auto; min-width: 175px; cursor: pointer; }
+
+    .seg { display: inline-flex; background: #fff; border: 1px solid var(--border); border-radius: 999px; padding: 0.2rem; }
+    .chip-btn {
+      font: inherit; font-size: 0.83rem; font-weight: 600; cursor: pointer;
+      color: var(--muted); background: transparent; border: none;
+      border-radius: 999px; padding: 0.38rem 0.9rem;
+      transition: all 0.15s ease; white-space: nowrap;
+    }
+    .chip-btn:hover { color: var(--blue-700); }
+    .chip-btn[aria-pressed="true"] { background: var(--blue-600); color: #fff; }
+
+    .reports-layout { display: grid; grid-template-columns: 272px 1fr; gap: 1.6rem; align-items: start; }
+    .popular {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.25rem; box-shadow: var(--shadow-sm);
+    }
+    .popular h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); margin-bottom: 0.85rem; }
+    html.km .popular h3 { font-size: 0.9rem; }
+    .pop-item {
+      display: block; width: 100%; text-align: left; cursor: pointer;
+      background: transparent; border: none; font: inherit;
+      padding: 0.55rem 0.5rem; border-radius: 10px;
+    }
+    .pop-item:hover { background: var(--blue-50); }
+    .pop-item[aria-pressed="true"] { background: var(--blue-50); box-shadow: inset 0 0 0 1px var(--blue-200); }
+    .pop-line { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; }
+    .pop-name { font-weight: 600; font-size: 0.9rem; color: var(--ink); }
+    .pop-count { font-size: 0.78rem; font-weight: 700; color: var(--blue-700); white-space: nowrap; }
+    .pop-bar { height: 5px; border-radius: 99px; background: var(--blue-100); margin-top: 0.4rem; overflow: hidden; }
+    .pop-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--blue-500), var(--blue-700)); }
+    .pop-note { margin-top: 0.8rem; padding: 0.55rem 0.5rem 0; border-top: 1px dashed var(--border); font-size: 0.74rem; color: var(--faint); }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(262px, 1fr)); gap: 1.1rem; }
+    .card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-md);
+      padding: 1.15rem 1.15rem 1.05rem; display: flex; flex-direction: column; gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+    .card-top { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .type-badge {
+      font-size: 0.73rem; font-weight: 700; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.18rem 0.65rem; white-space: nowrap;
+    }
+    .when { font-size: 0.75rem; color: var(--faint); white-space: nowrap; }
+    .card h3 { font-size: 0.98rem; line-height: 1.45; letter-spacing: -0.01em; }
+    .card p.desc { color: var(--muted); font-size: 0.88rem; flex: 1; }
+    .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-top: 0.25rem; }
+    .platform { display: inline-flex; align-items: center; gap: 0.32rem; font-size: 0.77rem; color: var(--muted); }
+    .platform .icon { width: 13px; height: 13px; color: var(--faint); }
+    .sim-badge {
+      font-size: 0.72rem; font-weight: 700; color: var(--blue-700);
+      background: var(--blue-50); border: 1px solid var(--blue-100);
+      border-radius: 999px; padding: 0.14rem 0.55rem; white-space: nowrap;
+    }
+    .empty-msg { color: var(--faint); padding: 2.4rem 0; text-align: center; grid-column: 1 / -1; }
+
+    .reports-disclaimer {
+      display: flex; gap: 0.55rem; align-items: baseline; margin-top: 1.7rem;
+      font-size: 0.83rem; color: var(--faint); max-width: 60em;
+    }
+    .reports-disclaimer .icon { color: var(--blue-300); flex: none; transform: translateY(2px); }
+
+    .form-block { margin-top: 3.4rem; }
+    .form-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); padding: 2rem; max-width: 720px; margin-inline: auto;
+    }
+    .f-grid { display: grid; gap: 1.15rem; }
+    .f-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.15rem; }
+    label.f-label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.4rem; }
+    .req { color: var(--red-600); }
+    textarea.control { resize: vertical; min-height: 120px; }
+    .privacy-note {
+      display: flex; gap: 0.6rem;
+      background: var(--amber-bg); border: 1px solid var(--amber-border);
+      color: var(--amber-text); border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem; font-size: 0.83rem; line-height: 1.55;
+    }
+    .privacy-note .icon { color: #b45309; flex: none; margin-top: 0.12rem; }
+    .form-card .btn-primary { width: 100%; }
+    .success { text-align: center; padding: 2.4rem 1rem; }
+    .success .s-ic {
+      width: 64px; height: 64px; margin: 0 auto 1rem; border-radius: 50%;
+      background: var(--green-bg); color: var(--green-text); display: grid; place-items: center;
+    }
+    .success h3 { font-size: 1.35rem; margin-bottom: 0.4rem; }
+    .success p { color: var(--muted); margin-bottom: 1.4rem; }
+
+    .tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .tip-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.5rem 1.4rem; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .tip-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .tip-ic {
+      width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
+      display: grid; place-items: center; background: var(--surface);
+      border: 1px solid var(--border); margin-bottom: 0.9rem;
+    }
+    .tip-card h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
+    .tip-card p { color: var(--muted); font-size: 0.92rem; }
+
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+    .why-card {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 1.6rem 1.4rem; text-align: center; box-shadow: var(--shadow-sm);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .why-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .why-ic {
+      width: 52px; height: 52px; margin: 0 auto 1rem; border-radius: 15px; font-size: 1.45rem;
+      display: grid; place-items: center; background: linear-gradient(135deg, var(--blue-50), var(--blue-100));
+      border: 1px solid var(--blue-100);
+    }
+    .why-card h3 { font-size: 1.06rem; margin-bottom: 0.4rem; }
+    .why-card p { color: var(--muted); font-size: 0.92rem; }
+
+    .trust-panel {
+      background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm); padding: 2.2rem;
+      display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: start;
+      max-width: 860px; margin-inline: auto;
+    }
+    .trust-panel .t-ic {
+      width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center;
+      background: var(--blue-50); border: 1px solid var(--blue-100); color: var(--blue-700);
+    }
+    .trust-panel .t-ic .icon { width: 26px; height: 26px; }
+    .trust-panel h2 { font-size: clamp(1.35rem, 2.6vw, 1.7rem); margin-bottom: 0.6rem; }
+    .trust-panel > div > p { color: var(--muted); font-size: 0.98rem; max-width: 56em; }
+    .truth-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.1rem; }
+    .truth-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      font-size: 0.8rem; font-weight: 600; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.32rem 0.8rem;
+    }
+    .truth-chip .icon { width: 14px; height: 14px; color: var(--green-text); }
+
+    .cta-box {
+      position: relative; overflow: hidden; text-align: center; color: #fff;
+      background:
+        radial-gradient(520px 300px at 80% 10%, rgba(56,189,248,.3), transparent 70%),
+        linear-gradient(135deg, var(--navy-900), var(--navy-800));
+      border-radius: calc(var(--radius-lg) + 8px);
+      padding: clamp(2.4rem, 6vw, 4rem) 1.5rem;
+      box-shadow: var(--shadow-lg);
+    }
+    .cta-box h2 { font-size: clamp(1.7rem, 3.6vw, 2.35rem); margin-bottom: 0.7rem; letter-spacing: -0.02em; }
+    .cta-box p { color: #c9d8f5; max-width: 46em; margin: 0 auto 1.9rem; font-size: 1.03rem; }
+    .cta-box .tg-ctas { margin-bottom: 0; }
+
+    .site-footer { background: #fff; border-top: 1px solid var(--border); padding: 3rem 0 1.6rem; }
+    .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; }
+    .foot-brand p { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; max-width: 28em; }
+    .site-footer h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); margin-bottom: 0.9rem; }
+    .site-footer ul li { padding: 0.22rem 0; }
+    .site-footer ul a, .foot-link-btn { color: var(--text); font-size: 0.92rem; }
+    .site-footer ul a:hover, .foot-link-btn:hover { color: var(--blue-700); }
+    .foot-link-btn {
+      font: inherit; font-size: 0.92rem; background: none; border: none;
+      cursor: pointer; padding: 0.22rem 0; text-align: left;
+    }
+    .tg-link { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; }
+    .socials { display: flex; gap: 0.55rem; margin-top: 1rem; }
+    .soc-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+      transition: all 0.15s ease;
+    }
+    .soc-btn:hover { background: var(--blue-50); color: var(--blue-700); border-color: var(--blue-200); }
+    .foot-bottom {
+      border-top: 1px solid var(--border); margin-top: 2.2rem; padding-top: 1.2rem;
+      display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: space-between;
+      color: var(--faint); font-size: 0.8rem;
+    }
+
+    dialog.info-modal {
+      border: none; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+      width: min(560px, calc(100vw - 2rem)); padding: 1.6rem; color: var(--ink);
+    }
+    dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1rem; }
+    .modal-head h3 { font-size: 1.15rem; }
+    .modal-close {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; color: var(--muted); flex: none;
+    }
+    .modal-close:hover { background: var(--blue-50); color: var(--blue-700); }
+    .modal-body { color: var(--text); font-size: 0.94rem; }
+    .modal-body p + p { margin-top: 0.8rem; }
+
+    @media (max-width: 1020px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 2.6rem; }
+      .phone-wrap { margin-inline: 0; }
+      .func-grid { grid-template-columns: repeat(2, 1fr); }
+      .flow { grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+      .flow-arrow { display: none; }
+      .reports-layout { grid-template-columns: 1fr; }
+      .popular ul { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+      .pop-item { width: auto; flex: 1 1 150px; background: var(--surface); border: 1px solid var(--border); }
+      .pop-item[aria-pressed="true"] { border-color: var(--blue-300); }
+      .pop-bar { display: none; }
+      .tips-grid, .why-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 840px) {
+      .nav-links, .nav-actions .btn { display: none; }
+      .menu-btn { display: grid; }
+      .nav { gap: 0.75rem; }
+    }
+    @media (max-width: 720px) {
+      .prob-grid, .tips-grid, .why-grid, .func-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr; }
+      .trust-panel { grid-template-columns: 1fr; padding: 1.6rem; }
+      .f-row { grid-template-columns: 1fr; }
+      .report-tools { align-items: stretch; }
+      .search-wrap { max-width: none; }
+      select.control { width: 100%; }
+    }
+    @media (max-width: 600px) {
+      section { padding: 3.4rem 0; }
+      .hero { padding: 3.2rem 0 3.8rem; }
+      .hero-ctas .btn, .hero-ctas .link-arrow { flex: 1 1 100%; justify-content: center; }
+      .link-arrow { padding: 0.6rem 0.35rem; }
+      .form-card { padding: 1.4rem; }
+      .foot-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-en="Skip to main content" data-km="រំលងទៅមាតិកាសំខាន់">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="nav" aria-label="Main">
+        <a href="#home" class="brand" aria-label="Angket — home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+          </span>
+          <span>Ang<b>ket</b></span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#home" data-en="Home" data-km="ទំព័រដើម">Home</a></li>
+          <li><a href="#how" data-en="How it works" data-km="របៀបដំណើរការ">How it works</a></li>
+          <li><a href="#reports" data-en="Scam Reports" data-km="របាយការណ៍បោកប្រាស់">Scam Reports</a></li>
+          <li><a href="#tips" data-en="Safety Tips" data-km="គន្លឹះសុវត្ថិភាព">Safety Tips</a></li>
+          <li><a href="#about" data-en="About" data-km="អំពីយើង">About</a></li>
+          <li><a href="#telegram" data-en="Telegram Bot" data-km="Bot Telegram">Telegram Bot</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="lang-switch" role="group" aria-label="Language / ភាសា">
+            <button type="button" id="lang-en" class="lang-btn" aria-pressed="true">EN</button>
+            <button type="button" id="lang-km" class="lang-btn" aria-pressed="false">ខ្មែរ</button>
+          </div>
+
+          <a class="btn btn-primary" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            <span data-en="Try Angket" data-km="សាកល្បង Angket">Try Angket</span>
+          </a>
+
+          <button type="button" id="menu-btn" class="menu-btn" aria-expanded="false" aria-controls="mobile-menu"
+            data-en-aria="Open menu" data-km-aria="បើកម៉ឺនុយ">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+          </button>
+        </div>
+      </nav>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="container">
+        <nav aria-label="Mobile">
+          <a class="m-link" href="#home" data-en="Home" data-km="ទំព័រដើម">Home</a>
+          <a class="m-link" href="#how" data-en="How it works" data-km="របៀបដំណើរការ">How it works</a>
+          <a class="m-link" href="#reports" data-en="Scam Reports" data-km="របាយការណ៍បោកប្រាស់">Scam Reports</a>
+          <a class="m-link" href="#tips" data-en="Safety Tips" data-km="គន្លឹះសុវត្ថិភាព">Safety Tips</a>
+          <a class="m-link" href="#about" data-en="About" data-km="អំពីយើង">About</a>
+          <a class="m-link" href="#telegram" data-en="Telegram Bot" data-km="Bot Telegram">Telegram Bot</a>
+        </nav>
+        <a class="btn btn-primary btn-lg" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+          <span data-en="Try Angket" data-km="សាកល្បង Angket">Try Angket</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow rise">
+            <svg class="icon" style="width:1em;height:1em" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/></svg>
+            <span data-en="Free safety bot on Telegram" data-km="Bot សុវត្ថិភាពឥតគិតថ្លៃនៅលើ Telegram">Free safety bot on Telegram</span>
+          </span>
+          <h1 id="hero-title" class="rise d1" data-en="Not Sure If It’s a Scam? Check Before You Trust." data-km="មិនច្បាស់ថាវាជាការបោកប្រាស់ឬទេ? ពិនិត្យមុនពេលជឿ។">Not Sure If It’s a Scam? Check Before You Trust.</h1>
+          <p class="lede rise d2" data-en="Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. Get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions." data-km="Angket ជួយអ្នកកំណត់អត្តសញ្ញាណសារ តំណភ្ជាប់ និងព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត តាមរយៈ Chatbot Telegram របស់យើង។ ទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន យល់ពីលំនាំគួរឲ្យសង្ស័យ ហើយធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពជាងមុន។">Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. Get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions.</p>
+          <div class="hero-ctas rise d3">
+            <a class="btn btn-primary btn-lg" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              <span data-en="Check with Telegram" data-km="ពិនិត្យតាម Telegram">Check with Telegram</span>
+            </a>
+            <a class="link-arrow" href="#how">
+              <span data-en="Learn How It Works ↓" data-km="ស្វែងយល់ពីរបៀបដំណើរការ ↓">Learn How It Works ↓</span>
+            </a>
+          </div>
+          <p class="hero-trust rise d3" data-en="Free to use · Results are estimates, not guarantees · Community-powered reports" data-km="ប្រើប្រាស់ឥតគិតថ្លៃ · លទ្ធផលជាការប៉ាន់ស្មាន មិនមែនការធានា · របាយការណ៍ពីសហគមន៍">Free to use · Results are estimates, not guarantees · Community-powered reports</p>
+        </div>
+
+        <div class="phone-wrap rise d2">
+          <div class="phone" role="img"
+            data-en-aria="Example conversation: a forwarded prize message, and Angket replying with an estimated scam risk of 86 percent, the reasons it may be suspicious, and a safety recommendation."
+            data-km-aria="គំរូការសន្ទនា៖ សាររង្វាន់ដែលបានបញ្ជូនបន្ត ហើយ Angket ឆ្លើយតបដោយប៉ាន់ស្មានហានិភ័យបោកប្រាស់ ៨៦ ភាគរយ ជាមួយមូលហេតុ និងអនុសាសន៍សុវត្ថិភាព។">
+            <div class="chat-head" aria-hidden="true">
+              <span class="avatar"><svg class="icon" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg></span>
+              <div>
+                <strong>Angket Bot</strong>
+                <small data-en="online" data-km="លើបណ្ដាញ">online</small>
+              </div>
+            </div>
+            <div class="chat-body" aria-hidden="true">
+              <div class="bubble user">
+                <span class="tag" data-en="Forwarded message" data-km="សារបញ្ជូនបន្ត">Forwarded message</span>
+                <span data-en="Congratulations! You won a $500 cash prize. Pay a $15 processing fee within 2 hours to claim your reward." data-km="អបអរសាទរ! អ្នកបានជាប់រង្វាន់សាច់ប្រាក់ 500 ដុល្លារ។ សូមបង់ថ្លៃដំណើរការ 15 ដុល្លារក្នុងរយៈពេល 2 ម៉ោង ដើម្បីទទួលរង្វាន់។">Congratulations! You won a $500 cash prize. Pay a $15 processing fee within 2 hours to claim your reward.</span>
+                <span class="stamp">12:03</span>
+              </div>
+              <div class="bubble bot">
+                <div class="risk-head">
+                  <h3>
+                    <svg class="icon" style="width:15px;height:15px;color:#b45309" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                    <span data-en="Estimated scam risk" data-km="ហានិភ័យបោកប្រាស់ប៉ាន់ស្មាន">Estimated scam risk</span>
+                  </h3>
+                  <span class="risk-chip" data-en="Potentially risky" data-km="អាចមានហានិភ័យ">Potentially risky</span>
+                </div>
+                <div class="risk-row">
+                  <div class="gauge">
+                    <svg viewBox="0 0 80 80">
+                      <circle class="track" cx="40" cy="40" r="34"/>
+                      <circle class="val" cx="40" cy="40" r="34" transform="rotate(-90 40 40)"/>
+                    </svg>
+                    <div class="pct"><strong>86%</strong><span data-en="estimate" data-km="ប៉ាន់ស្មាន">estimate</span></div>
+                  </div>
+                  <p class="risk-meta"><span data-en="This message shows several common scam patterns." data-km="សារនេះបង្ហាញលំនាំបោកប្រាស់ច្រើនយ៉ាងធម្មតា។">This message shows several common scam patterns.</span></p>
+                </div>
+                <p class="why-title" data-en="Why it may be suspicious:" data-km="ហេតុអ្វីវាអាចគួរឲ្យសង្ស័យ៖">Why it may be suspicious:</p>
+                <ul class="why-list">
+                  <li data-en="Urgency pressure (“within 2 hours”)" data-km="ការបង្ខំឲ្យប្រញាប់ («ក្នុងរយៈពេល 2 ម៉ោង»)">Urgency pressure (“within 2 hours”)</li>
+                  <li data-en="Asks for an upfront payment" data-km="សុំបង់ប្រាក់មុន">Asks for an upfront payment</li>
+                  <li data-en="Unfamiliar link destination" data-km="តំណភ្ជាប់ទៅកាន់អាសយដ្ឋានមិនស្គាល់">Unfamiliar link destination</li>
+                  <li data-en="A prize you never entered for" data-km="រង្វាន់ដែលអ្នកមិនបានចូលរួម">A prize you never entered for</li>
+                </ul>
+                <p class="reco">
+                  <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+                  <span data-en="Suggested next step: don’t pay or share personal information. Verify through official channels first." data-km="ជំហានបន្ទាប់ដែលផ្ដល់យោបល់៖ កុំបង់ប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។ ផ្ទៀងផ្ទាត់តាមបណ្ដាញផ្លូវការជាមុនសិន។">Suggested next step: don’t pay or share personal information. Verify through official channels first.</span>
+                </p>
+                <span class="stamp">12:04 ✓✓</span>
+              </div>
+            </div>
+          </div>
+          <p class="chat-note" data-en="Example reply. Every result is an estimate to help you decide — not a confirmation." data-km="ចម្លើយគំរូ។ លទ្ធផលទាំងអស់ជាការប៉ាន់ស្មាន ដើម្បីជួយការសម្រេចចិត្ត — មិនមែនជាការបញ្ជាក់ទេ។">Example reply. Every result is an estimate to help you decide — not a confirmation.</p>
+        </div>
+      </div>
+    </section>
+    <!-- PROBLEM -->
+    <section class="problems" id="problem" aria-labelledby="problem-title">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow" data-en="The problem" data-km="បញ្ហា">The problem</span>
+          <h2 id="problem-title" data-en="Scams Are Easier to Encounter Than You Think" data-km="ការបោកប្រាស់ងាយជួបប្រទះជាងដែលអ្នកគិត">Scams Are Easier to Encounter Than You Think</h2>
+        </div>
+        <div class="prob-grid reveal">
+          <article class="prob-card">
+            <span class="prob-ic" aria-hidden="true">📩</span>
+            <h3 data-en="Suspicious Messages" data-km="សារគួរឲ្យសង្ស័យ">Suspicious Messages</h3>
+            <p data-en="People receive messages that may look legitimate but contain scam patterns." data-km="មនុស្សទទួលបានសារដែលអាចមើលទៅដូចជាកិច្ចការពិត ប៉ុន្តែខាងក្នុងមានលំនាំនៃការបោកប្រាស់។">People receive messages that may look legitimate but contain scam patterns.</p>
+          </article>
+          <article class="prob-card">
+            <span class="prob-ic" aria-hidden="true">🔗</span>
+            <h3 data-en="Suspicious Links" data-km="តំណភ្ជាប់គួរឲ្យសង្ស័យ">Suspicious Links</h3>
+            <p data-en="Users may click unfamiliar links without knowing where they lead." data-km="អ្នកប្រើប្រាស់អាចចុចតំណភ្ជាប់មិនស្គាល់ ដោយមិនដឹងថាវាបញ្ជូនទៅកន្លែងណា។">Users may click unfamiliar links without knowing where they lead.</p>
+          </article>
+          <article class="prob-card">
+            <span class="prob-ic" aria-hidden="true">💼</span>
+            <h3 data-en="Fake Opportunities" data-km="ឱកាសក្លែងក្លាយ">Fake Opportunities</h3>
+            <p data-en="Job offers, investments, prizes, and other opportunities can be used to deceive people." data-km="ការផ្ដល់ការងារធ្វើ ការវិនិយោគ រង្វាន់ និងឱកាសផ្សេងៗ អាចត្រូវបានប្រើដើម្បីបញ្ឆោតមនុស្ស។">Job offers, investments, prizes, and other opportunities can be used to deceive people.</p>
+          </article>
+          <article class="prob-card">
+            <span class="prob-ic" aria-hidden="true">💰</span>
+            <h3 data-en="Financial Loss" data-km="ការបាត់បង់ហិរញ្ញវត្ថុ">Financial Loss</h3>
+            <p data-en="Scams can lead to financial loss or stolen personal information." data-km="ការបោកប្រាស់អាចបណ្ដាលឲ្យបាត់បង់ប្រាក់ ឬព័ត៌មានផ្ទាល់ខ្លួនត្រូវបានលួច។">Scams can lead to financial loss or stolen personal information.</p>
+          </article>
+          <article class="prob-card">
+            <span class="prob-ic" aria-hidden="true">🔄</span>
+            <h3 data-en="Repeated Scams" data-km="ការបោកប្រាស់ដដែលៗ">Repeated Scams</h3>
+            <p data-en="People may encounter scams that have already affected others without knowing about previous reports." data-km="មនុស្សអាចជួបការបោកប្រាស់ដែលបានប៉ះពាល់អ្នកដទៃរួចហើយ ដោយមិនដឹងអំពីរបាយការណ៍ពីមុន។">People may encounter scams that have already affected others without knowing about previous reports.</p>
+          </article>
+        </div>
+        <p class="problem-note reveal">
+          <span data-en="The problem isn’t only detecting scams. It’s knowing what to look for before making a decision." data-km="បញ្ហាមិនមែនត្រឹមតែការរកឃើញការបោកប្រាស់ប៉ុណ្ណោះទេ។ វាគឺជាការដឹងថាត្រូវមើលរកអ្វី មុនពេលធ្វើការសម្រេចចិត្ត។">The problem isn’t only detecting scams. It’s knowing what to look for before making a decision.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- SOLUTION -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow" data-en="Meet Angket" data-km="ស្គាល់ពី Angket">Meet Angket</span>
+          <h2 id="about-title" data-en="Your Safety Companion on Telegram" data-km="មិត្តរួមសុវត្ថិភាពរបស់អ្នកនៅលើ Telegram">Your Safety Companion on Telegram</h2>
+          <p class="solution-lead" data-en="Angket is your safety companion on Telegram. Instead of guessing whether a message is trustworthy, send it to the bot and get an estimated risk assessment with clear reasons — helping you pause, understand, and decide with confidence. This website adds community knowledge on top: real scam experiences and practical safety tips." data-km="Angket គឺជាមិត្តរួមសុវត្ថិភាពរបស់អ្នកនៅលើ Telegram។ ជាជាងការស្មានថាតើសារណាមួយអាចជឿបានឬអត់ អ្នកអាចផ្ញើវាទៅ Bot ហើយទទួលបានការវាយតម្លៃហានិភ័យប៉ាន់ស្មាន ជាមួយមូលហេតុច្បាស់លាស់ — ដើម្បីជួយអ្នកឈប់គិត យល់ដឹង និងសម្រេចចិត្តដោយទំនុកចិត្ត។ គេហទំព័រនេះបន្ថែមចំណេះដឹងពីសហគមន៍ ដូចជាបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង និងគន្លឹះសុវត្ថិភាពជាក់ស្ដែង។">Angket is your safety companion on Telegram. Instead of guessing whether a message is trustworthy, send it to the bot and get an estimated risk assessment with clear reasons — helping you pause, understand, and decide with confidence. This website adds community knowledge on top: real scam experiences and practical safety tips.</p>
+        </div>
+        <div class="func-grid reveal">
+          <article class="func-card">
+            <span class="func-ic" aria-hidden="true">🔍</span>
+            <h3 data-en="Detect" data-km="រកឃើញ">Detect</h3>
+            <p data-en="Automatically detect suspicious patterns in incoming messages and alert users when something appears risky." data-km="រកឃើញលំនាំគួរឲ្យសង្ស័យក្នុងសារដែលទទួលបានដោយស្វ័យប្រវត្តិ និងជូនដំណឹងអ្នកប្រើប្រាស់ពេលមានអ្វីមួយបង្ហាញភាពហានិភ័យ។">Automatically detect suspicious patterns in incoming messages and alert users when something appears risky.</p>
+          </article>
+          <article class="func-card">
+            <span class="func-ic" aria-hidden="true">📊</span>
+            <h3 data-en="Check" data-km="ពិនិត្យ">Check</h3>
+            <p data-en="Send suspicious messages, links, or URLs to the bot and get an estimated scam risk percentage." data-km="ផ្ញើសារ តំណភ្ជាប់ ឬ URL គួរឲ្យសង្ស័យទៅ Bot ហើយទទួលបានភាគរយហានិភ័យបោកប្រាស់ប៉ាន់ស្មាន។">Send suspicious messages, links, or URLs to the bot and get an estimated scam risk percentage.</p>
+          </article>
+          <article class="func-card">
+            <span class="func-ic" aria-hidden="true">🧠</span>
+            <h3 data-en="Understand" data-km="យល់ដឹង">Understand</h3>
+            <p data-en="Explains why the content may be suspicious and highlights the detected scam patterns." data-km="ពន្យល់ពីមូលហេតុដែលខ្លឹមសារអាចគួរឲ្យសង្ស័យ និងបង្ហាញលំនាំបោកប្រាស់ដែលរកឃើញ។">Explains why the content may be suspicious and highlights the detected scam patterns.</p>
+          </article>
+          <article class="func-card">
+            <span class="func-ic" aria-hidden="true">🛡️</span>
+            <h3 data-en="Protect" data-km="ការពារ">Protect</h3>
+            <p data-en="Provides safety recommendations and lets users learn from reported scam experiences to avoid similar scams." data-km="ផ្ដល់អនុសាសន៍សុវត្ថិភាព និងឲ្យអ្នកប្រើប្រាស់រៀនពីបទពិសោធន៍បោកប្រាស់ដែលបានរាយការណ៍ ដើម្បីចៀសវាងការបោកប្រាស់ប្រភេទដូចគ្នា។">Provides safety recommendations and lets users learn from reported scam experiences to avoid similar scams.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow" data-en="Simple process" data-km="ដំណើរការសាមញ្ញ">Simple process</span>
+          <h2 id="how-title" data-en="How Angket Works" data-km="របៀបដែល Angket ដំណើរការ">How Angket Works</h2>
+          <p data-en="No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps." data-km="គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram តែ 4 ជំហានប៉ុណ្ណោះ។">No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps.</p>
+        </div>
+
+        <ol class="flow reveal">
+          <li class="flow-step">
+            <span class="step-num" aria-hidden="true">1</span>
+            <span class="step-emoji" aria-hidden="true">📩</span>
+            <h3 data-en="Send" data-km="ផ្ញើ">Send</h3>
+            <p data-en="Forward a suspicious message or link to the bot in your chat." data-km="បញ្ជូនបន្តសារ ឬតំណគួរឲ្យសង្ស័យទៅ Bot ក្នុងការសន្ទនារបស់អ្នក។">Forward a suspicious message or link to the bot in your chat.</p>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+          </li>
+          <li class="flow-step">
+            <span class="step-num" aria-hidden="true">2</span>
+            <span class="step-emoji" aria-hidden="true">🤖</span>
+            <h3 data-en="Analyze" data-km="វិភាគ">Analyze</h3>
+            <p data-en="Angket scans the content for scam patterns and risk indicators." data-km="Angket ពិនិត្យរកលំនាំបោកប្រាស់ និងសញ្ញានៃភាពហានិភ័យក្នុងខ្លឹមសារ។">Angket scans the content for scam patterns and risk indicators.</p>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+          </li>
+          <li class="flow-step">
+            <span class="step-num" aria-hidden="true">3</span>
+            <span class="step-emoji" aria-hidden="true">📊</span>
+            <h3 data-en="Risk + Reasons" data-km="ហានិភ័យ + មូលហេតុ">Risk + Reasons</h3>
+            <p data-en="You get an estimated risk percentage and a clear explanation of what was detected." data-km="អ្នកទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន ជាមួយការពន្យល់ច្បាស់លាស់ពីអ្វីដែលរកឃើញ។">You get an estimated risk percentage and a clear explanation of what was detected.</p>
+            <span class="flow-arrow" aria-hidden="true">→</span>
+          </li>
+          <li class="flow-step">
+            <span class="step-num" aria-hidden="true">4</span>
+            <span class="step-emoji" aria-hidden="true">🛡️</span>
+            <h3 data-en="Make a Safer Decision" data-km="សម្រេចចិត្តប្រកបដោយសុវត្ថិភាព">Make a Safer Decision</h3>
+            <p data-en="Use the results and recommendations to decide your next step — before you pay, click, or share." data-km="ប្រើលទ្ធផល និងអនុសាសន៍ ដើម្បីសម្រេចជំហានបន្ទាប់របស់អ្នក — មុនពេលបង់ប្រាក់ ចុច ឬចែករំលែក។">Use the results and recommendations to decide your next step — before you pay, click, or share.</p>
+          </li>
+        </ol>
+
+        <p class="how-note">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <span data-en="Results are estimated risk assessments based on detected patterns — not verdicts or guarantees." data-km="លទ្ធផលគឺជាការប៉ាន់ស្មានហានិភ័យផ្អែកលើលំនាំដែលរកឃើញ — មិនមែនជាសេចក្ដីសម្រេច ឬការធានាទេ។">Results are estimated risk assessments based on detected patterns — not verdicts or guarantees.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- TELEGRAM BOT -->
+    <section class="tg-band" id="telegram" aria-labelledby="tg-title">
+      <div class="container tg-inner reveal">
+        <span class="eyebrow on-dark" data-en="Everything happens in Telegram" data-km="អ្វីៗទាំងអស់ធ្វើនៅក្នុង Telegram">Everything happens in Telegram</span>
+        <h2 id="tg-title" data-en="Talk to the Angket Bot" data-km="សន្ទនាជាមួយ Bot Angket">Talk to the Angket Bot</h2>
+        <p class="tg-copy" data-en="This website is the front door — the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram." data-km="គេហទំព័រនេះគ្រាន់តែជាទ្វារមុខ — Bot គឺជាកន្លែងពិតដែលសាររបស់អ្នកត្រូវបានពិនិត្យ។ ផ្ញើអ្វីៗគួរឲ្យសង្ស័យ ហើយទទួលបានការប៉ាន់ស្មានហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ ក្នុង Telegram ផ្ទាល់។">This website is the front door — the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram.</p>
+        <div class="tg-steps-row">
+          <span class="tg-pill"><i>1</i><span data-en="Open Telegram" data-km="បើក Telegram">Open Telegram</span></span>
+          <span class="tg-pill"><i>2</i><span data-en="Start the bot" data-km="ចាប់ផ្ដើម Bot">Start the bot</span></span>
+          <span class="tg-pill"><i>3</i><span data-en="Send or forward a message" data-km="ផ្ញើ ឬបញ្ជូនបន្តសារ">Send or forward a message</span></span>
+          <span class="tg-pill"><i>4</i><span data-en="Get your estimate" data-km="ទទួលការប៉ាន់ស្មាន">Get your estimate</span></span>
+        </div>
+        <div class="tg-ctas">
+          <a class="btn btn-white btn-lg" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            <span data-en="🛡️ Open Angket on Telegram" data-km="🛡️ បើក Angket នៅលើ Telegram">🛡️ Open Angket on Telegram</span>
+          </a>
+        </div>
+        <p class="tg-free" data-en="Free to use — all you need is a Telegram account." data-km="ប្រើឥតគិតថ្លៃ — គ្រាន់តែត្រូវការគណនី Telegram ប៉ុណ្ណោះ។">Free to use — all you need is a Telegram account.</p>
+      </div>
+    </section>
+    <!-- SCAM REPORTS -->
+    <section class="reports" id="reports" aria-labelledby="reports-title">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow" data-en="Learn from others" data-km="រៀនពីអ្នកដទៃ">Learn from others</span>
+          <h2 id="reports-title" data-en="Learn From Real Scam Experiences" data-km="រៀនសូត្រពីបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង">Learn From Real Scam Experiences</h2>
+          <p data-en="Have you encountered a scam? Share your experience to help others recognize similar attempts." data-km="តើអ្នកធ្លាប់ជួបប្រទះការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នក ដើម្បីជួយអ្នកដទៃស្គាល់ការព្យាយាមបោកប្រាស់ប្រភេទដូចគ្នា។">Have you encountered a scam? Share your experience to help others recognize similar attempts.</p>
+        </div>
+
+        <div class="report-tools">
+          <div class="search-wrap">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <label class="sr-only" for="filter-q" data-en="Search reports" data-km="ស្វែងរករបាយការណ៍">Search reports</label>
+            <input type="search" id="filter-q" class="control" autocomplete="off"
+              placeholder="Search reports…"
+              data-en-ph="Search reports…" data-km-ph="ស្វែងរករបាយការណ៍…" />
+          </div>
+
+          <label class="sr-only" for="filter-cat" data-en="Filter by category" data-km="ត្រងតាមប្រភេទ">Filter by category</label>
+          <select class="control" id="filter-cat">
+            <option value="all" data-en="All categories" data-km="ប្រភេទទាំងអស់">All categories</option>
+            <option value="fake-job" data-en="Fake Job" data-km="ការងារក្លែងក្លាយ">Fake Job</option>
+            <option value="investment" data-en="Investment" data-km="ការវិនិយោគក្លែងក្លាយ">Investment</option>
+            <option value="prize" data-en="Prize / Giveaway" data-km="រង្វាន់ក្លែងក្លាយ">Prize / Giveaway</option>
+            <option value="phishing" data-en="Phishing" data-km="ការបញ្ឆោតយកព័ត៌មាន">Phishing</option>
+            <option value="fake-seller" data-en="Fake Seller" data-km="អ្នកលក់ក្លែងក្លាយ">Fake Seller</option>
+            <option value="impersonation" data-en="Impersonation" data-km="ការក្លែងបន្លំអត្តសញ្ញាណ">Impersonation</option>
+          </select>
+
+          <div class="seg" role="group" aria-label="Sort reports">
+            <button type="button" id="sort-recent" class="chip-btn" aria-pressed="true" data-en="Recent" data-km="ថ្មីបំផុត">Recent</button>
+            <button type="button" id="sort-top" class="chip-btn" aria-pressed="false" data-en="Most reported" data-km="ច្រើនជាងគេ">Most reported</button>
+          </div>
+        </div>
+
+        <div class="reports-layout">
+          <aside class="popular" aria-labelledby="pop-title">
+            <h3 id="pop-title" data-en="Reported most often" data-km="ត្រូវបានរាយការណ៍ច្រើនជាងគេ">Reported most often</h3>
+            <ul id="pop-list"></ul>
+            <p class="pop-note" data-en="Sample data for demonstration — based on the demo reports below." data-km="ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍គំរូខាងក្រោម។">Sample data for demonstration — based on the demo reports below.</p>
+          </aside>
+
+          <div>
+            <!-- Demo data only: report cards are rendered from the hardcoded list in the script below. -->
+            <div class="cards" id="cards"></div>
+            <p class="empty-msg" id="empty-msg" hidden data-en="No reports match your search." data-km="រកមិនឃើញរបាយការណ៍ត្រូវនឹងការស្វែងរករបស់អ្នកទេ។">No reports match your search.</p>
+            <p class="reports-disclaimer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+              <span data-en="Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously — useful for awareness, but not verified facts." data-km="ការបង្ហាញគំរូ៖ ទាំងនេះជារបាយការណ៍គំរូសម្រាប់ពិពណ៌នា។ ក្នុងកំណែពិត របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។">Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously — useful for awareness, but not verified facts.</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- REPORT FORM -->
+        <div class="form-block" id="report">
+          <div class="section-head center reveal">
+            <span class="eyebrow" data-en="Report a scam" data-km="រាយការណ៍ការបោកប្រាស់">Report a scam</span>
+            <h2 data-en="Share What Happened" data-km="ចែករំលែកអ្វីដែលបានកើតឡើង">Share What Happened</h2>
+            <p data-en="Your story can help someone else recognize the same trick before it’s too late. Reports are anonymous by default." data-km="រឿងរ៉ាវរបស់អ្នកអាចជួយអ្នកដទៃស្គាល់ល្បិចដូចគ្នាបានទាន់ពេល។ របាយការណ៍ជាអនាមិកតាមលំនាំដើម។">Your story can help someone else recognize the same trick before it’s too late. Reports are anonymous by default.</p>
+          </div>
+
+          <div class="form-card reveal">
+            <form id="report-form" class="f-grid">
+              <div class="f-row">
+                <div>
+                  <label class="f-label" for="rf-type"><span data-en="Scam Type" data-km="ប្រភេទការបោកប្រាស់">Scam Type</span> <span class="req" aria-hidden="true">*</span></label>
+                  <select id="rf-type" name="scamType" class="control" required>
+                    <option value="" data-en="Select a type" data-km="ជ្រើសរើសប្រភេទ">Select a type</option>
+                    <option value="fake-job" data-en="Fake Job" data-km="ការងារក្លែងក្លាយ">Fake Job</option>
+                    <option value="investment" data-en="Investment" data-km="ការវិនិយោគក្លែងក្លាយ">Investment</option>
+                    <option value="prize" data-en="Prize / Giveaway" data-km="រង្វាន់ក្លែងក្លាយ">Prize / Giveaway</option>
+                    <option value="phishing" data-en="Phishing" data-km="ការបញ្ឆោតយកព័ត៌មាន">Phishing</option>
+                    <option value="fake-seller" data-en="Fake Seller" data-km="អ្នកលក់ក្លែងក្លាយ">Fake Seller</option>
+                    <option value="impersonation" data-en="Impersonation" data-km="ការក្លែងបន្លំអត្តសញ្ញាណ">Impersonation</option>
+                    <option value="other" data-en="Other" data-km="ផ្សេងៗ">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="f-label" for="rf-platform" data-en="Platform (Optional)" data-km="វេទិកា (ស្រេចចិត្ត)">Platform (Optional)</label>
+                  <input id="rf-platform" name="platform" class="control" type="text"
+                    placeholder="e.g. Telegram, Facebook, SMS…"
+                    data-en-ph="e.g. Telegram, Facebook, SMS…" data-km-ph="ឧ. Telegram, Facebook, SMS…" />
+                </div>
+              </div>
+              <div>
+                <label class="f-label" for="rf-desc"><span data-en="What Happened?" data-km="អ្វីដែលបានកើតឡើង?">What Happened?</span> <span class="req" aria-hidden="true">*</span></label>
+                <textarea id="rf-desc" name="description" class="control" required
+                  placeholder="Describe how you were contacted and what they asked for."
+                  data-en-ph="Describe how you were contacted and what they asked for."
+                  data-km-ph="ពណ៌នាពីរបៀបដែលពួកគេទំនាក់ទំនងមកអ្នក និងអ្វីដែលពួកគេសុំ។"></textarea>
+              </div>
+              <div>
+                <label class="f-label" for="rf-name" data-en="Name / Username (Optional)" data-km="ឈ្មោះ / ឈ្មោះអ្នកប្រើ (ស្រេចចិត្ត)">Name / Username (Optional)</label>
+                <input id="rf-name" name="reporter" class="control" type="text"
+                  placeholder="Leave blank to stay anonymous"
+                  data-en-ph="Leave blank to stay anonymous" data-km-ph="ទុកចំហចោលដើម្បីរក្សាភាពអនាមិក" />
+              </div>
+              <p class="privacy-note">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span data-en="Please don’t include passwords, OTP codes, bank details, or phone numbers in your report." data-km="សូមកុំបញ្ចូលពាក្យសម្ងាត់ លេខកូដ OTP ព័ត៌មានធនាគារ ឬលេខទូរស័ព្ទក្នុងរបាយការណ៍របស់អ្នក។">Please don’t include passwords, OTP codes, bank details, or phone numbers in your report.</span>
+              </p>
+              <button type="submit" class="btn btn-primary btn-lg">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                <span data-en="Submit Report" data-km="ដាក់ស្នើរបាយការណ៍">Submit Report</span>
+              </button>
+            </form>
+
+            <div class="success" id="form-success" hidden>
+              <span class="s-ic" aria-hidden="true">
+                <svg class="icon" style="width:30px;height:30px" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+              </span>
+              <h3 id="success-title" tabindex="-1" data-en="Report Submitted!" data-km="របាយការណ៍ត្រូវបានដាក់ស្នើ!">Report Submitted!</h3>
+              <p data-en="Thank you for helping others stay alert. Your experience will help people recognize similar attempts." data-km="អរគុណដែលជួយឲ្យអ្នកដទៃប្រុងប្រយ័ត្ន។ បទពិសោធន៍របស់អ្នកនឹងជួយឱ្យមនុស្សផ្សេងទៀតស្គាល់ការព្យាយាមបោកប្រាស់ដូចគ្នា។">Thank you for helping others stay alert. Your experience will help people recognize similar attempts.</p>
+              <button type="button" class="btn btn-outline" id="again-btn">
+                <span data-en="Submit another report" data-km="ដាក់ស្នើរបាយការណ៍ថ្មីទៀត">Submit another report</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- SAFETY TIPS -->
+    <section id="tips" aria-labelledby="tips-title">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow" data-en="Safety Tips" data-km="គន្លឹះសុវត្ថិភាព">Safety Tips</span>
+          <h2 id="tips-title" data-en="Stay One Step Ahead of Scammers" data-km="ឈានមួយជំហានមុនអ្នកបោកប្រាស់">Stay One Step Ahead of Scammers</h2>
+        </div>
+        <div class="tips-grid reveal">
+          <article class="tip-card">
+            <span class="tip-ic" aria-hidden="true">🔐</span>
+            <h3 data-en="Protect Your Information" data-km="ការពារព័ត៌មានរបស់អ្នក">Protect Your Information</h3>
+            <p data-en="Never share passwords, OTPs, or sensitive information with unknown people." data-km="កុំចែករំលែកពាក្យសម្ងាត់ លេខកូដ OTP ឬព័ត៌មានសម្ងាត់ជាមួយមនុស្សដែលអ្នកមិនស្គាល់។">Never share passwords, OTPs, or sensitive information with unknown people.</p>
+          </article>
+          <article class="tip-card">
+            <span class="tip-ic" aria-hidden="true">💳</span>
+            <h3 data-en="Think Before You Pay" data-km="គិតមុនពេលបង់ប្រាក់">Think Before You Pay</h3>
+            <p data-en="Be careful when someone asks for upfront payment or urgent transfers." data-km="ប្រុងប្រយ័ត្នពេលមានគេសុំបង់ប្រាក់មុន ឬផ្ទេរប្រាក់ជាបន្ទាន់។">Be careful when someone asks for upfront payment or urgent transfers.</p>
+          </article>
+          <article class="tip-card">
+            <span class="tip-ic" aria-hidden="true">🔗</span>
+            <h3 data-en="Check Before You Click" data-km="ពិនិត្យមុនពេលចុច">Check Before You Click</h3>
+            <p data-en="Don’t blindly open unfamiliar links — check where they really lead first." data-km="កុំបើកតំណភ្ជាប់មិនស្គាល់ដោយគ្មានការពិនិត្យ — ពិនិត្យជាមុនថាវាបញ្ជូនទៅណាពិតប្រាកដ។">Don’t blindly open unfamiliar links — check where they really lead first.</p>
+          </article>
+          <article class="tip-card">
+            <span class="tip-ic" aria-hidden="true">⏰</span>
+            <h3 data-en="Don’t Let Urgency Decide" data-km="កុំឲ្យការប្រញាប់សម្រេចចិត្តជំនួស">Don’t Let Urgency Decide</h3>
+            <p data-en="Scammers often pressure people to act immediately. Take a moment to think it through." data-km="អ្នកបោកប្រាស់ច្រើនតែដាក់សម្ពាធឲ្យមនុស្សធ្វើសកម្មភាពភ្លាមៗ។ ចំណាយពេលបន្តិចដើម្បីគិតឲ្យច្បាស់។">Scammers often pressure people to act immediately. Take a moment to think it through.</p>
+          </article>
+          <article class="tip-card">
+            <span class="tip-ic" aria-hidden="true">🔎</span>
+            <h3 data-en="Verify First" data-km="ផ្ទៀងផ្ទាត់ជាមុនសិន">Verify First</h3>
+            <p data-en="Check information through official sources before trusting an offer." data-km="ពិនិត្យព័ត៌មានតាមប្រភពផ្លូវការមុនពេលជឿជាក់លើការផ្ដល់ជូនណាមួយ។">Check information through official sources before trusting an offer.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY ANGKET -->
+    <section class="how" id="why" aria-labelledby="why-title">
+      <div class="container">
+        <div class="section-head center reveal">
+          <span class="eyebrow" data-en="Why Angket?" data-km="ហេតុអ្វីជ្រើស Angket?">Why Angket?</span>
+          <h2 id="why-title" data-en="More Than Just a Risk Score" data-km="ច្រើនជាងត្រឹមពិន្ទុហានិភ័យ">More Than Just a Risk Score</h2>
+        </div>
+        <div class="why-grid reveal">
+          <article class="why-card">
+            <span class="why-ic" aria-hidden="true">📊</span>
+            <h3 data-en="Risk Percentage" data-km="ភាគរយហានិភ័យ">Risk Percentage</h3>
+            <p data-en="Understand the estimated level of scam risk at a glance." data-km="យល់បានភ្លាមៗអំពីកម្រិតហានិភ័យបោកប្រាស់ដែលបានប៉ាន់ស្មាន។">Understand the estimated level of scam risk at a glance.</p>
+          </article>
+          <article class="why-card">
+            <span class="why-ic" aria-hidden="true">🔎</span>
+            <h3 data-en="Explainable Results" data-km="លទ្ធផលពន្យល់បាន">Explainable Results</h3>
+            <p data-en="Understand why something may be suspicious instead of receiving only a score." data-km="យល់ដឹងពីមូលហេតុដែលអ្វីមួយអាចគួរឲ្យសង្ស័យ ជាជាងទទួលតែពិន្ទុប៉ុណ្ណោះ។">Understand why something may be suspicious instead of receiving only a score.</p>
+          </article>
+          <article class="why-card">
+            <span class="why-ic" aria-hidden="true">🌐</span>
+            <h3 data-en="Community Knowledge" data-km="ចំណេះដឹងពីសហគមន៍">Community Knowledge</h3>
+            <p data-en="Learn from scam experiences reported by other users." data-km="រៀនសូត្រពីបទពិសោធន៍បោកប្រាស់ដែលបានរាយការណ៍ដោយអ្នកប្រើប្រាស់ដទៃទៀត។">Learn from scam experiences reported by other users.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST -->
+    <section id="trust" aria-labelledby="trust-title">
+      <div class="container">
+        <div class="trust-panel reveal">
+          <span class="t-ic" aria-hidden="true">
+            <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+          </span>
+          <div>
+            <h2 id="trust-title" data-en="Use Angket as a Safety Guide" data-km="ប្រើ Angket ជាមគ្គុទ្ទេសក៍សុវត្ថិភាព">Use Angket as a Safety Guide</h2>
+            <p data-en="Angket provides an estimated assessment based on detected patterns. It is not a guarantee that information is legitimate or fraudulent. AI and automated analysis can make mistakes. Always verify important information through trusted and official sources." data-km="Angket ផ្ដល់ការវាយតម្លៃប៉ាន់ស្មានផ្អែកលើលំនាំដែលរកឃើញ។ វាមិនមែនជាការធានាថាព័ត៌មាននោះពិតប្រាកដ ឬជាការបោកប្រាស់នោះទេ។ ការវិភាគដោយ AI និងស្វ័យប្រវត្តិអាចមានកំហុសបាន។ សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពដែលទុកចិត្តបាន និងផ្លូវការជានិច្ច។">Angket provides an estimated assessment based on detected patterns. It is not a guarantee that information is legitimate or fraudulent. AI and automated analysis can make mistakes. Always verify important information through trusted and official sources.</p>
+            <div class="truth-chips">
+              <span class="truth-chip"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-en="Estimates, not verdicts" data-km="ការប៉ាន់ស្មាន មិនមែនសេចក្ដីសម្រេច">Estimates, not verdicts</span></span>
+              <span class="truth-chip"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-en="AI can make mistakes" data-km="AI អាចមានកំហុសបាន">AI can make mistakes</span></span>
+              <span class="truth-chip"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-en="Official sources come first" data-km="ប្រភពផ្លូវការសំខាន់ជាងគេ">Official sources come first</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="cta" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-box reveal">
+          <h2 id="cta-title" data-en="Think It Might Be a Scam? Check Before You Act." data-km="សង្ស័យថាជាការបោកប្រាស់? ពិនិត្យមុនពេលធ្វើសកម្មភាព។">Think It Might Be a Scam? Check Before You Act.</h2>
+          <p data-en="Send suspicious messages or links to Angket and get an estimated risk assessment in Telegram." data-km="ផ្ញើសារ ឬតំណគួរឲ្យសង្ស័យទៅ Angket ហើយទទួលបានការវាយតម្លៃហានិភ័យប៉ាន់ស្មានក្នុង Telegram។">Send suspicious messages or links to Angket and get an estimated risk assessment in Telegram.</p>
+          <div class="tg-ctas">
+            <a class="btn btn-white btn-lg" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+              <span data-en="🛡️ Open Angket on Telegram" data-km="🛡️ បើក Angket នៅលើ Telegram">🛡️ Open Angket on Telegram</span>
+            </a>
+            <a class="btn btn-ghost-light btn-lg" href="#reports">
+              <span data-en="Explore Scam Reports" data-km="មើលរបាយការណ៍បោកប្រាស់">Explore Scam Reports</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a href="#home" class="brand" aria-label="Angket — home">
+            <span class="brand-mark" aria-hidden="true">
+              <svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="m9 11.5 2 2 4-4.5"/></svg>
+            </span>
+            <span>Ang<b>ket</b></span>
+          </a>
+          <p data-en="Helping people recognize suspicious online information and make safer decisions." data-km="ជួយមនុស្សឱ្យស្គាល់ព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត និងធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាព។">Helping people recognize suspicious online information and make safer decisions.</p>
+          <div class="socials">
+            <a class="soc-btn" data-tg-link href="#" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+            </a>
+            <a class="soc-btn" href="#" aria-label="Facebook (placeholder link)">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a class="soc-btn" href="mailto:hello@angket.example" aria-label="Email (placeholder address)">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <nav aria-label="Footer">
+          <h3 data-en="Explore" data-km="ទំព័រ">Explore</h3>
+          <ul>
+            <li><a href="#home" data-en="Home" data-km="ទំព័រដើម">Home</a></li>
+            <li><a href="#how" data-en="How It Works" data-km="របៀបដំណើរការ">How It Works</a></li>
+            <li><a href="#reports" data-en="Scam Reports" data-km="របាយការណ៍បោកប្រាស់">Scam Reports</a></li>
+            <li><a href="#tips" data-en="Safety Tips" data-km="គន្លឹះសុវត្ថិភាព">Safety Tips</a></li>
+            <li><a href="#about" data-en="About" data-km="អំពីយើង">About</a></li>
+          </ul>
+        </nav>
+
+        <div>
+          <h3 data-en="Legal & Contact" data-km="ច្បាប់ និងទំនាក់ទំនង">Legal &amp; Contact</h3>
+          <ul>
+            <li><button type="button" class="foot-link-btn" data-info="privacy" data-en="Privacy Policy" data-km="គោលការណ៍ឯកជនភាព">Privacy Policy</button></li>
+            <li><button type="button" class="foot-link-btn" data-info="terms" data-en="Terms of Use" data-km="លក្ខខណ្ឌនៃការប្រើប្រាស់">Terms of Use</button></li>
+            <li>
+              <a class="tg-link" data-tg-link href="#" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                <span data-en="Try Angket on Telegram" data-km="សាកល្បង Angket នៅលើ Telegram">Try Angket on Telegram</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <span>© <span id="yr">2026</span> Angket</span>
+        <span data-en="Angket gives estimated risk assessments — always verify important information through trusted, official sources." data-km="Angket ផ្ដល់តែការប៉ាន់ស្មានហានិភ័យប៉ុណ្ណោះ — សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។">Angket gives estimated risk assessments — always verify important information through trusted, official sources.</span>
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="info-modal" id="info-modal" aria-labelledby="im-title">
+    <div class="modal-head">
+      <h3 id="im-title"></h3>
+      <button type="button" class="modal-close" id="im-close" aria-label="Close">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="im-body"></div>
+  </dialog>
+  <script>
+    "use strict";
+
+    const TELEGRAM_BOT_URL = "https://t.me/AngketBot"; // placeholder — swap for the real bot link before launch
+
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+    let currentLang = "en";
+
+    const TITLES = {
+      en: "Angket — Check Before You Trust",
+      km: "Angket — ពិនិត្យមុនពេលជឿ",
+    };
+
+    function applyLang(lang) {
+      currentLang = lang;
+
+      $$("[data-en]").forEach((el) => {
+        el.textContent = lang === "km" ? el.dataset.km : el.dataset.en;
+      });
+      $$("[data-en-ph]").forEach((el) => {
+        el.placeholder = lang === "km" ? el.dataset.kmPh : el.dataset.enPh;
+      });
+      $$("[data-en-aria]").forEach((el) => {
+        el.setAttribute("aria-label", lang === "km" ? el.dataset.kmAria : el.dataset.enAria);
+      });
+
+      document.title = TITLES[lang];
+      document.documentElement.lang = lang === "km" ? "km" : "en";
+      document.documentElement.classList.toggle("km", lang === "km");
+
+      $("#lang-en").setAttribute("aria-pressed", String(lang === "en"));
+      $("#lang-km").setAttribute("aria-pressed", String(lang === "km"));
+
+      render();
+    }
+
+    $("#lang-en").addEventListener("click", () => applyLang("en"));
+    $("#lang-km").addEventListener("click", () => applyLang("km"));
+
+    $$("[data-tg-link]").forEach((a) => (a.href = TELEGRAM_BOT_URL));
+
+    /* Hardcoded demo reports — replace with real API data when a backend exists. */
+    const TYPES = {
+      "fake-job": { en: "Fake Job", km: "ការងារក្លែងក្លាយ" },
+      investment: { en: "Investment", km: "ការវិនិយោគក្លែងក្លាយ" },
+      prize: { en: "Prize / Giveaway", km: "រង្វាន់ក្លែងក្លាយ" },
+      phishing: { en: "Phishing", km: "ការបញ្ឆោតយកព័ត៌មាន" },
+      "fake-seller": { en: "Fake Seller", km: "អ្នកលក់ក្លែងក្លាយ" },
+      impersonation: { en: "Impersonation", km: "ការក្លែងបន្លំអត្តសញ្ញាណ" },
+    };
+
+    const REPORTS = [
+      {
+        id: 1,
+        cat: "fake-job",
+        platform: "Telegram",
+        count: 34,
+        when: { en: "2 days ago", km: "2 ថ្ងៃមុន" },
+        title: { en: "Data-entry job asking for a “registration fee”", km: "ការងារសរសេរទិន្នន័យ ដែលសុំ «ថ្លៃចុះឈ្មោះ»" },
+        desc: {
+          en: "Someone offered me an online data-entry job paying $50 per day. Before I could start, they asked for a $30 “registration fee”. A real job never asks you to pay first.",
+          km: "មានគេផ្ដល់ការងារសរសេរទិន្នន័យតាមអ៊ីនធឺណិតឲ្យខ្ញុំ ថ្ងៃមួយ 50 ដុល្លារ។ មុនពេលចាប់ផ្ដើមធ្វើការ ពួកគេសុំ «ថ្លៃចុះឈ្មោះ» 30 ដុល្លារ។ ការងារពិតមិនដែលសុំឱ្យបង់ប្រាក់មុនទេ។",
+        },
+      },
+      {
+        id: 2,
+        cat: "prize",
+        platform: "Facebook",
+        count: 21,
+        when: { en: "3 days ago", km: "3 ថ្ងៃមុន" },
+        title: { en: "You won! Just pay the delivery fee…", km: "អ្នកឈ្នះរង្វាន់! គ្រាន់តែបង់ថ្លៃដឹកជញ្ជូន…" },
+        desc: {
+          en: "A page said I won a lottery I never entered. To claim it, I had to pay a “delivery fee” through a link that looked almost identical to a real courier website.",
+          km: "ទំព័រមួយប្រាប់ថាខ្ញុំជាប់ឆ្នោតដែលខ្ញុំមិនបានចូលរួម។ ដើម្បីទទួលរង្វាន់ ខ្ញុំត្រូវបង់ «ថ្លៃដឹកជញ្ជូន» តាមតំណមួយដែលមើលទៅស្ទើរតែដូចគេហទំព័រដឹកជញ្ជូនពិត។",
+        },
+      },
+      {
+        id: 3,
+        cat: "investment",
+        platform: "Facebook",
+        count: 27,
+        when: { en: "5 days ago", km: "5 ថ្ងៃមុន" },
+        title: { en: "Trading group froze my account", km: "ក្រុមវិនិយោគបានបិទគណនីខ្ញុំ" },
+        desc: {
+          en: "A “trading mentor” posted daily profit screenshots and invited me into a group. My first small withdrawal worked, but after I invested more, my account was frozen and they disappeared.",
+          km: "«គ្រូវិនិយោគ»ម្នាក់បានផ្សាយរូបភាពចំណេញប្រចាំថ្ងៃ ហើយអញ្ជើញខ្ញុំចូលក្រុម។ ការដកប្រាក់តូចលើកដំបូងធ្វើបាន ប៉ុន្តែពេលខ្ញុំវិនិយោគបន្ថែម គណនីរបស់ខ្ញុំត្រូវបានបិទ ហើយពួកគេបានបាត់ខ្លួនទៅវិញ។",
+        },
+      },
+      {
+        id: 4,
+        cat: "phishing",
+        platform: "SMS",
+        count: 18,
+        when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
+        title: { en: "Fake bank security alert", km: "ការជូនដំណឹងសុវត្ថិភាពធនាគារក្លែងក្លាយ" },
+        desc: {
+          en: "An SMS claimed my bank account would be suspended and told me to “verify” it on a link. The site copied my bank’s logo and asked for my password and OTP.",
+          km: "សារ SMS ប្រាប់ថាគណនីធនាគារខ្ញុំនឹងត្រូវបិទ ហើយឲ្យ «ផ្ទៀងផ្ទាត់» តាមតំណមួយ។ គេហទំព័រនោះចម្លងសញ្ញាសម្គាល់របស់ធនាគារខ្ញុំ ហើយសុំពាក្យសម្ងាត់ និងលេខកូដ OTP របស់ខ្ញុំ។",
+        },
+      },
+      {
+        id: 5,
+        cat: "fake-seller",
+        platform: "TikTok",
+        count: 15,
+        when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
+        title: { en: "Seller vanished after payment", km: "អ្នកលក់បានបាត់ខ្លួនបន្ទាប់ពីទទួលប្រាក់" },
+        desc: {
+          en: "I paid for sneakers after seeing their videos. The next day the account deleted every post and blocked me.",
+          km: "ខ្ញុំបង់ប្រាក់ទិញស្បែកជើង បន្ទាប់ពីមើលវីដេអូរបស់ពួកគេ។ ថ្ងៃបន្ទាប់ គណនីបានលុបការផ្សាយទាំងអស់ ហើយបាន block ខ្ញុំ។",
+        },
+      },
+      {
+        id: 6,
+        cat: "impersonation",
+        platform: "WhatsApp",
+        count: 12,
+        when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
+        title: { en: "My friend’s photo, someone else’s words", km: "រូបភាពមិត្តខ្ញុំ តែពាក្យសម្ដីរបស់អ្នកដទៃ" },
+        desc: {
+          en: "Someone used my friend’s profile photo, saying he lost his phone and urgently needed money. I called the real friend and found out it was fake.",
+          km: "មានគេប្រើរូបភាពរបស់មិត្តខ្ញុំ ដោយអះអាងថាបានបាត់ទូរស័ព្ទ ហើយត្រូវការប្រាក់ជាបន្ទាន់។ ខ្ញុំហៅសួរមិត្តពិត ទើបដឹងថាវាជាការក្លែងក្លាយ។",
+        },
+      },
+      {
+        id: 7,
+        cat: "fake-job",
+        platform: "Telegram",
+        count: 31,
+        when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
+        title: { en: "“High salary, no experience” job abroad", km: "ការងារ «ប្រាក់ខែខ្ពស់ មិនត្រូវការបទពិសោធន៍» នៅបរទេស" },
+        desc: {
+          en: "They promised a high-paid job overseas with free accommodation, then asked for “visa processing” fees. After I paid, they stopped replying.",
+          km: "ពួកគេសន្យាការងារចំណូលខ្ពស់នៅបរទេស ជាមួយទីស្នាក់ការឥតគិតថ្លៃ បន្ទាប់មកសុំ «ថ្លៃវីសា»។ បន្ទាប់ពីខ្ញុំបង់ ពួកគេឈប់ឆ្លើយតប។",
+        },
+      },
+      {
+        id: 8,
+        cat: "prize",
+        platform: "Instagram",
+        count: 20,
+        when: { en: "3 weeks ago", km: "3 សប្ដាហ៍មុន" },
+        title: { en: "Lucky draw from a group I never joined", km: "ឆ្នោតពីក្រុមដែលខ្ញុំមិនបានចូលរួម" },
+        desc: {
+          en: "I was added to a group announcing that I won a lucky draw. To release the prize, I had to send a “tax deposit” in cryptocurrency first.",
+          km: "ខ្ញុំត្រូវបានបន្ថែមចូលក្រុមមួយដែលប្រកាសថាខ្ញុំជាប់ឆ្នោត។ ដើម្បីទទួលរង្វាន់ ខ្ញុំត្រូវផ្ញើ «ថ្លៃពន្ធ» ជារូបិយប័ណ្ណគ្រិបតូជាមុនសិន។",
+        },
+      },
+    ];
+
+    const state = { q: "", cat: "all", sort: "recent", popCat: "all" };
+    const cardsEl = $("#cards");
+    const emptyEl = $("#empty-msg");
+    const popListEl = $("#pop-list");
+
+    const t = (obj) => obj[currentLang];
+
+    function totalsByCat() {
+      const totals = {};
+      REPORTS.forEach((r) => {
+        totals[r.cat] = (totals[r.cat] || 0) + r.count;
+      });
+      return Object.entries(totals)
+        .map(([cat, total]) => ({ cat, total }))
+        .sort((a, b) => b.total - a.total);
+    }
+
+    function renderPopular() {
+      popListEl.textContent = "";
+      const max = totalsByCat()[0].total;
+      totalsByCat().slice(0, 4).forEach(({ cat, total }) => {
+        const li = document.createElement("li");
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pop-item";
+        btn.setAttribute("aria-pressed", String(state.cat === cat));
+
+        const line = document.createElement("span");
+        line.className = "pop-line";
+        const name = document.createElement("span");
+        name.className = "pop-name";
+        name.textContent = t(TYPES[cat]);
+        const count = document.createElement("span");
+        count.className = "pop-count";
+        count.textContent = currentLang === "km" ? total + " ដង" : total + " reports";
+        line.append(name, count);
+
+        const bar = document.createElement("span");
+        bar.className = "pop-bar";
+        bar.setAttribute("aria-hidden", "true");
+        const fill = document.createElement("i");
+        fill.style.width = Math.round((total / max) * 100) + "%";
+        bar.append(fill);
+
+        btn.append(line, bar);
+        btn.addEventListener("click", () => {
+          state.cat = state.cat === cat ? "all" : cat;
+          $("#filter-cat").value = state.cat;
+          render();
+        });
+        li.append(btn);
+        popListEl.append(li);
+      });
+    }
+
+    function renderCards() {
+      const q = state.q.trim().toLowerCase();
+      let list = REPORTS.filter((r) => {
+        if (state.cat !== "all" && r.cat !== state.cat) return false;
+        if (!q) return true;
+        const hay = [r.title.en, r.title.km, r.desc.en, r.desc.km, r.platform, TYPES[r.cat].en, TYPES[r.cat].km]
+          .join(" ")
+          .toLowerCase();
+        return hay.includes(q);
+      });
+      if (state.sort === "top") list = [...list].sort((a, b) => b.count - a.count);
+
+      cardsEl.textContent = "";
+      emptyEl.hidden = list.length > 0;
+
+      list.forEach((r) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const top = document.createElement("div");
+        top.className = "card-top";
+        const badge = document.createElement("span");
+        badge.className = "type-badge";
+        badge.textContent = t(TYPES[r.cat]);
+        const when = document.createElement("time");
+        when.className = "when";
+        when.textContent = t(r.when);
+        top.append(badge, when);
+
+        const h = document.createElement("h3");
+        h.textContent = t(r.title);
+
+        const p = document.createElement("p");
+        p.className = "desc";
+        p.textContent = t(r.desc);
+
+        const foot = document.createElement("div");
+        foot.className = "card-foot";
+        const plat = document.createElement("span");
+        plat.className = "platform";
+        plat.innerHTML =
+          '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+        const platTxt = document.createElement("span");
+        platTxt.textContent = r.platform;
+        plat.append(platTxt);
+        const sim = document.createElement("span");
+        sim.className = "sim-badge";
+        sim.textContent = currentLang === "km" ? "+" + r.count + " របាយការណ៍ស្រដៀងគ្នា" : "+" + r.count + " similar reports";
+        foot.append(plat, sim);
+
+        card.append(top, h, p, foot);
+        cardsEl.append(card);
+      });
+    }
+
+    function render() {
+      renderPopular();
+      renderCards();
+    }
+
+    $("#filter-q").addEventListener("input", (e) => {
+      state.q = e.target.value;
+      renderCards();
+    });
+    $("#filter-cat").addEventListener("change", (e) => {
+      state.cat = e.target.value;
+      render();
+    });
+    $("#sort-recent").addEventListener("click", () => {
+      state.sort = "recent";
+      $("#sort-recent").setAttribute("aria-pressed", "true");
+      $("#sort-top").setAttribute("aria-pressed", "false");
+      renderCards();
+    });
+    $("#sort-top").addEventListener("click", () => {
+      state.sort = "top";
+      $("#sort-top").setAttribute("aria-pressed", "true");
+      $("#sort-recent").setAttribute("aria-pressed", "false");
+      renderCards();
+    });
+
+    /* Report form — demo only: nothing is sent anywhere. */
+    const form = $("#report-form");
+    const successBox = $("#form-success");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      form.hidden = true;
+      successBox.hidden = false;
+      $("#success-title").focus();
+    });
+    $("#again-btn").addEventListener("click", () => {
+      form.reset();
+      successBox.hidden = true;
+      form.hidden = false;
+      $("#rf-type").focus();
+    });
+
+    /* Mobile menu */
+    const menuBtn = $("#menu-btn");
+    const mobileMenu = $("#mobile-menu");
+    menuBtn.addEventListener("click", () => {
+      const open = mobileMenu.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(open));
+    });
+    $$("#mobile-menu a").forEach((a) =>
+      a.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      })
+    );
+
+    /* Privacy / Terms dialogs — placeholder content. */
+    const INFO_PAGES = {
+      privacy: {
+        title: { en: "Privacy Policy", km: "គោលការណ៍ឯកជនភាព" },
+        body: {
+          en: "This is placeholder content for the demo. The full policy will be published before launch. In short: Angket never asks for passwords or payment details, and community reports are shared anonymously by default.",
+          km: "នេះជាអត្ថបទគំរូសម្រាប់ការបង្ហាញប៉ុណ្ណោះ។ ឯកសារពេញលេញនឹងផ្សាយមុនពេលចេញផ្សាយពិតប្រាកដ។ ជាសេចក្ដីសង្ខេប៖ Angket មិនដែលសុំពាក្យសម្ងាត់ ឬព័ត៌មានទូទាត់ទេ ហើយរបាយការណ៍ពីសហគមន៍គឺជាអនាមិកតាមលំនាំដើម។",
+        },
+      },
+      terms: {
+        title: { en: "Terms of Use", km: "លក្ខខណ្ឌនៃការប្រើប្រាស់" },
+        body: {
+          en: "This is placeholder content for the demo. The full terms will be published before launch. Angket provides estimated risk assessments only — it is not a guarantee, and users remain responsible for verifying important information through official sources.",
+          km: "នេះជាអត្ថបទគំរូសម្រាប់ការបង្ហាញប៉ុណ្ណោះ។ លក្ខខណ្ឌពេញលេញនឹងផ្សាយមុនពេលចេញផ្សាយពិតប្រាកដ។ Angket ផ្ដល់តែការប៉ាន់ស្មានហានិភ័យប៉ុណ្ណោះ — មិនមែនជាការធានាទេ ហើយអ្នកប្រើប្រាស់មានតួនាទីផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការ។",
+        },
+      },
+    };
+    const modal = $("#info-modal");
+    $$("[data-info]").forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const page = INFO_PAGES[btn.dataset.info];
+        $("#im-title").textContent = t(page.title);
+        $("#im-body").textContent = t(page.body);
+        modal.showModal();
+      })
+    );
+    $("#im-close").addEventListener("click", () => modal.close());
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.close();
+    });
+
+    $("#yr").textContent = new Date().getFullYear();
+
+    /* Reveal-on-scroll */
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const revealEls = $$(".reveal");
+    if (prefersReduced || !("IntersectionObserver" in window)) {
+      revealEls.forEach((el) => el.classList.add("in"));
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealEls.forEach((el) => io.observe(el));
+    }
+
+    render();
+  </script>
+</body>
+</html>

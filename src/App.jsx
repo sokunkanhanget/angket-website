@@ -1,41 +1,44 @@
-import { useCallback, useEffect, useState } from "react"
 import { SiteHeader } from "@/components/site-header"
 import { Hero } from "@/components/hero"
+import { Problems } from "@/components/problems"
+import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
-import { ReportForm } from "@/components/report-form"
+import { TelegramBand } from "@/components/telegram"
 import { ReportsFeed } from "@/components/reports-feed"
-import { TelegramCta } from "@/components/telegram"
+import { SafetyTips } from "@/components/safety-tips"
+import { WhyAngket } from "@/components/why-angket"
+import { TrustNote } from "@/components/trust-note"
+import { FinalCta } from "@/components/final-cta"
 import { SiteFooter } from "@/components/site-footer"
-import { Toaster } from "@/components/ui/sonner"
-import { getReports } from "@/actions/reports"
+import { LangProvider, useLang } from "@/lib/i18n"
+
+function SkipLink() {
+  const { t } = useLang()
+  return (
+    <a className="skip-link" href="#main">
+      {t({ en: "Skip to main content", km: "រំលងទៅមាតិកាសំខាន់" })}
+    </a>
+  )
+}
 
 export default function App() {
-  const [reports, setReports] = useState([])
-
-  const refreshReports = useCallback(async () => {
-    try {
-      setReports(await getReports())
-    } catch (e) {
-      console.log("[v0] DB unavailable, rendering without reports:", e.message)
-    }
-  }, [])
-
-  useEffect(() => {
-    refreshReports()
-  }, [refreshReports])
-
   return (
-    <div className="min-h-screen bg-background">
+    <LangProvider>
+      <SkipLink />
       <SiteHeader />
-      <main>
-        <Hero reportCount={Math.max(reports.length, 1240)} />
+      <main id="main">
+        <Hero />
+        <Problems />
+        <About />
         <HowItWorks />
-        <ReportForm onCreated={() => refreshReports()} />
-        <ReportsFeed reports={reports} />
-        <TelegramCta />
+        <TelegramBand />
+        <ReportsFeed />
+        <SafetyTips />
+        <WhyAngket />
+        <TrustNote />
+        <FinalCta />
       </main>
       <SiteFooter />
-      <Toaster position="top-center" />
-    </div>
+    </LangProvider>
   )
 }

@@ -1,47 +1,92 @@
-import { FileText, Users, Bell } from "lucide-react"
+import { useLang } from "@/lib/i18n"
+import { Reveal } from "./reveal"
+import { IconInfo } from "./icons"
 
-const STEPS = [
+const FLOW = [
   {
-    icon: FileText,
-    title: "Share your experience",
-    body: "Report a scam or fake offer in a minute. Add the platform, contact details, and what happened so others can recognize it.",
+    num: 1,
+    emoji: "📩",
+    title: { en: "Send", km: "ផ្ញើ" },
+    desc: {
+      en: "Forward a suspicious message or link to the bot in your chat.",
+      km: "បញ្ជូនបន្តសារ ឬតំណគួរឲ្យសង្ស័យទៅ Bot ក្នុងការសន្ទនារបស់អ្នក។",
+    },
   },
   {
-    icon: Users,
-    title: "We publish it to the community",
-    body: "Your report joins a public, searchable feed of scams. No account required, and you can stay completely anonymous.",
+    num: 2,
+    emoji: "🤖",
+    title: { en: "Analyze", km: "វិភាគ" },
+    desc: {
+      en: "Angket scans the content for scam patterns and risk indicators.",
+      km: "Angket ពិនិត្យរកលំនាំបោកប្រាស់ និងសញ្ញានៃភាពហានិភ័យក្នុងខ្លឹមសារ។",
+    },
   },
   {
-    icon: Bell,
-    title: "People get warned in time",
-    body: "Anyone checking a suspicious offer can find real reports and our Telegram bot before they lose money.",
+    num: 3,
+    emoji: "📊",
+    title: { en: "Risk + Reasons", km: "ហានិភ័យ + មូលហេតុ" },
+    desc: {
+      en: "You get an estimated risk percentage and a clear explanation of what was detected.",
+      km: "អ្នកទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន ជាមួយការពន្យល់ច្បាស់លាស់ពីអ្វីដែលរកឃើញ។",
+    },
+  },
+  {
+    num: 4,
+    emoji: "🛡️",
+    title: { en: "Make a Safer Decision", km: "សម្រេចចិត្តប្រកបដោយសុវត្ថិភាព" },
+    desc: {
+      en: "Use the results and recommendations to decide your next step — before you pay, click, or share.",
+      km: "ប្រើលទ្ធផល និងអនុសាសន៍ ដើម្បីសម្រេចជំហានបន្ទាប់របស់អ្នក — មុនពេលបង់ប្រាក់ ចុច ឬចែករំលែក។",
+    },
   },
 ]
 
 export function HowItWorks() {
-  return (
-    <section id="how-it-works" className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-      <div className="mx-auto max-w-2xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-wider text-primary">How it works</p>
-        <h2 className="mt-2 text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          Turning your bad experience into someone&apos;s protection
-        </h2>
-      </div>
+  const { t } = useLang()
 
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
-        {STEPS.map((step, i) => (
-          <div
-            key={step.title}
-            className="relative rounded-2xl border border-border bg-card p-6 transition-shadow hover:shadow-lg hover:shadow-primary/5"
-          >
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-              <step.icon className="h-6 w-6" />
-            </div>
-            <p className="mt-5 font-display text-sm font-semibold text-primary">Step {i + 1}</p>
-            <h3 className="mt-1 font-display text-lg font-bold text-foreground">{step.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-          </div>
-        ))}
+  return (
+    <section className="how" id="how" aria-labelledby="how-title">
+      <div className="container">
+        <Reveal className="section-head center">
+          <span className="eyebrow">{t({ en: "Simple process", km: "ដំណើរការសាមញ្ញ" })}</span>
+          <h2 id="how-title">{t({ en: "How Angket Works", km: "របៀបដែល Angket ដំណើរការ" })}</h2>
+          <p>
+            {t({
+              en: "No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps.",
+              km: "គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram តែ 4 ជំហានប៉ុណ្ណោះ។",
+            })}
+          </p>
+        </Reveal>
+
+        <Reveal as="ol" className="flow">
+          {FLOW.map((step) => (
+            <li className="flow-step" key={step.num}>
+              <span className="step-num" aria-hidden="true">
+                {step.num}
+              </span>
+              <span className="step-emoji" aria-hidden="true">
+                {step.emoji}
+              </span>
+              <h3>{t(step.title)}</h3>
+              <p>{t(step.desc)}</p>
+              {step.num < FLOW.length && (
+                <span className="flow-arrow" aria-hidden="true">
+                  →
+                </span>
+              )}
+            </li>
+          ))}
+        </Reveal>
+
+        <p className="how-note">
+          <IconInfo />
+          <span>
+            {t({
+              en: "Results are estimated risk assessments based on detected patterns — not verdicts or guarantees.",
+              km: "លទ្ធផលគឺជាការប៉ាន់ស្មានហានិភ័យផ្អែកលើលំនាំដែលរកឃើញ — មិនមែនជាសេចក្ដីសម្រេច ឬការធានាទេ។",
+            })}
+          </span>
+        </p>
       </div>
     </section>
   )

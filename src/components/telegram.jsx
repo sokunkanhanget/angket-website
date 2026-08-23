@@ -1,52 +1,53 @@
-import { Send, Zap, Bell, Search } from "lucide-react"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { TELEGRAM_BOT_URL } from "@/lib/config"
+import { useLang } from "@/lib/i18n"
+import { TELEGRAM_BOT_URL } from "@/lib/data"
+import { Reveal } from "./reveal"
+import { IconSend } from "./icons"
 
-const FEATURES = [
-  { icon: Zap, text: "Report a scam in seconds" },
-  { icon: Search, text: "Check if a number or link is flagged" },
-  { icon: Bell, text: "Get alerts on trending scams" },
+const STEPS = [
+  { en: "Open Telegram", km: "បើក Telegram" },
+  { en: "Start the bot", km: "ចាប់ផ្ដើម Bot" },
+  { en: "Send or forward a message", km: "ផ្ញើ ឬបញ្ជូនបន្តសារ" },
+  { en: "Get your estimate", km: "ទទួលការប៉ាន់ស្មាន" },
 ]
 
-export function TelegramCta() {
-  return (
-    <section className="bg-primary text-primary-foreground">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:py-20 lg:grid-cols-2">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs font-medium">
-            <Send className="h-3.5 w-3.5" /> Telegram Bot
-          </div>
-          <h2 className="mt-4 text-balance font-display text-3xl font-bold tracking-tight md:text-4xl">
-            Report and check scams right from Telegram
-          </h2>
-          <p className="mt-4 max-w-lg text-pretty leading-relaxed text-primary-foreground/80">
-            Our bot lets you report scams, verify suspicious offers, and stay updated on the latest
-            threats — all without leaving your chat app.
-          </p>
-          <a
-            href={TELEGRAM_BOT_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(buttonVariants({ size: "lg", variant: "secondary" }), "mt-8 gap-2")}
-          >
-            <Send className="h-4 w-4" /> Open the Telegram bot
-          </a>
-        </div>
+export function TelegramBand() {
+  const { t } = useLang()
 
-        <ul className="grid gap-3">
-          {FEATURES.map((f) => (
-            <li
-              key={f.text}
-              className="flex items-center gap-3 rounded-xl bg-primary-foreground/10 p-4 backdrop-blur-sm"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/15">
-                <f.icon className="h-5 w-5" />
+  return (
+    <section className="tg-band" id="telegram" aria-labelledby="tg-title">
+      <div className="container">
+        <Reveal className="tg-inner">
+          <span className="eyebrow on-dark">
+            {t({ en: "Everything happens in Telegram", km: "អ្វីៗទាំងអស់ធ្វើនៅក្នុង Telegram" })}
+          </span>
+          <h2 id="tg-title">{t({ en: "Talk to the Angket Bot", km: "សន្ទនាជាមួយ Bot Angket" })}</h2>
+          <p className="tg-copy">
+            {t({
+              en: "This website is the front door — the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram.",
+              km: "គេហទំព័រនេះគ្រាន់តែជាទ្វារមុខ — Bot គឺជាកន្លែងពិតដែលសាររបស់អ្នកត្រូវបានពិនិត្យ។ ផ្ញើអ្វីៗគួរឲ្យសង្ស័យ ហើយទទួលបានការប៉ាន់ស្មានហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ ក្នុង Telegram ផ្ទាល់។",
+            })}
+          </p>
+          <div className="tg-steps-row">
+            {STEPS.map((step, i) => (
+              <span className="tg-pill" key={step.en}>
+                <i>{i + 1}</i>
+                <span>{t(step)}</span>
               </span>
-              <span className="font-medium">{f.text}</span>
-            </li>
-          ))}
-        </ul>
+            ))}
+          </div>
+          <div className="tg-ctas">
+            <a className="btn btn-white btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
+              <IconSend />
+              <span>🛡️ {t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
+            </a>
+          </div>
+          <p className="tg-free">
+            {t({
+              en: "Free to use — all you need is a Telegram account.",
+              km: "ប្រើឥតគិតថ្លៃ — គ្រាន់តែត្រូវការគណនី Telegram ប៉ុណ្ណោះ។",
+            })}
+          </p>
+        </Reveal>
       </div>
     </section>
   )

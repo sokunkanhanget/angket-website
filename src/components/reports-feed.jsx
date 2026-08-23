@@ -1,84 +1,178 @@
-import { AlertTriangle, MapPin, Banknote, ShieldAlert } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
+import { useMemo, useState } from "react"
+import { useLang } from "@/lib/i18n"
+import { DEMO_REPORTS, SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
+import { Reveal } from "./reveal"
+import { ReportForm } from "./report-form"
+import { IconGlobe, IconInfo, IconSearch } from "./icons"
 
-function timeAgo(date) {
-  const diff = Date.now() - new Date(date).getTime()
-  const mins = Math.floor(diff / 60000)
-  if (mins < 1) return "just now"
-  if (mins < 60) return `${mins}m ago`
-  const hours = Math.floor(mins / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  if (days < 30) return `${days}d ago`
-  return new Date(date).toLocaleDateString()
-}
+export function ReportsFeed() {
+  const { lang, t } = useLang()
+  const [q, setQ] = useState("")
+  const [cat, setCat] = useState("all")
+  const [sort, setSort] = useState("recent")
 
-export function ReportsFeed({ reports }) {
+  const totals = useMemo(() => {
+    const byCat = {}
+    DEMO_REPORTS.forEach((r) => {
+      byCat[r.cat] = (byCat[r.cat] || 0) + r.count
+    })
+    return Object.entries(byCat)
+      .map(([c, total]) => ({ cat: c, total }))
+      .sort((a, b) => b.total - a.total)
+  }, [])
+
+  const maxTotal = totals[0]?.total ?? 1
+
+  const visibleReports = useMemo(() => {
+    const needle = q.trim().toLowerCase()
+    let list = DEMO_REPORTS.filter((r) => {
+      if (cat !== "all" && r.cat !== cat) return false
+      if (!needle) return true
+      const hay = [r.title.en, r.title.km, r.desc.en, r.desc.km, r.platform, TYPE_LABELS[r.cat].en, TYPE_LABELS[r.cat].km]
+        .join(" ")
+        .toLowerCase()
+      return hay.includes(needle)
+    })
+    if (sort === "top") list = [...list].sort((a, b) => b.count - a.count)
+    return list
+  }, [q, cat, sort])
+
+  const pickCategory = (value) => {
+    setCat(value)
+  }
+
+  const togglePopular = (value) => {
+    setCat(cat === value ? "all" : value)
+  }
+
   return (
-    <section id="feed" className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">Community feed</p>
-          <h2 className="mt-2 text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Recently reported scams
+    <section className="reports" id="reports" aria-labelledby="reports-title">
+      <div className="container">
+        <Reveal className="section-head">
+          <span className="eyebrow">{t({ en: "Learn from others", km: "រៀនពីអ្នកដទៃ" })}</span>
+          <h2 id="reports-title">
+            {t({ en: "Learn From Real Scam Experiences", km: "រៀនសូត្រពីបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង" })}
           </h2>
-        </div>
-        <p className="text-sm text-muted-foreground">
-          {reports.length} report{reports.length === 1 ? "" : "s"} shared by the community
-        </p>
-      </div>
-
-      {reports.length === 0 ? (
-        <div className="mt-10 flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">
-            <ShieldAlert className="h-6 w-6" />
-          </span>
-          <p className="mt-4 font-display text-lg font-semibold text-foreground">No reports yet</p>
-          <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-            Be the first to warn the community. Submit a report above and it will appear here.
+          <p>
+            {t({
+              en: "Have you encountered a scam? Share your experience to help others recognize similar attempts.",
+              km: "តើអ្នកធ្លាប់ជួបប្រទះការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នក ដើម្បីជួយអ្នកដទៃស្គាល់ការព្យាយាមបោកប្រាស់ប្រភេទដូចគ្នា។",
+            })}
           </p>
-        </div>
-      ) : (
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {reports.map((report) => (
-            <article
-              key={report.id}
-              className="flex flex-col rounded-2xl border border-border bg-card p-5 transition-shadow hover:shadow-lg hover:shadow-primary/5"
+        </Reveal>
+
+        <div className="report-tools">
+          <div className="search-wrap">
+            <IconSearch />
+            <label className="sr-only" htmlFor="filter-q">
+              {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
+            </label>
+            <input
+              type="search"
+              id="filter-q"
+              className="control"
+              autoComplete="off"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
+            />
+          </div>
+
+          <label className="sr-only" htmlFor="filter-cat">
+            {t({ en: "Filter by category", km: "ត្រងតាមប្រភេទ" })}
+          </label>
+          <select className="control" id="filter-cat" value={cat} onChange={(e) => pickCategory(e.target.value)}>
+            <option value="all">{t({ en: "All categories", km: "ប្រភេទទាំងអស់" })}</option>
+            {SCAM_TYPES.map((type) => (
+              <option key={type.value} value={type.value}>
+                {t(type)}
+              </option>
+            ))}
+          </select>
+
+          <div className="seg" role="group" aria-label="Sort reports">
+            <button
+              type="button"
+              className="chip-btn"
+              aria-pressed={sort === "recent"}
+              onClick={() => setSort("recent")}
             >
-              <div className="flex items-center justify-between gap-2">
-                <Badge variant="secondary" className="gap-1 bg-primary/10 text-primary hover:bg-primary/10">
-                  <AlertTriangle className="h-3 w-3" />
-                  {report.scamType}
-                </Badge>
-                <span className="text-xs text-muted-foreground">{timeAgo(report.createdAt)}</span>
-              </div>
-
-              <h3 className="mt-3 font-display text-base font-bold leading-snug text-foreground">
-                {report.title}
-              </h3>
-              <p className="mt-2 line-clamp-4 flex-1 text-sm leading-relaxed text-muted-foreground">
-                {report.description}
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-3 text-xs text-muted-foreground">
-                {report.platform && (
-                  <span className="flex items-center gap-1">
-                    <MapPin className="h-3.5 w-3.5" /> {report.platform}
-                  </span>
-                )}
-                {report.amountLost && (
-                  <span className="flex items-center gap-1 font-medium text-destructive">
-                    <Banknote className="h-3.5 w-3.5" /> {report.amountLost}
-                  </span>
-                )}
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                — {report.reporterName ? report.reporterName : "Anonymous"}
-              </p>
-            </article>
-          ))}
+              {t({ en: "Recent", km: "ថ្មីបំផុត" })}
+            </button>
+            <button type="button" className="chip-btn" aria-pressed={sort === "top"} onClick={() => setSort("top")}>
+              {t({ en: "Most reported", km: "ច្រើនជាងគេ" })}
+            </button>
+          </div>
         </div>
-      )}
+
+        <div className="reports-layout">
+          <aside className="popular" aria-labelledby="pop-title">
+            <h3 id="pop-title">{t({ en: "Reported most often", km: "ត្រូវបានរាយការណ៍ច្រើនជាងគេ" })}</h3>
+            <ul>
+              {totals.slice(0, 4).map(({ cat: c, total }) => (
+                <li key={c}>
+                  <button type="button" className="pop-item" aria-pressed={cat === c} onClick={() => togglePopular(c)}>
+                    <span className="pop-line">
+                      <span className="pop-name">{t(TYPE_LABELS[c])}</span>
+                      <span className="pop-count">
+                        {lang === "km" ? `${total} ដង` : `${total} reports`}
+                      </span>
+                    </span>
+                    <span className="pop-bar" aria-hidden="true">
+                      <i style={{ width: `${Math.round((total / maxTotal) * 100)}%` }} />
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="pop-note">
+              {t({
+                en: "Sample data for demonstration — based on the demo reports below.",
+                km: "ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍គំរូខាងក្រោម។",
+              })}
+            </p>
+          </aside>
+
+          <div>
+            <div className="cards">
+              {visibleReports.map((r) => (
+                <article className="card" key={r.id}>
+                  <div className="card-top">
+                    <span className="type-badge">{t(TYPE_LABELS[r.cat])}</span>
+                    <time className="when">{t(r.when)}</time>
+                  </div>
+                  <h3>{t(r.title)}</h3>
+                  <p className="desc">{t(r.desc)}</p>
+                  <div className="card-foot">
+                    <span className="platform">
+                      <IconGlobe />
+                      <span>{r.platform}</span>
+                    </span>
+                    <span className="sim-badge">
+                      {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
+                    </span>
+                  </div>
+                </article>
+              ))}
+              {visibleReports.length === 0 && (
+                <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
+              )}
+            </div>
+            <p className="reports-disclaimer">
+              <IconInfo />
+              <span>
+                {t({
+                  en: "Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously — useful for awareness, but not verified facts.",
+                  km: "ការបង្ហាញគំរូ៖ ទាំងនេះជារបាយការណ៍គំរូសម្រាប់ពិពណ៌នា។ ក្នុងកំណែពិត របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
+                })}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <ReportForm />
+      </div>
     </section>
   )
 }
+
