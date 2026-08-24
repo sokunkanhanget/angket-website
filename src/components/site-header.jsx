@@ -44,6 +44,10 @@ export function SiteHeader() {
               <span>{t({ en: "Try Angket", km: "សាកល្បង Angket" })}</span>
             </a>
 
+            <a className="btn btn-outline" href="#/login">
+              {t({ en: "Log in", km: "ចូលគណនី" })}
+            </a>
+
             <button
               type="button"
               className="menu-btn"
@@ -70,6 +74,9 @@ export function SiteHeader() {
           <a className="btn btn-primary btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
             <IconSend />
             <span>{t({ en: "Try Angket", km: "សាកល្បង Angket" })}</span>
+          </a>
+          <a className="btn btn-outline btn-lg" href="#/login" onClick={closeMenu}>
+            {t({ en: "Log in", km: "ចូលគណនី" })}
           </a>
         </div>
       </div>
