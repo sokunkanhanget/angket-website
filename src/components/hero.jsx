@@ -30,7 +30,7 @@ export function Hero() {
               <IconSend />
               <span>{t({ en: "Check with Telegram", km: "ពិនិត្យតាម Telegram" })}</span>
             </a>
-            <a className="link-arrow" href="#how">
+            <a className="link-arrow" href="#/how-it-works">
               <span>{t({ en: "Learn How It Works ↓", km: "ស្វែងយល់ពីរបៀបដំណើរការ ↓" })}</span>
             </a>
           </div>

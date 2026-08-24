@@ -15,12 +15,12 @@ const TIPS = [
     title: { en: "Think Before You Pay", km: "គិតមុនពេលបង់ប្រាក់" },
     desc: {
       en: "Be careful when someone asks for upfront payment or urgent transfers.",
-      km: "ប្រុងប្រយ័ត្នពេលមានគេសុំបង់ប្រាក់មុន ឬផ្ទេរប្រាក់ជាបន្ទាន់។",
+      km: "ប្រុងប្រយ័ត្នពេលមានគេសុំបង់ប្រាក់មុន ឬការផ្ទេរប្រាក់ជាបន្ទាន់។",
     },
   },
   {
     emoji: "🔗",
-    title: { en: "Check Before You Click", km: "ពិនិត្យមុនពេលចុច" },
+    title: { en: "Check Before You Click", km: "សូមពិនិត្យមុនពេលចុច" },
     desc: {
       en: "Don’t blindly open unfamiliar links — check where they really lead first.",
       km: "កុំបើកតំណភ្ជាប់មិនស្គាល់ដោយគ្មានការពិនិត្យ — ពិនិត្យជាមុនថាវាបញ្ជូនទៅណាពិតប្រាកដ។",

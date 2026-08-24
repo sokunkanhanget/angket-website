@@ -27,7 +27,7 @@ const FLOW = [
     title: { en: "Risk + Reasons", km: "ហានិភ័យ + មូលហេតុ" },
     desc: {
       en: "You get an estimated risk percentage and a clear explanation of what was detected.",
-      km: "អ្នកទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន ជាមួយការពន្យល់ច្បាស់លាស់ពីអ្វីដែលរកឃើញ។",
+      km: "អ្នកទទួលបានការប៉ាន់ស្មាននៃភាគរយហានិភ័យ ជាមួយការពន្យល់ច្បាស់លាស់ពីអ្វីដែលរកឃើញ។",
     },
   },
   {
@@ -36,7 +36,7 @@ const FLOW = [
     title: { en: "Make a Safer Decision", km: "សម្រេចចិត្តប្រកបដោយសុវត្ថិភាព" },
     desc: {
       en: "Use the results and recommendations to decide your next step — before you pay, click, or share.",
-      km: "ប្រើលទ្ធផល និងអនុសាសន៍ ដើម្បីសម្រេចជំហានបន្ទាប់របស់អ្នក — មុនពេលបង់ប្រាក់ ចុច ឬចែករំលែក។",
+      km: "ប្រើលទ្ធផល និងការណែនាំ ដើម្បីសម្រេចជំហានបន្ទាប់របស់អ្នក — មុនពេលបង់ប្រាក់ ចុច ឬចែករំលែក។",
     },
   },
 ]

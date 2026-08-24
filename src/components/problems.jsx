@@ -23,7 +23,7 @@ const PROBLEMS = [
     title: { en: "Fake Opportunities", km: "ឱកាសក្លែងក្លាយ" },
     desc: {
       en: "Job offers, investments, prizes, and other opportunities can be used to deceive people.",
-      km: "ការផ្ដល់ការងារធ្វើ ការវិនិយោគ រង្វាន់ និងឱកាសផ្សេងៗ អាចត្រូវបានប្រើដើម្បីបញ្ឆោតមនុស្ស។",
+      km: "ការផ្ដល់ការងារធ្វើ ការវិនិយោគ រង្វាន់ និងឱកាសផ្សេងៗ អាចត្រូវបានប្រើដើម្បីបោកបញ្ឆោតមនុស្ស។",
     },
   },
   {
@@ -71,7 +71,7 @@ export function Problems() {
           <span>
             {t({
               en: "The problem isn’t only detecting scams. It’s knowing what to look for before making a decision.",
-              km: "បញ្ហាមិនមែនត្រឹមតែការរកឃើញការបោកប្រាស់ប៉ុណ្ណោះទេ។ វាគឺជាការដឹងថាត្រូវមើលរកអ្វី មុនពេលធ្វើការសម្រេចចិត្ត។",
+              km: "បញ្ហាមិនមែនត្រឹមតែការរកឃើញការបោកប្រាស់ប៉ុណ្ណោះទេ។ វាគឺជាការដឹងថាត្រូវរកមើលអ្វី មុនពេលធ្វើការសម្រេចចិត្ត។",
             })}
           </span>
         </Reveal>
