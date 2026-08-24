@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { SiteHeader } from "@/components/site-header"
+import { Login } from "@/pages/Login"
+import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
 import { Problems } from "@/components/problems"
 import { About } from "@/components/about"
@@ -71,22 +73,36 @@ export default function App() {
   const isTipsPage = route.startsWith("#/safety-tips")
   const isHowPage = route.startsWith("#/how-it-works")
   const isAboutPage = route.startsWith("#/about")
+  const isLoginPage = route.startsWith("#/login")
+  const isSignupPage = route.startsWith("#/signup")
 
   useEffect(() => {
-    if (isTipsPage || isHowPage || isAboutPage) {
+    if (isTipsPage || isHowPage || isAboutPage || isLoginPage || isSignupPage) {
       window.scrollTo({ top: 0 })
     } else if (route && !route.startsWith("#/")) {
       const el = document.getElementById(route.slice(1))
       if (el) el.scrollIntoView()
     }
-  }, [route, isTipsPage, isHowPage, isAboutPage])
+  }, [route, isTipsPage, isHowPage, isAboutPage, isLoginPage, isSignupPage])
 
   return (
     <LangProvider>
       <SkipLink />
       <SiteHeader />
       <main id="main">
-        {isTipsPage ? <SafetyTipsPage /> : isHowPage ? <HowItWorksPage /> : isAboutPage ? <AboutPage /> : <HomePage />}
+        {isTipsPage ? (
+          <SafetyTipsPage />
+        ) : isHowPage ? (
+          <HowItWorksPage />
+        ) : isAboutPage ? (
+          <AboutPage />
+        ) : isLoginPage ? (
+          <Login />
+        ) : isSignupPage ? (
+          <SignUp />
+        ) : (
+          <HomePage />
+        )}
       </main>
       <SiteFooter />
     </LangProvider>
