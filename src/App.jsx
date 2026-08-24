@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react"
 import { SiteHeader } from "@/components/site-header"
+import { Login } from "@/pages/Login"
+import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
 import { Problems } from "@/components/problems"
 import { About } from "@/components/about"
@@ -12,6 +15,16 @@ import { FinalCta } from "@/components/final-cta"
 import { SiteFooter } from "@/components/site-footer"
 import { LangProvider, useLang } from "@/lib/i18n"
 
+function useHashRoute() {
+  const [route, setRoute] = useState(() => window.location.hash)
+  useEffect(() => {
+    const onHashChange = () => setRoute(window.location.hash)
+    window.addEventListener("hashchange", onHashChange)
+    return () => window.removeEventListener("hashchange", onHashChange)
+  }, [])
+  return route
+}
+
 function SkipLink() {
   const { t } = useLang()
   return (
@@ -22,21 +35,42 @@ function SkipLink() {
 }
 
 export default function App() {
+  const route = useHashRoute()
+  const isLoginPage = route.startsWith("#/login")
+  const isSignupPage = route.startsWith("#/signup")
+
+  useEffect(() => {
+    if (isLoginPage || isSignupPage) {
+      window.scrollTo({ top: 0 })
+    } else if (route && !route.startsWith("#/")) {
+      const el = document.getElementById(route.slice(1))
+      if (el) el.scrollIntoView()
+    }
+  }, [route, isLoginPage, isSignupPage])
+
   return (
     <LangProvider>
       <SkipLink />
       <SiteHeader />
       <main id="main">
-        <Hero />
-        <Problems />
-        <About />
-        <HowItWorks />
-        <TelegramBand />
-        <ReportsFeed />
-        <SafetyTips />
-        <WhyAngket />
-        <TrustNote />
-        <FinalCta />
+        {isLoginPage ? (
+          <Login />
+        ) : isSignupPage ? (
+          <SignUp />
+        ) : (
+          <>
+            <Hero />
+            <Problems />
+            <About />
+            <HowItWorks />
+            <TelegramBand />
+            <ReportsFeed />
+            <SafetyTips />
+            <WhyAngket />
+            <TrustNote />
+            <FinalCta />
+          </>
+        )}
       </main>
       <SiteFooter />
     </LangProvider>
