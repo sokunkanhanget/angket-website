@@ -27,7 +27,7 @@ export function FinalCta() {
               <IconSend />
               <span>🛡️ {t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
-            <a className="btn btn-ghost-light btn-lg" href="#reports">
+            <a className="btn btn-ghost-light btn-lg" href="#/safety-tips/reports">
               <span>{t({ en: "Explore Scam Reports", km: "មើលរបាយការណ៍បោកប្រាស់" })}</span>
             </a>
           </div>

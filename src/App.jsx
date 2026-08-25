@@ -71,6 +71,7 @@ function AboutPage() {
 export default function App() {
   const route = useHashRoute()
   const isTipsPage = route.startsWith("#/safety-tips")
+  const tipsSection = isTipsPage ? route.slice("#/safety-tips".length).replace(/^\//, "") : ""
   const isHowPage = route.startsWith("#/how-it-works")
   const isAboutPage = route.startsWith("#/about")
   const isLoginPage = route.startsWith("#/login")
@@ -78,12 +79,19 @@ export default function App() {
 
   useEffect(() => {
     if (isTipsPage || isHowPage || isAboutPage || isLoginPage || isSignupPage) {
+      if (tipsSection) {
+        const el = document.getElementById(tipsSection)
+        if (el) el.scrollIntoView()
+      } else {
+        window.scrollTo({ top: 0 })
+      }
+    } else if (route.startsWith("#/") || route === "#") {
       window.scrollTo({ top: 0 })
-    } else if (route && !route.startsWith("#/")) {
+    } else if (route) {
       const el = document.getElementById(route.slice(1))
       if (el) el.scrollIntoView()
     }
-  }, [route, isTipsPage, isHowPage, isAboutPage, isLoginPage, isSignupPage])
+  }, [route, isTipsPage, tipsSection, isHowPage, isAboutPage, isLoginPage, isSignupPage])
 
   return (
     <LangProvider>

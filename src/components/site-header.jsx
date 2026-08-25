@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLang } from "@/lib/i18n"
 import { NAV_LINKS, TELEGRAM_BOT_URL } from "@/lib/data"
 import { IconMenu, IconSend, IconShield } from "./icons"
@@ -6,6 +6,19 @@ import { IconMenu, IconSend, IconShield } from "./icons"
 export function SiteHeader() {
   const { lang, setLang, t } = useLang()
   const [open, setOpen] = useState(false)
+  const [route, setRoute] = useState(() => window.location.hash)
+  useEffect(() => {
+    const onHashChange = () => setRoute(window.location.hash)
+    window.addEventListener("hashchange", onHashChange)
+    return () => window.removeEventListener("hashchange", onHashChange)
+  }, [])
+  const isActive = (href) =>
+    href === "#/home"
+      ? !route ||
+        route === "#" ||
+        route.startsWith("#home") ||
+        route.startsWith("#/home")
+      : route.startsWith(href)
   const closeMenu = () => setOpen(false)
 
   return (
@@ -24,7 +37,7 @@ export function SiteHeader() {
           <ul className="nav-links">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <a href={link.href}>{t(link)}</a>
+                <a href={link.href} className={isActive(link.href) ? "active" : undefined}>{t(link)}</a>
               </li>
             ))}
           </ul>
@@ -66,7 +79,12 @@ export function SiteHeader() {
         <div className="container">
           <nav aria-label="Mobile">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} className="m-link" href={link.href} onClick={closeMenu}>
+              <a
+                key={link.href}
+                className={`m-link${isActive(link.href) ? " active" : ""}`}
+                href={link.href}
+                onClick={closeMenu}
+              >
                 {t(link)}
               </a>
             ))}

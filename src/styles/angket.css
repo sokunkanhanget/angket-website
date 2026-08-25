@@ -144,6 +144,7 @@ html.km .eyebrow { font-size: 0.85rem; }
   border-bottom: 1px solid var(--border);
 }
 .site-header .container { width: 100%; max-width: none; padding-inline: 32px; }
+.site-header .brand { margin-left: 2rem; }
 .nav { height: var(--header-h); display: flex; align-items: center; }
 
 .brand { display: inline-flex; align-items: center; gap: 0.6rem; font-family: var(--font-display); font-weight: 700; font-size: 1.22rem; color: var(--ink); }
@@ -159,6 +160,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 .nav-links { display: flex; flex: none; gap: 2.9rem; margin: 0 6rem 0 auto; padding: 0; list-style: none; }
 .nav-links a { color: var(--muted); font-weight: 600; font-size: 1.125rem; padding: 0.35rem 0.1rem; transition: color 0.15s ease; }
 .nav-links a:hover { color: var(--blue-700); }
+.nav-links a.active { color: var(--blue-700); }
 
 .nav-actions { display: flex; align-items: center; gap: 0.65rem; }
 
@@ -184,6 +186,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 .mobile-menu nav { display: grid; gap: 0.15rem; }
 .mobile-menu a.m-link { padding: 0.72rem 0.45rem; font-weight: 600; color: var(--ink); border-radius: 10px; }
 .mobile-menu a.m-link:hover { background: var(--blue-50); }
+.mobile-menu a.m-link.active { color: var(--blue-700); background: var(--blue-50); }
 .mobile-menu .btn { width: 100%; margin-top: 0.7rem; }
 .hero {
   position: relative; overflow: hidden;
@@ -514,7 +517,9 @@ textarea.control { resize: vertical; min-height: 120px; }
 .cta-box .tg-ctas { margin-bottom: 0; }
 
 .site-footer { background: #fff; border-top: 1px solid var(--border); padding: 3rem 0 1.6rem; }
+.site-footer .container { width: 100%; max-width: none; padding-inline: 32px; }
 .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; }
+.foot-brand { padding-left: 2rem; }
 .foot-brand p { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; max-width: 28em; }
 .site-footer h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); margin-bottom: 0.9rem; }
 .site-footer ul li { padding: 0.22rem 0; }

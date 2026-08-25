@@ -5,7 +5,7 @@ export const NAV_LINKS = [
   { href: "#/home", en: "Home", km: "ទំព័រដើម" },
   { href: "#/safety-tips", en: "Safety Tips", km: "គន្លឹះសុវត្ថិភាព" },
   { href: "#/about", en: "About", km: "អំពីយើង" },
-  { href: "#/telegram", en: "Telegram Bot", km: "Bot Telegram" },
+  { href: "#telegram", en: "Telegram Bot", km: "Bot Telegram" },
 ]
 
 export const SCAM_TYPES = [
