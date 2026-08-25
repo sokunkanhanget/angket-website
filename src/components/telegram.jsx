@@ -42,12 +42,12 @@ export function TelegramBand() {
               <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
           </div>
-          <p className="tg-free">
+          {/* <p className="tg-free">
             {t({
               en: "Free to use — all you need is a Telegram account.",
               km: "ប្រើឥតគិតថ្លៃ — គ្រាន់តែត្រូវការគណនី Telegram ប៉ុណ្ណោះ។",
             })}
-          </p>
+          </p> */}
         </Reveal>
       </div>
     </section>

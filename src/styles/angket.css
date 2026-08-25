@@ -454,7 +454,7 @@ html.km .popular h3 { font-size: 0.9rem; }
 }
 .reports-disclaimer .icon { color: var(--blue-300); flex: none; transform: translateY(2px); }
 
-.form-block { margin-top: 3.4rem; }
+.form-block { margin-top: 3.4rem; margin-bottom: 4.5rem; }
 .form-card {
   background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md); padding: 2rem; max-width: 720px; margin-inline: auto;
