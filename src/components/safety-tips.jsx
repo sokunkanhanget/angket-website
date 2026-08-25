@@ -1,9 +1,10 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
+import { IconLock, IconCard, IconLink, IconClock, IconSearch } from "./icons"
 
 const TIPS = [
   {
-    emoji: "🔐",
+    Icon: IconLock,
     title: { en: "Protect Your Information", km: "ការពារព័ត៌មានរបស់អ្នក" },
     desc: {
       en: "Never share passwords, OTPs, or sensitive information with unknown people.",
@@ -11,7 +12,7 @@ const TIPS = [
     },
   },
   {
-    emoji: "💳",
+    Icon: IconCard,
     title: { en: "Think Before You Pay", km: "គិតមុនពេលបង់ប្រាក់" },
     desc: {
       en: "Be careful when someone asks for upfront payment or urgent transfers.",
@@ -19,7 +20,7 @@ const TIPS = [
     },
   },
   {
-    emoji: "🔗",
+    Icon: IconLink,
     title: { en: "Check Before You Click", km: "សូមពិនិត្យមុនពេលចុច" },
     desc: {
       en: "Don’t blindly open unfamiliar links — check where they really lead first.",
@@ -27,7 +28,7 @@ const TIPS = [
     },
   },
   {
-    emoji: "⏰",
+    Icon: IconClock,
     title: { en: "Don’t Let Urgency Decide", km: "កុំឲ្យការប្រញាប់សម្រេចចិត្តជំនួស" },
     desc: {
       en: "Scammers often pressure people to act immediately. Take a moment to think it through.",
@@ -35,7 +36,7 @@ const TIPS = [
     },
   },
   {
-    emoji: "🔎",
+    Icon: IconSearch,
     title: { en: "Verify First", km: "ផ្ទៀងផ្ទាត់ជាមុនសិន" },
     desc: {
       en: "Check information through official sources before trusting an offer.",
@@ -60,7 +61,7 @@ export function SafetyTips() {
           {TIPS.map((tip) => (
             <article className="tip-card" key={tip.title.en}>
               <span className="tip-ic" aria-hidden="true">
-                {tip.emoji}
+                <tip.Icon />
               </span>
               <h3>{t(tip.title)}</h3>
               <p>{t(tip.desc)}</p>

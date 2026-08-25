@@ -1,128 +1,214 @@
 import { useRef, useState } from "react"
 import { useLang } from "@/lib/i18n"
-import { IconCheck, IconLock, IconShield } from "@/components/icons"
+import { IconCheck } from "@/components/icons"
+import { AuthLayout } from "@/components/auth/AuthLayout"
+import { AuthTabs } from "@/components/auth/AuthTabs"
+import { PasswordInput } from "@/components/auth/PasswordInput"
+import { Checkbox } from "@/components/auth/Checkbox"
 
 export function Login() {
   const { t } = useLang()
   const successRef = useRef(null)
+  const [activeTab, setActiveTab] = useState("email")
   const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState("")
+  const [keepSignedIn, setKeepSignedIn] = useState(true)
+  const [errors, setErrors] = useState({})
+  const [step, setStep] = useState(1)
   const [loggedIn, setLoggedIn] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleContinue = (e) => {
     e.preventDefault()
-    if (!email || !password) {
-      setError(t({ en: "Please fill in both fields.", km: "សូមបំពេញវាលទាំងពីរ។" }))
+    const errs = {}
+    if (activeTab === "email" && !email.trim()) {
+      errs.email = t({ en: "Email is required.", km: "ត្រូវការអ៊ីមែល។" })
+    } else if (activeTab === "email" && !/^\S+@\S+\.\S+$/.test(email)) {
+      errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។" })
+    }
+    if (activeTab === "phone" && !phone.trim()) {
+      errs.phone = t({ en: "Phone number is required.", km: "ត្រូវការលេខទូរស័ព្ទ។" })
+    }
+    setErrors(errs)
+    if (Object.keys(errs).length > 0) return
+    setStep(2)
+  }
+
+  const handleLogin = (e) => {
+    e.preventDefault()
+    if (!password) {
+      setErrors({ password: t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" }) })
       return
     }
-    setError("")
+    setErrors({})
+    // TODO: replace with real auth API call
     setLoggedIn(true)
     requestAnimationFrame(() => successRef.current?.focus())
   }
 
+  const handleBack = () => {
+    setStep(1)
+    setPassword("")
+    setErrors({})
+  }
+
+  const identifier = activeTab === "email" ? email : phone
+
   return (
-    <div className="auth-page">
-      <div className="container">
-        <div className="auth-card form-card">
-          <span className="brand-mark auth-mark" aria-hidden="true">
-            <IconShield check />
+    <AuthLayout>
+      {loggedIn ? (
+        <div className="auth-success">
+          <span className="auth-success__icon" aria-hidden="true">
+            <IconCheck style={{ width: 32, height: 32 }} />
           </span>
-          <span className="eyebrow">{t({ en: "Welcome back", km: "សូមស្វាគមន៍ត្រឡប់មកវិញ" })}</span>
-          <h1>{t({ en: "Log in to Angket", km: "ចូលគណនី Angket" })}</h1>
-          <p className="auth-sub">
+          <h2 ref={successRef} tabIndex={-1}>
+            {t({ en: "Welcome back!", km: "សូមស្វាគមន៍ត្រឡប់មក!" })}
+          </h2>
+          <p>
             {t({
-              en: "Access your account to report scams and track your reports.",
-              km: "ចូលប្រើគណនីរបស់អ្នកដើម្បីរាយការណ៍ការបោកប្រាស់ និងតាមដានរបាយការណ៍របស់អ្នក។",
+              en: "You are now signed in to your Angket account.",
+              km: "អ្នកបានចូលគណនី Angket របស់អ្នកហើយ។",
+            })}
+          </p>
+        </div>
+      ) : (
+        <>
+          <h1 className="auth-split__heading">
+            {t({ en: "Welcome to Angket !!", km: "សូមស្វាគមន៍មកកាន់ Angket !!" })}
+          </h1>
+          <p className="auth-split__sub">
+            {t({
+              en: "A community-powered platform to report scams and protect others.",
+              km: "វេទិកាដែលជួយរាយការណ៍ការបោកប្រាស់ និងការពារអ្នកដទៃ។",
             })}
           </p>
 
-          {loggedIn ? (
-            <div className="success">
-              <span className="s-ic" aria-hidden="true">
-                <IconCheck style={{ width: 30, height: 30 }} />
-              </span>
-              <h3 ref={successRef} tabIndex={-1}>
-                {t({ en: "Logged in!", km: "បានចូលជោគជ័យ!" })}
-              </h3>
-              <p>
-                {t({
-                  en: "You are now signed in to your Angket account.",
-                  km: "អ្នកបានចូលគណនី Angket របស់អ្នកហើយ។",
-                })}
-              </p>
-            </div>
+          {step === 1 ? (
+            <>
+              <AuthTabs activeTab={activeTab} onChange={(tab) => { setActiveTab(tab); setErrors({}) }} />
+
+              <form className="auth-form" onSubmit={handleContinue} noValidate>
+                {activeTab === "email" ? (
+                  <div className="auth-field">
+                    <label className="auth-field__label" htmlFor="login-email">
+                      {t({ en: "Email address", km: "អាសយដ្ឋានអ៊ីមែល" })}
+                    </label>
+                    <input
+                      id="login-email"
+                      name="email"
+                      className={`control ${errors.email ? "control--error" : ""}`}
+                      type="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="abc@angket.kh"
+                      aria-describedby={errors.email ? "login-email-err" : undefined}
+                      aria-invalid={errors.email ? "true" : undefined}
+                    />
+                    {errors.email && (
+                      <p className="auth-field__error" id="login-email-err" role="alert">
+                        {errors.email}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="auth-field">
+                    <label className="auth-field__label" htmlFor="login-phone">
+                      {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
+                    </label>
+                    <div className="auth-phone">
+                      <select className="control auth-phone__code" aria-label="Country code">
+                        <option>+855</option>
+                        <option>+1</option>
+                        <option>+44</option>
+                      </select>
+                      <input
+                        id="login-phone"
+                        name="phone"
+                        className={`control ${errors.phone ? "control--error" : ""}`}
+                        type="tel"
+                        autoComplete="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="012 345 678"
+                        aria-describedby={errors.phone ? "login-phone-err" : undefined}
+                        aria-invalid={errors.phone ? "true" : undefined}
+                      />
+                    </div>
+                    {errors.phone && (
+                      <p className="auth-field__error" id="login-phone-err" role="alert">
+                        {errors.phone}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                <button type="submit" className="btn btn-primary btn-lg auth-submit">
+                  {t({ en: "Continue", km: "បន្ត" })}
+                </button>
+              </form>
+            </>
           ) : (
-            <form className="f-grid" onSubmit={handleSubmit} noValidate>
-              <div>
-                <label className="f-label" htmlFor="login-email">
-                  {t({ en: "Email", km: "អ៊ីមែល" })}{" "}
-                  <span className="req" aria-hidden="true">*</span>
+            <form className="auth-form" onSubmit={handleLogin} noValidate>
+              <div className="auth-identifier">
+                <span className="auth-identifier__label">
+                  {activeTab === "email"
+                    ? t({ en: "Signing in with", km: "ចូលដោយប្រើ" })
+                    : t({ en: "Signing in with", km: "ចូលដោយប្រើ" })}
+                </span>
+                <span className="auth-identifier__value">{identifier}</span>
+                <button type="button" className="auth-identifier__edit" onClick={handleBack}>
+                  {t({ en: "Change", km: "ផ្លាស់ប្តូរ" })}
+                </button>
+              </div>
+
+              <div className="auth-field">
+                <label className="auth-field__label" htmlFor="login-password">
+                  {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}
                 </label>
-                <input
-                  id="login-email"
-                  name="email"
-                  className="control"
-                  type="email"
-                  autoComplete="email"
+                <PasswordInput
+                  id="login-password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={t({ en: "Enter your password", km: "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក" })}
+                  autoComplete="current-password"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t({ en: "you@example.com", km: "អ្នក@ឧទាហរណ៍.com" })}
+                  errorId={errors.password ? "login-password-err" : undefined}
                 />
+                {errors.password && (
+                  <p className="auth-field__error" id="login-password-err" role="alert">
+                    {errors.password}
+                  </p>
+                )}
               </div>
 
-              <div>
-                <label className="f-label" htmlFor="login-password">
-                  {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}{" "}
-                  <span className="req" aria-hidden="true">*</span>
-                </label>
-                <div className="pass-wrap">
-                  <input
-                    id="login-password"
-                    name="password"
-                    className="control"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder={t({ en: "Enter your password", km: "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក" })}
-                  />
-                  <button
-                    type="button"
-                    className="pass-toggle"
-                    onClick={() => setShowPassword((v) => !v)}
-                    aria-pressed={showPassword}
-                  >
-                    {showPassword
-                      ? t({ en: "Hide", km: "លាក់" })
-                      : t({ en: "Show", km: "បង្ហាញ" })}
-                  </button>
-                </div>
+              <div className="auth-row">
+                <Checkbox
+                  id="login-keep"
+                  checked={keepSignedIn}
+                  onChange={(e) => setKeepSignedIn(e.target.checked)}
+                >
+                  {t({ en: "Keep me signed in", km: "រក្សាទុកការចូល" })}
+                </Checkbox>
+                <a className="auth-row__link" href="#/forgot">
+                  {t({ en: "Forgot password?", km: "ភ្លេចពាក្យសម្ងាត់?" })}
+                </a>
               </div>
 
-              {error && (
-                <p className="form-error" role="alert">
-                  {error}
-                </p>
-              )}
-
-              <button type="submit" className="btn btn-primary btn-lg">
-                <IconLock />
-                <span>{t({ en: "Log In", km: "ចូលគណនី" })}</span>
+              <button type="submit" className="btn btn-primary btn-lg auth-submit">
+                {t({ en: "Sign in", km: "ចូលគណនី" })}
               </button>
-
-              <p className="auth-alt">
-                {t({ en: "Don’t have an account?", km: "មិនមានគណនីទេ?" })}{" "}
-                <a href="#/signup">{t({ en: "Sign up", km: "ចុះឈ្មោះ" })}</a>
-              </p>
             </form>
           )}
-        </div>
-      </div>
-    </div>
+
+          <p className="auth-alt">
+            {t({ en: "First time here?", km: "ទើបមកដល់?" })}{" "}
+            <a href="#/signup">{t({ en: "Sign up", km: "ចុះឈ្មោះ" })}</a>
+          </p>
+        </>
+      )}
+    </AuthLayout>
   )
 }
 

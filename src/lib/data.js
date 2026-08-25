@@ -17,7 +17,19 @@ export const SCAM_TYPES = [
   { value: "impersonation", en: "Impersonation", km: "ការក្លែងបន្លំអត្តសញ្ញាណ" },
 ]
 
-export const REPORT_TYPES = [...SCAM_TYPES, { value: "other", en: "Other", km: "ផ្សេងៗ" }]
+export const SCAM_CHANNELS = [
+  { value: "message", en: "Message / Text", km: "សារ / អត្ថបទ" },
+  { value: "file", en: "File", km: "ឯកសារ" },
+  { value: "link", en: "Link URL", km: "តំណ URL" },
+]
+
+export const IN_PICTURE_TYPES = [
+  { value: "fake-opportunity", en: "Fake opportunity", km: "ឱកាសក្លែងក្លាយ" },
+  { value: "investment", en: "Investment", km: "ការវិនិយោគក្លែងក្លាយ" },
+  { value: "salary-check", en: "Salary checking in file", km: "ពិនិត្យប្រាក់ខែក្នុងឯកសារ" },
+  { value: "lottery-prize", en: "Lottery / Prize", km: "ឆ្នោត / រង្វាន់ក្លែងក្លាយ" },
+  { value: "impersonation", en: "Impersonation", km: "ការក្លែងបន្លំអត្តសញ្ញាណ" },
+]
 
 export const TYPE_LABELS = Object.fromEntries(SCAM_TYPES.map((x) => [x.value, x]))
 

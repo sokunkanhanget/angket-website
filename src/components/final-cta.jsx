@@ -1,7 +1,7 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
-import { IconSend } from "./icons"
+import { IconSend, IconShield } from "./icons"
 
 export function FinalCta() {
   const { t } = useLang()
@@ -25,7 +25,8 @@ export function FinalCta() {
           <div className="tg-ctas">
             <a className="btn btn-white btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
               <IconSend />
-              <span>🛡️ {t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
+              <IconShield />
+              <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
             <a className="btn btn-ghost-light btn-lg" href="#/safety-tips/reports">
               <span>{t({ en: "Explore Scam Reports", km: "មើលរបាយការណ៍បោកប្រាស់" })}</span>

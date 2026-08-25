@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
-import { IconSend, IconShield, IconWarning } from "./icons"
+import { IconSend, IconShield, IconWarning, IconArrowDown, IconCheckDouble } from "./icons"
 
 export function Hero() {
   const { t } = useLang()
@@ -31,7 +31,8 @@ export function Hero() {
               <span>{t({ en: "Check with Telegram", km: "ពិនិត្យតាម Telegram" })}</span>
             </a>
             <a className="link-arrow" href="#/how-it-works">
-              <span>{t({ en: "Learn How It Works ↓", km: "ស្វែងយល់ពីរបៀបដំណើរការ ↓" })}</span>
+              <span>{t({ en: "Learn How It Works", km: "ស្វែងយល់ពីរបៀបដំណើរការ" })}</span>
+              <IconArrowDown />
             </a>
           </div>
           <p className="hero-trust rise d3">
@@ -114,7 +115,9 @@ export function Hero() {
                     })}
                   </span>
                 </p>
-                <span className="stamp">12:04 ✓✓</span>
+                <span className="stamp">
+                  12:04 <IconCheckDouble style={{ width: 11, height: 11 }} />
+                </span>
               </div>
             </div>
           </div>

@@ -90,3 +90,100 @@ export function IconClose(props) {
     </svg>
   )
 }
+
+export function IconMail(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="m22 7-10 6L2 7" />
+    </svg>
+  )
+}
+
+export function IconLink(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+    </svg>
+  )
+}
+
+export function IconChart(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M3 3v18h18" />
+      <rect x="7" y="12" width="3" height="6" rx="0.5" />
+      <rect x="12" y="8" width="3" height="10" rx="0.5" />
+      <rect x="17" y="4" width="3" height="14" rx="0.5" />
+    </svg>
+  )
+}
+
+export function IconBrain(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44A2.5 2.5 0 0 1 4.5 17.5 2.5 2.5 0 0 1 3 13a2.5 2.5 0 0 1 .05-4A2.5 2.5 0 0 1 4.5 4.5 2.5 2.5 0 0 1 7 3a2.5 2.5 0 0 1 2.5-1z" />
+      <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.54-2.44 2.5 2.5 0 0 0 1.5-4.5 2.5 2.5 0 0 0-.05-4A2.5 2.5 0 0 0 19.5 4.5 2.5 2.5 0 0 0 17 3a2.5 2.5 0 0 0-2.5-1z" />
+    </svg>
+  )
+}
+
+export function IconBot(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <rect x="4" y="8" width="16" height="12" rx="2" />
+      <path d="M12 8V4" />
+      <circle cx="12" cy="3" r="1" />
+      <path d="M9 13v1" />
+      <path d="M15 13v1" />
+      <path d="M9 17h6" />
+    </svg>
+  )
+}
+
+export function IconCard(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M2 10h20" />
+      <path d="M6 15h4" />
+    </svg>
+  )
+}
+
+export function IconClock(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </svg>
+  )
+}
+
+export function IconArrowRight(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  )
+}
+
+export function IconArrowDown(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M12 5v14" />
+      <path d="m18 13-6 6-6-6" />
+    </svg>
+  )
+}
+
+export function IconCheckDouble(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="m2 13 4 4L14 9" />
+      <path d="m10 13 4 4L22 9" />
+    </svg>
+  )
+}

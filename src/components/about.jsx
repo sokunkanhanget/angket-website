@@ -1,9 +1,10 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
+import { IconSearch, IconChart, IconBrain, IconShield } from "./icons"
 
 const FUNCTIONS = [
   {
-    emoji: "🔍",
+    Icon: IconSearch,
     title: { en: "Detect", km: "រកឃើញ" },
     desc: {
       en: "Automatically detect suspicious patterns in incoming messages and alert users when something appears risky.",
@@ -11,7 +12,7 @@ const FUNCTIONS = [
     },
   },
   {
-    emoji: "📊",
+    Icon: IconChart,
     title: { en: "Check", km: "ពិនិត្យ" },
     desc: {
       en: "Send suspicious messages, links, or URLs to the bot and get an estimated scam risk percentage.",
@@ -19,7 +20,7 @@ const FUNCTIONS = [
     },
   },
   {
-    emoji: "🧠",
+    Icon: IconBrain,
     title: { en: "Understand", km: "យល់ដឹង" },
     desc: {
       en: "Explains why the content may be suspicious and highlights the detected scam patterns.",
@@ -27,7 +28,7 @@ const FUNCTIONS = [
     },
   },
   {
-    emoji: "🛡️",
+    Icon: IconShield,
     title: { en: "Protect", km: "ការពារ" },
     desc: {
       en: "Provides safety recommendations and lets users learn from reported scam experiences to avoid similar scams.",
@@ -58,7 +59,7 @@ export function About() {
           {FUNCTIONS.map((f) => (
             <article className="func-card" key={f.title.en}>
               <span className="func-ic" aria-hidden="true">
-                {f.emoji}
+                <f.Icon />
               </span>
               <h3>{t(f.title)}</h3>
               <p>{t(f.desc)}</p>

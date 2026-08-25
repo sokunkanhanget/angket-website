@@ -1,9 +1,10 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
+import { IconChart, IconSearch, IconGlobe } from "./icons"
 
 const REASONS = [
   {
-    emoji: "📊",
+    Icon: IconChart,
     title: { en: "Risk Percentage", km: "ភាគរយហានិភ័យ" },
     desc: {
       en: "Understand the estimated level of scam risk at a glance.",
@@ -11,7 +12,7 @@ const REASONS = [
     },
   },
   {
-    emoji: "🔎",
+    Icon: IconSearch,
     title: { en: "Explainable Results", km: "លទ្ធផលពន្យល់បាន" },
     desc: {
       en: "Understand why something may be suspicious instead of receiving only a score.",
@@ -19,7 +20,7 @@ const REASONS = [
     },
   },
   {
-    emoji: "🌐",
+    Icon: IconGlobe,
     title: { en: "Community Knowledge", km: "ចំណេះដឹងពីសហគមន៍" },
     desc: {
       en: "Learn from scam experiences reported by other users.",
@@ -42,7 +43,7 @@ export function WhyAngket() {
           {REASONS.map((reason) => (
             <article className="why-card" key={reason.title.en}>
               <span className="why-ic" aria-hidden="true">
-                {reason.emoji}
+                <reason.Icon />
               </span>
               <h3>{t(reason.title)}</h3>
               <p>{t(reason.desc)}</p>

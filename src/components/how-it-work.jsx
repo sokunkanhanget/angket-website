@@ -1,11 +1,11 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
-import { IconInfo } from "./icons"
+import { IconInfo, IconSend, IconBot, IconChart, IconShield, IconArrowRight } from "./icons"
 
 const FLOW = [
   {
     num: 1,
-    emoji: "📩",
+    Icon: IconSend,
     title: { en: "Send", km: "ផ្ញើ" },
     desc: {
       en: "Forward a suspicious message or link to the bot in your chat.",
@@ -14,7 +14,7 @@ const FLOW = [
   },
   {
     num: 2,
-    emoji: "🤖",
+    Icon: IconBot,
     title: { en: "Analyze", km: "វិភាគ" },
     desc: {
       en: "Angket scans the content for scam patterns and risk indicators.",
@@ -23,7 +23,7 @@ const FLOW = [
   },
   {
     num: 3,
-    emoji: "📊",
+    Icon: IconChart,
     title: { en: "Risk + Reasons", km: "ហានិភ័យ + មូលហេតុ" },
     desc: {
       en: "You get an estimated risk percentage and a clear explanation of what was detected.",
@@ -32,7 +32,7 @@ const FLOW = [
   },
   {
     num: 4,
-    emoji: "🛡️",
+    Icon: IconShield,
     title: { en: "Make a Safer Decision", km: "សម្រេចចិត្តប្រកបដោយសុវត្ថិភាព" },
     desc: {
       en: "Use the results and recommendations to decide your next step — before you pay, click, or share.",
@@ -64,14 +64,14 @@ export function HowItWorks() {
               <span className="step-num" aria-hidden="true">
                 {step.num}
               </span>
-              <span className="step-emoji" aria-hidden="true">
-                {step.emoji}
+              <span className="step-ic" aria-hidden="true">
+                <step.Icon />
               </span>
               <h3>{t(step.title)}</h3>
               <p>{t(step.desc)}</p>
               {step.num < FLOW.length && (
                 <span className="flow-arrow" aria-hidden="true">
-                  →
+                  <IconArrowRight />
                 </span>
               )}
             </li>

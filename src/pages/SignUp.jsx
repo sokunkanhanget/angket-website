@@ -1,195 +1,243 @@
 import { useRef, useState } from "react"
 import { useLang } from "@/lib/i18n"
-import { IconCheck, IconLock, IconShield } from "@/components/icons"
+import { IconCheck } from "@/components/icons"
+import { AuthLayout } from "@/components/auth/AuthLayout"
+import { PasswordInput } from "@/components/auth/PasswordInput"
+import { Checkbox } from "@/components/auth/Checkbox"
 
 export function SignUp() {
   const { t } = useLang()
   const successRef = useRef(null)
-  const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" })
-  const [showPassword, setShowPassword] = useState(false)
-  const [error, setError] = useState("")
+  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", confirm: "" })
+  const [agreeTerms, setAgreeTerms] = useState(false)
+  const [errors, setErrors] = useState({})
   const [registered, setRegistered] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
 
+  const validate = () => {
+    const errs = {}
+    if (!form.name.trim()) {
+      errs.name = t({ en: "Full name is required.", km: "ត្រូវការឈ្មោះពេញ។" })
+    }
+    if (!form.email.trim()) {
+      errs.email = t({ en: "Email is required.", km: "ត្រូវការអ៊ីមែល។" })
+    } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+      errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។" })
+    }
+    if (!form.phone.trim()) {
+      errs.phone = t({ en: "Phone number is required.", km: "ត្រូវការលេខទូរស័ព្ទ។" })
+    }
+    if (!form.password) {
+      errs.password = t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" })
+    } else if (form.password.length < 8) {
+      errs.password = t({ en: "Password must be at least 8 characters.", km: "ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច ៨ តួអក្សរ។" })
+    }
+    if (!form.confirm) {
+      errs.confirm = t({ en: "Please confirm your password.", km: "សូមបញ្ជាក់ពាក្យសម្ងាត់។" })
+    } else if (form.password !== form.confirm) {
+      errs.confirm = t({ en: "Passwords do not match.", km: "ពាក្យសម្ងាត់មិនត្រូវគ្នាទេ។" })
+    }
+    if (!agreeTerms) {
+      errs.terms = t({ en: "You must agree to the terms.", km: "អ្នកត្រូវឯកភាពនឹងលក្ខខណ្ឌ។" })
+    }
+    return errs
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!form.name || !form.email || !form.password || !form.confirm) {
-      setError(t({ en: "Please fill in all fields.", km: "សូមបំពេញវាលទាំងអស់។" }))
-      return
-    }
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      setError(t({ en: "Please enter a valid email address.", km: "សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។" }))
-      return
-    }
-    if (form.password.length < 8) {
-      setError(
-        t({
-          en: "Password must be at least 8 characters.",
-          km: "ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច ៨ តួអក្សរ។",
-        }),
-      )
-      return
-    }
-    if (form.password !== form.confirm) {
-      setError(t({ en: "Passwords do not match.", km: "ពាក្យសម្ងាត់មិនត្រូវគ្នាទេ។" }))
-      return
-    }
-    setError("")
+    const errs = validate()
+    setErrors(errs)
+    if (Object.keys(errs).length > 0) return
+
+    // TODO: replace with real auth API call
     setRegistered(true)
     requestAnimationFrame(() => successRef.current?.focus())
   }
 
   return (
-    <div className="auth-page">
-      <div className="container">
-        <div className="auth-card form-card">
-          <span className="brand-mark auth-mark" aria-hidden="true">
-            <IconShield check />
+    <AuthLayout>
+      {registered ? (
+        <div className="auth-success">
+          <span className="auth-success__icon" aria-hidden="true">
+            <IconCheck style={{ width: 32, height: 32 }} />
           </span>
-          <span className="eyebrow">{t({ en: "Join Angket", km: "ចូលរួមជាមួយ Angket" })}</span>
-          <h1>{t({ en: "Create your account", km: "បង្កើតគណនីរបស់អ្នក" })}</h1>
-          <p className="auth-sub">
+          <h2 ref={successRef} tabIndex={-1}>
+            {t({ en: "Account created!", km: "គណនីត្រូវបានបង្កើត!" })}
+          </h2>
+          <p>
             {t({
-              en: "Sign up to report scams, save reports, and help keep Cambodia safe online.",
-              km: "ចុះឈ្មោះដើម្បីរាយការណ៍ការបោកប្រាស់ រក្សាទុករបាយការណ៍ និងជួយការពារកម្ពុជាឲ្យមានសុវត្ថិភាពលើអ៊ីនធឺណិត។",
+              en: "Welcome to Angket. You can now sign in with your new account.",
+              km: "សូមស្វាគមន៍មកកាន់ Angket។ អ្នកអាចចូលដោយប្រើគណនីថ្មីរបស់អ្នកបានហើយ។",
+            })}
+          </p>
+          <a className="btn btn-outline" href="#/login">
+            {t({ en: "Go to sign in", km: "ទៅទំព័រចូលគណនី" })}
+          </a>
+        </div>
+      ) : (
+        <>
+          <h1 className="auth-split__heading">
+            {t({ en: "Create your Angket account", km: "បង្កើតគណនី Angket របស់អ្នក" })}
+          </h1>
+          <p className="auth-split__sub">
+            {t({
+              en: "A community-powered platform to report scams and protect others.",
+              km: "វេទិកាដែលជួយរាយការណ៍ការបោកប្រាស់ និងការពារអ្នកដទៃ។",
             })}
           </p>
 
-          {registered ? (
-            <div className="success">
-              <span className="s-ic" aria-hidden="true">
-                <IconCheck style={{ width: 30, height: 30 }} />
-              </span>
-              <h3 ref={successRef} tabIndex={-1}>
-                {t({ en: "Account created!", km: "គណនីត្រូវបានបង្កើត!" })}
-              </h3>
-              <p>
-                {t({
-                  en: "Welcome to Angket. You can now log in with your new account.",
-                  km: "សូមស្វាគមន៍មកកាន់ Angket។ អ្នកអាចចូលដោយប្រើគណនីថ្មីរបស់អ្នកបានហើយ។",
-                })}
-              </p>
-              <a className="btn btn-outline" href="#/login">
-                {t({ en: "Go to log in", km: "ទៅទំព័រចូលគណនី" })}
-              </a>
-            </div>
-          ) : (
-            <form className="f-grid" onSubmit={handleSubmit} noValidate>
-              <div>
-                <label className="f-label" htmlFor="signup-name">
-                  {t({ en: "Full name", km: "ឈ្មោះពេញ" })}{" "}
-                  <span className="req" aria-hidden="true">*</span>
-                </label>
-                <input
-                  id="signup-name"
-                  name="name"
-                  className="control"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={form.name}
-                  onChange={update("name")}
-                  placeholder={t({ en: "e.g. Sok Dara", km: "ឧ. សុខ ឌារា" })}
-                />
-              </div>
-
-              <div>
-                <label className="f-label" htmlFor="signup-email">
-                  {t({ en: "Email", km: "អ៊ីមែល" })}{" "}
-                  <span className="req" aria-hidden="true">*</span>
-                </label>
-                <input
-                  id="signup-email"
-                  name="email"
-                  className="control"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={form.email}
-                  onChange={update("email")}
-                  placeholder={t({ en: "you@example.com", km: "អ្នក@ឧទាហរណ៍.com" })}
-                />
-              </div>
-
-              <div className="f-row">
-                <div>
-                  <label className="f-label" htmlFor="signup-password">
-                    {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}{" "}
-                    <span className="req" aria-hidden="true">*</span>
-                  </label>
-                  <input
-                    id="signup-password"
-                    name="password"
-                    className="control"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    required
-                    minLength={8}
-                    value={form.password}
-                    onChange={update("password")}
-                    placeholder={t({ en: "At least 8 characters", km: "យ៉ាងតិច ៨ តួអក្សរ" })}
-                  />
-                </div>
-                <div>
-                  <label className="f-label" htmlFor="signup-confirm">
-                    {t({ en: "Confirm password", km: "បញ្ជាក់ពាក្យសម្ងាត់" })}{" "}
-                    <span className="req" aria-hidden="true">*</span>
-                  </label>
-                  <input
-                    id="signup-confirm"
-                    name="confirm"
-                    className="control"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="new-password"
-                    required
-                    minLength={8}
-                    value={form.confirm}
-                    onChange={update("confirm")}
-                    placeholder={t({ en: "Re-enter your password", km: "បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
-                  />
-                </div>
-              </div>
-
-              <label className="check-row">
-                <input
-                  type="checkbox"
-                  checked={showPassword}
-                  onChange={(e) => setShowPassword(e.target.checked)}
-                />
-                <span>{t({ en: "Show passwords", km: "បង្ហាញពាក្យសម្ងាត់" })}</span>
+          <form className="auth-form" onSubmit={handleSubmit} noValidate>
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="signup-name">
+                {t({ en: "Full name", km: "ឈ្មោះពេញ" })}
               </label>
-
-              {error && (
-                <p className="form-error" role="alert">
-                  {error}
+              <input
+                id="signup-name"
+                name="name"
+                className={`control ${errors.name ? "control--error" : ""}`}
+                type="text"
+                autoComplete="name"
+                value={form.name}
+                onChange={update("name")}
+                placeholder={t({ en: "e.g. Sok Dara", km: "ឧ. សុខ ដារា" })}
+                aria-describedby={errors.name ? "signup-name-err" : undefined}
+                aria-invalid={errors.name ? "true" : undefined}
+              />
+              {errors.name && (
+                <p className="auth-field__error" id="signup-name-err" role="alert">
+                  {errors.name}
                 </p>
               )}
+            </div>
 
-              <p className="privacy-note">
-                <IconLock />
-                <span>
-                  {t({
-                    en: "We never share your email. Your password is stored securely.",
-                    km: "យើងមិនចែករំលែកអ៊ីមែលរបស់អ្នកទេ។ ពាក្យសម្ងាត់របស់អ្នកត្រូវបានរក្សាទុកយ៉ាងសុវត្ថិភាព។",
-                  })}
-                </span>
-              </p>
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="signup-email">
+                {t({ en: "Email address", km: "អាសយដ្ឋានអ៊ីមែល" })}
+              </label>
+              <input
+                id="signup-email"
+                name="email"
+                className={`control ${errors.email ? "control--error" : ""}`}
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={update("email")}
+                placeholder="abc@angket.kh"
+                aria-describedby={errors.email ? "signup-email-err" : undefined}
+                aria-invalid={errors.email ? "true" : undefined}
+              />
+              {errors.email && (
+                <p className="auth-field__error" id="signup-email-err" role="alert">
+                  {errors.email}
+                </p>
+              )}
+            </div>
 
-              <button type="submit" className="btn btn-primary btn-lg">
-                <IconShield check />
-                <span>{t({ en: "Create Account", km: "បង្កើតគណនី" })}</span>
-              </button>
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="signup-phone">
+                {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
+              </label>
+              <div className="auth-phone">
+                <select className="control auth-phone__code" aria-label="Country code">
+                  <option>+855</option>
+                  <option>+1</option>
+                  <option>+44</option>
+                </select>
+                <input
+                  id="signup-phone"
+                  name="phone"
+                  className={`control ${errors.phone ? "control--error" : ""}`}
+                  type="tel"
+                  autoComplete="tel"
+                  value={form.phone}
+                  onChange={update("phone")}
+                  placeholder="012 345 678"
+                  aria-describedby={errors.phone ? "signup-phone-err" : undefined}
+                  aria-invalid={errors.phone ? "true" : undefined}
+                />
+              </div>
+              {errors.phone && (
+                <p className="auth-field__error" id="signup-phone-err" role="alert">
+                  {errors.phone}
+                </p>
+              )}
+            </div>
 
-              <p className="auth-alt">
-                {t({ en: "Already have an account?", km: "មានគណនីរួចហើយ?" })}{" "}
-                <a href="#/login">{t({ en: "Log in", km: "ចូលគណនី" })}</a>
-              </p>
-            </form>
-          )}
-        </div>
-      </div>
-    </div>
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="signup-password">
+                {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}
+              </label>
+              <PasswordInput
+                id="signup-password"
+                name="password"
+                value={form.password}
+                onChange={update("password")}
+                placeholder={t({ en: "At least 8 characters", km: "យ៉ាងតិច ៨ តួអក្សរ" })}
+                autoComplete="new-password"
+                required
+                minLength={8}
+                errorId={errors.password ? "signup-password-err" : undefined}
+              />
+              {errors.password && (
+                <p className="auth-field__error" id="signup-password-err" role="alert">
+                  {errors.password}
+                </p>
+              )}
+            </div>
+
+            <div className="auth-field">
+              <label className="auth-field__label" htmlFor="signup-confirm">
+                {t({ en: "Confirm password", km: "បញ្ជាក់ពាក្យសម្ងាត់" })}
+              </label>
+              <PasswordInput
+                id="signup-confirm"
+                name="confirm"
+                value={form.confirm}
+                onChange={update("confirm")}
+                placeholder={t({ en: "Re-enter your password", km: "បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
+                autoComplete="new-password"
+                required
+                minLength={8}
+                errorId={errors.confirm ? "signup-confirm-err" : undefined}
+              />
+              {errors.confirm && (
+                <p className="auth-field__error" id="signup-confirm-err" role="alert">
+                  {errors.confirm}
+                </p>
+              )}
+            </div>
+
+            <div className="auth-field">
+              <Checkbox
+                id="signup-terms"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+              >
+                {t({
+                  en: "I agree to the Terms of Service and Privacy Policy",
+                  km: "ខ្ញុំឯកភាពនឹងលក្ខខណ្ឌសេវាកម្ម និងគោលនយោបាយឯកជនភាព",
+                })}
+              </Checkbox>
+              {errors.terms && (
+                <p className="auth-field__error" id="signup-terms-err" role="alert">
+                  {errors.terms}
+                </p>
+              )}
+            </div>
+
+            <button type="submit" className="btn btn-primary btn-lg auth-submit">
+              {t({ en: "Create account", km: "បង្កើតគណនី" })}
+            </button>
+          </form>
+
+          <p className="auth-alt">
+            {t({ en: "Already have an account?", km: "មានគណនីរួចហើយ?" })}{" "}
+            <a href="#/login">{t({ en: "Sign in instead", km: "ចូលគណនីជំនួស" })}</a>
+          </p>
+        </>
+      )}
+    </AuthLayout>
   )
 }
 
