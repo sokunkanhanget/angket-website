@@ -9,6 +9,7 @@ import { HowItWorks } from "@/components/how-it-work"
 import { TelegramBand } from "@/components/telegram"
 import { ReportsFeed } from "@/components/reports-feed"
 import { SafetyTips } from "@/components/safety-tips"
+import { ReportForm } from "@/components/report-form"
 import { WhyAngket } from "@/components/why-angket"
 import { TrustNote } from "@/components/trust-note"
 import { FinalCta } from "@/components/final-cta"
@@ -54,6 +55,10 @@ function SafetyTipsPage() {
   )
 }
 
+function ScamReportPage() {
+  return <ReportForm />
+}
+
 function HowItWorksPage() {
   return <HowItWorks />
 }
@@ -74,11 +79,12 @@ export default function App() {
   const tipsSection = isTipsPage ? route.slice("#/safety-tips".length).replace(/^\//, "") : ""
   const isHowPage = route.startsWith("#/how-it-works")
   const isAboutPage = route.startsWith("#/about")
+  const isReportPage = route.startsWith("#/report")
   const isLoginPage = route.startsWith("#/login")
   const isSignupPage = route.startsWith("#/signup")
 
   useEffect(() => {
-    if (isTipsPage || isHowPage || isAboutPage || isLoginPage || isSignupPage) {
+    if (isTipsPage || isHowPage || isAboutPage || isReportPage || isLoginPage || isSignupPage) {
       if (tipsSection) {
         const el = document.getElementById(tipsSection)
         if (el) el.scrollIntoView()
@@ -91,7 +97,7 @@ export default function App() {
       const el = document.getElementById(route.slice(1))
       if (el) el.scrollIntoView()
     }
-  }, [route, isTipsPage, tipsSection, isHowPage, isAboutPage, isLoginPage, isSignupPage])
+  }, [route, isTipsPage, tipsSection, isHowPage, isAboutPage, isReportPage, isLoginPage, isSignupPage])
 
   return (
     <LangProvider>
@@ -104,6 +110,8 @@ export default function App() {
           <HowItWorksPage />
         ) : isAboutPage ? (
           <AboutPage />
+        ) : isReportPage ? (
+          <ScamReportPage />
         ) : isLoginPage ? (
           <Login />
         ) : isSignupPage ? (

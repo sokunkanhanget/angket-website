@@ -11,18 +11,18 @@ export function Hero() {
         <div>
           <span className="eyebrow rise">
             <IconShield style={{ width: "1em", height: "1em" }} />
-            <span>{t({ en: "Free safety bot on Telegram", km: "Bot សុវត្ថិភាពឥតគិតថ្លៃនៅលើ Telegram" })}</span>
+            <span>{t({ en: "Safety bot on Telegram", km: "Bot សុវត្ថិភាពនៅលើ Telegram" })}</span>
           </span>
           <h1 id="hero-title" className="rise d1">
             {t({
-              en: "Not Sure If It’s a Scam? Check Before You Trust.",
-              km: "មិនច្បាស់ថាវាជាការបោកប្រាស់ឬទេ? ពិនិត្យមុនពេលជឿ។",
+              en: "Not Sure If It​ is a Scam? Check Before You Trust.",
+              km: "មិនច្បាស់ថាវាជាការបោកប្រាស់មែនដែរឬទេ? ពិនិត្យមុនពេលធ្វើការសម្រេចចិត្ត",
             })}
           </h1>
           <p className="lede rise d2">
             {t({
-              en: "Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. Get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions.",
-              km: "Angket ជួយអ្នកកំណត់អត្តសញ្ញាណសារ តំណភ្ជាប់ និងព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត តាមរយៈ Chatbot Telegram របស់យើង។ ទទួលបានភាគរយហានិភ័យប៉ាន់ស្មាន យល់ពីលំនាំគួរឲ្យសង្ស័យ ហើយធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពជាងមុន។",
+              en: "Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. You will get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions.",
+              km: "Angket ជួយអ្នកកំណត់អត្តសញ្ញាណសារ តំណភ្ជាប់ និងព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត តាមរយៈ Chatbot Telegram របស់យើង។ អ្នកនឹងទទួលបានការពិនិត្យ​ និង​វិភាគពីហានិភ័យ ហើយយល់ពីលំនាំដែលគួរឲ្យសង្ស័យ និងធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពជាងមុន។",
             })}
           </p>
           <div className="hero-ctas rise d3">
@@ -36,8 +36,8 @@ export function Hero() {
           </div>
           <p className="hero-trust rise d3">
             {t({
-              en: "Free to use · Results are estimates, not guarantees · Community-powered reports",
-              km: "ប្រើប្រាស់ឥតគិតថ្លៃ · លទ្ធផលជាការប៉ាន់ស្មាន មិនមែនការធានា · របាយការណ៍ពីសហគមន៍",
+              en: "Protection from any risky · Community-powered reports",
+              km: "ការពារពីហានិភ័យណាមួយដែលមិនអាចដឹងទុកជាមុន · របាយការណ៍ពីសហគមន៍",
             })}
           </p>
         </div>
@@ -65,8 +65,8 @@ export function Hero() {
                 <span className="tag">{t({ en: "Forwarded message", km: "សារបញ្ជូនបន្ត" })}</span>
                 <span>
                   {t({
-                    en: "Congratulations! You won a $500 cash prize. Pay a $15 processing fee within 2 hours to claim your reward.",
-                    km: "អបអរសាទរ! អ្នកបានជាប់រង្វាន់សាច់ប្រាក់ 500 ដុល្លារ។ សូមបង់ថ្លៃដំណើរការ 15 ដុល្លារក្នុងរយៈពេល 2 ម៉ោង ដើម្បីទទួលរង្វាន់។",
+                    en: "Congratulations! You won a $500 cash prize. Pay a $15 processing fee​ now to claim your reward.",
+                    km: "អបអរសាទរ! អ្នកបានទទួលរង្វាន់ជាសាច់ប្រាក់ 500 ដុល្លារ។ សូមបង់ថ្លៃ 15 ដុល្លារឥឡូវនេះ​ ដើម្បីទទួលបានរង្វាន់ភ្លាមៗ",
                   })}
                 </span>
                 <span className="stamp">12:03</span>
@@ -75,7 +75,7 @@ export function Hero() {
                 <div className="risk-head">
                   <h3>
                     <IconWarning style={{ width: 15, height: 15, color: "#b45309" }} />
-                    <span>{t({ en: "Estimated scam risk", km: "ហានិភ័យបោកប្រាស់ប៉ាន់ស្មាន" })}</span>
+                    <span>{t({ en: "Percentage of scam", km: "ភាគរយនៃការបោកប្រាស់" })}</span>
                   </h3>
                   <span className="risk-chip">{t({ en: "Potentially risky", km: "អាចមានហានិភ័យ" })}</span>
                 </div>
@@ -93,25 +93,24 @@ export function Hero() {
                   <p className="risk-meta">
                     <span>
                       {t({
-                        en: "This message shows several common scam patterns.",
-                        km: "សារនេះបង្ហាញលំនាំបោកប្រាស់ច្រើនយ៉ាងធម្មតា។",
+                        en: "This message shows several scam patterns.",
+                        km: "ចំណុចចំនួននៃសារនេះបង្ហាញពីលំនាំនៃការបោកប្រាស់",
                       })}
                     </span>
                   </p>
                 </div>
-                <p className="why-title">{t({ en: "Why it may be suspicious:", km: "ហេតុអ្វីវាអាចគួរឲ្យសង្ស័យ៖" })}</p>
+                <p className="why-title">{t({ en: "Why it may be suspicious", km: "មូលហេតុដែលវាគួរឲ្យសង្ស័យ" })}</p>
                 <ul className="why-list">
-                  <li>{t({ en: "Urgency pressure (“within 2 hours”)", km: "ការបង្ខំឲ្យប្រញាប់ («ក្នុងរយៈពេល 2 ម៉ោង»)" })}</li>
-                  <li>{t({ en: "Asks for an upfront payment", km: "សុំបង់ប្រាក់មុន" })}</li>
-                  <li>{t({ en: "Unfamiliar link destination", km: "តំណភ្ជាប់ទៅកាន់អាសយដ្ឋានមិនស្គាល់" })}</li>
-                  <li>{t({ en: "A prize you never entered for", km: "រង្វាន់ដែលអ្នកមិនបានចូលរួម" })}</li>
+                  <li>{t({ en: "Urgency pressure (“pay now”)", km: "សូមបង់ប្រាក់ឥឡូវនេះ" })}</li>
+                  <li>{t({ en: "Asks for an upfront payment", km: "ទាមទារឲបង់ប្រាក់មុន" })}</li>
+                  <li>{t({ en: "Rewards from Unknown Sources ​​​​​​​​​", km: "រង្វាន់ដែលគ្មានប្រភពច្បាស់លាស់" })}</li>
                 </ul>
                 <p className="reco">
                   <IconShield check />
                   <span>
                     {t({
-                      en: "Suggested next step: don’t pay or share personal information. Verify through official channels first.",
-                      km: "ជំហានបន្ទាប់ដែលផ្ដល់យោបល់៖ កុំបង់ប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។ ផ្ទៀងផ្ទាត់តាមបណ្ដាញផ្លូវការជាមុនសិន។",
+                      en: "Suggested next step: don’t pay or share personal information. Verify first.",
+                      km: "ជំហានបន្ទាប់ដែលផ្ដល់យោបល់៖ កុំបង់ប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។ ផ្ទៀងផ្ទាត់ជាមុនសិន។",
                     })}
                   </span>
                 </p>
@@ -121,8 +120,8 @@ export function Hero() {
           </div>
           <p className="chat-note">
             {t({
-              en: "Example reply. Every result is an estimate to help you decide — not a confirmation.",
-              km: "ចម្លើយគំរូ។ លទ្ធផលទាំងអស់ជាការប៉ាន់ស្មាន ដើម្បីជួយការសម្រេចចិត្ត — មិនមែនជាការបញ្ជាក់ទេ។",
+              en: "Example reply. Every results are based on real data analysis​ to help you make decision — not a confirmation.",
+              km: "ចម្លើយគំរូ។ លទ្ធផលទាំងអស់ជាការវិភាគផ្អែកលើទិន្នន័យជាក់ស្តែង ដើម្បីជួយដល់ការសម្រេចចិត្តរបស់អ្នក— មិនមែនជាការបញ្ជាក់ថាពិត​ឬមិនពិត​១០០%នោះទេ។",
             })}
           </p>
         </div>

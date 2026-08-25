@@ -2,7 +2,6 @@ import { useMemo, useState } from "react"
 import { useLang } from "@/lib/i18n"
 import { DEMO_REPORTS, SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { Reveal } from "./reveal"
-import { ReportForm } from "./report-form"
 import { IconGlobe, IconInfo, IconSearch } from "./icons"
 
 export function ReportsFeed() {
@@ -170,7 +169,6 @@ export function ReportsFeed() {
           </div>
         </div>
 
-        <ReportForm />
       </div>
     </section>
   )

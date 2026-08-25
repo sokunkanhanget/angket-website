@@ -8,7 +8,7 @@ const TITLES = {
 }
 
 export function LangProvider({ children }) {
-  const [lang, setLang] = useState("en")
+  const [lang, setLang] = useState("km")
 
   useEffect(() => {
     document.documentElement.lang = lang === "km" ? "km" : "en"
