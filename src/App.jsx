@@ -80,11 +80,15 @@ export default function App() {
   const isHowPage = route.startsWith("#/how-it-works")
   const isAboutPage = route.startsWith("#/about")
   const isReportPage = route.startsWith("#/report")
+  const isUsagePage = route.startsWith("#/usage")
   const isLoginPage = route.startsWith("#/login")
   const isSignupPage = route.startsWith("#/signup")
 
   useEffect(() => {
-    if (isTipsPage || isHowPage || isAboutPage || isReportPage || isLoginPage || isSignupPage) {
+    if (isUsagePage) {
+      const el = document.getElementById("telegram")
+      if (el) el.scrollIntoView()
+    } else if (isTipsPage || isHowPage || isAboutPage || isReportPage || isLoginPage || isSignupPage) {
       if (tipsSection) {
         const el = document.getElementById(tipsSection)
         if (el) el.scrollIntoView()
@@ -97,7 +101,7 @@ export default function App() {
       const el = document.getElementById(route.slice(1))
       if (el) el.scrollIntoView()
     }
-  }, [route, isTipsPage, tipsSection, isHowPage, isAboutPage, isReportPage, isLoginPage, isSignupPage])
+  }, [route, isTipsPage, tipsSection, isHowPage, isAboutPage, isReportPage, isUsagePage, isLoginPage, isSignupPage])
 
   return (
     <LangProvider>
@@ -116,6 +120,8 @@ export default function App() {
           <Login />
         ) : isSignupPage ? (
           <SignUp />
+        ) : isUsagePage ? (
+          <HomePage />
         ) : (
           <HomePage />
         )}

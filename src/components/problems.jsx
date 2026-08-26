@@ -8,7 +8,7 @@ const PROBLEMS = [
     title: { en: "Suspicious Messages", km: "សារគួរឲ្យសង្ស័យ" },
     desc: {
       en: "People receive messages that may look legitimate but contain scam patterns.",
-      km: "មនុស្សទទួលបានសារដែលអាចមើលទៅដូចជាកិច្ចការពិត ប៉ុន្តែខាងក្នុងមានលំនាំនៃការបោកប្រាស់។",
+      km: "អ្នកអាចនឹងទទួលបានសារដែលអាចមើលទៅដូចជាកិច្ចការពិត ប៉ុន្តែខាងក្នុងមានបង្កប់លំនាំនៃការបោកប្រាស់។",
     },
   },
   {
@@ -16,7 +16,7 @@ const PROBLEMS = [
     title: { en: "Suspicious Links", km: "តំណភ្ជាប់គួរឲ្យសង្ស័យ" },
     desc: {
       en: "Users may click unfamiliar links without knowing where they lead.",
-      km: "អ្នកប្រើប្រាស់អាចចុចតំណភ្ជាប់មិនស្គាល់ ដោយមិនដឹងថាវាបញ្ជូនទៅកន្លែងណា។",
+      km: "អ្នកប្រើប្រាស់អាចចុចតំណភ្ជាប់មិនស្គាល់ ដោយមិនដឹងថាវានឹងបញ្ជូនទៅកន្លែងណា។",
     },
   }
 ]

@@ -16,7 +16,7 @@ const FUNCTIONS = [
     title: { en: "Check", km: "ពិនិត្យ" },
     desc: {
       en: "Send suspicious messages, links, or URLs to the bot and get an estimated scam risk percentage.",
-      km: "ផ្ញើសារ តំណភ្ជាប់ ឬ URL គួរឲ្យសង្ស័យទៅ Bot ហើយទទួលបានភាគរយហានិភ័យបោកប្រាស់ប៉ាន់ស្មាន។",
+      km: "ផ្ញើសារ តំណភ្ជាប់ ឬ URL គួរឲ្យសង្ស័យទៅ Bot ហើយទទួលបានការវិភាគពីភាគរយហានិភ័យ​នៃបោកប្រាស់។",
     },
   },
   {
@@ -51,7 +51,7 @@ export function About() {
           <p className="solution-lead">
             {t({
               en: "Angket is your safety companion on Telegram. Instead of guessing whether a message is trustworthy, send it to the bot and get an estimated risk assessment with clear reasons — helping you pause, understand, and decide with confidence. This website adds community knowledge on top: real scam experiences and practical safety tips.",
-              km: "Angket គឺជាមិត្តរួមសុវត្ថិភាពរបស់អ្នកនៅលើ Telegram។ ជាជាងការស្មានថាតើសារណាមួយអាចជឿបានឬអត់ អ្នកអាចផ្ញើវាទៅ Bot ហើយទទួលបានការវាយតម្លៃហានិភ័យប៉ាន់ស្មាន ជាមួយមូលហេតុច្បាស់លាស់ — ដើម្បីជួយអ្នកឈប់គិត យល់ដឹង និងសម្រេចចិត្តដោយទំនុកចិត្ត។ គេហទំព័រនេះបន្ថែមចំណេះដឹងពីសហគមន៍ ដូចជាបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង និងគន្លឹះសុវត្ថិភាពជាក់ស្ដែង។",
+              km: "Angket គឺជាមិត្តរួមសុវត្ថិភាពរបស់អ្នកនៅលើ Telegram។ ជាជាងការស្មានថាតើសារណាមួយអាចជឿបានឬអត់ អ្នកអាចផ្ញើវាទៅ Bot ហើយទទួលបានការវាយតម្លៃពីហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ — ដើម្បីជួយអ្នកគិត យល់ដឹង និងសម្រេចចិត្តដោយទំនុកចិត្ត។ គេហទំព័រនេះបន្ថែមចំណេះដឹងពីសហគមន៍ ដូចជាបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង និងគន្លឹះសុវត្ថិភាពជាក់ស្ដែង។",
             })}
           </p>
         </Reveal>

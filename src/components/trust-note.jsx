@@ -3,8 +3,8 @@ import { Reveal } from "./reveal"
 import { IconCheck, IconShield } from "./icons"
 
 const TRUTH_CHIPS = [
-  { en: "Estimates, not verdicts", km: "ការប៉ាន់ស្មាន មិនមែនសេចក្ដីសម្រេច" },
-  { en: "AI can make mistakes", km: "AI អាចមានកំហុសបាន" },
+  { en: "Estimates, not verdicts", km: "ការវិភាគដោយផ្អែកលើអ្វីដែលបានរកឃើញ មិនមែនជាសេចក្ដីសម្រេចនោះទេ" },
+  { en: "AI can make mistakes", km: "AI អាចបង្កើតកំហុសបាន" },
   { en: "Official sources come first", km: "ប្រភពផ្លូវការសំខាន់ជាងគេ" },
 ]
 
@@ -24,8 +24,8 @@ export function TrustNote() {
             </h2>
             <p>
               {t({
-                en: "Angket provides an estimated assessment based on detected patterns. It is not a guarantee that information is legitimate or fraudulent. AI and automated analysis can make mistakes. Always verify important information through trusted and official sources.",
-                km: "Angket ផ្ដល់ការវាយតម្លៃប៉ាន់ស្មានផ្អែកលើលំនាំដែលរកឃើញ។ វាមិនមែនជាការធានាថាព័ត៌មាននោះពិតប្រាកដ ឬជាការបោកប្រាស់នោះទេ។ ការវិភាគដោយ AI និងស្វ័យប្រវត្តិអាចមានកំហុសបាន។ សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពដែលទុកចិត្តបាន និងផ្លូវការជានិច្ច។",
+                en: "Angket provides an estimated assessment based on detected patterns. It is not a guarantee that information is legitimate or fraudulent.​Our Bot, AI and automated analysis can make mistakes. Always verify important information through trusted and official sources.",
+                km: "Angket ផ្ដល់ការវាយតម្លៃផ្អែកលើលំនាំដែលបានរកឃើញ។ វាមិនមែនជាការធានាថាព័ត៌មាននោះពិតប្រាកដ ឬជាការបោកប្រាស់ ​១០០% នោះទេ។ ការវិភាគដោយ Bot, AI និងប្រព័ន្ធស្វ័យប្រវត្តិរបស់ពួកយើងអាចមានកំហុសបាន។ សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពដែលទុកចិត្តបាន និងផ្លូវការជានិច្ច។",
               })}
             </p>
             <div className="truth-chips">

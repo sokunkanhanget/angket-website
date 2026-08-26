@@ -19,7 +19,7 @@ export function FinalCta() {
           <p>
             {t({
               en: "Send suspicious messages or links to Angket and get an estimated risk assessment in Telegram.",
-              km: "ផ្ញើសារ ឬតំណគួរឲ្យសង្ស័យទៅ Angket ហើយទទួលបានការវាយតម្លៃហានិភ័យប៉ាន់ស្មានក្នុង Telegram។",
+              km: "ផ្ញើសារ ឬតំណគួរឲ្យសង្ស័យទៅ Angket ហើយទទួលបានការវិភាគពីហានិភ័យក្នុង Telegram។",
             })}
           </p>
           <div className="tg-ctas">

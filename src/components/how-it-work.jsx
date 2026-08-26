@@ -53,7 +53,7 @@ export function HowItWorks() {
           <p>
             {t({
               en: "No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps.",
-              km: "គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram តែ 4 ជំហានប៉ុណ្ណោះ។",
+              km: "គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram របស់អ្នកត្រឹមតែ 4 ជំហានប៉ុណ្ណោះ។",
             })}
           </p>
         </Reveal>
