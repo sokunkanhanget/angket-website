@@ -28,7 +28,6 @@ export function Problems() {
     <section className="problems" id="problem" aria-labelledby="problem-title">
       <div className="container">
         <Reveal className="section-head center">
-          <span className="eyebrow">{t({ en: "The problem", km: "បញ្ហា" })}</span>
           <h2 id="problem-title">
             {t({ en: "Scams Are Easier to Encounter Than You Think", km: "ការបោកប្រាស់ងាយជួបប្រទះជាងដែលអ្នកគិត" })}
           </h2>

@@ -587,7 +587,7 @@ textarea.control { resize: vertical; min-height: 120px; }
 .foot-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; }
 .foot-brand { padding-left: 2rem; }
 .foot-brand p { color: var(--muted); font-size: 0.92rem; margin-top: 0.8rem; max-width: 28em; }
-.site-footer h3 { font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--faint); margin-bottom: 0.9rem; }
+.site-footer h3 { font-size: 1.05rem; letter-spacing: 0.07em; color: var(--blue-700); font-weight: 700; margin-bottom: 0.9rem; }
 .site-footer ul li { padding: 0.22rem 0; }
 .site-footer ul a, .foot-link-btn { color: var(--text); font-size: 0.92rem; }
 .site-footer ul a:hover, .foot-link-btn:hover { color: var(--blue-700); }
