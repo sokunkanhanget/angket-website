@@ -3,7 +3,7 @@ export const TELEGRAM_BOT_URL = "https://t.me/AngketBot"
 
 export const NAV_LINKS = [
   { href: "#/home", en: "Home", km: "ទំព័រដើម" },
-  { href: "#/safety-tips", en: "Safety Tips", km: "គន្លឹះសុវត្ថិភាព" },
+  { href: "#/safety-tips", en: "Stay Safe Online", km: "គន្លឹះសុវត្ថិភាព" },
   { href: "#/report", en: "Scam Report", km: "រាយការណ៍ការបោកប្រាស់" },
   { href: "#/usage", en: "Usage", km: "របៀបប្រើប្រាស់" },
   { href: "#/about", en: "About", km: "អំពីយើង" },

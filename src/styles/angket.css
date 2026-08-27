@@ -370,6 +370,34 @@ html.km .problem-note { font-family: var(--font-km); }
   border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.87rem; font-weight: 600; color: #eaf1ff;
 }
 .tg-pill i { font-style: normal; width: 20px; height: 20px; border-radius: 50%; background: #fff; color: var(--blue-800); font-size: 0.72rem; font-weight: 800; display: grid; place-items: center; }
+
+/* Scammed steps badge */
+.scammed-steps .step-num {
+  position: absolute;
+  top: -12px;
+  left: 1rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue-600);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+/* General badge pill */
+.badge {
+  background: var(--blue-50);
+  color: var(--blue-600);
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
 .tg-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; }
 .tg-free { margin-top: 1.1rem; font-size: 0.82rem; color: #9fb4dd; }
 .reports { background: var(--surface); }
