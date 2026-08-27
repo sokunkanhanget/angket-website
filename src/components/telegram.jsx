@@ -17,11 +17,14 @@ export function TelegramBand() {
     <section className="tg-band" id="telegram" aria-labelledby="tg-title">
       <div className="container">
         <Reveal className="tg-inner">
-          <h2 id="tg-title">{t({ en: "Angket Bot Usage", km: "សន្ទនាជាមួយ Bot Angket" })}</h2>
+          <span className="eyebrow on-dark">
+            {t({ en: "Everything happens in Telegram", km: "អ្វីៗទាំងអស់ធ្វើនៅក្នុង Telegram" })}
+          </span>
+          <h2 id="tg-title">{t({ en: "Angket Bot​ Usage", km: "របៀបប្រើប្រាស់ Bot Angket" })}</h2>
           <p className="tg-copy">
             {t({
-              en: "This website is the front door - the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram.",
-              km: "គេហទំព័រនេះគ្រាន់តែជាទ្វារមុខ - Bot គឺជាកន្លែងពិតដែលសាររបស់អ្នកត្រូវបានពិនិត្យ។ ផ្ញើអ្វីៗដែលគួរឲ្យសង្ស័យទៅកាន់​​ Bot ហើយអ្នកនឹងទទួលបានការវិភាគពីហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ ក្នុង Telegram ផ្ទាល់។",
+              en: "This website is the front door — the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram.",
+              km: "គេហទំព័រនេះគ្រាន់តែជាទ្វារមុខ — Bot គឺជាកន្លែងពិតដែលសាររបស់អ្នកត្រូវបានពិនិត្យ។ ផ្ញើអ្វីៗដែលគួរឲ្យសង្ស័យទៅកាន់​​ Bot ហើយអ្នកនឹងទទួលបានការវិភាគពីហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ ក្នុង Telegram ផ្ទាល់។",
             })}
           </p>
           <div className="tg-steps-row">
@@ -39,12 +42,6 @@ export function TelegramBand() {
               <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
           </div>
-          {/* <p className="tg-free">
-            {t({
-              en: "Free to use — all you need is a Telegram account.",
-              km: "ប្រើឥតគិតថ្លៃ — គ្រាន់តែត្រូវការគណនី Telegram ប៉ុណ្ណោះ។",
-            })}
-          </p> */}
         </Reveal>
       </div>
     </section>
