@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useLang } from "@/lib/i18n"
-import { NAV_LINKS, TELEGRAM_BOT_URL } from "@/lib/data"
-import { IconMenu, IconSend, IconShield } from "./icons"
+import { NAV_LINKS } from "@/lib/data"
+import { IconMenu, IconShield } from "./icons"
 
 function FlagGB() {
   return (

@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
-import { IconSend, IconShield, IconWarning, IconArrowDown, IconCheckDouble } from "./icons"
+import { IconSend, IconShield, IconWarning, IconArrowDown, IconCheckDouble, IconFlag } from "./icons"
 
 export function Hero() {
   const { t } = useLang()
@@ -29,6 +29,10 @@ export function Hero() {
             <a className="btn btn-primary btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
               <IconSend />
               <span>{t({ en: "Check with Telegram", km: "ពិនិត្យតាម Telegram" })}</span>
+            </a>
+            <a className="btn btn-outline btn-lg" href="#/report">
+              <IconFlag />
+              <span>{t({ en: "Scam Report", km: "រាយការណ៍ការបោកប្រាស់" })}</span>
             </a>
             <a className="link-arrow" href="#/how-it-works">
               <span>{t({ en: "Learn How It Works", km: "ស្វែងយល់ពីរបៀបដំណើរការ" })}</span>

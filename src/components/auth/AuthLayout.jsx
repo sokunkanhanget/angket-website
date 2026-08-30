@@ -1,8 +1,4 @@
-import { useLang } from "@/lib/i18n"
-
 export function AuthLayout({ children }) {
-  const { t } = useLang()
-
   return (
     <div className="auth-split">
       <div className="auth-split__left">
