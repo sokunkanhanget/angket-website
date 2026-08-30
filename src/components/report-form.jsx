@@ -11,7 +11,7 @@ export function ReportForm() {
   const successTitleRef = useRef(null)
   const fileRef = useRef(null)
   const [submitted, setSubmitted] = useState(false)
-  const [form, setForm] = useState({ scamType: "", inPicture: "", platform: "", contacted: "", askedFor: "" })
+  const [form, setForm] = useState({ scamType: "", inPicture: "", platform: "", contacted: "", askedFor: "", consent: false })
   const [screenshot, setScreenshot] = useState(null)
   const [errors, setErrors] = useState({})
 
@@ -57,7 +57,7 @@ export function ReportForm() {
 
   const resetForm = () => {
     removeScreenshot()
-    setForm({ scamType: "", inPicture: "", platform: "", contacted: "", askedFor: "" })
+    setForm({ scamType: "", inPicture: "", platform: "", contacted: "", askedFor: "", consent: false })
     setSubmitted(false)
   }
 
@@ -68,6 +68,7 @@ export function ReportForm() {
     if (!form.platform.trim()) errs.platform = t({ en: "Platform is required.", km: "ត្រូវការវេទិកា។" })
     if (!form.contacted.trim()) errs.contacted = t({ en: "Please describe how you were contacted.", km: "សូមពណ៌នាពីរបៀបដែលពួកគេទំនាក់ទំនងមកអ្នក។" })
     if (!form.askedFor.trim()) errs.askedFor = t({ en: "Please describe what they asked for.", km: "សូមពណ៌នាពីអ្វីដែលពួកគេសុំ។" })
+    if (!form.consent) errs.consent = t({ en: "Please confirm that you agree to sharing this report.", km: "សូមបញ្ជាក់ថាអ្នកយល់ព្រមចែករំលែករបាយការណ៍នេះ។" })
     return errs
   }
 
@@ -302,6 +303,40 @@ export function ReportForm() {
                 type="text"
                 placeholder={t({ en: "Leave blank to stay anonymous", km: "ទុកចំហចោលដើម្បីរក្សាភាពអនាមិក" })}
               />
+            </div>
+
+            <div className={`consent-box ${errors.consent ? "consent-box--error" : ""}`}>
+              <input
+                id="rf-consent"
+                name="consent"
+                className="consent-check"
+                type="checkbox"
+                checked={form.consent}
+                onChange={(e) =>
+                  update("consent")({ target: { value: e.target.checked } })
+                }
+                aria-describedby={errors.consent ? "rf-consent-err" : undefined}
+                aria-invalid={errors.consent ? "true" : undefined}
+              />
+              <label htmlFor="rf-consent">
+                <span>
+                  {t({
+                    en: "I agree this report can be used to warn other users and shared with the Angket bot’s scam database.",
+                    km: "ខ្ញុំយល់ស្របថារបាយការណ៍នេះអាចប្រើដើម្បីព្រមានអ្នកប្រើផ្សេងទៀត និងចែករំលែកជាមួយមូលដ្ឋានទិន្នន័យការបោកប្រាស់របស់ Bot Angket ។",
+                  })}
+                </span>
+                <strong>
+                  {t({
+                    en: "My Telegram username stays private and is never shown publicly.",
+                    km: "ឈ្មោះអ្នកប្រើ Telegram របស់ខ្ញុំនៅរក្សាការសម្ងាត់ ហើយមិនដែលត្រូវបានបង្ហាញជាសាធារណៈឡើយ។",
+                  })}
+                </strong>
+              </label>
+              {errors.consent && (
+                <p className="field-error" id="rf-consent-err" role="alert">
+                  {errors.consent}
+                </p>
+              )}
             </div>
             <p className="privacy-note">
               <IconLock />

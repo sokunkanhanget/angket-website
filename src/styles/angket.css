@@ -534,6 +534,22 @@ textarea.control { resize: vertical; min-height: 120px; }
   padding: 0.75rem 0.9rem; font-size: 0.83rem; line-height: 1.55;
 }
 .privacy-note .icon { color: #b45309; flex: none; margin-top: 0.12rem; }
+
+/* Report sharing consent */
+.consent-box {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 0.9rem 1rem;
+}
+.consent-box--error { border-color: var(--red-600); }
+.consent-check {
+  width: 18px; height: 18px; flex-shrink: 0; margin-top: 0.2rem;
+  accent-color: var(--blue-600); cursor: pointer;
+}
+.consent-box label { color: var(--text); font-size: 0.9rem; line-height: 1.5; cursor: pointer; }
+.consent-box label span { display: block; }
+.consent-box label strong { display: block; margin-top: 0.15rem; color: var(--ink); font-weight: 600; }
+.consent-box .field-error { margin-top: 0.6rem; }
 .form-card .btn-primary { width: 100%; }
 .success { text-align: center; padding: 2.4rem 1rem; }
 .success .s-ic {
