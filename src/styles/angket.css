@@ -1,9 +1,4 @@
-﻿/* ============================================================
-   ANGKET â€” site stylesheet (ported 1:1 from the single-file
-   angket.html version). Class names are unchanged so markup in
-   src/components maps directly.
-   The Telegram bot URL lives in src/lib/data.js.
-   ============================================================ */
+﻿
 
 :root {
   --blue-800: #1e40af;
@@ -67,6 +62,7 @@ html.km h1, html.km h2, html.km h3, html.km h4 { font-family: var(--font-km); }
 html.km body { line-height: 1.9; }
 html.km h1, html.km h2, html.km h3 { line-height: 1.6; letter-spacing: 0; }
 html.km .btn, html.km .chip-btn, html.km .lang-toggle { padding-top: 0.42rem; padding-bottom: 0.42rem; }
+html.km .nav-links a, html.km .mobile-menu a.m-link { font-size: 18px; }
 html.km .eyebrow, html.km .bubble .tag, html.km .gauge .pct span,
 html.km .popular h3, html.km .site-footer h3 { text-transform: none; letter-spacing: 0; font-size: 0.9em; }
 
@@ -106,7 +102,7 @@ section { padding: 4.75rem 0; scroll-margin-top: calc(var(--header-h) + 10px); }
   padding: 0.62rem 1.25rem; white-space: nowrap;
   transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
-.btn-primary { background: var(--blue-600); color: #fff; box-shadow: var(--shadow-sm); }
+.btn-primary { background: var(--blue-800); color: #fff; box-shadow: var(--shadow-sm); }
 .btn-primary:hover { background: var(--blue-700); transform: translateY(-1px); }
 .btn-outline { background: #fff; color: var(--blue-700); border-color: var(--blue-200); }
 .btn-outline:hover { background: var(--blue-50); }
@@ -155,10 +151,10 @@ html.km .eyebrow { font-size: 0.85rem; }
   box-shadow: var(--shadow-sm);
 }
 .brand-mark .icon { width: 20px; height: 20px; }
-.brand b { color: var(--blue-600); }
+.brand b { color: var(--blue-800); }
 
 .nav-links { display: flex; flex: none; gap: 2.9rem; margin: 0 6rem 0 auto; padding: 0; list-style: none; }
-.nav-links a { color: var(--muted); font-weight: 600; font-size: 1.125rem; padding: 0.35rem 0.1rem; transition: color 0.15s ease; }
+.nav-links a { color: var(--muted); font-family: "Inter", sans-serif; font-weight: 500; font-size: 16px; padding: 0.35rem 0.1rem; transition: color 0.15s ease; }
 .nav-links a:hover { color: var(--blue-700); }
 .nav-links a.active { color: var(--blue-700); }
 
@@ -203,7 +199,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 .mobile-menu { display: none; border-top: 1px solid var(--border); background: #fff; padding: 0.9rem 0 1.1rem; }
 .mobile-menu.open { display: block; }
 .mobile-menu nav { display: grid; gap: 0.15rem; }
-.mobile-menu a.m-link { padding: 0.72rem 0.45rem; font-weight: 600; color: var(--ink); border-radius: 10px; }
+.mobile-menu a.m-link { padding: 0.72rem 0.45rem; font-family: "Inter", sans-serif; font-weight: 500; color: var(--ink); border-radius: 10px; }
 .mobile-menu a.m-link:hover { background: var(--blue-50); }
 .mobile-menu a.m-link.active { color: var(--blue-700); background: var(--blue-50); }
 .mobile-menu .btn { width: 100%; margin-top: 0.7rem; }
@@ -597,21 +593,67 @@ textarea.control { resize: vertical; min-height: 120px; }
 .success h3 { font-size: 1.35rem; margin-bottom: 0.4rem; }
 .success p { color: var(--muted); margin-bottom: 1.4rem; }
 
-.tips-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.tips-stop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  align-items: stretch;
+}
+
 .tip-card {
   background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);
   padding: 1.5rem 1.4rem; box-shadow: var(--shadow-sm);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 400px;
+  box-sizing: border-box;
 }
 .tip-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
 .tip-ic {
   width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
   display: grid; place-items: center; background: var(--surface);
   border: 1px solid var(--border); margin-bottom: 0.9rem;
 }
 .tip-ic .icon { width: 22px; height: 22px; color: var(--blue-700); }
-.tip-card h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
-.tip-card p { color: var(--muted); font-size: 0.92rem; }
+
+.tip-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.3rem;
+}
+
+.tip-card h3 { font-size: 1.04rem; margin-bottom: 0.35rem; line-height: 1.5; }
+.tip-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.6; }
+
+.tip-whattodo {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 0.8rem;
+  margin-bottom: 0.4rem;
+}
+
+.tip-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+}
+.tip-bullets li {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.tip-bullets li:last-child { border-bottom: none; }
 
 .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
 .why-card {
