@@ -10,7 +10,6 @@ import {
   MessageSquareText,
   FileText,
   Link2,
-  ArrowUp,
   Radar,
 } from "lucide-react"
 import { Reveal } from "./reveal"
@@ -91,7 +90,7 @@ function StopCheckProtect() {
       tagline: t({ en: "Don't rush.", km: "កុំរហ័ស។" }),
       description: t({
         en: "Take a moment before you respond. Urgency is the scammer's favorite tool — don't let it make the decision for you.",
-z        km: "គិតមួយភ្លែតសិនមុនពេលឆ្លើយតប។ ភាពបន្ទាន់គឺជាវិធីសាស្រ្តដែលអ្នកបោកប្រាស់ចូលចិត្តប្រើ​ ",
+        km: "គិតមួយភ្លែតសិនមុនពេលឆ្លើយតប។ ភាពបន្ទាន់គឺជាវិធីសាស្រ្តដែលអ្នកបោកប្រាស់ចូលចិត្តប្រើ​ ",
       }),
       bullets: [
         t({ en: "Don't rush into making a payment.", km: "កុំរហ័ស​ក្នុងការបង់ប្រាក់។" }),
@@ -532,10 +531,6 @@ function TipsFinalCTA() {
               <a href="#/check" className="btn btn-white btn-lg">
                 <Radar size={16} />
                 {t({ en: "Check with Angket", km: "ពិនិត្យ​ជាមួយ Angket" })}
-              </a>
-              <a href="#/report" className="btn btn-ghost-light btn-lg">
-                {t({ en: "Report a Scam", km: "រាយការណ៍​ការ​បោកប្រាស់" })}
-                <ArrowUp size={14} />
               </a>
             </div>
           </Reveal>

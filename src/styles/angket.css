@@ -482,6 +482,44 @@ html.km .popular h3 { font-size: 0.9rem; }
 }
 .reports-disclaimer .icon { color: var(--blue-300); flex: none; transform: translateY(2px); }
 
+.report-add { margin-left: auto; }
+
+/* Report form full-page overlay (shown over the feed) */
+.page-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(248, 250, 253, 0.92);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.page-overlay.open { opacity: 1; visibility: visible; }
+
+.report-page {
+  position: fixed; inset: 0; z-index: 510;
+  background: var(--surface);
+  display: flex; flex-direction: column;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.report-page.open { opacity: 1; visibility: visible; }
+
+.report-page-back {
+  flex: none;
+  align-self: flex-start;
+  margin: 1.1rem auto 0 clamp(1rem, 3vw, 2.5rem);
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font: inherit; font-weight: 600; font-size: 0.92rem;
+  color: var(--blue-700); background: none; border: none; cursor: pointer;
+}
+.report-page-back .icon { width: 20px; height: 20px; }
+.report-page-back:hover { color: var(--blue-800); }
+
+.report-page-scroll {
+  flex: 1; overflow-y: auto;
+  padding: 0.5rem 1rem 5rem;
+}
+.report-page-scroll .section-head { margin-top: 1.2rem; }
+.report-page-scroll .form-card { margin-top: 0; }
+
 .form-block { margin-top: 3.4rem; margin-bottom: 4.5rem; }
 .form-card {
   background: #fff; border: 1px solid var(--border); border-radius: var(--radius-lg);

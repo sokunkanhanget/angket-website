@@ -2,39 +2,43 @@ import { useMemo, useState } from "react"
 import { useLang } from "@/lib/i18n"
 import { DEMO_REPORTS, SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { Reveal } from "./reveal"
-import { IconGlobe, IconInfo, IconSearch } from "./icons"
+import { ReportForm } from "./report-form"
+import { IconGlobe, IconInfo, IconSearch, IconPlus } from "./icons"
 
 export function ReportsFeed() {
   const { lang, t } = useLang()
+  const [reports, setReports] = useState(DEMO_REPORTS)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [reportKey, setReportKey] = useState(0)
   const [q, setQ] = useState("")
   const [cat, setCat] = useState("all")
   const [sort, setSort] = useState("recent")
 
   const totals = useMemo(() => {
     const byCat = {}
-    DEMO_REPORTS.forEach((r) => {
+    reports.forEach((r) => {
       byCat[r.cat] = (byCat[r.cat] || 0) + r.count
     })
     return Object.entries(byCat)
       .map(([c, total]) => ({ cat: c, total }))
       .sort((a, b) => b.total - a.total)
-  }, [])
+  }, [reports])
 
   const maxTotal = totals[0]?.total ?? 1
 
   const visibleReports = useMemo(() => {
     const needle = q.trim().toLowerCase()
-    let list = DEMO_REPORTS.filter((r) => {
+    let list = reports.filter((r) => {
       if (cat !== "all" && r.cat !== cat) return false
       if (!needle) return true
-      const hay = [r.title.en, r.title.km, r.desc.en, r.desc.km, r.platform, TYPE_LABELS[r.cat].en, TYPE_LABELS[r.cat].km]
+      const hay = [r.title.en, r.title.km, r.desc.en, r.desc.km, r.platform, TYPE_LABELS[r.cat]?.en, TYPE_LABELS[r.cat]?.km, TYPE_LABELS[r.cat]?.en ?? r.cat, r.cat]
         .join(" ")
         .toLowerCase()
       return hay.includes(needle)
     })
     if (sort === "top") list = [...list].sort((a, b) => b.count - a.count)
     return list
-  }, [q, cat, sort])
+  }, [q, cat, sort, reports])
 
   const pickCategory = (value) => {
     setCat(value)
@@ -42,6 +46,34 @@ export function ReportsFeed() {
 
   const togglePopular = (value) => {
     setCat(cat === value ? "all" : value)
+  }
+
+  const handleSubmitted = (form) => {
+    const newReport = {
+      id: Date.now(),
+      cat: form.inPicture,
+      platform: form.platform.trim(),
+      count: 0,
+      when: { en: "Just now", km: "ទើបតែបានរាយការណ៍" },
+      title: {
+        en: `Scam reported via ${form.platform.trim()}`,
+        km: `របាយការណ៍ការបោកប្រាស់តាម ${form.platform.trim()}`,
+      },
+      desc: {
+        en: `How they contacted you: ${form.contacted.trim()} What they asked for: ${form.askedFor.trim()}`,
+        km: `របៀបទំនាក់ទំនងមកអ្នក៖ ${form.contacted.trim()} អ្វីដែលពួកគេសុំ៖ ${form.askedFor.trim()}`,
+      },
+      // Represents the anonymous reporter's db reference (user_id). Persisted
+      // but intentionally never rendered on this public feed.
+      user_id: null,
+      status: "published",
+    }
+    // TODO: in production, persist to the API (status = 'published' by default,
+    // no admin approval) then rely on the returned record here.
+    setReports((prev) => [newReport, ...prev])
+    setDrawerOpen(false)
+    setCat("all")
+    setQ("")
   }
 
   return (
@@ -102,6 +134,11 @@ export function ReportsFeed() {
               {t({ en: "Most reported", km: "ច្រើនជាងគេ" })}
             </button>
           </div>
+
+          <button type="button" className="btn btn-primary report-add" onClick={() => { setReportKey((k) => k + 1); setDrawerOpen(true) }}>
+            <IconPlus />
+            <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
+          </button>
         </div>
 
         <div className="reports-layout">
@@ -112,7 +149,7 @@ export function ReportsFeed() {
                 <li key={c}>
                   <button type="button" className="pop-item" aria-pressed={cat === c} onClick={() => togglePopular(c)}>
                     <span className="pop-line">
-                      <span className="pop-name">{t(TYPE_LABELS[c])}</span>
+                      <span className="pop-name">{t(TYPE_LABELS[c] ?? { en: c, km: c })}</span>
                       <span className="pop-count">
                         {lang === "km" ? `${total} ដង` : `${total} reports`}
                       </span>
@@ -126,8 +163,8 @@ export function ReportsFeed() {
             </ul>
             <p className="pop-note">
               {t({
-                en: "Sample data for demonstration — based on the demo reports below.",
-                km: "ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍គំរូខាងក្រោម។",
+                en: "Sample data for demonstration — based on the reports below.",
+                km: "ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍ខាងក្រោម។",
               })}
             </p>
           </aside>
@@ -137,7 +174,7 @@ export function ReportsFeed() {
               {visibleReports.map((r) => (
                 <article className="card" key={r.id}>
                   <div className="card-top">
-                    <span className="type-badge">{t(TYPE_LABELS[r.cat])}</span>
+                    <span className="type-badge">{t(TYPE_LABELS[r.cat] ?? { en: r.cat, km: r.cat })}</span>
                     <time className="when">{t(r.when)}</time>
                   </div>
                   <h3>{t(r.title)}</h3>
@@ -147,9 +184,11 @@ export function ReportsFeed() {
                       <IconGlobe />
                       <span>{r.platform}</span>
                     </span>
-                    <span className="sim-badge">
-                      {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
-                    </span>
+                    {r.count > 0 && (
+                      <span className="sim-badge">
+                        {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
+                      </span>
+                    )}
                   </div>
                 </article>
               ))}
@@ -168,9 +207,9 @@ export function ReportsFeed() {
             </p>
           </div>
         </div>
-
       </div>
+
+      <ReportForm key={reportKey} open={drawerOpen} onClose={() => setDrawerOpen(false)} onSubmitted={handleSubmitted} />
     </section>
   )
 }
-

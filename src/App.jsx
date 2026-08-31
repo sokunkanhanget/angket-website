@@ -9,7 +9,6 @@ import { HowItWorks } from "@/components/how-it-work"
 import { TelegramBand } from "@/components/telegram"
 import { ReportsFeed } from "@/components/reports-feed"
 import { SafetyTips } from "@/components/safety-tips"
-import { ReportForm } from "@/components/report-form"
 import { WhyAngket } from "@/components/why-angket"
 import { TrustNote } from "@/components/trust-note"
 import { FinalCta } from "@/components/final-cta"
@@ -47,16 +46,11 @@ function HomePage() {
 }
 
 function SafetyTipsPage() {
-  return (
-    <>
-      <SafetyTips />
-      <ReportsFeed />
-    </>
-  )
+  return <SafetyTips />
 }
 
-function ScamReportPage() {
-  return <ReportForm />
+function ReportPage() {
+  return <ReportsFeed />
 }
 
 function HowItWorksPage() {
@@ -115,7 +109,7 @@ export default function App() {
         ) : isAboutPage ? (
           <AboutPage />
         ) : isReportPage ? (
-          <ScamReportPage />
+          <ReportPage />
         ) : isLoginPage ? (
           <Login />
         ) : isSignupPage ? (

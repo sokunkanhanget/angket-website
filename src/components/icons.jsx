@@ -82,6 +82,15 @@ export function IconMenu(props) {
   )
 }
 
+export function IconPlus(props) {
+  return (
+    <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
+    </svg>
+  )
+}
+
 export function IconClose(props) {
   return (
     <svg className="icon" viewBox="0 0 24 24" aria-hidden="true" {...props}>
