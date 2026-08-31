@@ -91,7 +91,7 @@ function StopCheckProtect() {
       tagline: t({ en: "Don't rush.", km: "កុំរហ័ស។" }),
       description: t({
         en: "Take a moment before you respond. Urgency is the scammer's favorite tool — don't let it make the decision for you.",
-        km: "ផ្អាកមួយភ្លែតមុនពេលឆ្លើយតប។ ភាពបន្ទាន់គឺជាឧបករណ៍ដែលអ្នកបោកប្រាស់ចូលចិត្តប្រើ — កុំឲ្យវាធ្វើការសម្រេចចិត្តជំនួសអ្នក។",
+z        km: "គិតមួយភ្លែតសិនមុនពេលឆ្លើយតប។ ភាពបន្ទាន់គឺជាវិធីសាស្រ្តដែលអ្នកបោកប្រាស់ចូលចិត្តប្រើ​ ",
       }),
       bullets: [
         t({ en: "Don't rush into making a payment.", km: "កុំរហ័ស​ក្នុងការបង់ប្រាក់។" }),
@@ -107,12 +107,12 @@ function StopCheckProtect() {
       tagline: t({ en: "Make sure it's real.", km: "ធានាវា​ពិតប្រាកដ។" }),
       description: t({
         en: "Confirm who you're dealing with, and whether the message, offer, or request is actually genuine.",
-        km: "បញ្ជាក់ថាអ្នកកំពុងទាក់ទងជាមួយអ្នកណា និងថាតើសារ ការផ្តល់ជូន ឬសំណើនោះពិតប្រាកដដែរឬទេ។",
+        km: "បញ្ជាក់ថាអ្នកកំពុងទាក់ទងជាមួយអ្នកណា និងថាតើសារ ការផ្តល់ជូន ឬសំណើនោះពិតប្រាកដដែរឬទេ",
       }),
       bullets: [
         t({ en: "Check who sent the message.", km: "ពិនិត្យ​អ្នកផ្ញើ​សារ។" }),
         t({ en: "Look closely at the details.", km: "ពិនិត្យ​លម្អិត​ដោយ​ប្រុងប្រយ័ត្ន។" }),
-        t({ en: "Don't automatically trust links or requests.", km: "កុំ​ជឿ​ទុកចិត្ត​តំណ​ភ្ជាប់ ឬ​សំណើ​ដោយ​ស្វ័យប្រវត្តិ។" }),
+        t({ en: "Don't automatically trust links or requests.", km: "កុំ​ជឿ​ទុកចិត្ត​តំណ​ភ្ជាប់ ឬ​សំណើ​ដោយ​ស្វ័យប្រវត្តិណាមួយ" }),
         t({ en: "Verify through an official source.", km: "ផ្ទៀងផ្ទាត់​តាម​ប្រភព​ផ្លូវការ។" }),
       ],
     },
