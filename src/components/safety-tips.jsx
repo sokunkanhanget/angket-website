@@ -143,11 +143,11 @@ function StopCheckProtect() {
           <span className="eyebrow">
             {t({ en: "The Framework", km: "ក្របខ័ណ្ឌ" })}
           </span>
-          <h2>{t({ en: "Stop. Check. Protect.", km: "ឈប់។ ត្រួតពិនិត្យ។ ការពារ។" })}</h2>
+          <h2>{t({ en: "Stop. Check. Protect.", km: "ឈប់ ត្រួតពិនិត្យ ការពារ" })}</h2>
           <p>
             {t({
               en: "Scams are everywhere, targeting people from all walks of life. Whether it’s fake emails, unexpected phone calls or online schemes, scammers always find new ways to gain your trust and steal your money or personal information. But 3 simple steps can help keep us all safe from scammers.",
-              km: "ទម្លាប់​បី​ដែល​ឈរ​ចន្លោះ​អ្នក និង​ការ​បោកប្រាស់​ភាគច្រើន។ គ្មាន​មួយ​ណា​ត្រូវការ​ជំនាញ​ពិសេស​ទេ — គ្រាន់​តែ​ការ​ផ្អាក ការ​សម្លឹង​មើល និង​ការ​រៀបចំ​បន្តិចបន្តួច។",
+              km: "ការ​បោកប្រាស់​អាចកើតមានគ្រប់ទីកន្លែង​​ ដូចជា​ email ក្លែងក្លាយ ការហៅចូលដែលមិនស្គាល់អត្តសញ្ញាណ អ្នកបោកប្រាស់តែងតែព្យាយាមរកវិធីសាស្រ្តថ្នីៗ ដើម្បីទាញយកការទុកចិត្តពីអ្នក​​​ និងព្យាយាមលួចលុយ ឬក៏ព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកជាដើម។ មានវិធីសាស្រ្ត​ ៣ ដែលអាចជួយអ្នកបង្កាសុវត្ថភាពរបស់អ្នក ពីការបោកប្រាស់​៖​ ",
             })}
           </p>
         </Reveal>
@@ -265,16 +265,16 @@ function ProtectAccounts() {
   const { t } = useLang()
 
   const dos = [
-    t({ en: "Use strong passwords.", km: "ប្រើ​ពាក្យសម្ងាត់​ខ្លាំង។" }),
-    t({ en: "Use different passwords for important accounts.", km: "ប្រើ​ពាក្យសម្ងាត់​ខុសៗ​គ្នា​សម្រាប់​គណនី​សំខាន់ៗ។" }),
-    t({ en: "Enable multi-factor authentication when it's available.", km: "បើក​ការ​ផ្ទៀងផ្ទាត់​ពហុកត្តា​នៅ​ពេល​ដែល​អាច​ធ្វើបាន។" }),
-    t({ en: "Keep your devices and security software updated.", km: "ធ្វើ​ឱ្យ​ឧបករណ៍ និង​កម្មវិធី​សុវត្ថិភាព​របស់​អ្នក​ទាន់សម័យ​ជានិច្ច។" }),
+    t({ en: "Use strong passwords.", km: "ប្រើ​ពាក្យសម្ងាត់​ដែលមិនអាចទាយដឹងបាន" }),
+    t({ en: "Use different passwords for important accounts.", km: "ប្រើ​ពាក្យសម្ងាត់​ខុសៗ​គ្នា​សម្រាប់​គណនី​សំខាន់ៗ" }),
+    t({ en: "Enable multi-factor authentication when it's available.", km: "បើក​ការ​ផ្ទៀងផ្ទាត់​ពហុកត្តា​នៅ​ពេល​ដែល​អាច​ប្រើបាន" }),
+    t({ en: "Keep your devices and security software updated.", km: "ធ្វើ​ឱ្យ​ឧបករណ៍ និង​កម្មវិធី​សុវត្ថិភាព​របស់​អ្នក​ទាន់សម័យ​ជានិច្ច" }),
   ]
   const donts = [
-    t({ en: "Share your passwords.", km: "ចែករំលែក​ពាក្យសម្ងាត់​របស់​អ្នក។" }),
-    t({ en: "Share security codes or sensitive information.", km: "ចែករំលែក​កូដ​សុវត្ថិភាព ឬ​ព័ត៌មាន​រសើប។" }),
-    t({ en: "Click suspicious links.", km: "ចុច​តំណភ្ជាប់​សង្ស័យ។" }),
-    t({ en: "Download unexpected attachments.", km: "ទាញយក​ឯកសារ​ភ្ជាប់​ដែល​មិន​បាន​រំពឹង​ទុក។" }),
+    t({ en: "Share your passwords.", km: "ចែករំលែក​ពាក្យសម្ងាត់​របស់​អ្នក" }),
+    t({ en: "Share security codes or sensitive information.", km: "ចែករំលែក​កូដ​សុវត្ថិភាព ឬ​ព័ត៌មាន​អាចបង្កហានិភ័យ" }),
+    t({ en: "Click suspicious links.", km: "ចុច​តំណភ្ជាប់​ដែលគ្នានប្រភពច្បាស់លាស់" }),
+    t({ en: "Download unexpected attachments.", km: "ទាញយក​ឯកសារ​ភ្ជាប់​ដែល​មិន​បាន​រំពឹង​ទុក" }),
   ]
 
   return (
@@ -293,7 +293,7 @@ function ProtectAccounts() {
             <p className="lede">
               {t({
                 en: "A few settings, kept up to date, do most of the work for you.",
-                km: "ការ​កំណត់​តែ​ពីរបី ដែល​រក្សា​ទាន់សម័យ ធ្វើ​ការងារ​ភាគច្រើន​ជំនួស​អ្នក។",
+                km: "ការ​កំណត់​តែ​ពីរបី ដែល​រក្សា​ទាន់សម័យ ធ្វើ​ការងារ​ភាគច្រើន​ជំនួស​អ្នកបាន",
               })}
             </p>
           </Reveal>
@@ -336,7 +336,7 @@ function ProtectAccounts() {
               <span>
                 {t({
                   en: "Your password and security codes are private — no legitimate service will ever ask you for them.",
-                  km: "ពាក្យសម្ងាត់ និង​កូដ​សុវត្ថិភាព​របស់​អ្នក​គឺ​ជា​ការសម្ងាត់ — គ្មាន​សេវាកម្ម​ស្របច្បាប់​ណា​នឹង​សុំ​ព័ត៌មាន​នេះ​ពី​អ្នក​ទេ។",
+                  km: "ពាក្យសម្ងាត់ និង​កូដ​សុវត្ថិភាព​របស់​អ្នក​គឺ​ជា​ការសម្ងាត់ — គ្មាន​សេវាកម្ម​ស្របច្បាប់​ណាមួយ​នឹង​សុំ​ព័ត៌មាន​សម្ងាត់ទាំងនេះ​ពី​អ្នក​ទេ",
                 })}
               </span>
             </div>
@@ -351,9 +351,9 @@ function TechFakeContent() {
   const { t } = useLang()
 
   const pills = [
-    { color: "#E05252", label: t({ en: "Stop – don't rush", km: "ឈប់ – កុំរហ័ស" }) },
-    { color: "#D97706", label: t({ en: "Check – verify the information", km: "ត្រួតពិនិត្យ – ផ្ទៀងផ្ទាត់​ព័ត៌មាន" }) },
-    { color: "#0D9488", label: t({ en: "Protect – don't share sensitive information", km: "ការពារ – កុំ​ចែករំលែក​ព័ត៌មាន​រសើប" }) },
+    { color: "#E05252", label: t({ en: "Stop – don't rush", km: "ឈប់ – គិតជាមុន កុំរហ័សធ្វើការសម្រេចចិត្ត" }) },
+    { color: "#D97706", label: t({ en: "Check – verify the information", km: "ត្រួតពិនិត្យ – ផ្ទៀងផ្ទាត់​ព័ត៌មានឲបានច្បាស់លាស់" }) },
+    { color: "#0D9488", label: t({ en: "Protect – don't share sensitive information", km: "ការពារ – កុំ​ចែករំលែក​ព័ត៌មាន​ដែលអាចមានហានិភ័យ" }) },
   ]
 
   return (
@@ -442,7 +442,7 @@ function ScammedSteps() {
       <div className="container">
         <Reveal className="section-head">
           <h2>
-            {t({ en: "Don't panic. Act quickly.", km: "កុំ​ភ័យខ្លាច។ ចាត់វិធានការ​ភ្លាមៗ។" })}
+            {t({ en: "Don't panic. Act quickly.", km: "កុំ​ភ័យខ្លាច - ចាត់វិធានការ​ភ្លាមៗ" })}
           </h2>
           <p>
             {t({
@@ -480,7 +480,7 @@ function TipsFinalCTA() {
     {
       icon: MessageSquareText,
       title: t({ en: "Check a message", km: "ពិនិត្យ​សារ" }),
-      desc: t({ en: "Paste text or a screenshot", km: "បិទភ្ជាប់​អត្ថបទ ឬ​រូបថត​អេក្រង់" }),
+      desc: t({ en: "Paste text or a screenshot", km: "ទម្លាក់​អត្ថបទ ឬ​រូបភាព" }),
     },
     {
       icon: FileText,
@@ -510,7 +510,7 @@ function TipsFinalCTA() {
             <p className="lede">
               {t({
                 en: "Don't guess — check it. Send suspicious content to Angket and get help understanding the risk, in plain terms.",
-                km: "កុំ​ទាយ — ពិនិត្យ​វា។ ផ្ញើ​មាតិកា​សង្ស័យ​ទៅ Angket ដើម្បី​ទទួល​បាន​ជំនួយ​ក្នុង​ការ​យល់​ពី​ហានិភ័យ​ជា​ភាសា​ធម្មតា។",
+                km: "កុំ​ទាយ — ពិនិត្យ​វា។ ផ្ញើ​មាតិកា​សង្ស័យ​ទៅកាន់ Angket ដើម្បី​ទទួល​បាន​ជំនួយ​ក្នុង​ការ​យល់​ពី​ហានិភ័យ​ជា​ភាសា​ធម្មតា។",
               })}
             </p>
           </Reveal>
