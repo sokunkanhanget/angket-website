@@ -3,7 +3,31 @@ import { useLang } from "@/lib/i18n"
 import { DEMO_REPORTS, SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { Reveal } from "./reveal"
 import { ReportForm } from "./report-form"
-import { IconGlobe, IconInfo, IconSearch, IconPlus } from "./icons"
+import { IconGlobe, IconFacebook, IconTelegram, IconWhatsApp, IconTikTok, IconInstagram, IconSms, IconInfo, IconSearch, IconPlus } from "./icons"
+
+const PLATFORM_ICONS = {
+  facebook: IconFacebook,
+  telegram: IconTelegram,
+  whatsapp: IconWhatsApp,
+  tiktok: IconTikTok,
+  instagram: IconInstagram,
+  sms: IconSms,
+}
+
+const PLATFORM_COLORS = {
+  facebook: "#1877F2",
+  telegram: "#229ED9",
+  whatsapp: "#25D366",
+  tiktok: "#010101",
+  instagram: "#E1306C",
+  sms: "#2563EB",
+}
+
+function PlatformIcon({ name }) {
+  const key = (name || "").toLowerCase()
+  const Icon = PLATFORM_ICONS[key] ?? IconGlobe
+  return <Icon style={PLATFORM_ICONS[key] ? { color: PLATFORM_COLORS[key] } : undefined} />
+}
 
 export function ReportsFeed() {
   const { lang, t } = useLang()
@@ -181,7 +205,7 @@ export function ReportsFeed() {
                   <p className="desc">{t(r.desc)}</p>
                   <div className="card-foot">
                     <span className="platform">
-                      <IconGlobe />
+                      <PlatformIcon name={r.platform} />
                       <span>{r.platform}</span>
                     </span>
                     {r.count > 0 && (

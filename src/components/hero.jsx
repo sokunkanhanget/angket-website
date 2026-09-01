@@ -8,11 +8,7 @@ export function Hero() {
   return (
     <section className="hero" id="home" aria-labelledby="hero-title">
       <div className="container hero-grid">
-        <div>
-          <span className="eyebrow rise">
-            <IconShield style={{ width: "1em", height: "1em" }} />
-            <span>{t({ en: "Safety bot on Telegram", km: "Bot សុវត្ថិភាពនៅលើ Telegram" })}</span>
-          </span>
+        <div className="hero-copy">
           <h1 id="hero-title" className="rise d1">
             {t({
               en: "Not Sure If It​ is a Scam? Check Before You Trust.",
@@ -43,7 +39,7 @@ export function Hero() {
           </p>
         </div>
 
-        <div className="phone-wrap rise d2">
+        <div className="phone-wrap rise d3">
           <div
             className="phone"
             role="img"

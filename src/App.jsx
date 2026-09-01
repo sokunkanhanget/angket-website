@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/site-header"
 import { Login } from "@/pages/Login"
 import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
+import { Pricing } from "@/components/pricing"
 import { Problems } from "@/components/problems"
 import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
@@ -38,6 +39,7 @@ function HomePage() {
   return (
     <>
       <Hero />
+      <Pricing />
       <Problems />
       <TelegramBand />
       <FinalCta />
