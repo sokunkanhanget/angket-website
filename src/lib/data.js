@@ -34,12 +34,32 @@ export const IN_PICTURE_TYPES = [
 
 export const TYPE_LABELS = Object.fromEntries(SCAM_TYPES.map((x) => [x.value, x]))
 
+const DAY = 24 * 60 * 60 * 1000
+const now = Date.now()
+
+// Local SVG placeholder used only for demo screenshots — no network, no real files.
+function shotPlaceholder() {
+  const svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200" font-family="Inter, sans-serif">' +
+    '<rect width="320" height="200" fill="#e6edf6"/>' +
+    '<rect x="24" y="24" width="128" height="84" rx="8" fill="#d5e0ee"/>' +
+    '<circle cx="88" cy="66" r="16" fill="#c3d1e4"/>' +
+    '<rect x="170" y="26" width="126" height="12" rx="6" fill="#c3d1e4"/>' +
+    '<rect x="170" y="48" width="98" height="12" rx="6" fill="#c3d1e4"/>' +
+    '<rect x="24" y="128" width="210" height="10" rx="5" fill="#c3d1e4"/>' +
+    '<rect x="24" y="148" width="172" height="10" rx="5" fill="#c3d1e4"/>' +
+    '<rect x="24" y="176" width="92" height="14" rx="7" fill="#a3b6cc"/></svg>'
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+}
+
 export const DEMO_REPORTS = [
   {
     id: 1,
     cat: "fake-job",
     platform: "Telegram",
     count: 34,
+    ts: now - 2 * DAY,
+    image: shotPlaceholder(),
     when: { en: "2 days ago", km: "2 ថ្ងៃមុន" },
     title: { en: "Data-entry job asking for a “registration fee”", km: "ការងារសរសេរទិន្នន័យ ដែលសុំ «ថ្លៃចុះឈ្មោះ»" },
     desc: {
@@ -52,6 +72,7 @@ export const DEMO_REPORTS = [
     cat: "prize",
     platform: "Facebook",
     count: 21,
+    ts: now - 3 * DAY,
     when: { en: "3 days ago", km: "3 ថ្ងៃមុន" },
     title: { en: "You won! Just pay the delivery fee…", km: "អ្នកឈ្នះរង្វាន់! គ្រាន់តែបង់ថ្លៃដឹកជញ្ជូន…" },
     desc: {
@@ -64,6 +85,7 @@ export const DEMO_REPORTS = [
     cat: "investment",
     platform: "Facebook",
     count: 27,
+    ts: now - 5 * DAY,
     when: { en: "5 days ago", km: "5 ថ្ងៃមុន" },
     title: { en: "Trading group froze my account", km: "ក្រុមវិនិយោគបានបិទគណនីខ្ញុំ" },
     desc: {
@@ -76,6 +98,8 @@ export const DEMO_REPORTS = [
     cat: "phishing",
     platform: "SMS",
     count: 18,
+    ts: now - 7 * DAY,
+    image: shotPlaceholder(),
     when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
     title: { en: "Fake bank security alert", km: "ការជូនដំណឹងសុវត្ថិភាពធនាគារក្លែងក្លាយ" },
     desc: {
@@ -88,6 +112,7 @@ export const DEMO_REPORTS = [
     cat: "fake-seller",
     platform: "TikTok",
     count: 15,
+    ts: now - 8 * DAY,
     when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
     title: { en: "Seller vanished after payment", km: "អ្នកលក់បានបាត់ខ្លួនបន្ទាប់ពីទទួលប្រាក់" },
     desc: {
@@ -100,6 +125,7 @@ export const DEMO_REPORTS = [
     cat: "impersonation",
     platform: "WhatsApp",
     count: 12,
+    ts: now - 14 * DAY,
     when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
     title: { en: "My friend’s photo, someone else’s words", km: "រូបភាពមិត្តខ្ញុំ តែពាក្យសម្ដីរបស់អ្នកដទៃ" },
     desc: {
@@ -112,6 +138,7 @@ export const DEMO_REPORTS = [
     cat: "fake-job",
     platform: "Telegram",
     count: 31,
+    ts: now - 13 * DAY,
     when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
     title: { en: "“High salary, no experience” job abroad", km: "ការងារ «ប្រាក់ខែខ្ពស់ មិនត្រូវការបទពិសោធន៍» នៅបរទេស" },
     desc: {
@@ -124,6 +151,7 @@ export const DEMO_REPORTS = [
     cat: "prize",
     platform: "Instagram",
     count: 20,
+    ts: now - 21 * DAY,
     when: { en: "3 weeks ago", km: "3 សប្ដាហ៍មុន" },
     title: { en: "Lucky draw from a group I never joined", km: "ឆ្នោតពីក្រុមដែលខ្ញុំមិនបានចូលរួម" },
     desc: {

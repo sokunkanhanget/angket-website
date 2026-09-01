@@ -60,6 +60,7 @@ export function ReportsFeed() {
         .toLowerCase()
       return hay.includes(needle)
     })
+    if (sort === "recent") list = [...list].sort((a, b) => b.ts - a.ts)
     if (sort === "top") list = [...list].sort((a, b) => b.count - a.count)
     return list
   }, [q, cat, sort, reports])
@@ -78,6 +79,7 @@ export function ReportsFeed() {
       cat: form.inPicture,
       platform: form.platform.trim(),
       count: 0,
+      ts: Date.now(),
       when: { en: "Just now", km: "ទើបតែបានរាយការណ៍" },
       title: {
         en: `Scam reported via ${form.platform.trim()}`,
@@ -203,17 +205,31 @@ export function ReportsFeed() {
                   </div>
                   <h3>{t(r.title)}</h3>
                   <p className="desc">{t(r.desc)}</p>
-                  <div className="card-foot">
-                    <span className="platform">
-                      <PlatformIcon name={r.platform} />
-                      <span>{r.platform}</span>
-                    </span>
-                    {r.count > 0 && (
-                      <span className="sim-badge">
-                        {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
+                  {r.image ? (
+                    <div className="card-shot">
+                      <span className="shot-ic" aria-hidden="true">
+                        <PlatformIcon name={r.platform} />
                       </span>
-                    )}
-                  </div>
+                      <img className="shot" src={r.image} alt="" loading="lazy" />
+                      {r.count > 0 && (
+                        <span className="sim-badge">
+                          {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="card-foot">
+                      <span className="platform">
+                        <PlatformIcon name={r.platform} />
+                        <span>{r.platform}</span>
+                      </span>
+                      {r.count > 0 && (
+                        <span className="sim-badge">
+                          {lang === "km" ? `+${r.count} របាយការណ៍ស្រដៀងគ្នា` : `+${r.count} similar reports`}
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </article>
               ))}
               {visibleReports.length === 0 && (
