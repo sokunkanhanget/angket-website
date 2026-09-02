@@ -37,18 +37,47 @@ const DAY = 24 * 60 * 60 * 1000
 const now = Date.now()
 
 // Local SVG placeholder used only for demo screenshots — no network, no real files.
-function shotPlaceholder() {
-  const svg =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200" font-family="Inter, sans-serif">' +
-    '<rect width="320" height="200" fill="#e6edf6"/>' +
-    '<rect x="24" y="24" width="128" height="84" rx="8" fill="#d5e0ee"/>' +
-    '<circle cx="88" cy="66" r="16" fill="#c3d1e4"/>' +
-    '<rect x="170" y="26" width="126" height="12" rx="6" fill="#c3d1e4"/>' +
-    '<rect x="170" y="48" width="98" height="12" rx="6" fill="#c3d1e4"/>' +
-    '<rect x="24" y="128" width="210" height="10" rx="5" fill="#c3d1e4"/>' +
-    '<rect x="24" y="148" width="172" height="10" rx="5" fill="#c3d1e4"/>' +
-    '<rect x="24" y="176" width="92" height="14" rx="7" fill="#a3b6cc"/></svg>'
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+// Each scene is a small "phone screen" illustration themed to the report's context:
+// a platform-colored header, a central category icon, message bars, and a warn badge.
+function scene({ header = "#229ED9", ink = "#1e293b", bars = ["#cbd5e1", "#94a3b8"], badge = "#ef4444", icon = "chat" }) {
+  const sh =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200" font-family="Inter, system-ui, sans-serif">' +
+    '<rect width="320" height="200" fill="#eef2f7"/>' +
+    '<rect x="14" y="12" width="292" height="176" rx="16" fill="#ffffff"/>' +
+    '<rect x="14" y="12" width="292" height="34" rx="16" fill="' + header + '"/>' +
+    '<rect x="14" y="30" width="292" height="16" fill="' + header + '"/>' +
+    '<circle cx="42" cy="29" r="9" fill="rgba(255,255,255,0.35)"/>' +
+    '<rect x="58" y="22" width="74" height="7" rx="3.5" fill="rgba(255,255,255,0.7)"/>' +
+    '<rect x="58" y="32" width="46" height="5" rx="2.5" fill="rgba(255,255,255,0.45)"/>' +
+    iconShape(icon, ink) +
+    '<circle cx="286" cy="27" r="7" fill="#ef4444"/>' +
+    '<rect x="30" y="118" width="168" height="9" rx="4.5" fill="' + bars[0] + '"/>' +
+    '<rect x="30" y="136" width="132" height="9" rx="4.5" fill="' + bars[0] + '"/>' +
+    '<rect x="150" y="154" width="140" height="12" rx="6" fill="' + ink + '" opacity="0.12"/>' +
+    '<rect x="30" y="154" width="90" height="12" rx="6" fill="' + badge + '" opacity="0.85"/>' +
+    '</svg>'
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(sh)}`
+}
+
+function iconShape(icon, color) {
+  switch (icon) {
+    case "money":
+      return '<g fill="' + color + '" opacity="0.9"><circle cx="140" cy="82" r="24" fill="none" stroke="' + color + '" stroke-width="4"/><circle cx="140" cy="82" r="10" fill="' + color + '"/><rect x="118" y="72" width="44" height="4" rx="2"/><rect x="118" y="90" width="44" height="4" rx="2"/></g>'
+    case "chart":
+      return '<path d="M108 92 L126 74 L142 88 L168 60" fill="none" stroke="' + color + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="118" y="40" width="6" height="14" rx="3" fill="' + color + '"/>'
+    case "gift":
+      return '<g fill="' + color + '" opacity="0.9"><rect x="120" y="78" width="40" height="26" rx="5"/><rect x="136" y="62" width="8" height="46" rx="4" fill="#fff"/><path d="M132 68c-3-8-14-10-14-2 0 8 14 8 14 2zm16 0c3-8 14-10 14-2 0 8-14 8-14 2z" fill="#fff" opacity="0.85"/></g>'
+    case "mail":
+      return '<g fill="' + color + '" opacity="0.9"><rect x="112" y="66" width="56" height="34" rx="6"/><path d="M112 72l28 16 28-16" fill="none" stroke="#fff" stroke-width="4"/></g>'
+    case "shop":
+      return '<g fill="' + color + '" opacity="0.9"><path d="M118 88l6-22h32l6 22z"/><circle cx="126" cy="98" r="4"/><circle cx="146" cy="98" r="4"/><path d="M128 66c0-6 3-9 8-9s8 3 8 9" fill="none" stroke="' + color + '" stroke-width="4"/></g>'
+    case "mask":
+      return '<g fill="' + color + '" opacity="0.9"><circle cx="140" cy="78" r="20"/><rect x="124" y="90" width="32" height="10" rx="5"/></g>'
+    case "passport":
+      return '<g fill="' + color + '" opacity="0.9"><rect x="112" y="64" width="56" height="40" rx="6"/><circle cx="132" cy="78" r="9"/><rect x="116" y="94" width="48" height="4" rx="2"/><circle cx="160" cy="74" r="4" fill="#fff" opacity="0.7"/></g>'
+    default:
+      return '<circle cx="140" cy="82" r="26" fill="' + color + '" opacity="0.8"/><path d="M132 92V76l8-6 8 6v16l-8 6z" fill="#fff" opacity="0.85"/>'
+  }
 }
 
 export const DEMO_REPORTS = [
@@ -58,7 +87,7 @@ export const DEMO_REPORTS = [
     platform: "Telegram",
     count: 34,
     ts: now - 2 * DAY,
-    image: shotPlaceholder(),
+    image: scene({ header: "#229ED9", icon: "money" }),
     when: { en: "2 days ago", km: "2 ថ្ងៃមុន" },
     title: { en: "Data-entry job asking for a “registration fee”", km: "ការងារសរសេរទិន្នន័យ ដែលសុំ «ថ្លៃចុះឈ្មោះ»" },
     desc: {
@@ -72,6 +101,7 @@ export const DEMO_REPORTS = [
     platform: "Facebook",
     count: 21,
     ts: now - 3 * DAY,
+    image: scene({ header: "#1877F2", icon: "gift", badge: "#eab308" }),
     when: { en: "3 days ago", km: "3 ថ្ងៃមុន" },
     title: { en: "You won! Just pay the delivery fee…", km: "អ្នកឈ្នះរង្វាន់! គ្រាន់តែបង់ថ្លៃដឹកជញ្ជូន…" },
     desc: {
@@ -85,6 +115,7 @@ export const DEMO_REPORTS = [
     platform: "Facebook",
     count: 27,
     ts: now - 5 * DAY,
+    image: scene({ header: "#1877F2", icon: "chart" }),
     when: { en: "5 days ago", km: "5 ថ្ងៃមុន" },
     title: { en: "Trading group froze my account", km: "ក្រុមវិនិយោគបានបិទគណនីខ្ញុំ" },
     desc: {
@@ -98,7 +129,7 @@ export const DEMO_REPORTS = [
     platform: "SMS",
     count: 18,
     ts: now - 7 * DAY,
-    image: shotPlaceholder(),
+    image: scene({ header: "#64748b", icon: "mail", badge: "#dc2626" }),
     when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
     title: { en: "Fake bank security alert", km: "ការជូនដំណឹងសុវត្ថិភាពធនាគារក្លែងក្លាយ" },
     desc: {
@@ -112,6 +143,7 @@ export const DEMO_REPORTS = [
     platform: "TikTok",
     count: 15,
     ts: now - 8 * DAY,
+    image: scene({ header: "#0f172a", icon: "shop" }),
     when: { en: "1 week ago", km: "1 សប្ដាហ៍មុន" },
     title: { en: "Seller vanished after payment", km: "អ្នកលក់បានបាត់ខ្លួនបន្ទាប់ពីទទួលប្រាក់" },
     desc: {
@@ -125,6 +157,7 @@ export const DEMO_REPORTS = [
     platform: "WhatsApp",
     count: 12,
     ts: now - 14 * DAY,
+    image: scene({ header: "#25D366", icon: "mask" }),
     when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
     title: { en: "My friend’s photo, someone else’s words", km: "រូបភាពមិត្តខ្ញុំ តែពាក្យសម្ដីរបស់អ្នកដទៃ" },
     desc: {
@@ -138,6 +171,7 @@ export const DEMO_REPORTS = [
     platform: "Telegram",
     count: 31,
     ts: now - 13 * DAY,
+    image: scene({ header: "#229ED9", icon: "passport", badge: "#ef4444" }),
     when: { en: "2 weeks ago", km: "2 សប្ដាហ៍មុន" },
     title: { en: "“High salary, no experience” job abroad", km: "ការងារ «ប្រាក់ខែខ្ពស់ មិនត្រូវការបទពិសោធន៍» នៅបរទេស" },
     desc: {
@@ -151,6 +185,7 @@ export const DEMO_REPORTS = [
     platform: "Instagram",
     count: 20,
     ts: now - 21 * DAY,
+    image: scene({ header: "#E1306C", icon: "gift", badge: "#eab308" }),
     when: { en: "3 weeks ago", km: "3 សប្ដាហ៍មុន" },
     title: { en: "Lucky draw from a group I never joined", km: "ឆ្នោតពីក្រុមដែលខ្ញុំមិនបានចូលរួម" },
     desc: {

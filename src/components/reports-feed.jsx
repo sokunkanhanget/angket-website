@@ -6,7 +6,8 @@ import { ReportForm } from "./report-form"
 import {
   IconGlobe, IconFacebook, IconTelegram, IconWhatsApp,
   IconTikTok, IconInstagram, IconSms, IconInfo, IconSearch,
-  IconPlus, IconHeart, IconClose, IconMapPin,
+  IconPlus, IconHeart, IconClose,
+  IconBriefcase, IconGift, IconStore, IconChart, IconMail, IconShield,
 } from "./icons"
 
 const PLATFORM_ICONS = {
@@ -39,42 +40,42 @@ function PlatformIcon({ name }) {
 
 const CATEGORY_META = {
   "fake-job": {
-    emoji: "\uD83D\uDCBC",
+    icon: IconBriefcase,
     desc: {
       en: "Recognize job offers designed to take your money, not give you work.",
-      km: "ស្គាល់ការផ្ដល់ការងារដែលរ计រចនាដើម្បីយកប្រាក់របស់អ្នក មិនមែនឱ្យអ្នកធ្វើការទេ។",
+      km: "ស្គាល់ការផ្ដល់ការងារដែលរៀបចំដើម្បីយកលុយរបស់អ្នក មិនមែនឱ្យអ្នកធ្វើការទេ។",
     },
   },
   investment: {
-    emoji: "\uD83D\uDCC8",
+    icon: IconChart,
     desc: {
       en: "Spot fake trading schemes and guaranteed-return promises before you invest.",
       km: "ស្គាល់ក្រុមវិនិយោគក្លែងក្លាយ និងការសន្យាផ្ដល់ការត្រឡប់មកវិញ។",
     },
   },
   prize: {
-    emoji: "\uD83C\uDF81",
+    icon: IconGift,
     desc: {
       en: "Free prizes are never free — learn how giveaway scams trick you.",
       km: "រង្វាន់ឥតគិតថ្លៃមិនដែលឥតគិតថ្លៃទេ — ស្វែងយល់ពីរបៀបបោកប្រាស់រង្វាន់។",
     },
   },
   phishing: {
-    emoji: "\uD83D\uDCE7",
+    icon: IconMail,
     desc: {
       en: "Protect your passwords and personal data from fake emails and messages.",
       km: "ការពារពាក្យសម្ងាត់ និងទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នកពីអ៊ីមែល និងសារក្លែងក្លាយ។",
     },
   },
   "fake-seller": {
-    emoji: "\uD83D\uDED2",
+    icon: IconStore,
     desc: {
       en: "Verify online sellers before paying — disappearing storefronts are a red flag.",
       km: "ផ្ទៀងផ្ទាត់អ្នកលក់តាមអ៊ីនធឺណិតមុនពេលបង់ប្រាក់។",
     },
   },
   impersonation: {
-    emoji: "\uD83D\uDEE1\uFE0F",
+    icon: IconShield,
     desc: {
       en: "Scammers pretend to be people you trust — always verify through another channel.",
       km: "ក្រុមបោកប្រាស់ក្លែងធ្វើជាអ្នកដែលអ្នកជឿជាក់។",
@@ -85,9 +86,10 @@ const CATEGORY_META = {
 function placeholderHeader(cat, lang) {
   const meta = CATEGORY_META[cat]
   const label = TYPE_LABELS[cat]
+  const Icon = meta?.icon ?? IconInfo
   return (
     <div className="card-img-placeholder">
-      <span className="card-img-emoji">{meta?.emoji ?? "\u2753"}</span>
+      <span className="card-img-emoji"><Icon /></span>
       <span className="card-img-label">{label ? (lang === "km" ? label.km : label.en) : cat}</span>
     </div>
   )
@@ -150,7 +152,7 @@ export function ReportsFeed() {
       contactMethod: form.contactMethod,
       count: 0,
       ts: Date.now(),
-      when: { en: "Just now", km: "\u1794\u17B6\u1793\u179C\u17B7\u1793\u17D2\u1793\u1798\u17B6\u1793" },
+      when: { en: "Just now", km: "ទើបតែបានរាយការណ៍" },
       title: {
         en: form.title.trim(),
         km: form.title.trim(),
@@ -172,14 +174,14 @@ export function ReportsFeed() {
     <section className="reports" id="reports" aria-labelledby="reports-title">
       <div className="container">
         <Reveal className="section-head">
-          <span className="eyebrow">{t({ en: "Learn from others", km: "\u17E0\u17A2\u1793\u17CB\u179F\u17B6\u17A0\u17D2\u1793\u1780\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB" })}</span>
+          <span className="eyebrow">{t({ en: "Learn from others", km: "រៀនពីអ្នកដទៃ" })}</span>
           <h2 id="reports-title">
-            {t({ en: "Learn From Real Scam Experiences", km: "\u17E0\u17A2\u1793\u17CB\u179F\u17B8\u17D4\u179F\u17D2\u179F\u17B7\u1785\u179A\u17B6\u1793\u17CB\u1797\u17D2\u179A\u17D2\u1787\u17B6\u1784\u17CB\u1797\u179A\u179F\u17CB\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB\u179B\u1789\u17CB\u1785\u1784\u17CB\u178F\u1798\u17B6\u1793\u179A\u17D2\u1797\u17CB\u1784\u17CB" })}
+            {t({ en: "Learn From Real Scam Experiences", km: "រៀនសូត្រពីបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង" })}
           </h2>
           <p>
             {t({
               en: "Have you encountered a scam? Share your experience to help others recognize similar attempts.",
-              km: "\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u17A2\u17D2\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u179F\u17D2\u179A\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB\u1780\u17B6\u17C6\u179F\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB\u1780\u17B6\u1798\u17CB\u1795\u17B6\u1784\u17CB\u1791\u17D2\u179F\u1798\u17B6\u1793\u179F\u17D2\u179A\u17B6\u1793\u17CB \u1780\u17B6\u1798\u17CB \u17A0\u17D2\u1793\u17CB \u1791\u17D2\u179F\u1798\u17B6\u1793\u1787\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u1780\u17B6\u1798\u17CB \u1791\u17D2\u1798\u179F\u17B6\u1793 \u179A\u17D2\u1797\u17CB\u1784\u17CB\u1795\u17B6\u1784\u17CB \u179A\u17D2\u179F\u17D2\u1793\u17D4\u1793\u17CB\u1797\u17D2\u179A\u17B6\u1793\u17CB \u178A\u17B7\u1793\u1798\u17D2\u1793\u179A\u17CB\u1791\u179A\u17CB\u1785\u17D2\u1791\u179A\u17B6\u1793\u17CB\u1787\u17D2\u1793\u179F\u17CB\u17A2\u17D2\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1780\u17B6\u17C6\u179F\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB\u1797\u179A\u179F\u17CB \u1780\u1798\u17D2\u1793\u17CB\u1784\u17D4.",
+              km: "តើអ្នកធ្លាប់ជួបប្រទះការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នក ដើម្បីជួយអ្នកដទៃស្គាល់ការព្យាយាមបោកប្រាស់ប្រភេទដូចគ្នា។",
             })}
           </p>
         </Reveal>
@@ -189,7 +191,7 @@ export function ReportsFeed() {
           <div className="browse-search-wrap">
             <IconSearch />
             <label className="sr-only" htmlFor="filter-q">
-              {t({ en: "Search reports", km: "\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1780\u17B6\u17C6\u179F\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB" })}
+              {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
             </label>
             <input
               type="search"
@@ -198,54 +200,61 @@ export function ReportsFeed() {
               autoComplete="off"
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder={t({ en: "Search reports\u2026", km: "\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1780\u17B6\u17C6\u179F\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB\u2026" })}
+              placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
             />
           </div>
           <span className="browse-result-count">
             {lang === "km"
-              ? `${visibleReports.length} \u179A\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB`
+              ? `${visibleReports.length} របាយការណ៍`
               : `${visibleReports.length} report${visibleReports.length !== 1 ? "s" : ""}`}
           </span>
           <button type="button" className="browse-report-btn" onClick={() => { setReportKey((k) => k + 1); setDrawerOpen(true) }}>
             <IconPlus />
-            <span>{t({ en: "Report", km: "\u179A\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB" })}</span>
+            <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
           </button>
         </div>
 
         {/* Category filter pills */}
-        <div className="browse-pills" role="group" aria-label={t({ en: "Filter by category", km: "\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u179F\u17D2\u179A\u179F\u17B6\u1793\u17CB\u179F\u17D2\u1794\u17D2\u179A\u1780\u17B6\u17C6\u179F\u17D2\u179A\u17B6\u1793\u17CB" })}>
+        <div className="browse-pills" role="group" aria-label={t({ en: "Filter by category", km: "ត្រងតាមប្រភេទ" })}>
           <button
             type="button"
             className={`browse-pill${cat === "all" ? " active" : ""}`}
             aria-pressed={cat === "all"}
             onClick={() => setCat("all")}
           >
-            {t({ en: "All", km: "\u1797\u1798\u17D2\u1793\u17CB\u178F\u1798\u17D2\u1793\u17CB" })}
+            {t({ en: "All", km: "ទាំងអស់" })}
           </button>
-          {SCAM_TYPES.map((type) => (
-            <button
-              key={type.value}
-              type="button"
-              className={`browse-pill${cat === type.value ? " active" : ""}`}
-              aria-pressed={cat === type.value}
-              onClick={() => setCat(type.value)}
-            >
-              <span className="pill-emoji">{CATEGORY_META[type.value]?.emoji ?? ""}</span>
-              {t(type)}
-            </button>
-          ))}
+          {SCAM_TYPES.map((type) => {
+            const CatIcon = CATEGORY_META[type.value]?.icon
+            return (
+              <button
+                key={type.value}
+                type="button"
+                className={`browse-pill${cat === type.value ? " active" : ""}`}
+                aria-pressed={cat === type.value}
+                onClick={() => setCat(type.value)}
+              >
+                {CatIcon && (
+                  <span className="pill-emoji"><CatIcon /></span>
+                )}
+                {t(type)}
+              </button>
+            )
+          })}
         </div>
 
         {/* Category section header */}
         {cat !== "all" && activeCatMeta && activeCatLabel && (
           <div className="browse-cat-header">
-            <span className="browse-cat-icon">{activeCatMeta.emoji}</span>
+            <span className="browse-cat-icon">
+              <activeCatMeta.icon />
+            </span>
             <div className="browse-cat-text">
               <h3>
                 {t(activeCatLabel)}
                 <span className="browse-cat-count">
                   {lang === "km"
-                    ? `${visibleReports.length} \u179A\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB`
+                    ? `${visibleReports.length} របាយការណ៍`
                     : `${visibleReports.length} report${visibleReports.length !== 1 ? "s" : ""}`}
                 </span>
               </h3>
@@ -256,7 +265,7 @@ export function ReportsFeed() {
 
         <div className="reports-layout">
           <aside className="popular" aria-labelledby="pop-title">
-            <h3 id="pop-title">{t({ en: "Reported most often", km: "\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u1780\u17D2\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u179F\u179A\u17B6\u17A0\u17D2\u1793\u17CB\u1787\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB" })}</h3>
+            <h3 id="pop-title">{t({ en: "Reported most often", km: "ត្រូវបានរាយការណ៍ច្រើនជាងគេ" })}</h3>
             <ul>
               {totals.slice(0, 4).map(({ cat: c, total }) => (
                 <li key={c}>
@@ -264,7 +273,7 @@ export function ReportsFeed() {
                     <span className="pop-line">
                       <span className="pop-name">{t(TYPE_LABELS[c] ?? { en: c, km: c })}</span>
                       <span className="pop-count">
-                        {lang === "km" ? `${total} \u1791\u17BC\u1793` : `${total} reports`}
+                        {lang === "km" ? `${total} ដង` : `${total} reports`}
                       </span>
                     </span>
                     <span className="pop-bar" aria-hidden="true">
@@ -276,8 +285,8 @@ export function ReportsFeed() {
             </ul>
             <p className="pop-note">
               {t({
-                en: "Sample data for demonstration \u2014 based on the reports below.",
-                km: "\u1797\u1789\u17D2\u1791\u17B7\u1793\u179F\u17D2\u179F\u17B6\u17A0\u17D2\u1793\u17CB\u1787\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179F\u17B8\u179A\u17CB\u179F\u17CB\u1785\u17D2\u1791\u179A\u17B6\u1793\u17CB\u179F\u17D2\u17A2\u17B6\u1793\u17CB \u1791\u17B6\u1791\u17CB \u1787\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u1797\u17D2\u179A\u1798\u17B6\u1793\u17CB\u1791\u17D2\u179F\u1798\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179B\u1789\u17CB\u1785\u1784\u17CB\u1780\u17B6\u1798\u17CB\u1793\u179A\u17CB\u1797\u179A\u179F\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1780\u17B6\u1798\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179B\u1789\u17CB\u1785\u1784\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1793\u17D2\u1791\u1793\u17D2\u1791\u1793\u17D4",
+                en: "Sample data for demonstration — based on the reports below.",
+                km: "ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍ខាងក្រោម។",
               })}
             </p>
           </aside>
@@ -297,8 +306,8 @@ export function ReportsFeed() {
                       type="button"
                       className={`browse-card-save${saved.has(r.id) ? " saved" : ""}`}
                       aria-label={saved.has(r.id)
-                        ? t({ en: "Unsave report", km: "\u1785\u17B6\u17A0\u17D2\u1799\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793" })
-                        : t({ en: "Save report", km: "\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793" })}
+                        ? t({ en: "Unsave report", km: "ដកចេញពីការរក្សាទុក" })
+                        : t({ en: "Save report", km: "រក្សាទុករបាយការណ៍" })}
                       onClick={(e) => { e.stopPropagation(); toggleSave(r.id) }}
                     >
                       <IconHeart filled={saved.has(r.id)} />
@@ -311,7 +320,7 @@ export function ReportsFeed() {
                     <p className="browse-card-desc">{t(r.desc)}</p>
                     <div className="browse-card-foot">
                       <span className="browse-card-platform">
-                        <IconMapPin />
+                        <PlatformIcon name={r.platform} />
                         <span>{r.platform}</span>
                       </span>
                       <button
@@ -319,23 +328,22 @@ export function ReportsFeed() {
                         className="browse-card-btn"
                         onClick={() => setDetailReport(r)}
                       >
-                        {t({ en: "View Details", km: "\u17E0\u17D2\u17A2\u17B6\u1793\u17CB\u1797\u1798\u17D2\u1793\u17D4\u1793\u17CB\u1795\u179A\u17D2\u1787\u17B6\u1784\u17D2\u1793\u17CB" })}
+                        {t({ en: "View Details", km: "មើលលម្អិត" })}
                       </button>
                     </div>
                   </div>
                 </article>
               ))}
               {visibleReports.length === 0 && (
-                <p className="empty-msg">{t({ en: "No reports match your search.", km: "\u179A\u17C4\u1793\u1780\u17B6\u17C6\u179F\u1798\u17D2\u179A\u17B6\u1785\u1784\u17CB\u1793\u179A\u17CB\u1797\u179A\u179F\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1797\u17D2\u179A\u17B6\u1793\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u17A2\u17D2\u1793\u17CB\u1780\u17B6\u17C6\u179F\u17D2\u179A\u17B6\u1793\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u17D4" })}
-              </p>
+                <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
               )}
             </div>
             <p className="reports-disclaimer">
               <IconInfo />
               <span>
                 {t({
-                  en: "Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously \u2014 useful for awareness, but not verified facts.",
-                  km: "\u1785\u17B6\u17A0\u17D2\u1799\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1787\u17D2\u1793\u179F\u17CB \u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1795\u17B6\u1784\u17CB \u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB \u1791\u17B6\u1791\u17CB \u1787\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB \u1797\u17D2\u179A\u1798\u17B6\u1793\u17CB \u1791\u17D2\u179F\u1798\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179B\u1789\u17CB\u1785\u1784\u17CB\u1780\u17B6\u1798\u17CB\u1793\u179A\u17CB\u1797\u179A\u179F\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1780\u17B6\u1798\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u179B\u1789\u17CB\u1785\u1784\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1793\u17D2\u1791\u1793\u17D2\u1791\u1793\u17D4 \u1793\u179A\u17CB\u1797\u179A\u179F\u17CB\u1787\u17D2\u1793\u179F\u17CB\u1795\u179A\u17D2\u1787\u17B6\u1784\u17D2\u1793\u17CB \u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB \u1791\u17D2\u179F\u1798\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB\u1797\u17D2\u179A\u1798\u17B6\u1793\u17CB \u178F\u17D2\u1793\u179F\u17CB \u1791\u17D2\u179F\u1798\u17B6\u1793\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB \u1791\u17D2\u1793\u179A\u17D4\u1793\u17CB\u1780\u17B6\u17C6\u179F\u17D2\u179A\u17B6\u1793\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1795\u179A\u17D2\u179A\u17B6\u1793\u17D2\u1793\u179A\u17D4 \u17A0\u17D2\u1793\u17CB \u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1797\u17D2\u179A\u17D2\u1797\u17B6\u1784\u17CB \u1780\u17D2\u1793\u17CB\u179A\u17CB\u1797\u17D2\u179A\u17D2\u1793\u17D4 \u1787\u17D2\u1793\u179F\u17CB \u1795\u179A\u17D2\u179A\u17B6\u1793\u17D2\u1793\u179A\u17D4",
+                  en: "Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously — useful for awareness, but not verified facts.",
+                  km: "ការបង្ហាញគំរូ៖ ទាំងនេះជារបាយការណ៍គំរូសម្រាប់ពិពណ៌នា។ ក្នុងកំណែពិត របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
                 })}
               </span>
             </p>
@@ -354,7 +362,7 @@ export function ReportsFeed() {
               ) : (
                 placeholderHeader(detailReport.cat, lang)
               )}
-              <button type="button" className="detail-close" onClick={() => setDetailReport(null)} aria-label={t({ en: "Close", km: "\u1794\u1793\u179A\u17CB\u1797\u1793\u179A" })}>
+              <button type="button" className="detail-close" onClick={() => setDetailReport(null)} aria-label={t({ en: "Close", km: "បិទ" })}>
                 <IconClose />
               </button>
             </div>
@@ -364,7 +372,7 @@ export function ReportsFeed() {
               <p className="detail-desc">{t(detailReport.desc)}</p>
               <div className="detail-meta">
                 <span className="browse-card-platform">
-                  <IconMapPin />
+                  <PlatformIcon name={detailReport.platform} />
                   <span>{detailReport.platform}</span>
                 </span>
                 <span className="detail-when">{t(detailReport.when)}</span>
@@ -372,7 +380,7 @@ export function ReportsFeed() {
               {detailReport.count > 0 && (
                 <p className="detail-similar">
                   {lang === "km"
-                    ? `+${detailReport.count} \u179A\u17B6\u1793\u17CB\u1797\u179A\u179F\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u179F\u17D2\u17A2\u17B6\u1793\u17CB\u1797\u17D2\u179A\u17B6\u1793\u17CB\u1791\u17D2\u1798\u179F\u17B6\u1793\u1795\u179A\u17D2\u179A\u17B6\u1793\u17D2\u1793\u179A\u17CB`
+                    ? `+${detailReport.count} របាយការណ៍ស្រដៀងគ្នាបន្ថែមទៀត`
                     : `+${detailReport.count} similar reports`}
                 </p>
               )}
