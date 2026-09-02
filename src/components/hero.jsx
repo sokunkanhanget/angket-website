@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { IconSend, IconShield, IconWarning, IconCheckDouble, IconFlag } from "./icons"
@@ -26,10 +27,10 @@ export function Hero() {
               <IconSend />
               <span>{t({ en: "Check with Telegram", km: "ពិនិត្យតាម Telegram" })}</span>
             </a>
-            <a className="btn btn-outline btn-lg" href="#/report">
+            <Link className="btn btn-outline btn-lg" to="/report">
               <IconFlag />
               <span>{t({ en: "Scam Report", km: "រាយការណ៍ការបោកប្រាស់" })}</span>
-            </a>
+            </Link>
           </div>
           <p className="hero-trust rise d3">
             {t({

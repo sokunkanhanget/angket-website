@@ -1,4 +1,5 @@
 import { useRef, useState } from "react"
+import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { IconCheck } from "@/components/icons"
 import { AuthLayout } from "@/components/auth/AuthLayout"
@@ -71,9 +72,9 @@ export function SignUp() {
               km: "សូមស្វាគមន៍មកកាន់ Angket។ អ្នកអាចចូលដោយប្រើគណនីថ្មីរបស់អ្នកបានហើយ។",
             })}
           </p>
-          <a className="btn btn-outline" href="#/login">
+          <Link className="btn btn-outline" to="/login">
             {t({ en: "Go to sign in", km: "ទៅទំព័រចូលគណនី" })}
-          </a>
+          </Link>
         </div>
       ) : (
         <>
@@ -233,7 +234,7 @@ export function SignUp() {
 
           <p className="auth-alt">
             {t({ en: "Already have an account?", km: "មានគណនីរួចហើយ?" })}{" "}
-            <a href="#/login">{t({ en: "Sign in instead", km: "ចូលគណនីជំនួស" })}</a>
+            <Link to="/login">{t({ en: "Sign in instead", km: "ចូលគណនីជំនួស" })}</Link>
           </p>
         </>
       )}

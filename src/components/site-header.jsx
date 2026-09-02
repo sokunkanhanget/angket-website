@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import { Link, NavLink } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { NAV_LINKS } from "@/lib/data"
 import { IconMenu, IconShield } from "./icons"
@@ -36,19 +37,6 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const langRef = useRef(null)
-  const [route, setRoute] = useState(() => window.location.hash)
-  useEffect(() => {
-    const onHashChange = () => setRoute(window.location.hash)
-    window.addEventListener("hashchange", onHashChange)
-    return () => window.removeEventListener("hashchange", onHashChange)
-  }, [])
-  const isActive = (href) =>
-    href === "#/home"
-      ? !route ||
-        route === "#" ||
-        route.startsWith("#home") ||
-        route.startsWith("#/home")
-      : route.startsWith(href)
   const closeMenu = () => setOpen(false)
 
   useEffect(() => {
@@ -69,19 +57,25 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="container">
         <nav className="nav" aria-label="Main">
-          <a href="#home" className="brand" aria-label="Angket — home">
+          <Link to="/" className="brand" aria-label="Angket — home">
             <span className="brand-mark" aria-hidden="true">
               <IconShield check />
             </span>
             <span>
               Ang<b>ket</b>
             </span>
-          </a>
+          </Link>
 
           <ul className="nav-links">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className={isActive(link.href) ? "active" : undefined}>{t(link)}</a>
+                <NavLink
+                  to={link.href}
+                  end={link.href === "/"}
+                  className={({ isActive }) => (isActive ? "active" : undefined)}
+                >
+                  {t(link)}
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -135,9 +129,9 @@ export function SiteHeader() {
               )}
             </div>
 
-            <a className="btn btn-outline" href="#/login">
+            <Link className="btn btn-outline" to="/login">
               {t({ en: "Log in", km: "ចូលគណនី" })}
-            </a>
+            </Link>
 
             <button
               type="button"
@@ -157,19 +151,20 @@ export function SiteHeader() {
         <div className="container">
           <nav aria-label="Mobile">
             {NAV_LINKS.map((link) => (
-              <a
+              <NavLink
                 key={link.href}
-                className={`m-link${isActive(link.href) ? " active" : ""}`}
-                href={link.href}
+                to={link.href}
+                end={link.href === "/"}
+                className={(props) => `m-link${props.isActive ? " active" : ""}`}
                 onClick={closeMenu}
               >
                 {t(link)}
-              </a>
+              </NavLink>
             ))}
           </nav>
-          <a className="btn btn-outline btn-lg" href="#/login" onClick={closeMenu}>
+          <Link className="btn btn-outline btn-lg" to="/login" onClick={closeMenu}>
             {t({ en: "Log in", km: "ចូលគណនី" })}
-          </a>
+          </Link>
         </div>
       </div>
     </header>

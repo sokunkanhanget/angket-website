@@ -643,7 +643,7 @@ html.km .popular h3 { font-size: 0.9rem; }
 .card h3 { font-size: 1.04rem; font-weight: 500; line-height: 1.5; letter-spacing: -0.01em; }
 .card p.desc {
   color: var(--muted); font-size: 0.9rem; line-height: 1.6; flex: 1;
-  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
 }
 .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-top: 0.25rem; }
 .platform { display: inline-flex; align-items: center; gap: 0.32rem; font-size: 0.77rem; color: var(--muted); }

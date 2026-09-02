@@ -1,14 +1,15 @@
 import { useRef, useState } from "react"
+import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { INFO_PAGES, TELEGRAM_BOT_URL } from "@/lib/data"
 import { IconClose, IconSend, IconShield } from "./icons"
 
 const FOOTER_NAV = [
-  { href: "#home", en: "Home", km: "ទំព័រដើម" },
-  { href: "#how", en: "How It Works", km: "របៀបដំណើរការ" },
-  { href: "#reports", en: "Scam Reports", km: "របាយការណ៍បោកប្រាស់" },
-  { href: "#tips", en: "Safety Tips", km: "គន្លឹះសុវត្ថិភាព" },
-  { href: "#about", en: "About", km: "អំពីយើង" },
+  { href: "/", en: "Home", km: "ទំព័រដើម" },
+  { href: "/how-it-works", en: "How It Works", km: "របៀបដំណើរការ" },
+  { href: "/report", en: "Scam Reports", km: "របាយការណ៍បោកប្រាស់" },
+  { href: "/safety-tips", en: "Safety Tips", km: "គន្លឹះសុវត្ថិភាព" },
+  { href: "/about", en: "About", km: "អំពីយើង" },
 ]
 
 export function SiteFooter() {
@@ -28,14 +29,14 @@ export function SiteFooter() {
       <div className="container">
         <div className="foot-grid">
           <div className="foot-brand">
-            <a href="#home" className="brand" aria-label="Angket — home">
+            <Link to="/" className="brand" aria-label="Angket — home">
               <span className="brand-mark" aria-hidden="true">
                 <IconShield check />
               </span>
               <span>
                 Ang<b>ket</b>
               </span>
-            </a>
+            </Link>
             <p>
               {t({
                 en: "Helping people recognize suspicious online information and make safer decisions.",
@@ -71,7 +72,7 @@ export function SiteFooter() {
             <ul>
               {FOOTER_NAV.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href}>{t(link)}</a>
+                  <Link to={link.href}>{t(link)}</Link>
                 </li>
               ))}
             </ul>

@@ -1,6 +1,7 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
-import { IconCheck } from "@/components/icons"
+import { useAuth } from "@/lib/auth"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { AuthTabs } from "@/components/auth/AuthTabs"
 import { PasswordInput } from "@/components/auth/PasswordInput"
@@ -8,7 +9,9 @@ import { Checkbox } from "@/components/auth/Checkbox"
 
 export function Login() {
   const { t } = useLang()
-  const successRef = useRef(null)
+  const { login } = useAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [activeTab, setActiveTab] = useState("email")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -16,7 +19,7 @@ export function Login() {
   const [keepSignedIn, setKeepSignedIn] = useState(true)
   const [errors, setErrors] = useState({})
   const [step, setStep] = useState(1)
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const handleContinue = (e) => {
     e.preventDefault()
@@ -34,16 +37,23 @@ export function Login() {
     setStep(2)
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     if (!password) {
       setErrors({ password: t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" }) })
       return
     }
     setErrors({})
-    // TODO: replace with real auth API call
-    setLoggedIn(true)
-    requestAnimationFrame(() => successRef.current?.focus())
+    setSubmitting(true)
+    try {
+      const from = location.state?.from?.pathname || "/admin/dashboard"
+      await login({ email, password })
+      navigate(from, { replace: true })
+    } catch (err) {
+      setErrors({ password: err.message })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleBack = () => {
@@ -56,26 +66,10 @@ export function Login() {
 
   return (
     <AuthLayout>
-      {loggedIn ? (
-        <div className="auth-success">
-          <span className="auth-success__icon" aria-hidden="true">
-            <IconCheck style={{ width: 32, height: 32 }} />
-          </span>
-          <h2 ref={successRef} tabIndex={-1}>
-            {t({ en: "Welcome back!", km: "សូមស្វាគមន៍ត្រឡប់មក!" })}
-          </h2>
-          <p>
-            {t({
-              en: "You are now signed in to your Angket account.",
-              km: "អ្នកបានចូលគណនី Angket របស់អ្នកហើយ។",
-            })}
-          </p>
-        </div>
-      ) : (
-        <>
-          <h1 className="auth-split__heading">
-            {t({ en: "Welcome to Angket !!", km: "សូមស្វាគមន៍មកកាន់ Angket !!" })}
-          </h1>
+      <>
+        <h1 className="auth-split__heading">
+          {t({ en: "Welcome to Angket !!", km: "សូមស្វាគមន៍មកកាន់ Angket !!" })}
+        </h1>
           <p className="auth-split__sub">
             {t({
               en: "A community-powered platform to report scams and protect others.",
@@ -191,12 +185,12 @@ export function Login() {
                 >
                   {t({ en: "Keep me signed in", km: "រក្សាទុកការចូល" })}
                 </Checkbox>
-                <a className="auth-row__link" href="#/forgot">
+                <Link className="auth-row__link" to="/login">
                   {t({ en: "Forgot password?", km: "ភ្លេចពាក្យសម្ងាត់?" })}
-                </a>
+                </Link>
               </div>
 
-              <button type="submit" className="btn btn-primary btn-lg auth-submit">
+              <button type="submit" className="btn btn-primary btn-lg auth-submit" disabled={submitting}>
                 {t({ en: "Sign in", km: "ចូលគណនី" })}
               </button>
             </form>
@@ -204,10 +198,9 @@ export function Login() {
 
           <p className="auth-alt">
             {t({ en: "First time here?", km: "ទើបមកដល់?" })}{" "}
-            <a href="#/signup">{t({ en: "Sign up", km: "ចុះឈ្មោះ" })}</a>
+            <Link to="/signup">{t({ en: "Sign up", km: "ចុះឈ្មោះ" })}</Link>
           </p>
-        </>
-      )}
+      </>
     </AuthLayout>
   )
 }

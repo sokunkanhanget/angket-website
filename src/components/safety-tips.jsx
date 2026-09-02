@@ -1,4 +1,5 @@
 import { useLang } from "@/lib/i18n"
+import { TELEGRAM_BOT_URL } from "@/lib/data"
 import {
   AlertTriangle,
   Search,
@@ -37,7 +38,7 @@ function TipsHero() {
             </p>
           </Reveal>
           <Reveal className="d3">
-            <a href="#/check" className="btn btn-primary btn-lg">
+            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
               <Radar size={18} />
               <span>{t({ en: "Check with Angket", km: "ពិនិត្យ​ជាមួយ Angket" })}</span>
             </a>
@@ -532,7 +533,7 @@ function TipsFinalCTA() {
 
           <Reveal>
             <div className="tips-cta-actions">
-              <a href="#/check" className="btn btn-white btn-lg">
+              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-white btn-lg">
                 <Radar size={16} />
                 {t({ en: "Check with Angket", km: "ពិនិត្យ​ជាមួយ Angket" })}
               </a>

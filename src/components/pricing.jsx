@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
@@ -165,9 +166,9 @@ function CheckoutFlow({ annual, t, step, go }) {
               })}
             </p>
             <div className="checkout-actions">
-              <a className="btn btn-outline btn-lg" href="#/home">
+              <Link className="btn btn-outline btn-lg" to="/">
                 {t({ en: "Back to home", km: "ត្រឡប់ទៅទំព័រដើម" })}
-              </a>
+              </Link>
             </div>
           </>
         )}

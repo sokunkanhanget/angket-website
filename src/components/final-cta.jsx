@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
@@ -28,9 +29,9 @@ export function FinalCta() {
               <IconShield />
               <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
-            <a className="btn btn-ghost-light btn-lg" href="#/safety-tips/reports">
+            <Link className="btn btn-ghost-light btn-lg" to="/report">
               <span>{t({ en: "Explore Scam Reports", km: "មើលរបាយការណ៍បោកប្រាស់" })}</span>
-            </a>
+            </Link>
           </div>
         </Reveal>
       </div>

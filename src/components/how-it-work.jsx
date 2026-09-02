@@ -1,5 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
+import { TelegramBand } from "./telegram"
 import { IconInfo, IconSend, IconBot, IconChart, IconShield, IconArrowRight } from "./icons"
 
 const FLOW = [
@@ -45,49 +46,52 @@ export function HowItWorks() {
   const { t } = useLang()
 
   return (
-    <section className="how" id="how" aria-labelledby="how-title">
-      <div className="container">
-        <Reveal className="section-head center">
-          <span className="eyebrow">{t({ en: "Simple process", km: "ដំណើរការសាមញ្ញ" })}</span>
-          <h2 id="how-title">{t({ en: "How Angket Works", km: "របៀបដែល Angket ដំណើរការ" })}</h2>
-          <p>
-            {t({
-              en: "No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps.",
-              km: "គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram របស់អ្នកត្រឹមតែ 4 ជំហានប៉ុណ្ណោះ។",
-            })}
-          </p>
-        </Reveal>
+    <>
+      <section className="how" id="how" aria-labelledby="how-title">
+        <div className="container">
+          <Reveal className="section-head center">
+            <span className="eyebrow">{t({ en: "Simple process", km: "ដំណើរការសាមញ្ញ" })}</span>
+            <h2 id="how-title">{t({ en: "How Angket Works", km: "របៀបដែល Angket ដំណើរការ" })}</h2>
+            <p>
+              {t({
+                en: "No apps to install, nothing complicated — Angket works entirely inside Telegram in four steps.",
+                km: "គ្មានការដំឡើងកម្មវិធីបន្ថែម ហើយក៏មិនស្មុគស្មាញដែរ — Angket ដំណើរការទាំងស្រុងក្នុង Telegram របស់អ្នកត្រឹមតែ 4 ជំហានប៉ុណ្ណោះ។",
+              })}
+            </p>
+          </Reveal>
 
-        <Reveal as="ol" className="flow">
-          {FLOW.map((step) => (
-            <li className="flow-step" key={step.num}>
-              <span className="step-num" aria-hidden="true">
-                {step.num}
-              </span>
-              <span className="step-ic" aria-hidden="true">
-                <step.Icon />
-              </span>
-              <h3>{t(step.title)}</h3>
-              <p>{t(step.desc)}</p>
-              {step.num < FLOW.length && (
-                <span className="flow-arrow" aria-hidden="true">
-                  <IconArrowRight />
+          <Reveal as="ol" className="flow">
+            {FLOW.map((step) => (
+              <li className="flow-step" key={step.num}>
+                <span className="step-num" aria-hidden="true">
+                  {step.num}
                 </span>
-              )}
-            </li>
-          ))}
-        </Reveal>
+                <span className="step-ic" aria-hidden="true">
+                  <step.Icon />
+                </span>
+                <h3>{t(step.title)}</h3>
+                <p>{t(step.desc)}</p>
+                {step.num < FLOW.length && (
+                  <span className="flow-arrow" aria-hidden="true">
+                    <IconArrowRight />
+                  </span>
+                )}
+              </li>
+            ))}
+          </Reveal>
 
-        <p className="how-note">
-          <IconInfo />
-          <span>
-            {t({
-              en: "Results are estimated risk assessments based on detected patterns — not verdicts or guarantees.",
-              km: "លទ្ធផលគឺជាការប៉ាន់ស្មានហានិភ័យផ្អែកលើលំនាំដែលរកឃើញ — មិនមែនជាសេចក្ដីសម្រេច ឬការធានាទេ។",
-            })}
-          </span>
-        </p>
-      </div>
-    </section>
+          <p className="how-note">
+            <IconInfo />
+            <span>
+              {t({
+                en: "Results are estimated risk assessments based on detected patterns — not verdicts or guarantees.",
+                km: "លទ្ធផលគឺជាការប៉ាន់ស្មានហានិភ័យផ្អែកលើលំនាំដែលរកឃើញ — មិនមែនជាសេចក្ដីសម្រេច ឬការធានាទេ។",
+              })}
+            </span>
+          </p>
+        </div>
+      </section>
+      <TelegramBand />
+    </>
   )
 }
