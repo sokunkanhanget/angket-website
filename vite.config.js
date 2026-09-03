@@ -5,10 +5,11 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  root: 'frontend',
   plugins: [tailwindcss(), react()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@': fileURLToPath(new URL('./frontend/src', import.meta.url)),
     },
   },
 })
