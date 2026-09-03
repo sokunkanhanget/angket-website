@@ -55,6 +55,14 @@ function PublicLayout() {
   )
 }
 
+function CleanLayout() {
+  return (
+    <main id="main">
+      <Outlet />
+    </main>
+  )
+}
+
 function HomePage() {
   return (
     <>
@@ -99,9 +107,11 @@ export default function App() {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/report" element={<ReportsFeed />} />
+            <Route path="*" element={<HomePage />} />
+          </Route>
+          <Route element={<CleanLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="*" element={<HomePage />} />
           </Route>
         </Routes>
       </BrowserRouter>

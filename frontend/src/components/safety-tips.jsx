@@ -1,5 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
+import staySafeOnlineImg from "@/assets/stay-safe-online.png"
 import {
   AlertTriangle,
   Search,
@@ -45,34 +46,8 @@ function TipsHero() {
           </Reveal>
         </div>
 
-        <div className="tips-hero-illust" aria-hidden="true">
-          <svg viewBox="0 0 440 480">
-            <path d="M40 120 C10 180 30 260 90 290 C150 320 210 280 220 210 C230 140 180 70 110 70 C80 70 60 90 40 120 Z" fill="var(--blue-50)" opacity="0.55" />
-            <path d="M300 300 C260 340 270 400 330 420 C390 440 430 400 420 340 C410 280 350 260 300 300 Z" fill="var(--blue-100)" opacity="0.6" />
-            <path d="M330 34 C298 54 296 96 328 118 C360 140 402 118 402 78 C402 48 362 12 330 34 Z" fill="var(--amber-bg)" opacity="0.5" />
-            <g transform="rotate(-5 220 250)">
-              <rect x="130" y="60" width="190" height="380" rx="32" fill="#fff" stroke="var(--border)" strokeWidth="3" />
-              <rect x="144" y="92" width="162" height="316" rx="16" fill="#fff" stroke="var(--border)" strokeWidth="1" />
-              <rect x="200" y="72" width="40" height="8" rx="4" fill="var(--faint)" />
-              <rect x="195" y="418" width="50" height="5" rx="2.5" fill="var(--faint)" />
-              <rect x="158" y="112" width="110" height="32" rx="14" fill="var(--surface)" stroke="var(--border)" />
-              <rect x="170" y="122" width="60" height="4" rx="2" fill="var(--faint)" />
-              <rect x="170" y="131" width="40" height="4" rx="2" fill="var(--faint)" />
-              <rect x="158" y="154" width="76" height="26" rx="13" fill="var(--surface)" stroke="var(--border)" />
-              <rect x="170" y="163" width="48" height="4" rx="2" fill="var(--faint)" />
-              <rect x="158" y="196" width="134" height="58" rx="16" fill="var(--amber-bg)" stroke="#D97706" strokeWidth="2" />
-              <rect x="172" y="208" width="90" height="5" rx="2.5" fill="#92400e" />
-              <rect x="172" y="219" width="70" height="5" rx="2.5" fill="#92400e" />
-              <rect x="172" y="230" width="50" height="5" rx="2.5" fill="#92400e" />
-              <path d="M270 202 L281 220 L259 220 Z" fill="#D97706" />
-              <rect x="268.5" y="207" width="3" height="6" rx="1.5" fill="#fff" />
-              <circle cx="270" cy="216.5" r="1.6" fill="#fff" />
-            </g>
-            <circle cx="322" cy="220" r="20" fill="#fff" stroke="var(--blue-600)" strokeWidth="5" />
-            <line x1="336" y1="234" x2="357" y2="255" stroke="var(--blue-600)" strokeWidth="7" strokeLinecap="round" />
-            <circle cx="118" cy="404" r="30" fill="var(--green-text, #0D9488)" stroke="#fff" strokeWidth="4" />
-            <path d="M103 404 L113 414 L134 391" fill="none" stroke="#fff" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
+        <div className="tips-hero-illust">
+          <img src={staySafeOnlineImg} alt="Staying safe online" className="tips-hero-img" />
         </div>
       </div>
     </section>
