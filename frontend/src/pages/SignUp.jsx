@@ -5,6 +5,7 @@ import { IconCheck } from "@/components/icons"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
+import { authApi } from "@/lib/services"
 
 export function SignUp() {
   const { t } = useLang()
@@ -13,6 +14,7 @@ export function SignUp() {
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [errors, setErrors] = useState({})
   const [registered, setRegistered] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
 
@@ -45,15 +47,27 @@ export function SignUp() {
     return errs
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const errs = validate()
     setErrors(errs)
     if (Object.keys(errs).length > 0) return
 
-    // TODO: replace with real auth API call
-    setRegistered(true)
-    requestAnimationFrame(() => successRef.current?.focus())
+    setSubmitting(true)
+    try {
+      await authApi.signup({
+        full_name: form.name,
+        email: form.email,
+        password: form.password,
+        phone: form.phone,
+      })
+      setRegistered(true)
+      requestAnimationFrame(() => successRef.current?.focus())
+    } catch (err) {
+      setErrors({ email: err.message })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -227,7 +241,7 @@ export function SignUp() {
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary btn-lg auth-submit">
+            <button type="submit" className="btn btn-primary btn-lg auth-submit" disabled={submitting}>
               {t({ en: "Create account", km: "បង្កើតគណនី" })}
             </button>
           </form>

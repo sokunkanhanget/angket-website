@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useLang } from "@/lib/i18n"
 import { SCAM_TYPES } from "@/lib/data"
+import { reportsApi } from "@/lib/services"
 import { IconCheck, IconClose, IconLock } from "./icons"
 
 const MAX_SCREENSHOT_MB = 5
@@ -28,6 +29,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
   ]
   const [screenshot, setScreenshot] = useState(null)
   const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     if (!open) return
@@ -93,16 +95,32 @@ export function ReportForm({ open, onClose, onSubmitted }) {
     return errs
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const errs = validate()
     setErrors(errs)
     if (Object.keys(errs).length > 0) return
-    // TODO: replace with real API call (POST /api/reports) that persists
-    // status = 'published' by default and stores the reporter's user_id.
-    onSubmitted?.(form)
-    setSubmitted(true)
-    requestAnimationFrame(() => successTitleRef.current?.focus())
+    if (submitting) return
+
+    setSubmitting(true)
+    try {
+      await reportsApi.create({
+        title: form.title,
+        description: form.description,
+        category: form.category,
+        platform: form.sourcePlatform,
+        contactMethod: form.contactMethod,
+        amountLost: form.amountLost,
+        dateOccurred: form.dateOccurred,
+      })
+      onSubmitted?.(form)
+      setSubmitted(true)
+      requestAnimationFrame(() => successTitleRef.current?.focus())
+    } catch (err) {
+      setErrors({ title: err.message })
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleCancel = () => {
@@ -405,8 +423,10 @@ export function ReportForm({ open, onClose, onSubmitted }) {
 
               {/* ─── Submit row ─── */}
               <div className="rf-submit-row">
-                <button type="submit" className="btn btn-primary">
-                  <span>{t({ en: "Submit Report", km: "ដាក់ស្នើរបាយការណ៍" })}</span>
+                <button type="submit" className="btn btn-primary" disabled={submitting}>
+                  <span>{submitting
+                    ? t({ en: "Submitting…", km: "កំពុងដាក់ស្នើ…" })
+                    : t({ en: "Submit Report", km: "ដាក់ស្នើរបាយការណ៍" })}</span>
                 </button>
                 <button type="button" className="rf-cancel-link" onClick={handleCancel}>
                   {t({ en: "Cancel", km: "បោះបង់" })}

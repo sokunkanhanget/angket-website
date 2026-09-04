@@ -1,6 +1,7 @@
-import { useMemo, useState, useCallback } from "react"
+import { useEffect, useMemo, useState, useCallback } from "react"
 import { useLang } from "@/lib/i18n"
-import { DEMO_REPORTS, SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
+import { SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
+import { reportsApi } from "@/lib/services"
 import { Reveal } from "./reveal"
 import { ReportForm } from "./report-form"
 import {
@@ -9,6 +10,33 @@ import {
   IconPlus, IconHeart, IconClose,
   IconBriefcase, IconGift, IconStore, IconChart, IconMail, IconShield,
 } from "./icons"
+
+function normalize(report) {
+  return {
+    id: report.id,
+    cat: report.category,
+    platform: report.platform,
+    count: report.reported_count || 0,
+    ts: report.created_at ? new Date(report.created_at).getTime() : 0,
+    image: report.screenshot_url || null,
+    when: { en: timeAgo(report.created_at), km: timeAgo(report.created_at) },
+    title: { en: report.title_en, km: report.title_km || report.title_en },
+    desc: { en: report.description_en, km: report.description_km || report.description_en },
+    user_id: report.user_id,
+    status: report.status,
+  }
+}
+
+function timeAgo(iso) {
+  if (!iso) return ""
+  const diff = Date.now() - new Date(iso).getTime()
+  const days = Math.floor(diff / (24 * 60 * 60 * 1000))
+  if (days <= 0) return "Just now"
+  if (days === 1) return "1 day ago"
+  if (days < 30) return `${days} days ago`
+  const months = Math.floor(days / 30)
+  return months === 1 ? "1 month ago" : `${months} months ago`
+}
 
 const PLATFORM_ICONS = {
   facebook: IconFacebook,
@@ -97,13 +125,34 @@ function placeholderHeader(cat, lang) {
 
 export function ReportsFeed() {
   const { lang, t } = useLang()
-  const [reports, setReports] = useState(DEMO_REPORTS)
+  const [reports, setReports] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [reportKey, setReportKey] = useState(0)
   const [q, setQ] = useState("")
   const [cat, setCat] = useState("all")
   const [saved, setSaved] = useState(() => new Set())
   const [detailReport, setDetailReport] = useState(null)
+
+  useEffect(() => {
+    let mounted = true
+    setLoading(true)
+    reportsApi
+      .list({ limit: 100 })
+      .then((res) => {
+        if (mounted) setReports((res.reports || []).map(normalize))
+      })
+      .catch((err) => {
+        if (mounted) setLoadError(err.message)
+      })
+      .finally(() => {
+        if (mounted) setLoading(false)
+      })
+    return () => {
+      mounted = false
+    }
+  }, [])
 
   const toggleSave = useCallback((id) => {
     setSaved((prev) => {
@@ -153,14 +202,8 @@ export function ReportsFeed() {
       count: 0,
       ts: Date.now(),
       when: { en: "Just now", km: "ទើបតែបានរាយការណ៍" },
-      title: {
-        en: form.title.trim(),
-        km: form.title.trim(),
-      },
-      desc: {
-        en: form.description.trim(),
-        km: form.description.trim(),
-      },
+      title: { en: form.title.trim(), km: form.title.trim() },
+      desc: { en: form.description.trim(), km: form.description.trim() },
       user_id: null,
       status: "published",
     }
@@ -285,15 +328,24 @@ export function ReportsFeed() {
             </ul>
             <p className="pop-note">
               {t({
-                en: "Sample data for demonstration — based on the reports below.",
-                km: "ទិន្នន័យគំរូសម្រាប់បង្ហាញ — ផ្អែកលើរបាយការណ៍ខាងក្រោម។",
+                en: "Based on the reports below.",
+                km: "ផ្អែកលើរបាយការណ៍ខាងក្រោម។",
               })}
             </p>
           </aside>
 
           <div>
             <div className="browse-cards">
-              {visibleReports.map((r) => (
+              {loading && (
+                <p className="empty-msg">{t({ en: "Loading reports…", km: "កំពុងផ្ទុករបាយការណ៍…" })}</p>
+              )}
+              {!loading && loadError && (
+                <p className="empty-msg">
+                  {t({ en: "Could not load reports.", km: "មិនអាចផ្ទុករបាយការណ៍បានទេ។" })}{" "}
+                  {loadError}
+                </p>
+              )}
+              {!loading && !loadError && visibleReports.map((r) => (
                 <article className="browse-card" key={r.id}>
                   {/* Image area */}
                   <div className="browse-card-img">
@@ -334,7 +386,7 @@ export function ReportsFeed() {
                   </div>
                 </article>
               ))}
-              {visibleReports.length === 0 && (
+              {!loading && !loadError && visibleReports.length === 0 && (
                 <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
               )}
             </div>
@@ -342,8 +394,8 @@ export function ReportsFeed() {
               <IconInfo />
               <span>
                 {t({
-                  en: "Demo preview: these are sample reports for illustration. In the live version, reports are personal experiences shared anonymously — useful for awareness, but not verified facts.",
-                  km: "ការបង្ហាញគំរូ៖ ទាំងនេះជារបាយការណ៍គំរូសម្រាប់ពិពណ៌នា។ ក្នុងកំណែពិត របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
+                  en: "Reports are personal experiences shared anonymously — useful for awareness, but not verified facts.",
+                  km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
                 })}
               </span>
             </p>

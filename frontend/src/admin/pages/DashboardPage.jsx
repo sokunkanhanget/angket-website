@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 import StatCard from "../components/StatCard"
 import PageShell from "../components/PageShell"
+import { adminApi } from "@/lib/services"
 
 const COLORS = {
   blue: { color: "#1D5FC4", tint: "#E6EEFC" },
@@ -17,30 +18,20 @@ const COLORS = {
   rose: { color: "#C0483D", tint: "#FBE7E4" },
 }
 
-// Stand-in for a backend call that returns the DashboardStats payload.
-function fetchDashboardStats() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        totalUsers: 1284,
-        totalReports: 356,
-        activeSubscriptions: 218,
-        pendingVerifications: 47,
-        reportsApprovedToday: 18,
-        newSignupsThisWeek: 64,
-      })
-    }, 250)
-  })
-}
-
 export default function DashboardPage() {
   const [stats, setStats] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     let mounted = true
-    fetchDashboardStats().then((data) => {
-      if (mounted) setStats(data)
-    })
+    adminApi
+      .stats()
+      .then((data) => {
+        if (mounted) setStats(data.stats)
+      })
+      .catch((err) => {
+        if (mounted) setError(err.message)
+      })
     return () => {
       mounted = false
     }
@@ -49,17 +40,23 @@ export default function DashboardPage() {
   if (!stats) {
     return (
       <PageShell title="Dashboard">
-        <div className="stat-row">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="stat-card">
-              <span className="stat-icon" style={COLORS.blue} />
-              <div className="stat-text">
-                <span className="stat-value mono">–</span>
-                <span className="stat-label">Loading…</span>
+        {error ? (
+          <div className="placeholder-card">
+            <p>Failed to load stats: {error}</p>
+          </div>
+        ) : (
+          <div className="stat-row">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="stat-card">
+                <span className="stat-icon" style={COLORS.blue} />
+                <div className="stat-text">
+                  <span className="stat-value mono">–</span>
+                  <span className="stat-label">Loading…</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </PageShell>
     )
   }
