@@ -49,8 +49,8 @@ export function HowItWorks() {
     <>
       <section className="how" id="how" aria-labelledby="how-title">
         <div className="container">
-          <Reveal className="section-head center">
-            <span className="eyebrow">{t({ en: "Simple process", km: "ដំណើរការសាមញ្ញ" })}</span>
+          <Reveal className="section-head">
+            
             <h2 id="how-title">{t({ en: "How Angket Works", km: "របៀបដែល Angket ដំណើរការ" })}</h2>
             <p>
               {t({

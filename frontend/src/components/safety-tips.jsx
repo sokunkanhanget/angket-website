@@ -13,6 +13,19 @@ import {
   FileText,
   Link2,
   Radar,
+  OctagonAlert,
+  Landmark,
+  Camera,
+  Megaphone,
+  Pause,
+  Link2Off,
+  Gift,
+  UserSearch,
+  SearchCheck,
+  BadgeCheck,
+  Gauge,
+  MessageSquareOff,
+  BookOpen,
 } from "lucide-react"
 import { Reveal } from "./reveal"
 
@@ -22,11 +35,6 @@ function TipsHero() {
     <section className="tips-hero" id="stay-safe">
       <div className="container tips-hero-grid">
         <div className="tips-hero-copy">
-          <Reveal>
-            <span className="eyebrow">
-              {t({ en: "Digital & Media Literacy", km: "អក្ខរកម្មឌីជីថល និងព័ត៌មាន" })}
-            </span>
-          </Reveal>
           <Reveal className="d1">
             <h1>{t({ en: "Stay Safe Online", km: "សុវត្ថិភាព​នៅ​​លើ​បណ្តាញសង្គម" })}</h1>
           </Reveal>
@@ -63,16 +71,29 @@ function StopCheckProtect() {
       accent: "#E05252",
       accentBg: "#FEE2E2",
       label: t({ en: "Stop", km: "ឈប់" }),
-      tagline: t({ en: "Don't rush.", km: "កុំប្រញាប់" }),
+      tagline: t({ en: "Don’t act too quickly. ", km: "កុំប្រញាប់ធ្វើសកម្មភាព" }),
       description: t({
-        en: "Always take a moment before giving your money or personal information to anyone.",
-        km: "គិតជាមុនសិនមុនពេលអ្នកឆ្លើយតប ភាពបន្ទាន់គឺជាវិធីសាស្រ្តដែលអ្នកបោកប្រាស់ចូលចិត្តប្រើ​ ",
+        en: "Scammers often create a sense of urgency or pressure you to respond immediately. Take a moment before clicking a link, opening a file, sending money, or sharing personal information.",
+        km: "អ្នកបោកប្រាស់តែងតែបង្កើតអារម្មណ៍បន្ទាន់ ឬដាក់សម្ពាធឱ្យអ្នកឆ្លើយតបភ្លាមៗ។ សូមចំណាយពេលបន្តិចមុនពេលចុចតំណភ្ជាប់ បើកឯកសារ ផ្ញើប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។",
       }),
       whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវធ្វើ:" }),
       bullets: [
-        t({ en: "Say no, hang up, or delete suspicious messages.", km: "និយាយ​ថាទេ​ ឬក៏លុបសារដែលគួរឲសង្ស័យ" }),
-        t({ en: "Don't share personal information under pressure.", km: "កុំចែករំលែក​ព័ត៌មាន​ផ្ទាល់ខ្លួន​ក្នុងភាពបន្ទាន់" }),
-        t({ en: "Take time to think before responding to unexpected requests.", km: "ចំណាយពេល​​ពិនិត្យ​ជាមុន​​ មុនពេលធ្វើការឆ្លើយតបទៅនឹងការស្នើរសុំណាមួយ" }),
+        {
+          Icon: Pause,
+          text: t({ en: "Stop and think before responding to an unexpected message.", km: "ឈប់ និងគិតឱ្យបានច្បាស់មុនពេលឆ្លើយតបសារដែលអ្នកមិនបានរំពឹងទុក។" }),
+        },
+        {
+          Icon: Lock,
+          text: t({ en: "Do not share personal or financial information under pressure.", km: "កុំចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន ឬព័ត៌មានហិរញ្ញវត្ថុ នៅពេលមានការបង្ខិតបង្ខំ។" }),
+        },
+        {
+          Icon: Link2Off,
+          text: t({ en: "Do not click suspicious links or open unexpected files.", km: "កុំចុចលើតំណភ្ជាប់ដែលគួរឱ្យសង្ស័យ ឬបើកឯកសារដែលអ្នកមិនបានរំពឹងទុក។" }),
+        },
+        {
+          Icon: Gift,
+          text: t({ en: "Be careful with offers that seem too good to be true.", km: "ប្រុងប្រយ័ត្នចំពោះការផ្តល់ជូនដែលមើលទៅល្អហួសពីការពិត។" }),
+        },
       ],
     },
     {
@@ -80,17 +101,29 @@ function StopCheckProtect() {
       accent: "#D97706",
       accentBg: "#FEF3C7",
       label: t({ en: "Check", km: "ត្រួតពិនិត្យ" }),
-      tagline: t({ en: "Make sure it's real.", km: "ត្រូវធ្វើឲ​ប្រាកដថាជាការពិត" }),
+      tagline: t({ en: "Make sure it’s legitimate", km: "ប្រាកដថាវាជារបស់ពិត" }),
       description: t({
-        en: "Confirm who you're dealing with, and whether the message, offer, or request is actually genuine.",
-        km: "បញ្ជាក់ថាអ្នកកំពុងទាក់ទងជាមួយអ្នកណា និងថាតើសារ ការផ្តល់ជូន ឬសំណើនោះពិតប្រាកដដែរឬទេ",
+        en: "Before taking action, check the message, link, file, or offer carefully.",
+        km: "មុនពេលធ្វើសកម្មភាពណាមួយ សូមពិនិត្យសារ តំណភ្ជាប់ ឯកសារ ឬការផ្តល់ជូននោះឱ្យបានប្រុងប្រយ័ត្ន។",
       }),
       whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវធ្វើ:" }),
       bullets: [
-        t({ en: "Check who sent the message.", km: "ពិនិត្យ​លើអ្នកផ្ញើ​សារ" }),
-        t({ en: "Look closely at the details.", km: "ពិនិត្យឲ​លម្អិត​ដោយ​ប្រុងប្រយ័ត្ន" }),
-        t({ en: "Don't automatically trust links or requests.", km: "កុំ​ជឿ​ទុកចិត្តលើ​តំណ​ភ្ជាប់ ឬ​សំណើ​ដោយ​ស្វ័យប្រវត្តិណាមួយដែរគ្មានប្រភពច្បាស់លាស់" }),
-        t({ en: "Verify through an official source.", km: "ផ្ទៀងផ្ទាត់​ជាមុនជាមួយ​ប្រភព​ផ្លូវការ" }),
+        {
+          Icon: UserSearch,
+          text: t({ en: "Check who sent the message and whether the sender is trustworthy.", km: "ពិនិត្យថា តើអ្នកណាជាអ្នកផ្ញើសារ និងតើអ្នកផ្ញើនោះអាចទុកចិត្តបានឬទេ។" }),
+        },
+        {
+          Icon: SearchCheck,
+          text: t({ en: "Look for suspicious links, unusual requests, or pressure to act quickly.", km: "ស្វែងរកតំណភ្ជាប់ដែលគួរឱ្យសង្ស័យ សំណើមិនធម្មតា ឬការដាក់សម្ពាធឱ្យអ្នកធ្វើសកម្មភាពភ្លាមៗ។" }),
+        },
+        {
+          Icon: BadgeCheck,
+          text: t({ en: "Verify job offers, prizes, investments, and other unexpected opportunities through official sources.", km: "ផ្ទៀងផ្ទាត់ការផ្តល់ជូនការងារ រង្វាន់ ការវិនិយោគ និងឱកាសផ្សេងៗដែលមិនបានរំពឹងទុក តាមរយៈប្រភពផ្លូវការ។" }),
+        },
+        {
+          Icon: Gauge,
+          text: t({ en: "Review the risk score and reasons provided before deciding what to do.", km: "ពិនិត្យពិន្ទុហានិភ័យ និងមូលហេតុដែលបានបង្ហាញ មុនពេលសម្រេចចិត្តថាត្រូវធ្វើអ្វីបន្ត។" }),
+        },
       ],
     },
     {
@@ -98,16 +131,37 @@ function StopCheckProtect() {
       accent: "#0D9488",
       accentBg: "#CCFBF1",
       label: t({ en: "Protect", km: "ការពារ" }),
-      tagline: t({ en: "Take action to stay safe.", km: "ចាត់វិធាន​ការ​ដើម្បី​សុវត្ថិភាព" }),
+      tagline: t({ en: "Take action and help protect others", km: "ចាត់វិធានការ និងជួយការពារអ្នកដទៃ" }),
       description: t({
-        en: "Act quickly if something feels wrong.",
-        km: "ត្រូវធ្វើសកម្មភាពភ្លាមៗ​ ប្រសិនបើមានអ្វីដែលខុសប្រក្រតី",
+        en: "If you discover that something may be a scam, take steps to protect yourself and share useful information with others. ",
+        km: "ប្រសិនបើអ្នករកឃើញថាអ្វីមួយអាចជាការបោកប្រាស់ សូមចាត់វិធានការដើម្បីការពារខ្លួន និងចែករំលែកព័ត៌មានដែលមានប្រយោជន៍ជាមួយអ្នកដទៃ។",
       }),
-      whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវធ្វើ:" }),
+whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវធ្វើ:" }),
       bullets: [
-        t({ en: "Contact your bank immediately if you think your money has been stolen or you've shared financial details.", km: "សូមទាក់ទងទៅធនាគារ​ភ្លាមៗ ប្រសិនបើអ្នកគិតថាប្រាក់របស់អ្នកត្រូវបានគេលួច ឬក៏អ្នកចៃដន្យចែករំលែកព័ត៍មានសម្ងាត់អំពីព័ត៍មានហិរញ្ញវត្ថុរបស់អ្នក" }),
-        t({ en: "Secure your accounts.", km: "ធ្វើឲ្យ​គណនី​របស់​អ្នក​មាន​សុវត្ថិភាព។" }),
-        t({ en: "Report the scam to the impersonated organisation and platform where the scam is happening.", km: "សូមធ្វើការរាយការណ៏ពីការបោកប្រាស់​ និង​ទីកន្លែងដែលបាន​កើតឡើង" }),
+        {
+          Icon: MessageSquareOff,
+          text: t({ en: "Do not continue communicating with suspicious accounts or send money.", km: "កុំបន្តទាក់ទងជាមួយគណនីដែលគួរឱ្យសង្ស័យ និងកុំផ្ញើប្រាក់ទៅពួកគេ។" }),
+        },
+        {
+          Icon: Lock,
+          text: t({ en: "Secure your accounts if you have shared personal or login information.", km: "ការពារគណនីរបស់អ្នក ប្រសិនបើអ្នកបានចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន ឬព័ត៌មានសម្រាប់ចូលគណនី។" }),
+        },
+        {
+          Icon: Landmark,
+          text: t({ en: "Contact your bank immediately if you believe your financial information or money has been compromised.", km: "ទាក់ទងធនាគាររបស់អ្នកភ្លាមៗ ប្រសិនបើអ្នកជឿថាព័ត៌មានហិរញ្ញវត្ថុ ឬប្រាក់របស់អ្នកអាចត្រូវបានលួច ឬរងផលប៉ះពាល់។" }),
+        },
+        {
+          Icon: Flag,
+          text: t({ en: "Report the scam to the relevant organization and platform.", km: "រាយការណ៍អំពីការបោកប្រាស់ទៅកាន់ស្ថាប័នដែលពាក់ព័ន្ធ និងវេទិកាដែលការបោកប្រាស់នោះកំពុងកើតឡើង។" }),
+        },
+        {
+          Icon: Megaphone,
+          text: t({ en: "Share your scam experience through Angket's community reporting system to help warn others.", km: "ចែករំលែកបទពិសោធន៍អំពីការបោកប្រាស់របស់អ្នកតាមរយៈប្រព័ន្ធរាយការណ៍របស់ Angket ដើម្បីជួយព្រមានអ្នកដទៃ។" }),
+        },
+        {
+          Icon: BookOpen,
+          text: t({ en: "Learn from community reports to recognize similar scams in the future.", km: "សិក្សាពីរបាយការណ៍របស់សហគមន៍ ដើម្បីអាចសម្គាល់ការបោកប្រាស់ដែលមានលក្ខណៈស្រដៀងគ្នានៅពេលអនាគត។" }),
+        },
       ],
     },
   ]
@@ -115,15 +169,12 @@ function StopCheckProtect() {
   return (
     <section className="tips-stop" id="stop-check-protect">
       <div className="container">
-        <Reveal className="section-head center">
-          <span className="eyebrow">
-            {t({ en: "The Framework", km: "ក្របខ័ណ្ឌ" })}
-          </span>
-          <h2>{t({ en: "Stop. Check. Protect.", km: "ឈប់ ត្រួតពិនិត្យ ការពារ" })}</h2>
+        <Reveal className="section-head">
+          <h2>{t({ en: "Stop, Check, Protect", km: "ឈប់ ត្រួតពិនិត្យ ការពារ" })}</h2>
           <p>
             {t({
-              en: "Scams are everywhere, targeting people from all walks of life. Whether it’s fake emails, unexpected phone calls or online schemes, scammers always find new ways to gain your trust and steal your money or personal information. But 3 simple steps can help keep us all safe from scammers.",
-              km: "ការ​បោកប្រាស់​អាចកើតមានគ្រប់ទីកន្លែង​​ ដូចជា​ email ក្លែងក្លាយ ការហៅចូលដែលមិនស្គាល់អត្តសញ្ញាណ អ្នកបោកប្រាស់តែងតែព្យាយាមរកវិធីសាស្រ្តថ្នីៗ ដើម្បីទាញយកការទុកចិត្តពីអ្នក​​​ និងព្យាយាមលួចលុយ ឬក៏ព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកជាដើម។ មានវិធីសាស្រ្ត​ ៣ ដែលអាចជួយអ្នកបង្កាសុវត្ថភាពរបស់អ្នក ពីការបោកប្រាស់​៖​ ",
+              en: "Scams can happen to anyone. From suspicious messages, phishing links, and malicious files, scammers use different tactics to gain your trust and convince you to take action. Before you click, reply, send money, or share personal information, remember three simple steps: Stop. Check. Protect.",
+              km: "ការបោកប្រាស់អាចកើតឡើងចំពោះអ្នកណាក៏បាន។ ចាប់ពីសារដែលគួរឱ្យសង្ស័យ តំណភ្ជាប់បន្លំ រហូតដល់ឯកសារដែលអាចបង្កគ្រោះថ្នាក់ អ្នកបោកប្រាស់ប្រើវិធីសាស្ត្រផ្សេងៗ ដើម្បីបង្កើតការជឿទុកចិត្ត និងបញ្ចុះបញ្ចូលអ្នកឱ្យធ្វើសកម្មភាពណាមួយ។ មុនពេលអ្នកចុច តបសារ ផ្ញើប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន សូមចងចាំ ៣ ជំហានសាមញ្ញ៖ បញ្ឈប់ ពិនិត្យ ការពារ",
             })}
           </p>
         </Reveal>
@@ -134,16 +185,21 @@ function StopCheckProtect() {
             return (
               <Reveal key={i}>
                 <article className="tip-card" style={{ borderTopColor: c.accent }}>
+                  <div className="tip-head">
                   <div className="tip-ic" style={{ background: c.accentBg }}>
                     <Icon size={26} style={{ color: c.accent }} strokeWidth={2} />
                   </div>
                   <span className="tip-label" style={{ color: c.accent }}>{c.label}</span>
-                  <h3>{c.tagline}</h3>
+                </div>
+                <h3>{c.tagline}</h3>
                   <p>{c.description}</p>
                   <p className="tip-whattodo">{c.whatToDoLabel}</p>
                   <ul className="tip-bullets">
                     {c.bullets.map((b, j) => (
-                      <li key={j}>{b}</li>
+                      <li key={j}>
+                        <b.Icon size={16} style={{ color: c.accent }} strokeWidth={2} />
+                        <span>{b.text}</span>
+                      </li>
                     ))}
                   </ul>
                 </article>
@@ -151,87 +207,6 @@ function StopCheckProtect() {
             )
           })}
         </div>
-      </div>
-    </section>
-  )
-}
-
-function SocialMediaScams() {
-  const { t } = useLang()
-
-  const flags = [
-    t({ en: "Fake profiles", km: "ប្រវត្តិរូប​ក្លែងក្លាយ" }),
-    t({ en: "Someone pretending to be someone you know", km: "អ្នកណា​ម្នាក់​ក្លែងធ្វើ​ជា​អ្នក​ស្គាល់គ្នា" }),
-    t({ en: "Suspicious offers", km: "ការ​ផ្តល់​ជូនដែលគួរឲសង្ស័យ" }),
-    t({ en: "Requests for money", km: "សំណើ​សុំ​ប្រាក់" }),
-    t({ en: "Requests for personal information", km: "សំណើ​សុំ​ព័ត៌មាន​ផ្ទាល់ខ្លួន" }),
-    t({ en: "Suspicious links", km: "តំណភ្ជាប់​គ្មានប្រភពច្បាស់លាស់" }),
-  ]
-
-  return (
-    <section className="tips-social" id="social-media-scams">
-      <div className="container tips-social-grid">
-      <Reveal>
-          <div className="tips-chat-card">
-            <div className="tips-chat-msgs">
-              <div className="tips-chat-bubble">
-                {t({
-                  en: "Hey! I'm Sreyneath, I lost my phone, this is my new number 😊",
-                  km: "Hey! យើងស្រីនីតហាស ទូរស័ព្ទយើងបាត់ហើយ នេះលេខថ្មីយើង ",
-                })}
-              </div>
-              <div className="tips-chat-bubble">
-                {t({
-                  en: "Can you send me $20 right now? I'll explain later, I'm in a rush",
-                  km: "ហែងបាញ់លុយអោយយើង 20$ សិនបានអត់ ចាំស្អែកយើងអោយវិញ",
-                })}
-              </div>
-            </div>
-
-            <div className="tips-warning-banner">
-              <Flag size={14} />
-              {t({ en: "UNVERIFIED CONTACT · urgency + money request", km: "ទំនាក់ទំនង​មិន​ផ្ទៀងផ្ទាត់ · បន្ទាន់ + សុំ​ប្រាក់" })}
-            </div>
-
-            <div className="tips-reminder">
-              <p className="tips-reminder-label">
-                {t({ en: "Remember", km: "ចងចាំ" })}
-              </p>
-              <p>
-                {t({
-                  en: "Don't trust a message just because it looks familiar. Verify first, through a channel the sender doesn't control.",
-                  km: "កុំ​ជឿ​ទុកចិត្តល់ើសារ​ ដោយគ្រាន់​តែ​ព្រោះ​វា​មើលទៅ​ដូចស្គាល់ ផ្ទៀងផ្ទាត់​ជា​មុន​សិន តាម​រយៈឆានែល​ដែល​អ្នក​ផ្ញើ​សារមិន​អាច​គ្រប់គ្រង​បាន",
-                })}
-              </p>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal>
-          <div className="section-head">
-            <span className="eyebrow">
-              {t({ en: "Where It Starts", km: "កន្លែង​ដែល​វា​ចាប់ផ្តើម" })}
-            </span>
-            <h2>
-              {t({ en: "Social media & messaging scams", km: "ការ​បោកប្រាស់​តាម​បណ្តាញ​សង្គម និង​ការ​ផ្ញើ​សារ" })}
-            </h2>
-            <p>
-              {t({
-                en: "Scammers reach people through the same apps they use every day — a friend request, a message. Most of it is harmless. Some of it isn't.",
-                km: "អ្នក​បោកប្រាស់​ទាក់ទងមនុស្ស​តាម​រយៈ​កម្មវិធី​ដដែល​ដែល​ពួកគេ​ប្រើ​ជា​រៀងរាល់ថ្ងៃ — សំណើជា​មិត្ត សារ ភាគច្រើន​គ្មាន​គ្រោះថ្នាក់​ទេ ប៉ុន្តែ​ខ្លះ​ទៀត​មាន។",
-              })}
-            </p>
-          </div>
-
-          <div className="tips-flag-grid">
-            {flags.map((f, i) => (
-              <div key={i} className="tips-flag">
-                <Flag size={14} />
-                <span>{f}</span>
-              </div>
-            ))}
-          </div>
-        </Reveal>
       </div>
     </section>
   )
@@ -255,13 +230,8 @@ function ProtectAccounts() {
 
   return (
     <section className="tips-protect" id="protect-accounts">
-      <div className="container">
-        <div className="tips-dark-panel">
-          <Reveal>
-            <span className="eyebrow">
-              {t({ en: "Housekeeping", km: "ការ​ថែទាំ" })}
-            </span>
-          </Reveal>
+      <div className="tips-dark-panel">
+        <div className="container">
           <Reveal className="d1">
             <h2>{t({ en: "Protect your accounts", km: "ការពារ​គណនី​របស់​អ្នក" })}</h2>
           </Reveal>
@@ -278,6 +248,7 @@ function ProtectAccounts() {
             <div className="tips-do-donts">
               <div className="tips-do-list">
                 <span className="tips-do-label">
+                  <CircleCheck size={20} />
                   {t({ en: "Do", km: "ធ្វើ" })}
                 </span>
                 <ul>
@@ -292,6 +263,7 @@ function ProtectAccounts() {
 
               <div className="tips-dont-list">
                 <span className="tips-dont-label">
+                  <XCircle size={20} />
                   {t({ en: "Don't", km: "កុំ" })}
                 </span>
                 <ul>
@@ -306,65 +278,8 @@ function ProtectAccounts() {
             </div>
           </Reveal>
 
-          <Reveal>
-            <div className="tips-dark-foot">
-              <Lock size={14} />
-              <span>
-                {t({
-                  en: "Your password and security codes are private — no legitimate service will ever ask you for them.",
-                  km: "ពាក្យសម្ងាត់ និង​កូដ​សុវត្ថិភាព​របស់​អ្នក​គឺ​ជា​ការសម្ងាត់ — គ្មាន​សេវាកម្ម​ស្របច្បាប់​ណាមួយ​នឹង​សុំ​ព័ត៌មាន​សម្ងាត់ទាំងនេះ​ពី​អ្នក​ទេ",
-                })}
-              </span>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function TechFakeContent() {
-  const { t } = useLang()
-
-  const pills = [
-    { color: "#E05252", label: t({ en: "Stop – don't rush", km: "ឈប់ – គិតជាមុន កុំរហ័សធ្វើការសម្រេចចិត្ត" }) },
-    { color: "#D97706", label: t({ en: "Check – verify the information", km: "ត្រួតពិនិត្យ – ផ្ទៀងផ្ទាត់​ព័ត៌មានឲបានច្បាស់លាស់" }) },
-    { color: "#0D9488", label: t({ en: "Protect – don't share sensitive information", km: "ការពារ – កុំ​ចែករំលែក​ព័ត៌មាន​ដែលអាចមានហានិភ័យ" }) },
-  ]
-
-  return (
-    <section className="tips-tech" id="tech-fakes">
-      <div className="container">
-        <Reveal className="section-head center">
-          <span className="eyebrow">
-            {t({ en: "A Newer Problem", km: "បញ្ហា​ថ្មី​មួយ" })}
-          </span>
-          <h2>
-            {t({ en: "Technology can make scams look real", km: "បច្ចេកវិទ្យា​អាច​ធ្វើ​ឲ្យ​ការ​បោកប្រាស់​មើលទៅ​ដូច​ជា​ពិត" })}
-          </h2>
-          <p>
-            {t({
-              en: "Messages, profiles, websites, and images can all be made to look convincing with today's tools.",
-              km: "សារ ប្រវត្តិរូប វេបសាយ និង​រូបភាព​ទាំងអស់​អាច​ត្រូវ​បាន​ធ្វើ​ឲ្យ​មើលទៅ​គួរ​ឲ្យ​ជឿ​ជាមួយ​ឧបករណ៍​សព្វថ្ងៃ។",
-            })}{" "}
-            <strong>
-              {t({ en: "Don't trust something just because it looks real.", km: "កុំ​ជឿ​អ្វី​មួយ​គ្រាន់​តែ​ព្រោះ​វា​មើលទៅ​ដូច​ជា​ពិត។" })}
-            </strong>{" "}
-            {t({ en: "The same three habits still apply:", km: "ទម្លាប់​បី​ដដែល​នៅ​តែ​អនុវត្ត៖" })}
-          </p>
-        </Reveal>
-
-        <Reveal>
-          <div className="tips-tech-pills">
-            {pills.map((p, i) => (
-              <span key={i} className="tips-pill">
-                <span className="tips-pill-dot" style={{ background: p.color }} />
-                {p.label}
-              </span>
-            ))}
           </div>
-        </Reveal>
-      </div>
+        </div>
     </section>
   )
 }
@@ -373,44 +288,80 @@ function ScammedSteps() {
   const { t } = useLang()
   const steps = [
     {
-      icon: "🔴",
+      Icon: OctagonAlert,
       title: t({ en: "Stop", km: "ឈប់" }),
       desc: t({
-        en: "Stop communicating with the scammer, and don't send any more money.",
-        km: "ឈប់​ទាក់ទង​ជាមួយ​អ្នក​បោកប្រាស់ ហើយ​កុំ​ផ្ញើ​ប្រាក់​បន្ថែម​ទៀត។",
+        en: "Stop the scam from going further. Stop communicating with the scammer and do not send any additional money or personal information.",
+        km: "បញ្ឈប់ការបោកប្រាស់ កុំឲ្យបន្តទៅមុខទៀត។ ឈប់ទាក់ទងជាមួយអ្នកបោកប្រាស់ ហើយកុំផ្ញើប្រាក់ ឬព័ត៌មានផ្ទាល់ខ្លួនបន្ថែមទៀត។",
       }),
+      actionLabel: t({ en: "Take action:", km: "ចាត់វិធានការ៖" }),
+      actions: [
+        t({ en: "Stop replying to the scammer.", km: "ឈប់តបសារទៅអ្នកបោកប្រាស់។" }),
+        t({ en: "Do not click any more links or open additional files.", km: "កុំចុចតំណភ្ជាប់បន្ថែម ឬបើកឯកសារផ្សេងទៀត។" }),
+        t({ en: "Do not send more money or share sensitive information.", km: "កុំផ្ញើប្រាក់បន្ថែម ឬចែករំលែកព័ត៌មានសម្ងាត់។" }),
+      ],
     },
     {
-      icon: "🏦",
-      title: t({ en: "Contact your bank", km: "ទាក់ទង​ធនាគារ​របស់​អ្នក" }),
+      Icon: Landmark,
+      title: t({ en: "Contact your bank", km: "ទាក់ទងធនាគាររបស់អ្នក" }),
       desc: t({
-        en: "If money or banking information was involved, contact your bank as soon as possible.",
-        km: "ប្រសិន​បើ​មាន​ការ​ពាក់ព័ន្ធ​ប្រាក់ ឬ​ព័ត៌មាន​ធនាគារ សូម​ទាក់ទង​ធនាគារ​របស់​អ្នក​ឲ្យ​បាន​លឿន​តាម​ដែល​អាច​ធ្វើ​ទៅ​បាន។",
+        en: "Act quickly if money or banking information is involved. If you have sent money or shared banking or financial information, contact your bank as soon as possible.",
+        km: "ចាត់វិធានការឲ្យបានលឿន ប្រសិនបើមានការពាក់ព័ន្ធនឹងប្រាក់ ឬព័ត៌មានធនាគារ។ ប្រសិនបើអ្នកបានផ្ញើប្រាក់ ឬចែករំលែកព័ត៌មានធនាគារ ឬហិរញ្ញវត្ថុ សូមទាក់ទងធនាគាររបស់អ្នកឲ្យបានលឿនតាមដែលអាចធ្វើទៅបាន។",
       }),
+      actionLabel: t({ en: "Take action:", km: "ចាត់វិធានការ៖" }),
+      actions: [
+        t({ en: "Contact your bank through its official channels.", km: "ទាក់ទងធនាគាររបស់អ្នកតាមឆានែលផ្លូវការ។" }),
+        t({ en: "Explain what happened and provide the relevant transaction details.", km: "ពន្យល់ពីអ្វីដែលបានកើតឡើង និងផ្តល់ព័ត៌មានលម្អិតអំពីប្រតិបត្តិការពាក់ព័ន្ធ។" }),
+        t({ en: "Ask what steps can be taken to protect your account or transaction.", km: "សួរថាតើមានវិធានការអ្វីខ្លះ ដើម្បីការពារគណនី ឬប្រតិបត្តិការរបស់អ្នក។" }),
+      ],
     },
     {
-      icon: "📸",
-      title: t({ en: "Save evidence", km: "រក្សា​ទុក​ភស្តុតាង" }),
+      Icon: Camera,
+      title: t({ en: "Save the evidence", km: "រក្សាទុកភស្តុតាង" }),
       desc: t({
-        en: "Keep screenshots, messages, phone numbers, usernames, links, and transaction details.",
-        km: "រក្សា​ទុក​រូបថត​អេក្រង់ សារ លេខ​ទូរស័ព្ទ ឈ្មោះ​អ្នកប្រើ តំណភ្ជាប់ និង​ព័ត៌មាន​លម្អិត​អំពី​ប្រតិបត្តិការ។",
+        en: "Keep important information before deleting anything. Evidence can help you report the scam and may be useful when investigating what happened.",
+        km: "រក្សាទុកព័ត៌មានសំខាន់ៗ មុនពេលលុបអ្វីទាំងអស់។ ភស្តុតាងអាចជួយអ្នករាយការណ៍ការបោកប្រាស់ និងអាចមានប្រយោជន៍ក្នុងការស៊ើបអង្កេតនូវអ្វីដែលបានកើតឡើង។",
       }),
+      actionLabel: t({ en: "Save:", km: "រក្សាទុក៖" }),
+      actions: [
+        t({ en: "Screenshots of messages and conversations", km: "រូបថតអេក្រង់នៃសារ និងការសន្ទនា" }),
+        t({ en: "Phone numbers and usernames", km: "លេខទូរស័ព្ទ និងឈ្មោះអ្នកប្រើ" }),
+        t({ en: "Suspicious links or URLs", km: "តំណភ្ជាប់ ឬ URLs គួរឲ្យសង្ស័យ" }),
+        t({ en: "Email addresses", km: "អាសយដ្ឋានអ៊ីមែល" }),
+        t({ en: "Transaction and payment details", km: "ព័ត៌មានលម្អិតអំពីប្រតិបត្តិការ និងការទូទាត់" }),
+        t({ en: "Any files or other information related to the scam", km: "ឯកសារ ឬព័ត៌មានផ្សេងទៀតដែលទាក់ទងនឹងការបោកប្រាស់" }),
+      ],
     },
     {
-      icon: "🔓",
-      title: t({ en: "Secure your accounts", km: "ការពារ​គណនី​របស់​អ្នក" }),
+      Icon: Lock,
+      title: t({ en: "Secure your accounts", km: "ការពារគណនីរបស់អ្នក" }),
       desc: t({
-        en: "Change passwords and secure any accounts that may have been compromised.",
-        km: "ផ្លាស់ប្តូរ​ពាក្យសម្ងាត់ និង​ការពារ​គណនី​ណា​ដែល​អាច​ត្រូវ​បាន​ជ្រៀតជ្រែក។",
+        en: "Protect your accounts from further access. If you shared your password, login information, or other sensitive details, take steps to secure your accounts immediately.",
+        km: "ការពារគណនីរបស់អ្នកពីការចូលប្រើបន្ថែមទៀត។ ប្រសិនបើអ្នកបានចែករំលែកពាក្យសម្ងាត់ ព័ត៌មានចូលគណនី ឬព័ត៌មានសម្ងាត់ផ្សេងទៀត សូមចាត់វិធានការការពារគណនីរបស់អ្នកភ្លាមៗ។",
       }),
+      actionLabel: t({ en: "Take action:", km: "ចាត់វិធានការ៖" }),
+      actions: [
+        t({ en: "Change compromised passwords.", km: "ផ្លាស់ប្តូរពាក្យសម្ងាត់ដែលអាចត្រូវបានលួច។" }),
+        t({ en: "Use strong, unique passwords.", km: "ប្រើពាក្យសម្ងាត់រឹងមាំ និងខុសគ្នាតែមួយគត់។" }),
+        t({ en: "Enable two-factor authentication where available.", km: "បើកការផ្ទៀងផ្ទាត់ពីរជំហាន នៅពេលដែលអាចប្រើបាន។" }),
+        t({ en: "Check your accounts for unusual activity.", km: "ពិនិត្យគណនីរបស់អ្នកចំពោះសកម្មភាពមិនប្រក្រតី។" }),
+        t({ en: "Sign out of unfamiliar or unauthorized devices.", km: "ចេញពីឧបករណ៍ដែលអ្នកមិនស្គាល់ ឬមិនត្រូវបានអនុញ្ញាត។" }),
+      ],
     },
     {
-      icon: "📢",
+      Icon: Megaphone,
       title: t({ en: "Report it", km: "រាយការណ៍" }),
       desc: t({
-        en: "Report the scam through the appropriate platform or authority.",
-        km: "រាយការណ៍​ការ​បោកប្រាស់​តាម​រយៈ​វេទិកា ឬ​អាជ្ញាធរ​ដែល​សមស្រប។",
+        en: "Help stop the scam and protect others. Reporting a scam can help the relevant platform or organization take action and may help prevent others from becoming victims.",
+        km: "ជួយបញ្ឈប់ការបោកប្រាស់ និងការពារអ្នកដទៃ។ ការរាយការណ៍ការបោកប្រាស់អាចជួយវេទិកា ឬស្ថាប័នពាក់ព័ន្ធចាត់វិធានការ និងអាចជួយទប់ស្កាត់អ្នកដទៃពីការក្លាយជាជនរងគ្រោះ។",
       }),
+      actionLabel: t({ en: "Take action:", km: "ចាត់វិធានការ៖" }),
+      actions: [
+        t({ en: "Report the scam through the platform where it occurred.", km: "រាយការណ៍អំពីការបោកប្រាស់តាមរយៈវេទិកាដែលវាបានកើតឡើង។" }),
+        t({ en: "Report impersonation to the organization being impersonated.", km: "រាយការណ៍អំពីការក្លែងបន្លំទៅកាន់ស្ថាប័នដែលត្រូវបានក្លែងបន្លំ។" }),
+        t({ en: "Contact the appropriate authorities when necessary.", km: "ទាក់ទងអាជ្ញាធរសមស្រប នៅពេលចាំបាច់។" }),
+        t({ en: "Share your experience through Angket's community reporting system to help warn others.", km: "ចែករំលែកបទពិសោធន៍របស់អ្នកតាមរយៈប្រព័ន្ធរាយការណ៍សហគមន៍របស់ Angket ដើម្បីជួយព្រមានអ្នកដទៃ។" }),
+      ],
     },
   ]
   return (
@@ -418,12 +369,18 @@ function ScammedSteps() {
       <div className="container">
         <Reveal className="section-head">
           <h2>
-            {t({ en: "Don't panic. Act quickly.", km: "កុំ​ភ័យខ្លាច - ចាត់វិធានការ​ភ្លាមៗ" })}
+            {t({ en: "Don't panic. Act quickly.", km: "កុំភ័យខ្លាច - ចាត់វិធានការភ្លាមៗ" })}
           </h2>
           <p>
             {t({
-              en: "Work through these five steps in order — each one limits the damage the next might otherwise do.",
-              km: "ធ្វើ​តាម​ជំហាន​ទាំង​ប្រាំ​នេះ​តាម​លំដាប់ — នីមួយៗ​កាត់​បន្ថយ​ការ​ខូចខាត​ដែល​ជំហាន​បន្ទាប់​អាច​ធ្វើ​ឲ្យ​កាន់​តែ​អាក្រក់​ទៅ​ទៀត។",
+              en: "If you think you may have encountered a scam, don't panic. Acting quickly can help reduce the potential damage.",
+              km: "ប្រសិនបើអ្នកគិតថាអ្នកអាចបានជួបប្រទះនឹងការបោកប្រាស់ សូមកុំភ័យខ្លាច។ ការចាត់វិធានការភ្លាមៗ អាចជួយកាត់បន្ថយការខូចខាតដែលអាចកើតមាន។",
+            })}
+          </p>
+          <p>
+            {t({
+              en: "Follow these five steps in order to protect yourself, secure your information, and help prevent others from becoming victims.",
+              km: "ធ្វើតាមជំហានទាំងប្រាំនេះតាមលំដាប់លំដោយ ដើម្បីការពារខ្លួនអ្នក រក្សាសុវត្ថិភាពព័ត៌មាន និងជួយទប់ស្កាត់អ្នកដទៃពីការក្លាយជាជនរងគ្រោះ។",
             })}
           </p>
         </Reveal>
@@ -435,10 +392,19 @@ function ScammedSteps() {
                 <span className="tips-step-num">{String(i + 1).padStart(2, "0")}</span>
                 <div className="tips-step-body">
                   <h3>
-                    <span aria-hidden="true">{s.icon}</span>
+                    <s.Icon size={18} />
                     {s.title}
                   </h3>
                   <p>{s.desc}</p>
+                  <p className="tip-whattodo">{s.actionLabel}</p>
+                  <ul className="tips-step-list">
+                    {s.actions.map((a, j) => (
+                      <li key={j}>
+                        <CircleCheck size={16} />
+                        <span>{a}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </li>
             ))}
@@ -472,21 +438,16 @@ function TipsFinalCTA() {
 
   return (
     <section className="tips-cta-section" id="cta">
-      <div className="container">
-        <div className="tips-cta-panel">
-          <Reveal>
-            <span className="eyebrow">
-              {t({ en: "Not Sure? Ask Before You Act", km: "មិន​ប្រាកដ? សួរ​មុន​ពេល​អ្នក​ធ្វើ" })}
-            </span>
-          </Reveal>
+      <div className="tips-cta-panel">
+        <div className="container">
           <Reveal className="d1">
             <h2>{t({ en: "Something looks suspicious?", km: "មាន​អ្វី​មួយ​មើលទៅ​សង្ស័យ?" })}</h2>
           </Reveal>
           <Reveal className="d2">
             <p className="lede">
               {t({
-                en: "Don't guess — check it. Send suspicious content to Angket and get help understanding the risk, in plain terms.",
-                km: "កុំ​ទាយ — ពិនិត្យ​វា។ ផ្ញើ​មាតិកា​សង្ស័យ​ទៅកាន់ Angket ដើម្បី​ទទួល​បាន​ជំនួយ​ក្នុង​ការ​យល់​ពី​ហានិភ័យ​ជា​ភាសា​ធម្មតា។",
+                en: "Don't guess - check it. Send suspicious content to Angket and get help understanding the risk, in plain terms.",
+                km: "កុំ​ទាយ - ពិនិត្យ​វា។ ផ្ញើ​មាតិកា​សង្ស័យ​ទៅកាន់ Angket ដើម្បី​ទទួល​បាន​ជំនួយ​ក្នុង​ការ​យល់​ពី​ហានិភ័យ​ជា​ភាសា​ធម្មតា។",
               })}
             </p>
           </Reveal>
@@ -497,8 +458,10 @@ function TipsFinalCTA() {
                 const Icon = o.icon
                 return (
                   <div key={i} className="tips-action-card">
-                    <Icon size={20} />
-                    <h3>{o.title}</h3>
+                    <div className="tips-action-head">
+                      <Icon size={20} />
+                      <h3>{o.title}</h3>
+                    </div>
                     <p>{o.desc}</p>
                   </div>
                 )
@@ -525,9 +488,7 @@ export function SafetyTips() {
     <>
       <TipsHero />
       <StopCheckProtect />
-      <SocialMediaScams />
       <ProtectAccounts />
-      <TechFakeContent />
       <ScammedSteps />
       <TipsFinalCTA />
     </>

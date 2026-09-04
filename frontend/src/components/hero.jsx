@@ -18,8 +18,8 @@ export function Hero() {
           </h1>
           <p className="lede rise d2">
             {t({
-              en: "Angket helps you identify suspicious messages, links, and online information through our Telegram chatbot. You will get an estimated scam risk percentage, understand suspicious patterns, and make safer decisions.",
-              km: "Angket ជួយអ្នកកំណត់អត្តសញ្ញាណសារ តំណភ្ជាប់ និងព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត តាមរយៈ Chatbot Telegram របស់យើង។ អ្នកនឹងទទួលបានការពិនិត្យ​ និង​វិភាគពីហានិភ័យ ហើយយល់ពីលំនាំដែលគួរឲ្យសង្ស័យ និងធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពជាងមុន។",
+              en: "Angket helps you find and identify suspicious messages, documents, links, and online information through our automated assistant on Telegram. You can get risk review and analysis, understand suspicious patterns or signs to help you assess the situation and make safer decisions.",
+              km: "Angket ជួយអ្នកស្វែងរក និងកំណត់អត្តសញ្ញាណសារ ឯកសារ តំណភ្ជាប់ និងព័ត៌មានដែលគួរឱ្យសង្ស័យនៅលើអ៊ីនធឺណិត តាមរយៈ កម្មវិធីជំនួយស្វ័យប្រវត្តិនៅលើតេលេក្រាមរបស់យើង។ អ្នកអាចទទួលបានការពិនិត្យ និងវិភាគកម្រិតហានិភ័យ ព្រមទាំងស្វែងយល់ពីលំនាំ ឬសញ្ញាដែលគួរឱ្យសង្ស័យ ដើម្បីជួយអ្នកវាយតម្លៃស្ថានភាព និងសម្រេចចិត្តបានកាន់តែមានសុវត្ថិភាព។",
             })}
           </p>
           <div className="hero-ctas rise d3">
@@ -32,12 +32,6 @@ export function Hero() {
               <span>{t({ en: "Scam Report", km: "រាយការណ៍ការបោកប្រាស់" })}</span>
             </Link>
           </div>
-          <p className="hero-trust rise d3">
-            {t({
-              en: "Protection from any risky · Community-powered reports",
-              km: "ការពារពីហានិភ័យណាមួយដែលមិនអាចដឹងទុកជាមុន · របាយការណ៍ពីសហគមន៍",
-            })}
-          </p>
         </div>
 
         <div className="phone-wrap rise d3">
@@ -118,12 +112,6 @@ export function Hero() {
               </div>
             </div>
           </div>
-          <p className="chat-note">
-            {t({
-              en: "Example reply. Every results are based on real data analysis​ to help you make decision — not a confirmation.",
-              km: "ចម្លើយគំរូ។ លទ្ធផលទាំងអស់ជាការវិភាគផ្អែកលើទិន្នន័យជាក់ស្តែង ដើម្បីជួយដល់ការសម្រេចចិត្តរបស់អ្នក— មិនមែនជាការបញ្ជាក់ថាពិត​ឬមិនពិត​១០០%នោះទេ។",
-            })}
-          </p>
         </div>
       </div>
     </section>

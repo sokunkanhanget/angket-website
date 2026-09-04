@@ -27,9 +27,9 @@ export function Problems() {
   return (
     <section className="problems" id="problem" aria-labelledby="problem-title">
       <div className="container">
-        <Reveal className="section-head center">
+        <Reveal className="section-head">
           <h2 id="problem-title">
-            {t({ en: "Scams Are Easier to Encounter Than You Think", km: "ការបោកប្រាស់ងាយជួបប្រទះជាងដែលអ្នកគិត" })}
+            {t({ en: "Scams Can Happen to Anyone", km: "ការបោកប្រាស់អាចកើតឡើងចំពោះអ្នកណាក៏បាន" })}
           </h2>
         </Reveal>
         <Reveal className="prob-grid">
@@ -42,14 +42,6 @@ export function Problems() {
               <p>{t(p.desc)}</p>
             </article>
           ))}
-        </Reveal>
-        <Reveal as="p" className="problem-note">
-          <span>
-            {t({
-              en: "The problem isn’t only detecting scams. It’s knowing what to look for before making a decision.",
-              km: "បញ្ហាមិនមែនត្រឹមតែការរកឃើញការបោកប្រាស់ប៉ុណ្ណោះទេ។ វាគឺជាការដឹងថាត្រូវរកមើលអ្វី មុនពេលធ្វើការសម្រេចចិត្ត។",
-            })}
-          </span>
         </Reveal>
       </div>
     </section>

@@ -6,13 +6,13 @@ import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
 import { Pricing } from "@/components/pricing"
 import { Problems } from "@/components/problems"
+import { Solution } from "@/components/solution"
 import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
 import { ReportsFeed } from "@/components/reports-feed"
 import { SafetyTips } from "@/components/safety-tips"
 import { WhyAngket } from "@/components/why-angket"
 import { TrustNote } from "@/components/trust-note"
-import { FinalCta } from "@/components/final-cta"
 import { SiteFooter } from "@/components/site-footer"
 import { LangProvider, useLang } from "@/lib/i18n"
 import { AuthProvider } from "@/lib/auth"
@@ -67,9 +67,9 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <Pricing />
       <Problems />
-      <FinalCta />
+      <Solution />
+      <Pricing />
     </>
   )
 }

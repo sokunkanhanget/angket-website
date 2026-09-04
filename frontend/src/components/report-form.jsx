@@ -156,7 +156,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         </button>
         <div className="report-page-scroll">
           <div className="container">
-            <div className="section-head center">
+            <div className="section-head">
               <span className="eyebrow">{t({ en: "Report a scam", km: "រាយការណ៍ការបោកប្រាស់" })}</span>
               <h2 id="drawer-title">{t({ en: "Share What Happened", km: "ចែករំលែកអ្វីដែលបានកើតឡើង" })}</h2>
               <p>
