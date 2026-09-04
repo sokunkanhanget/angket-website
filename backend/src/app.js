@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import express from "express"
 import helmet from "helmet"
 import apiRoutes from "./routes/index.js"
+import errorHandler from "./middlewares/errorHandler.js"
 
 dotenv.config()
 
@@ -26,5 +27,7 @@ app.use((error, _request, response, _next) => {
   console.error(error)
   response.status(500).json({ error: "Internal server error" })
 })
+
+app.use(errorHandler)
 
 export default app
