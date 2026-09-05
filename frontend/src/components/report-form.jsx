@@ -16,17 +16,8 @@ export function ReportForm({ open, onClose, onSubmitted }) {
     category: "",
     sourcePlatform: "",
     description: "",
-    amountLost: "",
     dateOccurred: "",
-    contactMethod: "",
   })
-  const CONTACT_METHODS = [
-    { value: "Telegram", label: { en: "Telegram", km: "Telegram" } },
-    { value: "Facebook", label: { en: "Facebook", km: "Facebook" } },
-    { value: "SMS", label: { en: "SMS", km: "SMS" } },
-    { value: "Telephone call", label: { en: "Telephone call", km: "ការហៅទូរស័ព្ទ" } },
-    { value: "Other", label: { en: "Other", km: "ផ្សេងទៀត" } },
-  ]
   const [screenshot, setScreenshot] = useState(null)
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
@@ -89,9 +80,8 @@ export function ReportForm({ open, onClose, onSubmitted }) {
     const errs = {}
     if (!form.title.trim()) errs.title = t({ en: "Title is required.", km: "ចំណងជើងជាចាំបាច់។" })
     if (!form.category) errs.category = t({ en: "Please select a category.", km: "សូមជ្រើសរើសប្រភេទ។" })
-    if (!form.sourcePlatform) errs.sourcePlatform = t({ en: "Please select a platform.", km: "សូមជ្រើសរើសវេទិកា។" })
+    if (!form.sourcePlatform) errs.sourcePlatform = t({ en: "Please select where the scam happened.", km: "សូមជ្រើសរើសកន្លែងដែលការបោកប្រាស់កើតឡើង។" })
     if (!form.description.trim()) errs.description = t({ en: "Description is required.", km: "ការពិពណ៌នាជាចាំបាច់។" })
-    if (!form.contactMethod) errs.contactMethod = t({ en: "Please select how they contacted you.", km: "សូមជ្រើសរើសពីរបៀបដែលពួកគេទំនាក់ទំនងអ្នក។" })
     return errs
   }
 
@@ -109,8 +99,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         description: form.description,
         category: form.category,
         platform: form.sourcePlatform,
-        contactMethod: form.contactMethod,
-        amountLost: form.amountLost,
+        contactMethod: form.sourcePlatform,
         dateOccurred: form.dateOccurred,
       })
       onSubmitted?.(form)
@@ -130,9 +119,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
       category: "",
       sourcePlatform: "",
       description: "",
-      amountLost: "",
       dateOccurred: "",
-      contactMethod: "",
     })
     setScreenshot(null)
     setErrors({})
@@ -157,12 +144,12 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         <div className="report-page-scroll">
           <div className="container">
             <div className="section-head">
-              <span className="eyebrow">{t({ en: "Report a scam", km: "រាយការណ៍ការបោកប្រាស់" })}</span>
+              
               <h2 id="drawer-title">{t({ en: "Share What Happened", km: "ចែករំលែកអ្វីដែលបានកើតឡើង" })}</h2>
               <p>
                 {t({
-                  en: "Your story can help someone else recognize the same trick before it's too late. Reports are anonymous by default.",
-                  km: "រឿងរ៉ាវរបស់អ្នកអាចជួយអ្នកដទៃស្គាល់ល្បិចដូចគ្នាបានទាន់ពេល។ របាយការណ៍ជាអនាមិកតាមលំនាំដើម។",
+                  en: "Your experience could help someone else recognize the same scam before it happens to them. Share what happened, what the scam looked like, and any warning signs you noticed.",
+                  km: "បទពិសោធន៍របស់អ្នកអាចជួយអ្នកដទៃឱ្យស្គាល់ការបោកប្រាស់ដូចគ្នា មុនពេលវាកើតឡើងចំពោះពួកគេ។ សូមចែករំលែកពីអ្វីដែលបានកើតឡើង លក្ខណៈនៃការបោកប្រាស់ និងសញ្ញាព្រមានដែលអ្នកបានសង្កេតឃើញ។",
                 })}
               </p>
             </div>
@@ -173,8 +160,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
               {/* ─── Screenshot upload ─── */}
               <div className="rf-upload-row">
                 <span className="f-label" id="rf-shot-label">
-                  {t({ en: "Screenshot", km: "រូបភាពអេក្រង់" })}{" "}
-                  <span className="opt">({t({ en: "optional", km: "ស្រេចចិត្ត" })})</span>
+                  {t({ en: "Screenshot", km: "រូបភាពអេក្រង់" })}
                 </span>
                 <div className="rf-upload-area">
                   <div className={`rf-upload-circle${screenshot ? " has-image" : ""}`}>
@@ -209,8 +195,8 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                     </button>
                     <span className="rf-upload-hint">
                       {t({
-                        en: "PNG, JPG, WebP — up to 5MB (optional)",
-                        km: "PNG, JPG, WebP — រហូតដល់ ៥MB (ស្រេចចិត្ត)",
+                        en: "Upload a screenshot that may help explain or verify the scam.",
+                        km: "បញ្ចូលរូបភាពអេក្រង់ដែលអាចជួយពន្យល់ ឬផ្ទៀងផ្ទាត់ការបោកប្រាស់នេះ។",
                       })}
                     </span>
                   </div>
@@ -251,6 +237,9 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                   aria-describedby={errors.title ? "rf-title-err" : undefined}
                   aria-invalid={errors.title ? "true" : undefined}
                 />
+                <p className="f-hint">
+                  {t({ en: "A short and clear title.", km: "ចំណងជើងខ្លី និងច្បាស់លាស់។" })}
+                </p>
                 {errors.title && (
                   <p className="field-error" id="rf-title-err" role="alert">
                     {errors.title}
@@ -262,7 +251,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
               <div className="f-row">
                 <div>
                   <label className="f-label" htmlFor="rf-category">
-                    <span>{t({ en: "Category", km: "ប្រភេទ" })}</span>{" "}
+                    <span>{t({ en: "Select a category", km: "ជ្រើសរើសប្រភេទ" })}</span>{" "}
                     <span className="req" aria-hidden="true">*</span>
                   </label>
                   <select
@@ -290,7 +279,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                 </div>
                 <div>
                   <label className="f-label" htmlFor="rf-platform">
-                    <span>{t({ en: "Source Platform", km: "វេទិកា" })}</span>{" "}
+                    <span>{t({ en: "Where did the scam happen?", km: "តើការបោកប្រាស់កើតឡើងនៅកន្លែងណា?" })}</span>{" "}
                     <span className="req" aria-hidden="true">*</span>
                   </label>
                   <select
@@ -303,9 +292,13 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                     aria-describedby={errors.sourcePlatform ? "rf-platform-err" : undefined}
                     aria-invalid={errors.sourcePlatform ? "true" : undefined}
                   >
-                    <option value="">{t({ en: "Select platform", km: "ជ្រើសរើសវេទិកា" })}</option>
+                    <option value="">{t({ en: "Select where it happened", km: "ជ្រើសរើសកន្លែង" })}</option>
                     <option value="Telegram">Telegram</option>
                     <option value="Facebook">Facebook</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="TikTok">{t({ en: "TikTok", km: "TikTok" })}</option>
+                    <option value="SMS">SMS</option>
+                    <option value="Telephone call">{t({ en: "Telephone call", km: "ការហៅទូរស័ព្ទ" })}</option>
                     <option value="Other">{t({ en: "Other", km: "ផ្សេងទៀត" })}</option>
                   </select>
                   {errors.sourcePlatform && (
@@ -344,70 +337,19 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                 )}
               </div>
 
-              {/* ─── Amount Lost + Date Occurred (two-column) ─── */}
-              <div className="f-row">
-                <div>
-                  <label className="f-label" htmlFor="rf-amount">
-                    <span>{t({ en: "Amount Lost", km: "ចំនួនប្រាក់បាត់បង់" })}</span>{" "}
-                    <span className="opt">({t({ en: "optional", km: "ស្រេចចិត្ត" })})</span>
-                  </label>
-                  <input
-                    id="rf-amount"
-                    name="amountLost"
-                    className="control"
-                    type="text"
-                    value={form.amountLost}
-                    onChange={update("amountLost")}
-                    placeholder={t({
-                      en: "e.g. $50",
-                      km: "ឧ. $50",
-                    })}
-                  />
-                </div>
-                <div>
-                  <label className="f-label" htmlFor="rf-date">
-                    <span>{t({ en: "Date Occurred", km: "កាលបរិច្ឆេទកើតឡើង" })}</span>{" "}
-                    <span className="opt">({t({ en: "optional", km: "ស្រេចចិត្ត" })})</span>
-                  </label>
-                  <input
-                    id="rf-date"
-                    name="dateOccurred"
-                    className="control"
-                    type="date"
-                    value={form.dateOccurred}
-                    onChange={update("dateOccurred")}
-                  />
-                </div>
-              </div>
-
-              {/* ─── Contact method ─── */}
+              {/* ─── Date Occurred ─── */}
               <div>
-                <label className="f-label" htmlFor="rf-contact">
-                  <span>{t({ en: "Contact method", km: "វិធីទំនាក់ទំនង" })}</span>{" "}
-                  <span className="req" aria-hidden="true">*</span>
+                <label className="f-label" htmlFor="rf-date">
+                  <span>{t({ en: "Date Occurred", km: "កាលបរិច្ឆេទកើតឡើង" })}</span>
                 </label>
-                <select
-                  id="rf-contact"
-                  name="contactMethod"
-                  className={`control ${errors.contactMethod ? "control--error" : ""}`}
-                  required
-                  value={form.contactMethod}
-                  onChange={update("contactMethod")}
-                  aria-describedby={errors.contactMethod ? "rf-contact-err" : undefined}
-                  aria-invalid={errors.contactMethod ? "true" : undefined}
-                >
-                  <option value="">{t({ en: "How did they contact you?", km: "តើពួកគេទំនាក់ទំនងអ្នកដោយរបៀបណា?" })}</option>
-                  {CONTACT_METHODS.map((m) => (
-                    <option key={m.value} value={m.value}>
-                      {t(m.label)}
-                    </option>
-                  ))}
-                </select>
-                {errors.contactMethod && (
-                  <p className="field-error" id="rf-contact-err" role="alert">
-                    {errors.contactMethod}
-                  </p>
-                )}
+                <input
+                  id="rf-date"
+                  name="dateOccurred"
+                  className="control"
+                  type="date"
+                  value={form.dateOccurred}
+                  onChange={update("dateOccurred")}
+                />
               </div>
 
               {/* ─── Privacy note ─── */}
@@ -415,8 +357,8 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                 <IconLock />
                 <span>
                   {t({
-                    en: "Please don't include passwords, OTP codes, bank details, or phone numbers in your report.",
-                    km: "សូមកុំបញ្ចូលពាក្យសម្ងាត់ លេខកូដ OTP ព័ត៌មានធនាគារ ឬលេខទូរស័ព្ទក្នុងរបាយការណ៍របស់អ្នក។",
+                    en: "Privacy Notice: We do not publicly share who submitted the report. Only the information included in the report will be visible to others.",
+                    km: "សេចក្តីជូនដំណឹងអំពីភាពឯកជន៖ យើងមិនផ្សព្វផ្សាយជាសាធារណៈអំពីអ្នកដែលដាក់ស្នើរបាយការណ៍នោះទេ។ មានតែព័ត៌មានដែលបានបញ្ចូលក្នុងរបាយការណ៍ប៉ុណ្ណោះដែលនឹងបង្ហាញដល់អ្នកដទៃ។",
                   })}
                 </span>
               </p>

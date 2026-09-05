@@ -38,6 +38,89 @@ function timeAgo(iso) {
   return months === 1 ? "1 month ago" : `${months} months ago`
 }
 
+const daysAgo = (n) => new Date(Date.now() - n * 24 * 60 * 60 * 1000).toISOString()
+
+const SAMPLE_REPORTS = [
+  {
+    id: 1,
+    category: "prize",
+    platform: "telegram",
+    reported_count: 86,
+    created_at: daysAgo(2),
+    title_en: "Fake cash prize message asks for a fee",
+    title_km: "សាររង្វាន់លុយក្លែងក្លាយសុំថ្លៃសេវា",
+    description_en:
+      "A forwarded message claimed the receiver won a $500 cash prize but had to pay a $15 processing fee first. Asking for an upfront payment is a common scam sign.",
+    description_km:
+      "សារបញ្ជូនបន្តបានអះអាងថាអ្នកទទួលបានឈ្នះរង្វាន់សាច់ប្រាក់ 500 ដុល្លារ ប៉ុន្តែត្រូវបង់ថ្លៃសេវា 15 ដុល្លារមុន។ ការសុំបង់ប្រាក់ជាមុនគឺជាសញ្ញានៃការបោកប្រាស់។",
+  },
+  {
+    id: 2,
+    category: "fake-job",
+    platform: "facebook",
+    reported_count: 54,
+    created_at: daysAgo(4),
+    title_en: "Job offer that asks you to pay for training",
+    title_km: "ការផ្ដល់ការងារសុំឱ្យអ្នកបង់ថ្លៃហ្វឹកហាត់",
+    description_en:
+      "A recruiter posted a high-paying remote job but required a payment for 'training materials' before starting. Legitimate employers never ask for money.",
+    description_km:
+      "អ្នកជ្រើសរើសបុគ្គលិកបានប្រកាសការងារពីចម្ងាយដែលមានប្រាក់ខែខ្ពស់ ប៉ុន្តែទាមទារបង់ប្រាក់សម្រាប់ 'ឯកសារហ្វឹកហាត់' មុនពេលចាប់ផ្ដើម។ និយោជកពិតប្រាកដមិនដែលសុំលុយទេ។",
+  },
+  {
+    id: 3,
+    category: "investment",
+    platform: "whatsapp",
+    reported_count: 41,
+    created_at: daysAgo(6),
+    title_en: "'Guaranteed' trading group disappears with deposits",
+    title_km: "ក្រុមវិនិយោគ 'ចំណេញប្រាកដ' បាត់ខ្លួនជាមួយប្រាក់បញ្ញើ",
+    description_en:
+      "An WhatsApp group promised guaranteed daily returns on a trading app. After members deposited money, the group and app stopped responding.",
+    description_km:
+      "ក្រុម WhatsApp មួយបានសន្យាផ្តល់ប្រាក់ចំណេញប្រចាំថ្ងៃប្រាកដលើកម្មវិធីវិនិយោគ។ បន្ទាប់ពីសមាជិកបានដាក់ប្រាក់ ក្រុម និងកម្មវិធីបានឈប់ឆ្លើយតប។",
+  },
+  {
+    id: 4,
+    category: "phishing",
+    platform: "sms",
+    reported_count: 23,
+    created_at: daysAgo(8),
+    title_en: "Bank SMS with a fake login link",
+    title_km: "SMS ពីធនាគារដែលមានតំណភ្ជាប់ចូលគណនីក្លែងក្លាយ",
+    description_en:
+      "An SMS pretending to be a bank warned of unusual activity and asked to verify the account through a link. The link led to a fake login page that steals credentials.",
+    description_km:
+      "SMS ក្លែងធ្វើជាធនាគារបានព្រមានពីសកម្មភាពមិនប្រក្រតី ហើយសុំឱ្យផ្ទៀងផ្ទាត់គណនីតាមតំណភ្ជាប់។ តំណភ្ជាប់នាំទៅរកទំព័រចូលក្លែងក្លាយដែលលួចព័ត៌មានគណនី។",
+  },
+  {
+    id: 5,
+    category: "fake-seller",
+    platform: "instagram",
+    reported_count: 17,
+    created_at: daysAgo(10),
+    title_en: "Online seller vanished after payment",
+    title_km: "អ្នកលក់តាមអ៊ីនធឺណិតបាត់ខ្លួនបន្ទាប់ពីទទួលប្រាក់",
+    description_en:
+      "A user sent money for a phone from an Instagram store with thousands of followers. After payment, the store blocked them and deleted its account.",
+    description_km:
+      "អ្នកប្រើម្នាក់បានផ្ញើប្រាក់ទិញទូរស័ព្ទពីហាង Instagram ដែលមានអ្នកតាមរាប់ពាន់។ បន្ទាប់ពីបង់ប្រាក់ ហាងបានរារាំងពួកគេ និងលុបគណនីរបស់ខ្លួន។",
+  },
+  {
+    id: 6,
+    category: "impersonation",
+    platform: "telegram",
+    reported_count: 9,
+    created_at: daysAgo(12),
+    title_en: "Scammer impersonates a friend asking for money",
+    title_km: "អ្នកបោកប្រាស់ក្លែងធ្វើជាមិត្តភក្តិសុំលុយ",
+    description_en:
+      "A scammer used a friend's name and profile photo to ask for an urgent money transfer. The real friend's account had been cloned.",
+    description_km:
+      "អ្នកបោកប្រាស់បានប្រើឈ្មោះ និងរូបភាពទម្រង់របស់មិត្តភក្តិដើម្បីសុំផ្ញើប្រាក់ជាបន្ទាន់។ គណនីពិតរបស់មិត្តភក្តិត្រូវបានក្លូន។",
+  },
+]
+
 const PLATFORM_ICONS = {
   facebook: IconFacebook,
   telegram: IconTelegram,
@@ -127,7 +210,7 @@ export function ReportsFeed() {
   const { lang, t } = useLang()
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
-  const [loadError, setLoadError] = useState(null)
+  const [usingSample, setUsingSample] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [reportKey, setReportKey] = useState(0)
   const [q, setQ] = useState("")
@@ -144,7 +227,11 @@ export function ReportsFeed() {
         if (mounted) setReports((res.reports || []).map(normalize))
       })
       .catch((err) => {
-        if (mounted) setLoadError(err.message)
+        console.warn("Reports unavailable, using sample data:", err.message)
+        if (mounted) {
+          setReports(SAMPLE_REPORTS.map(normalize))
+          setUsingSample(true)
+        }
       })
       .finally(() => {
         if (mounted) setLoading(false)
@@ -162,18 +249,6 @@ export function ReportsFeed() {
       return next
     })
   }, [])
-
-  const totals = useMemo(() => {
-    const byCat = {}
-    reports.forEach((r) => {
-      byCat[r.cat] = (byCat[r.cat] || 0) + r.count
-    })
-    return Object.entries(byCat)
-      .map(([c, total]) => ({ cat: c, total }))
-      .sort((a, b) => b.total - a.total)
-  }, [reports])
-
-  const maxTotal = totals[0]?.total ?? 1
 
   const visibleReports = useMemo(() => {
     const needle = q.trim().toLowerCase()
@@ -217,14 +292,20 @@ export function ReportsFeed() {
     <section className="reports" id="reports" aria-labelledby="reports-title">
       <div className="container">
         <Reveal className="section-head">
-          <span className="eyebrow">{t({ en: "Learn from others", km: "រៀនពីអ្នកដទៃ" })}</span>
+          
           <h2 id="reports-title">
-            {t({ en: "Learn From Real Scam Experiences", km: "រៀនសូត្រពីបទពិសោធន៍បោកប្រាស់ជាក់ស្ដែង" })}
+            {t({ en: "Learn From Scam Reports", km: "ស្វែងយល់តាមរយៈរបាយការណ៍អំពីការបោកប្រាស់" })}
           </h2>
           <p>
             {t({
-              en: "Have you encountered a scam? Share your experience to help others recognize similar attempts.",
-              km: "តើអ្នកធ្លាប់ជួបប្រទះការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នក ដើម្បីជួយអ្នកដទៃស្គាល់ការព្យាយាមបោកប្រាស់ប្រភេទដូចគ្នា។",
+              en: "Scammers use different methods to trick people, and the same type of scam can target many others. Explore scam reports shared by the other people to understand how these scams happen and what warning signs to look out for.",
+              km: "អ្នកបោកប្រាស់ប្រើវិធីសាស្ត្រផ្សេងៗ ដើម្បីបញ្ឆោតមនុស្ស ហើយការបោកប្រាស់ប្រភេទដូចគ្នាអាចកើតឡើងចំពោះមនុស្សជាច្រើន។ ស្វែងយល់ពីរបាយការណ៍អំពីការបោកប្រាស់ដែលបានចែករំលែកដោយអ្នកដទៃ ដើម្បីយល់ពីរបៀបដែលការបោកប្រាស់ទាំងនេះកើតឡើង និងស្គាល់សញ្ញាដែលគួរប្រុងប្រយ័ត្ន។",
+            })}
+          </p>
+          <p className="about-sub">
+            {t({
+              en: "Have you experienced a scam? Share your experience with the Angket to help others recognize and avoid similar scams.",
+              km: "តើអ្នកធ្លាប់ជួបការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នកជាមួយ Angket ដើម្បីជួយអ្នកដទៃឱ្យអាចសម្គាល់ និងជៀសវាងការបោកប្រាស់ដែលមានលក្ខណៈស្រដៀងគ្នា។",
             })}
           </p>
         </Reveal>
@@ -246,11 +327,6 @@ export function ReportsFeed() {
               placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
             />
           </div>
-          <span className="browse-result-count">
-            {lang === "km"
-              ? `${visibleReports.length} របាយការណ៍`
-              : `${visibleReports.length} report${visibleReports.length !== 1 ? "s" : ""}`}
-          </span>
           <button type="button" className="browse-report-btn" onClick={() => { setReportKey((k) => k + 1); setDrawerOpen(true) }}>
             <IconPlus />
             <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
@@ -286,6 +362,18 @@ export function ReportsFeed() {
           })}
         </div>
 
+        {usingSample && (
+          <p className="sample-notice">
+            <IconInfo />
+            <span>
+              {t({
+                en: "Live reports are unavailable right now — showing sample reports for preview.",
+                km: "របាយការណ៍ផ្ទាល់មិនអាចប្រើបានទេនៅពេលនេះ — កំពុងបង្ហាញរបាយការណ៍គំរូសម្រាប់មើលជាមុន។",
+              })}
+            </span>
+          </p>
+        )}
+
         {/* Category section header */}
         {cat !== "all" && activeCatMeta && activeCatLabel && (
           <div className="browse-cat-header">
@@ -307,45 +395,12 @@ export function ReportsFeed() {
         )}
 
         <div className="reports-layout">
-          <aside className="popular" aria-labelledby="pop-title">
-            <h3 id="pop-title">{t({ en: "Reported most often", km: "ត្រូវបានរាយការណ៍ច្រើនជាងគេ" })}</h3>
-            <ul>
-              {totals.slice(0, 4).map(({ cat: c, total }) => (
-                <li key={c}>
-                  <button type="button" className="pop-item" aria-pressed={cat === c} onClick={() => setCat(cat === c ? "all" : c)}>
-                    <span className="pop-line">
-                      <span className="pop-name">{t(TYPE_LABELS[c] ?? { en: c, km: c })}</span>
-                      <span className="pop-count">
-                        {lang === "km" ? `${total} ដង` : `${total} reports`}
-                      </span>
-                    </span>
-                    <span className="pop-bar" aria-hidden="true">
-                      <i style={{ width: `${Math.round((total / maxTotal) * 100)}%` }} />
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <p className="pop-note">
-              {t({
-                en: "Based on the reports below.",
-                km: "ផ្អែកលើរបាយការណ៍ខាងក្រោម។",
-              })}
-            </p>
-          </aside>
-
           <div>
             <div className="browse-cards">
               {loading && (
                 <p className="empty-msg">{t({ en: "Loading reports…", km: "កំពុងផ្ទុករបាយការណ៍…" })}</p>
               )}
-              {!loading && loadError && (
-                <p className="empty-msg">
-                  {t({ en: "Could not load reports.", km: "មិនអាចផ្ទុករបាយការណ៍បានទេ។" })}{" "}
-                  {loadError}
-                </p>
-              )}
-              {!loading && !loadError && visibleReports.map((r) => (
+              {!loading && visibleReports.map((r) => (
                 <article className="browse-card" key={r.id}>
                   {/* Image area */}
                   <div className="browse-card-img">
@@ -386,7 +441,7 @@ export function ReportsFeed() {
                   </div>
                 </article>
               ))}
-              {!loading && !loadError && visibleReports.length === 0 && (
+              {!loading && visibleReports.length === 0 && (
                 <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
               )}
             </div>
@@ -394,8 +449,8 @@ export function ReportsFeed() {
               <IconInfo />
               <span>
                 {t({
-                  en: "Reports are personal experiences shared anonymously — useful for awareness, but not verified facts.",
-                  km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក — មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
+                  en: "Reports are personal experiences shared anonymously - useful for awareness, but not verified facts.",
+                  km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
                 })}
               </span>
             </p>

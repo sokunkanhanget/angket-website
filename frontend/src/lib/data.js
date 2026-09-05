@@ -10,7 +10,7 @@ export const NAV_LINKS = [
 
 export const SCAM_TYPES = [
   { value: "fake-job", en: "Fake Job", km: "ការងារក្លែងក្លាយ" },
-  { value: "investment", en: "Investment", km: "ការវិនិយោគក្លែងក្លាយ" },
+  { value: "investment", en: "Investment Scam", km: "ការវិនិយោគក្លែងក្លាយ" },
   { value: "prize", en: "Prize / Giveaway", km: "រង្វាន់ក្លែងក្លាយ" },
   { value: "phishing", en: "Phishing", km: "ការបញ្ឆោតយកព័ត៌មាន" },
   { value: "fake-seller", en: "Fake Seller", km: "អ្នកលក់ក្លែងក្លាយ" },

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { NAV_LINKS } from "@/lib/data"
+import { rememberAuthOrigin } from "@/lib/authBack"
 import { IconMenu, IconShield } from "./icons"
 
 function FlagGB() {
@@ -129,7 +130,7 @@ export function SiteHeader() {
               )}
             </div>
 
-            <Link className="btn btn-outline" to="/login">
+            <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
               {t({ en: "Log in", km: "ចូលគណនី" })}
             </Link>
 
@@ -162,7 +163,7 @@ export function SiteHeader() {
               </NavLink>
             ))}
           </nav>
-          <Link className="btn btn-outline btn-lg" to="/login" onClick={closeMenu}>
+          <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>
             {t({ en: "Log in", km: "ចូលគណនី" })}
           </Link>
         </div>

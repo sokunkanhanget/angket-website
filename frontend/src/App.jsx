@@ -11,8 +11,6 @@ import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
 import { ReportsFeed } from "@/components/reports-feed"
 import { SafetyTips } from "@/components/safety-tips"
-import { WhyAngket } from "@/components/why-angket"
-import { TrustNote } from "@/components/trust-note"
 import { SiteFooter } from "@/components/site-footer"
 import { LangProvider, useLang } from "@/lib/i18n"
 import { AuthProvider } from "@/lib/auth"
@@ -75,13 +73,7 @@ function HomePage() {
 }
 
 function AboutPage() {
-  return (
-    <>
-      <About />
-      <WhyAngket />
-      <TrustNote />
-    </>
-  )
+  return <About />
 }
 
 export default function App() {

@@ -1,7 +1,8 @@
 import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { IconCheck } from "@/components/icons"
+import { goAuthBack } from "@/lib/authBack"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
@@ -9,6 +10,7 @@ import { authApi } from "@/lib/services"
 
 export function SignUp() {
   const { t } = useLang()
+  const navigate = useNavigate()
   const successRef = useRef(null)
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", confirm: "" })
   const [agreeTerms, setAgreeTerms] = useState(false)
@@ -17,6 +19,8 @@ export function SignUp() {
   const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
+
+  const goBack = () => goAuthBack(navigate)
 
   const validate = () => {
     const errs = {}
@@ -72,7 +76,14 @@ export function SignUp() {
 
   return (
     <AuthLayout>
-      {registered ? (
+      <>
+        <button type="button" className="auth-back" onClick={goBack}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6" />
+          </svg>
+          {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
+        </button>
+        {registered ? (
         <div className="auth-success">
           <span className="auth-success__icon" aria-hidden="true">
             <IconCheck style={{ width: 32, height: 32 }} />
@@ -248,10 +259,11 @@ export function SignUp() {
 
           <p className="auth-alt">
             {t({ en: "Already have an account?", km: "មានគណនីរួចហើយ?" })}{" "}
-            <Link to="/login">{t({ en: "Sign in instead", km: "ចូលគណនីជំនួស" })}</Link>
+            <Link to="/login">{t({ en: "Sign in", km: "ចូលគណនី" })}</Link>
           </p>
         </>
-      )}
+        )}
+      </>
     </AuthLayout>
   )
 }
