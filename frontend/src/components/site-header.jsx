@@ -3,7 +3,8 @@ import { Link, NavLink } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { NAV_LINKS } from "@/lib/data"
 import { rememberAuthOrigin } from "@/lib/authBack"
-import { IconMenu, IconShield } from "./icons"
+import { IconMenu } from "./icons"
+import logoImg from "@/assets/logo.png"
 
 function FlagGB() {
   return (
@@ -59,9 +60,7 @@ export function SiteHeader() {
       <div className="container">
         <nav className="nav" aria-label="Main">
           <Link to="/" className="brand" aria-label="Angket — home">
-            <span className="brand-mark" aria-hidden="true">
-              <IconShield check />
-            </span>
+            <img src={logoImg} alt="Angket" className="brand-img" />
             <span>
               Ang<b>ket</b>
             </span>

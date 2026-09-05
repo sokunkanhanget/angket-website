@@ -158,6 +158,7 @@ html.km .eyebrow { font-size: 0.85rem; }
   box-shadow: var(--shadow-sm);
 }
 .brand-mark .icon { width: 20px; height: 20px; }
+.brand-img { height: 48px; width: auto; object-fit: contain; background: none; box-shadow: none; border-radius: 0; display: block; }
 .brand b { color: var(--blue-800); }
 
 .nav-links { display: flex; flex: none; gap: 2.9rem; margin: 0 6rem 0 auto; padding: 0; list-style: none; }
@@ -1459,16 +1460,19 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 .auth-split__logo-mark {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
+  width: 60px;
+  height: 60px;
   color: #ffffff;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0.10));
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 8px 24px rgba(9, 18, 51, 0.35);
 }
 
 .auth-split__logo-mark .icon { width: 20px; height: 20px; }
+
+.auth-split__logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 0;
+}
 
 .auth-split__wordmark {
   font-family: var(--font-display);

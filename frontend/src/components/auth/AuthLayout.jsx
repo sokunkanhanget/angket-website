@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
-import { IconShield } from "@/components/icons"
 import onlineScamsImg from "@/assets/online-scams.png"
+import logoImg from "@/assets/logo.png"
 
 export function AuthLayout({ children }) {
   const { t } = useLang()
@@ -11,7 +11,7 @@ export function AuthLayout({ children }) {
 
         <div className="auth-split__logo" aria-hidden="true">
           <span className="auth-split__logo-mark">
-            <IconShield />
+            <img src={logoImg} alt="" />
           </span>
           <span className="auth-split__wordmark">ANGKET</span>
         </div>

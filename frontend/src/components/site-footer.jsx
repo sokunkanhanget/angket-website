@@ -2,7 +2,8 @@ import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { INFO_PAGES, NAV_LINKS, TELEGRAM_BOT_URL } from "@/lib/data"
-import { IconClose, IconSend, IconShield } from "./icons"
+import { IconClose, IconSend } from "./icons"
+import logoImg from "@/assets/logo.png"
 
 export function SiteFooter() {
   const { t } = useLang()
@@ -22,9 +23,7 @@ export function SiteFooter() {
         <div className="foot-grid">
           <div className="foot-brand">
             <Link to="/" className="brand" aria-label="Angket — home">
-              <span className="brand-mark" aria-hidden="true">
-                <IconShield check />
-              </span>
+              <img src={logoImg} alt="Angket" className="brand-img" />
               <span>
                 Ang<b>ket</b>
               </span>
