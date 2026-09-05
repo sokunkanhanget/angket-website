@@ -1,0 +1,142 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid()) @map("user_id")
+  name      String
+  email     String   @unique
+  role      String   @default("user")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  botSubscribers     BotSubscriber[]
+  reportForms        ReportForm[]
+  userSubscriptions  UserSubscription[]
+  subscriptionOrders SubscriptionOrder[]
+
+  @@map("users")
+}
+
+model BotSubscriber {
+  id             String   @id @default(uuid()) @map("user_sub_id")
+  platform       String
+  platformUserId String   @map("platform_user_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+  userId         String   @map("user_id")
+
+  user                User                 @relation(fields: [userId], references: [id])
+  subscriptionMembers SubscriptionMember[]
+  subscriptionOrders  SubscriptionOrder[]
+
+  @@map("bot_subscriber")
+}
+
+model ReportForm {
+  id          String   @id @default(uuid()) @map("report_form_id")
+  description String
+  place       String
+  status      String
+  createdAt   DateTime @default(now()) @map("created_at")
+  userId      String   @map("user_id")
+  categoryId  String   @map("category_id")
+
+  user     User          @relation(fields: [userId], references: [id])
+  category Category      @relation(fields: [categoryId], references: [id])
+  images   ReportImage[]
+
+  @@map("report_form")
+}
+
+model ReportImage {
+  id           String   @id @default(uuid()) @map("report_image_id")
+  imageUrl     String   @map("image_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  reportFormId String   @map("report_form_id")
+
+  reportForm ReportForm @relation(fields: [reportFormId], references: [id])
+
+  @@map("report_image")
+}
+
+model Category {
+  id   String @id @default(uuid()) @map("category_id")
+  name String
+
+  reportForms ReportForm[]
+
+  @@map("category")
+}
+
+model SubscriptionPlan {
+  id           String  @id @default(uuid()) @map("sub_plan_id")
+  name         String
+  price        Decimal
+  durationDays Int     @map("duration_days")
+
+  userSubscriptions  UserSubscription[]
+  subscriptionOrders SubscriptionOrder[]
+
+  @@map("subscription_plan")
+}
+
+model UserSubscription {
+  id            String    @id @default(uuid()) @map("sub_id")
+  startDate     DateTime  @map("start_date")
+  paymentRef    String?   @map("payment_ref")
+  endDate       DateTime? @map("end_date")
+  status        String
+  previousSubId String?   @map("previous_sub_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  userId        String    @map("user_id")
+  subPlanId     String    @map("sub_plan_id")
+
+  user             User               @relation(fields: [userId], references: [id])
+  subscriptionPlan SubscriptionPlan   @relation(fields: [subPlanId], references: [id])
+  previousSub      UserSubscription?  @relation("SubscriptionRenewal", fields: [previousSubId], references: [id])
+  renewals         UserSubscription[] @relation("SubscriptionRenewal")
+
+  subscriptionMembers SubscriptionMember[]
+
+  @@map("user_subscription")
+}
+
+model SubscriptionOrder {
+  id        String    @id @default(uuid()) @map("order_id")
+  token     String
+  amount    Decimal
+  status    String
+  proofRef  String?   @map("proof_ref")
+  createdAt DateTime  @default(now()) @map("created_at")
+  paidAt    DateTime? @map("paid_at")
+  botSubId  String    @map("bot_sub_id")
+  subPlanId String    @map("sub_plan_id")
+  userId    String    @map("user_id")
+
+  botSubscriber    BotSubscriber    @relation(fields: [botSubId], references: [id])
+  subscriptionPlan SubscriptionPlan @relation(fields: [subPlanId], references: [id])
+  user             User             @relation(fields: [userId], references: [id])
+
+  @@map("subscription_order")
+}
+
+model SubscriptionMember {
+  id        String    @id @default(uuid()) @map("member_id")
+  addedAt   DateTime  @default(now()) @map("added_at")
+  removedAt DateTime? @map("removed_at")
+  userSubId String    @map("user_sub_id")
+  subId     String    @map("sub_id")
+
+  botSubscriber    BotSubscriber    @relation(fields: [userSubId], references: [id])
+  userSubscription UserSubscription @relation(fields: [subId], references: [id])
+
+  @@map("subscription_member")
+}
