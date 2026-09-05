@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useState, useCallback } from "react"
+import { useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
+import { useAuth } from "@/lib/auth"
+import { rememberAuthOrigin } from "@/lib/authBack"
 import { SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { reportsApi } from "@/lib/services"
 import { Reveal } from "./reveal"
@@ -208,6 +211,8 @@ function placeholderHeader(cat, lang) {
 
 export function ReportsFeed() {
   const { lang, t } = useLang()
+  const navigate = useNavigate()
+  const { admin } = useAuth()
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
   const [usingSample, setUsingSample] = useState(false)
@@ -327,7 +332,19 @@ export function ReportsFeed() {
               placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
             />
           </div>
-          <button type="button" className="browse-report-btn" onClick={() => { setReportKey((k) => k + 1); setDrawerOpen(true) }}>
+          <button
+            type="button"
+            className="browse-report-btn"
+            onClick={() => {
+              if (!admin) {
+                rememberAuthOrigin()
+                navigate("/login")
+                return
+              }
+              setReportKey((k) => k + 1)
+              setDrawerOpen(true)
+            }}
+          >
             <IconPlus />
             <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
           </button>

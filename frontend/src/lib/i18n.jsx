@@ -3,8 +3,8 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react"
 const LangContext = createContext(null)
 
 const TITLES = {
-  en: "Angket — Check Before You Trust",
-  km: "Angket — ពិនិត្យមុនពេលជឿ",
+  en: "Angket",
+  km: "Angket",
 }
 
 export function LangProvider({ children }) {
