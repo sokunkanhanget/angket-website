@@ -1,7 +1,7 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
-import { IconSend, IconShield } from "./icons"
+import { IconSend } from "./icons"
 
 const STEPS = [
   { en: "Open Telegram", km: "បើក Telegram" },
@@ -35,7 +35,6 @@ export function TelegramBand() {
           <div className="tg-ctas">
             <a className="btn btn-white btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
               <IconSend />
-              <IconShield />
               <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
           </div>

@@ -82,10 +82,12 @@ export function HowItWorks() {
                 <span className="step-num" aria-hidden="true">
                   {String(step.num).padStart(2, "0")}
                 </span>
-                <span className="step-ic" aria-hidden="true">
-                  <step.Icon />
-                </span>
-                <h3>{t(step.title)}</h3>
+                <div className="step-head">
+                  <span className="step-ic" aria-hidden="true">
+                    <step.Icon />
+                  </span>
+                  <h3>{t(step.title)}</h3>
+                </div>
                 <p className="step-tag">{t(step.tag)}</p>
                 <p>{t(step.desc)}</p>
                 {step.num < FLOW.length && (

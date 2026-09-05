@@ -192,7 +192,7 @@ whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវ�
                   <span className="tip-label" style={{ color: c.accent }}>{c.label}</span>
                 </div>
                 <h3>{c.tagline}</h3>
-                  <p>{c.description}</p>
+                  <p className="tip-desc">{c.description}</p>
                   <p className="tip-whattodo">{c.whatToDoLabel}</p>
                   <ul className="tip-bullets">
                     {c.bullets.map((b, j) => (

@@ -39,6 +39,12 @@ export function Problems() {
                 <p.Icon />
               </span>
               <h3>{t(p.title)}</h3>
+              <div className="prob-head">
+                <span className="prob-ic" aria-hidden="true">
+                  <p.Icon />
+                </span>
+                <h3>{t(p.title)}</h3>
+              </div>
               <p>{t(p.desc)}</p>
             </article>
           ))}
