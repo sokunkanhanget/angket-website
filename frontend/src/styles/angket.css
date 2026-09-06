@@ -106,14 +106,19 @@ section { padding: 4.75rem 0; scroll-margin-top: calc(var(--header-h) + 10px); }
   font: inherit; font-weight: 600; font-size: 0.95rem;
   border-radius: 999px; border: 1px solid transparent; cursor: pointer;
   padding: 0.62rem 1.25rem; white-space: nowrap;
-  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.15s ease-out;
 }
+button {
+  transform: scale(1);
+  transition: transform 0.15s ease-out;
+}
+button:hover, .btn:hover { transform: scale(1.05); }
 .btn-primary { background: var(--blue-800); color: #fff; box-shadow: var(--shadow-sm); }
-.btn-primary:hover { background: var(--blue-700); transform: translateY(-1px); }
+.btn-primary:hover { background: var(--blue-700); transform: translateY(-1px) scale(1.05); }
 .btn-outline { background: #fff; color: var(--blue-700); border-color: var(--blue-200); }
 .btn-outline:hover { background: var(--blue-50); }
 .btn-white { background: #fff; color: var(--blue-800); box-shadow: 0 8px 24px rgba(4, 16, 46, 0.28); }
-.btn-white:hover { background: var(--blue-50); transform: translateY(-1px); }
+.btn-white:hover { background: var(--blue-50); transform: translateY(-1px) scale(1.05); }
 .btn-ghost-light { background: transparent; color: #dbe7ff; border-color: rgba(255, 255, 255, 0.45); }
 .btn-ghost-light:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
 .btn-lg { padding: 0.88rem 1.7rem; font-size: 1.03rem; }
@@ -291,13 +296,17 @@ html.km .eyebrow { font-size: 0.85rem; }
 .chat-note { margin-top: 0.95rem; font-size: 0.79rem; color: var(--faint); text-align: center; margin-inline: auto; }
 
 .problems { background: #fff; border-block: 1px solid var(--border); }
-.prob-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.prob-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; }
 .prob-card {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 1.5rem 1.4rem;
+  display: flex; flex-direction: column;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+  position: relative; overflow: hidden;
 }
 .prob-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.prob-card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--blue-500), var(--blue-800)); opacity: 0; transition: opacity 0.2s ease; }
+.prob-card:hover::before { opacity: 1; }
 .prob-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; }
 .prob-ic {
   width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
@@ -307,7 +316,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 }
 .prob-ic .icon { width: 22px; height: 22px; color: var(--blue-700); }
 .prob-card h3 { font-size: 1.04rem; margin-bottom: 0; }
-.prob-card p { color: var(--muted); font-size: 0.92rem; }
+.prob-card p { color: var(--muted); font-size: 0.92rem; margin-top: auto; flex-grow: 1; }
 .problem-note {
   margin: 2.6rem auto 0; text-align: center;
   font-family: var(--font-display); font-weight: 600;
@@ -478,7 +487,7 @@ html.km .pkg-currency { font-family: var(--font-km); }
   width: 100%; justify-content: center; margin-top: auto; border-radius: 999px;
 }
 .btn--teal { background: var(--teal); color: #fff; }
-.btn--teal:hover { background: var(--teal-dim); transform: translateY(-1px); }
+.btn--teal:hover { background: var(--teal-dim); transform: translateY(-1px) scale(1.05); }
 html.km .pkg-btn { padding-top: 0.62rem; padding-bottom: 0.62rem; }
 
 .pkg-business {
@@ -1234,7 +1243,7 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 .tips-hero h1 { font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.12; font-weight: 700; }
 .tips-hero .lede { color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.1rem); }
 .tips-hero-illust { display: flex; justify-content: center; }
-.tips-hero-img { width: 100%; max-width: 420px; border-radius: var(--radius-lg); }
+.tips-hero-img { width: 100%; max-width: 640px; margin: 0 auto; }
 
 .tips-stop { background: #fff; border-block: 1px solid var(--border); }
 .tips-stop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; align-items: stretch; }
@@ -1959,5 +1968,12 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
   .auth-split__heading {
     font-size: 1.35rem;
   }
+}
+
+button:active, .btn:active { transform: scale(1.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  button, .btn { transition: none; }
+  button:hover, button:active, .btn:hover, .btn:active { transform: none; }
 }
 

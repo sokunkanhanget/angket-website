@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
-import staySafeOnlineImg from "@/assets/stay-safe-online.png"
+import avoidScamsImg from "@/assets/avoid-scams-online.png"
 import {
   AlertTriangle,
   Search,
@@ -55,7 +55,7 @@ function TipsHero() {
         </div>
 
         <div className="tips-hero-illust">
-          <img src={staySafeOnlineImg} alt="Staying safe online" className="tips-hero-img" />
+          <img src={avoidScamsImg} alt="Staying safe online" className="tips-hero-img" />
         </div>
       </div>
     </section>

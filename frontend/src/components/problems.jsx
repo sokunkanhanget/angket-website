@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
-import { IconMail, IconLink } from "./icons"
+import { IconMail, IconLink, IconFile, IconBell } from "./icons"
 
 const PROBLEMS = [
   {
@@ -18,7 +18,23 @@ const PROBLEMS = [
       en: "Users may click unfamiliar links without knowing where they lead.",
       km: "អ្នកប្រើប្រាស់អាចចុចតំណភ្ជាប់មិនស្គាល់ ដោយមិនដឹងថាវានឹងបញ្ជូនទៅកន្លែងណា។",
     },
-  }
+  },
+  {
+    Icon: IconFile,
+    title: { en: "Suspicious Files", km: "ឯកសារគួរឲ្យសង្ស័យ" },
+    desc: {
+      en: "Attachments and downloads can carry hidden malware or lead to fake forms designed to steal your information.",
+      km: "ឯកសារភ្ជាប់ និងការទាញយកអាចផ្ទុកមេរោគដែលលាក់កំបាំង ឬនាំទៅកាន់ទម្រង់ក្លែងក្លាយដែលបង្កើតឡើងដើម្បីលួចព័ត៌មានរបស់អ្នក។",
+    },
+  },
+  {
+    Icon: IconBell,
+    title: { en: "Fake Notifications", km: "ការជូនដំណឹងក្លែងក្លាយ" },
+    desc: {
+      en: "Scammers send fake bank or payment alerts that look real, especially through social media apps, tricking people into clicking or confirming transactions that never happened.",
+      km: "អ្នកបោកប្រាស់ផ្ញើការជូនដំណឹងក្លែងក្លាយពីធនាគារ ឬការទូទាត់ដែលមើលទៅដូចជាពិត ជាពិសេសតាមរយៈកម្មវិធីបណ្ដាញសង្គម បញ្ឆោតអ្នកឱ្យចុច ឬបញ្ជាក់ប្រតិបត្តិការដែលមិនធ្លាប់កើតឡើងនោះទេ។",
+    },
+  },
 ]
 
 export function Problems() {

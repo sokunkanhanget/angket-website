@@ -501,13 +501,7 @@ export function ReportsFeed() {
                 </span>
                 <span className="detail-when">{t(detailReport.when)}</span>
               </div>
-              {detailReport.count > 0 && (
-                <p className="detail-similar">
-                  {lang === "km"
-                    ? `+${detailReport.count} របាយការណ៍ស្រដៀងគ្នាបន្ថែមទៀត`
-                    : `+${detailReport.count} similar reports`}
-                </p>
-              )}
+              
             </div>
           </div>
         </>
