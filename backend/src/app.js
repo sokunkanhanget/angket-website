@@ -23,11 +23,6 @@ app.use((_request, response) => {
   response.status(404).json({ error: "Not found" })
 })
 
-app.use((error, _request, response, _next) => {
-  console.error(error)
-  response.status(500).json({ error: "Internal server error" })
-})
-
 app.use(errorHandler)
 
 export default app
