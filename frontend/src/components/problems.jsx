@@ -35,16 +35,12 @@ export function Problems() {
         <Reveal className="prob-grid">
           {PROBLEMS.map((p) => (
             <article className="prob-card" key={p.title.en}>
-              <span className="prob-ic" aria-hidden="true">
-                <p.Icon />
-              </span>
-              <h3>{t(p.title)}</h3>
-              <div className="prob-head">
+              <span className="prob-head">
                 <span className="prob-ic" aria-hidden="true">
                   <p.Icon />
                 </span>
                 <h3>{t(p.title)}</h3>
-              </div>
+              </span>
               <p>{t(p.desc)}</p>
             </article>
           ))}

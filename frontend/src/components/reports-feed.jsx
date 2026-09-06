@@ -10,7 +10,7 @@ import { ReportForm } from "./report-form"
 import {
   IconGlobe, IconFacebook, IconTelegram, IconWhatsApp,
   IconTikTok, IconInstagram, IconSms, IconInfo, IconSearch,
-  IconPlus, IconHeart, IconClose,
+  IconPlus, IconSave, IconClose,
   IconBriefcase, IconGift, IconStore, IconChart, IconMail, IconShield,
 } from "./icons"
 
@@ -434,7 +434,7 @@ export function ReportsFeed() {
                         : t({ en: "Save report", km: "រក្សាទុករបាយការណ៍" })}
                       onClick={(e) => { e.stopPropagation(); toggleSave(r.id) }}
                     >
-                      <IconHeart filled={saved.has(r.id)} />
+                      <IconSave filled={saved.has(r.id)} />
                     </button>
                   </div>
 

@@ -298,14 +298,15 @@ html.km .eyebrow { font-size: 0.85rem; }
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .prob-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.prob-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; }
 .prob-ic {
   width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
   display: grid; place-items: center; background: #fff;
   border: 1px solid var(--border); box-shadow: var(--shadow-sm);
-  margin-bottom: 0.9rem;
+  flex: none;
 }
 .prob-ic .icon { width: 22px; height: 22px; color: var(--blue-700); }
-.prob-card h3 { font-size: 1.04rem; margin-bottom: 0.35rem; }
+.prob-card h3 { font-size: 1.04rem; margin-bottom: 0; }
 .prob-card p { color: var(--muted); font-size: 0.92rem; }
 .problem-note {
   margin: 2.6rem auto 0; text-align: center;
@@ -334,6 +335,9 @@ html.km .problem-note { font-family: var(--font-km); }
   border: 1px solid var(--blue-100); margin-bottom: 0.9rem;
 }
 .func-ic .icon { width: 22px; height: 22px; color: var(--blue-700); }
+.func-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.9rem; }
+.func-head .func-ic { margin-bottom: 0; flex: none; }
+.func-head h3 { margin-bottom: 0; }
 .func-card h3 { font-size: 1.05rem; margin-bottom: 0.35rem; }
 .func-card p { color: var(--muted); font-size: 0.9rem; }
 #about .func-grid { gap: 1.1rem; }
@@ -773,7 +777,7 @@ select.control { width: auto; min-width: 175px; cursor: pointer; }
 }
 .browse-card-save .icon { width: 17px; height: 17px; }
 .browse-card-save:hover { background: rgba(15,23,42,0.55); transform: scale(1.1); }
-.browse-card-save.saved { color: #f87171; }
+.browse-card-save.saved { color: var(--blue-500); }
 
 /* Card body */
 .browse-card-body {
