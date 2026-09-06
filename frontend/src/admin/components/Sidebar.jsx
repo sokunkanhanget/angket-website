@@ -9,6 +9,7 @@ import {
   LogOut,
 } from "lucide-react"
 import { useAuth } from "@/lib/auth"
+import logoImg from "@/assets/logo.png"
 
 const NAV_ITEMS = [
   { to: "/admin/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
@@ -31,7 +32,7 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <span className="brand-mark">A</span>
+        <img src={logoImg} alt="Angket" className="brand-img sidebar-logo" />
         <span className="brand-word">Angket</span>
         <span className="brand-pill">ADMIN</span>
       </div>

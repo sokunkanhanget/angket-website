@@ -1,35 +1,53 @@
-import { createContext, useContext, useMemo, useState } from "react"
+import { createContext, useContext, useCallback, useEffect, useMemo, useState } from "react"
+import { api } from "./api"
+import { authApi } from "./services"
 
 const AuthContext = createContext(null)
 
-// Placeholder admin credentials — swap for a real auth API / session check.
-const ADMIN_EMAIL = "admin@angket.kh"
-const ADMIN_PASSWORD = "angket-admin"
-
 export function AuthProvider({ children }) {
   const [admin, setAdmin] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const value = useMemo(() => {
-    const login = ({ email, password }) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-            const user = { name: "Dara Sok", role: "Super Admin", email }
-            setAdmin(user)
-            resolve(user)
-          } else {
-            reject(new Error("Invalid admin credentials"))
-          }
-        }, 250)
-      })
+  useEffect(() => {
+    let mounted = true
+    async function hydrate() {
+      setLoading(true)
+      try {
+        if (api.getToken()) {
+          const res = await authApi.me()
+          if (mounted) setAdmin(res.user)
+        }
+      } catch {
+        api.clearToken()
+      } finally {
+        if (mounted) setLoading(false)
+      }
     }
-
-    const logout = () => {
-      setAdmin(null)
+    hydrate()
+    return () => {
+      mounted = false
     }
+  }, [])
 
-    return { admin, login, logout }
-  }, [admin])
+  const login = useCallback(async ({ email, password }) => {
+    const res = await authApi.login({ email, password })
+    api.setToken(res.token)
+    const user = {
+      id: res.user.id,
+      name: res.user.full_name || res.user.email,
+      email: res.user.email,
+      role: res.user.role,
+    }
+    setAdmin(user)
+    return user
+  }, [])
+
+  const logout = useCallback(() => {
+    api.clearToken()
+    setAdmin(null)
+  }, [])
+
+  const value = useMemo(() => ({ admin, login, logout, loading }), [admin, login, logout, loading])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

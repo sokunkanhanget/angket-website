@@ -4,6 +4,7 @@ import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
 import { IconCheck, IconShield, IconSend } from "./icons"
+import { Clock } from "lucide-react"
 
 // Presentational only: tabs + billing toggle have no backend and no real billing.
 // Prices are demo values; toggling just swaps displayed strings via state.
@@ -66,7 +67,6 @@ function QrPlaceholder({ t }) {
         className="qr-svg"
         viewBox="0 0 220 220"
         role="img"
-        aria-label={t({ en: "Placeholder QR code — not scannable", km: "QR កន្លែងដាក់បណ្ដោះអាសន្ន — មិនអាចស្កេនបាន" })}
       >
         <rect width="220" height="220" fill="#fff" />
         {cells}
@@ -74,9 +74,7 @@ function QrPlaceholder({ t }) {
         {finder(180, 4)}
         {finder(4, 180)}
       </svg>
-      <p className="qr-caption">
-        {t({ en: "QR CODE PLACEHOLDER — replace with generated KHQR image", km: "QR CODE កន្លែងបញ្ចូលបណ្ដោះអាសន្ន — ជំនួសដោយរូបភាព KHQR ពិត" })}
-      </p>
+      
     </div>
   )
 }
@@ -99,7 +97,7 @@ function CheckoutFlow({ annual, t, step, go }) {
         {step === 1 && (
           <>
             <span className="checkout-eyebrow">{t({ en: "Confirm plan", km: "បញ្ជាក់កញ្ចប់" })}</span>
-            <h3 className="checkout-title">{t({ en: "Almost done — review your plan", km: "ជិតរួចរាល់ហើយ — ពិនិត្យកញ្ចប់របស់អ្នក" })}</h3>
+            <h3 className="checkout-title">{t({ en: "Almost done - review your plan", km: "ជិតរួចរាល់ហើយ - ពិនិត្យកញ្ចប់របស់អ្នក" })}</h3>
             <div className="checkout-summary">
               <span className="checkout-plan">{plan}</span>
               <span className="checkout-price">
@@ -141,7 +139,10 @@ function CheckoutFlow({ annual, t, step, go }) {
                 </span>
               ))}
             </div>
-            <p className="expiry-label">{t({ en: "⏱ Code expires in 04:59", km: "⏱ លេខកូដផុតកំណត់ក្នុងរយៈពេល 04:59" })}</p>
+            <p className="expiry-label">
+              <Clock size={14} />
+              {t({ en: "Code expires in 04:59", km: "លេខកូដផុតកំណត់ក្នុងរយៈពេល 04:59" })}
+            </p>
             <div className="checkout-actions">
               <button type="button" className="btn btn--teal btn-lg" onClick={() => go(3)}>
                 {t({ en: "I've completed the payment", km: "ខ្ញុំបានបង់ប្រាក់រួចហើយ" })}
@@ -158,7 +159,7 @@ function CheckoutFlow({ annual, t, step, go }) {
             <span className="pulse-wrap" aria-hidden="true">
               <span className="pulse-dot" />
             </span>
-            <h3 className="checkout-title">{t({ en: "Payment received — verifying", km: "បានទទួលការទូទាត់ — កំពុងផ្ទៀងផ្ទាត់" })}</h3>
+            <h3 className="checkout-title">{t({ en: "Payment received - verifying", km: "បានទទួលការទូទាត់ - កំពុងផ្ទៀងផ្ទាត់" })}</h3>
             <p className="checkout-copy">
               {t({
                 en: "We're confirming your payment. This usually takes a few minutes. You'll get a message from the Angket bot once Premium is active.",
@@ -199,10 +200,8 @@ export function Pricing() {
   return (
     <section className="pricing" id="pricing" aria-labelledby="pricing-title">
       <div className="container">
-        <Reveal className="section-head center">
-          <span className="eyebrow">{t({ en: "Pricing", km: "តម្លៃ" })}</span>
-          <h2 id="pricing-title">{t({ en: "Simple, Honest Pricing", km: "តម្លៃសាមញ្ញ និងច្បាស់លាស់" })}</h2>
-          <p>{t({ en: "Start free, upgrade when you need more.", km: "ចាប់ផ្ដើមឥតគិតថ្លៃ ដំឡើងកញ្ចប់នៅពេលត្រូវការបន្ថែម។" })}</p>
+        <Reveal className="section-head">
+          <h2 id="pricing-title">{t({ en: "Subscription", km: "ការទូទាត់ប្រាក់" })}</h2>
         </Reveal>
 
         <Reveal className="pricing-controls">
@@ -235,8 +234,6 @@ export function Pricing() {
               <button type="button" role="switch" aria-checked={annual} className="pricing-switch" onClick={toggleBilling}>
                 <span className="pricing-knob" />
               </button>
-              <span className={annual ? "on" : undefined}>{t({ en: "Annual", km: "ប្រចាំឆ្នាំ" })}</span>
-              <span className="save-badge">{t({ en: "Save 20%", km: "សន្សំ 20%" })}</span>
             </div>
           )}
         </Reveal>
@@ -312,10 +309,6 @@ export function Pricing() {
             </div>
           </Reveal>
         )}
-
-        <p className="pricing-foot">
-          {t({ en: "Prices are illustrative — free tier always routes you to Telegram.", km: "តម្លៃគ្រាន់តែជាឧទាហរណ៍ — កញ្ចប់ឥតគិតថ្លៃតែងតែបញ្ជូនទៅ Telegram។" })}
-        </p>
       </div>
     </section>
   )

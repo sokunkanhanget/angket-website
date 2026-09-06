@@ -35,7 +35,7 @@ export function WhyAngket() {
   return (
     <section className="how" id="why" aria-labelledby="why-title">
       <div className="container">
-        <Reveal className="section-head center">
+        <Reveal className="section-head">
           <span className="eyebrow">{t({ en: "Why Angket?", km: "ហេតុអ្វីជ្រើស Angket?" })}</span>
           <h2 id="why-title">{t({ en: "More Than Just a Risk Score", km: "មិនត្រឹមតែភាគរយហានិភ័យប៉ុណ្ណោះទេ​" })}</h2>
         </Reveal>

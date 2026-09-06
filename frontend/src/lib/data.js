@@ -3,14 +3,15 @@ export const TELEGRAM_BOT_URL = "https://t.me/AngketBot"
 
 export const NAV_LINKS = [
   { href: "/", en: "Home", km: "ទំព័រដើម" },
+  { href: "/report", en: "Scam Report", km: "រាយការណ៍ការបោកប្រាស់" },
   { href: "/safety-tips", en: "Stay Safe Online", km: "គន្លឹះសុវត្ថិភាព" },
   { href: "/how-it-works", en: "Learn How It Works", km: "ស្វែងយល់ពីរបៀបដំណើរការ" },
-  { href: "/about", en: "About", km: "អំពីយើង" },
+  { href: "/about", en: "About Us", km: "អំពីយើង" },
 ]
 
 export const SCAM_TYPES = [
   { value: "fake-job", en: "Fake Job", km: "ការងារក្លែងក្លាយ" },
-  { value: "investment", en: "Investment", km: "ការវិនិយោគក្លែងក្លាយ" },
+  { value: "investment", en: "Investment Scam", km: "ការវិនិយោគក្លែងក្លាយ" },
   { value: "prize", en: "Prize / Giveaway", km: "រង្វាន់ក្លែងក្លាយ" },
   { value: "phishing", en: "Phishing", km: "ការបញ្ឆោតយកព័ត៌មាន" },
   { value: "fake-seller", en: "Fake Seller", km: "អ្នកលក់ក្លែងក្លាយ" },

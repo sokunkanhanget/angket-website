@@ -1,16 +1,9 @@
 import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
-import { INFO_PAGES, TELEGRAM_BOT_URL } from "@/lib/data"
-import { IconClose, IconSend, IconShield } from "./icons"
-
-const FOOTER_NAV = [
-  { href: "/", en: "Home", km: "ទំព័រដើម" },
-  { href: "/how-it-works", en: "How It Works", km: "របៀបដំណើរការ" },
-  { href: "/report", en: "Scam Reports", km: "របាយការណ៍បោកប្រាស់" },
-  { href: "/safety-tips", en: "Safety Tips", km: "គន្លឹះសុវត្ថិភាព" },
-  { href: "/about", en: "About", km: "អំពីយើង" },
-]
+import { INFO_PAGES, NAV_LINKS, TELEGRAM_BOT_URL } from "@/lib/data"
+import { IconClose, IconSend } from "./icons"
+import logoImg from "@/assets/logo.png"
 
 export function SiteFooter() {
   const { t } = useLang()
@@ -30,17 +23,15 @@ export function SiteFooter() {
         <div className="foot-grid">
           <div className="foot-brand">
             <Link to="/" className="brand" aria-label="Angket — home">
-              <span className="brand-mark" aria-hidden="true">
-                <IconShield check />
-              </span>
+              <img src={logoImg} alt="Angket" className="brand-img" />
               <span>
                 Ang<b>ket</b>
               </span>
             </Link>
             <p>
               {t({
-                en: "Helping people recognize suspicious online information and make safer decisions.",
-                km: "ជួយមនុស្សឱ្យស្គាល់ព័ត៌មានគួរឲ្យសង្ស័យតាមអ៊ីនធឺណិត និងធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាព។",
+                en: "Angket is a digital safety platform designed to help people identify potential online scams, understand digital threats, and take informed action. By combining scam detection with community reporting and safety resources, we aim to make the digital environment safer for everyone.",
+                km: "Angket គឺជាវេទិកាសុវត្ថិភាពឌីជីថល ដែលត្រូវបានបង្កើតឡើងដើម្បីជួយមនុស្សឱ្យកំណត់អត្តសញ្ញាណការបោកប្រាស់តាមអ៊ីនធឺណិតដែលអាចកើតមាន ស្វែងយល់ពីការគំរាមកំហែងឌីជីថល និងចាត់វិធានការដោយផ្អែកលើព័ត៌មាន។ ដោយការរួមបញ្ចូលការរកឃើញការបោកប្រាស់ ជាមួយការរាយការណ៍ពីសហគមន៍ និងធនធានសុវត្ថិភាព យើងមានគោលបំណងធ្វើឱ្យបរិស្ថានឌីជីថលកាន់តែមានសុវត្ថិភាពសម្រាប់មនុស្សគ្រប់គ្នា។",
               })}
             </p>
             <div className="socials">
@@ -70,7 +61,7 @@ export function SiteFooter() {
           <nav aria-label="Footer">
             <h3>{t({ en: "Explore", km: "ទំព័រ" })}</h3>
             <ul>
-              {FOOTER_NAV.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <Link to={link.href}>{t(link)}</Link>
                 </li>
@@ -107,8 +98,8 @@ export function SiteFooter() {
           </span>
           <span>
             {t({
-              en: "Angket gives estimated risk assessments — always verify important information through trusted, official sources.",
-              km: "Angket ផ្ដល់តែការប៉ាន់ស្មានហានិភ័យប៉ុណ្ណោះ — សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
+              en: "Angket gives estimated risk assessments - always verify important information through trusted, official sources.",
+              km: "Angket ផ្ដល់តែការប៉ាន់ស្មានហានិភ័យប៉ុណ្ណោះ - សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
             })}
           </span>
         </div>

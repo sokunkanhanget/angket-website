@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { NAV_LINKS } from "@/lib/data"
-import { IconMenu, IconShield } from "./icons"
+import { rememberAuthOrigin } from "@/lib/authBack"
+import { IconMenu } from "./icons"
+import logoImg from "@/assets/logo.png"
 
 function FlagGB() {
   return (
@@ -58,9 +60,7 @@ export function SiteHeader() {
       <div className="container">
         <nav className="nav" aria-label="Main">
           <Link to="/" className="brand" aria-label="Angket — home">
-            <span className="brand-mark" aria-hidden="true">
-              <IconShield check />
-            </span>
+            <img src={logoImg} alt="Angket" className="brand-img" />
             <span>
               Ang<b>ket</b>
             </span>
@@ -129,7 +129,7 @@ export function SiteHeader() {
               )}
             </div>
 
-            <Link className="btn btn-outline" to="/login">
+            <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
               {t({ en: "Log in", km: "ចូលគណនី" })}
             </Link>
 
@@ -162,7 +162,7 @@ export function SiteHeader() {
               </NavLink>
             ))}
           </nav>
-          <Link className="btn btn-outline btn-lg" to="/login" onClick={closeMenu}>
+          <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>
             {t({ en: "Log in", km: "ចូលគណនី" })}
           </Link>
         </div>

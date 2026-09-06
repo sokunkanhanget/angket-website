@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
-import { IconMail, IconLink } from "./icons"
+import { IconMail, IconLink, IconFile, IconBell } from "./icons"
 
 const PROBLEMS = [
   {
@@ -18,7 +18,23 @@ const PROBLEMS = [
       en: "Users may click unfamiliar links without knowing where they lead.",
       km: "អ្នកប្រើប្រាស់អាចចុចតំណភ្ជាប់មិនស្គាល់ ដោយមិនដឹងថាវានឹងបញ្ជូនទៅកន្លែងណា។",
     },
-  }
+  },
+  {
+    Icon: IconFile,
+    title: { en: "Suspicious Files", km: "ឯកសារគួរឲ្យសង្ស័យ" },
+    desc: {
+      en: "Attachments and downloads can carry hidden malware or lead to fake forms designed to steal your information.",
+      km: "ឯកសារភ្ជាប់ និងការទាញយកអាចផ្ទុកមេរោគដែលលាក់កំបាំង ឬនាំទៅកាន់ទម្រង់ក្លែងក្លាយដែលបង្កើតឡើងដើម្បីលួចព័ត៌មានរបស់អ្នក។",
+    },
+  },
+  {
+    Icon: IconBell,
+    title: { en: "Fake Notifications", km: "ការជូនដំណឹងក្លែងក្លាយ" },
+    desc: {
+      en: "Scammers send fake bank or payment alerts that look real, especially through social media apps, tricking people into clicking or confirming transactions that never happened.",
+      km: "អ្នកបោកប្រាស់ផ្ញើការជូនដំណឹងក្លែងក្លាយពីធនាគារ ឬការទូទាត់ដែលមើលទៅដូចជាពិត ជាពិសេសតាមរយៈកម្មវិធីបណ្ដាញសង្គម បញ្ឆោតអ្នកឱ្យចុច ឬបញ្ជាក់ប្រតិបត្តិការដែលមិនធ្លាប់កើតឡើងនោះទេ។",
+    },
+  },
 ]
 
 export function Problems() {
@@ -27,29 +43,23 @@ export function Problems() {
   return (
     <section className="problems" id="problem" aria-labelledby="problem-title">
       <div className="container">
-        <Reveal className="section-head center">
+        <Reveal className="section-head">
           <h2 id="problem-title">
-            {t({ en: "Scams Are Easier to Encounter Than You Think", km: "ការបោកប្រាស់ងាយជួបប្រទះជាងដែលអ្នកគិត" })}
+            {t({ en: "Scams Can Happen to Anyone", km: "ការបោកប្រាស់អាចកើតឡើងចំពោះអ្នកណាក៏បាន" })}
           </h2>
         </Reveal>
         <Reveal className="prob-grid">
           {PROBLEMS.map((p) => (
             <article className="prob-card" key={p.title.en}>
-              <span className="prob-ic" aria-hidden="true">
-                <p.Icon />
+              <span className="prob-head">
+                <span className="prob-ic" aria-hidden="true">
+                  <p.Icon />
+                </span>
+                <h3>{t(p.title)}</h3>
               </span>
-              <h3>{t(p.title)}</h3>
               <p>{t(p.desc)}</p>
             </article>
           ))}
-        </Reveal>
-        <Reveal as="p" className="problem-note">
-          <span>
-            {t({
-              en: "The problem isn’t only detecting scams. It’s knowing what to look for before making a decision.",
-              km: "បញ្ហាមិនមែនត្រឹមតែការរកឃើញការបោកប្រាស់ប៉ុណ្ណោះទេ។ វាគឺជាការដឹងថាត្រូវរកមើលអ្វី មុនពេលធ្វើការសម្រេចចិត្ត។",
-            })}
-          </span>
         </Reveal>
       </div>
     </section>
