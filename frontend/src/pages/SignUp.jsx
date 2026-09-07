@@ -12,13 +12,22 @@ export function SignUp() {
   const { t } = useLang()
   const navigate = useNavigate()
   const successRef = useRef(null)
-  const [form, setForm] = useState({ name: "", email: "", phone: "", password: "", confirm: "" })
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirm: "",
+    code: "+855",
+  })
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [errors, setErrors] = useState({})
   const [registered, setRegistered] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
+  const updatePhone = (e) =>
+    setForm((f) => ({ ...f, phone: e.target.value.replace(/[^\d\s()+.-]/g, "") }))
 
   const goBack = () => goAuthBack(navigate)
 
@@ -34,11 +43,27 @@ export function SignUp() {
     }
     if (!form.phone.trim()) {
       errs.phone = t({ en: "Phone number is required.", km: "ត្រូវការលេខទូរស័ព្ទ។" })
+    } else {
+      const fullPhone = `${form.code}${form.phone.replace(/\s+/g, "")}`
+      if (!/^\+855[0-9]{8,9}$/.test(fullPhone)) {
+        errs.phone = t({
+          en: "Please enter a valid phone number (e.g. 012 345 678).",
+          km: "សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ (ឧ. 012 345 678)។",
+        })
+      }
     }
     if (!form.password) {
       errs.password = t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" })
     } else if (form.password.length < 8) {
       errs.password = t({ en: "Password must be at least 8 characters.", km: "ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច ៨ តួអក្សរ។" })
+    } else if (!/[A-Z]/.test(form.password)) {
+      errs.password = t({ en: "Password must include an uppercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរធំ។" })
+    } else if (!/[a-z]/.test(form.password)) {
+      errs.password = t({ en: "Password must include a lowercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរតូច។" })
+    } else if (!/[0-9]/.test(form.password)) {
+      errs.password = t({ en: "Password must include a number.", km: "ពាក្យសម្ងាត់ត្រូវមានលេខ។" })
+    } else if (!/[^A-Za-z0-9]/.test(form.password)) {
+      errs.password = t({ en: "Password must include a special character.", km: "ពាក្យសម្ងាត់ត្រូវមានតួអក្សរពិសេស។" })
     }
     if (!form.confirm) {
       errs.confirm = t({ en: "Please confirm your password.", km: "សូមបញ្ជាក់ពាក្យសម្ងាត់។" })
@@ -63,12 +88,12 @@ export function SignUp() {
         full_name: form.name,
         email: form.email,
         password: form.password,
-        phone: form.phone,
+        phone: `${form.code}${form.phone}`,
       })
       setRegistered(true)
       requestAnimationFrame(() => successRef.current?.focus())
     } catch (err) {
-      setErrors({ email: err.message })
+      setErrors(err.data?.fields || { email: err.message })
     } finally {
       setSubmitting(false)
     }
@@ -165,7 +190,12 @@ export function SignUp() {
                 {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
               </label>
               <div className="auth-phone">
-                <select className="control auth-phone__code" aria-label="Country code">
+                <select
+                  className="control auth-phone__code"
+                  aria-label="Country code"
+                  value={form.code}
+                  onChange={update("code")}
+                >
                   <option>+855</option>
                   <option>+1</option>
                   <option>+44</option>
@@ -177,7 +207,7 @@ export function SignUp() {
                   type="tel"
                   autoComplete="tel"
                   value={form.phone}
-                  onChange={update("phone")}
+                  onChange={updatePhone}
                   placeholder="012 345 678"
                   aria-describedby={errors.phone ? "signup-phone-err" : undefined}
                   aria-invalid={errors.phone ? "true" : undefined}

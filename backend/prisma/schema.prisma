@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,15 +13,56 @@ model User {
   name      String
   email     String   @unique
   role      String   @default("user")
+  phone     String?
+  avatarUrl String?  @map("avatar_url")
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   botSubscribers     BotSubscriber[]
   reportForms        ReportForm[]
   userSubscriptions  UserSubscription[]
   subscriptionOrders SubscriptionOrder[]
+  verifications      Verification[]
+  savedReports       SavedReport[]
+  profileImages      ProfileImage[]
 
   @@map("users")
+}
+
+model ProfileImage {
+  id        String   @id @default(uuid()) @db.Uuid @map("id")
+  userId    String   @db.Uuid @map("user_id")
+  imageUrl  String   @map("image_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("profile_image")
+}
+
+model SavedReport {
+  id           String   @id @default(uuid()) @map("id")
+  userId       String   @map("user_id")
+  reportFormId String   @map("report_form_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user       User       @relation(fields: [userId], references: [id])
+  reportForm ReportForm @relation(fields: [reportFormId], references: [id])
+
+  @@unique([userId, reportFormId])
+  @@map("saved_reports")
+}
+
+model Verification {
+  id          String    @id @default(uuid()) @map("id")
+  userId      String    @map("user_id")
+  type        String    @default("")
+  status      String    @default("pending")
+  submittedAt DateTime  @default(now()) @map("submitted_at")
+  reviewedAt  DateTime? @map("reviewed_at")
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@map("verifications")
 }
 
 model BotSubscriber {
@@ -40,26 +80,41 @@ model BotSubscriber {
 }
 
 model ReportForm {
-  id          String   @id @default(uuid()) @map("report_form_id")
-  description String
-  place       String
-  status      String
-  createdAt   DateTime @default(now()) @map("created_at")
-  userId      String   @map("user_id")
-  categoryId  String   @map("category_id")
+  id                  String    @id @default(uuid()) @map("report_form_id")
+  description         String
+  place               String
+  status              String    @default("published")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  userId              String    @map("user_id")
+  categoryId          String    @map("category_id")
+  title_en            String    @default("")
+  title_km            String?
+  description_en      String    @default("")
+  description_km      String?
+  category            String?
+  platform            String?
+  contact_method      String?
+  amount_lost         String?
+  date_occurred       DateTime? @db.Date
+  screenshot_url      String?
+  reported_count      Int       @default(1)
+  is_anonymous        Boolean   @default(false)
+  display_name        String?
+  display_avatar_seed String?
 
-  user     User          @relation(fields: [userId], references: [id])
-  category Category      @relation(fields: [categoryId], references: [id])
-  images   ReportImage[]
+  user       User          @relation(fields: [userId], references: [id])
+  categoryRef Category      @relation("ReportCategory", fields: [categoryId], references: [id])
+  images     ReportImage[]
+  savedBy    SavedReport[]
 
   @@map("report_form")
 }
 
 model ReportImage {
-  id           String   @id @default(uuid()) @map("report_image_id")
-  imageUrl     String   @map("image_url")
-  createdAt    DateTime @default(now()) @map("created_at")
-  reportFormId String   @map("report_form_id")
+  id           String     @id @default(uuid()) @map("report_image_id")
+  imageUrl     String     @map("image_url")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  reportFormId String     @map("report_form_id")
 
   reportForm ReportForm @relation(fields: [reportFormId], references: [id])
 
@@ -67,19 +122,26 @@ model ReportImage {
 }
 
 model Category {
-  id   String @id @default(uuid()) @map("category_id")
-  name String
+  id             String       @id @default(uuid()) @map("category_id")
+  name           String
+  value          String?
+  label_en       String?
+  label_km       String?
+  description_en String?
+  description_km String?
+  sort_order     Int          @default(0)
+  created_at     DateTime     @default(now()) @db.Timestamptz(6)
 
-  reportForms ReportForm[]
+  reportForms ReportForm[] @relation("ReportCategory")
 
   @@map("category")
 }
 
 model SubscriptionPlan {
-  id           String  @id @default(uuid()) @map("sub_plan_id")
+  id           String   @id @default(uuid()) @map("sub_plan_id")
   name         String
   price        Decimal
-  durationDays Int     @map("duration_days")
+  durationDays Int      @map("duration_days")
 
   userSubscriptions  UserSubscription[]
   subscriptionOrders SubscriptionOrder[]
@@ -110,16 +172,16 @@ model UserSubscription {
 }
 
 model SubscriptionOrder {
-  id        String    @id @default(uuid()) @map("order_id")
+  id        String   @id @default(uuid()) @map("order_id")
   token     String
   amount    Decimal
   status    String
-  proofRef  String?   @map("proof_ref")
-  createdAt DateTime  @default(now()) @map("created_at")
+  proofRef  String?  @map("proof_ref")
+  createdAt DateTime @default(now()) @map("created_at")
   paidAt    DateTime? @map("paid_at")
-  botSubId  String    @map("bot_sub_id")
-  subPlanId String    @map("sub_plan_id")
-  userId    String    @map("user_id")
+  botSubId  String   @map("bot_sub_id")
+  subPlanId String   @map("sub_plan_id")
+  userId    String   @map("user_id")
 
   botSubscriber    BotSubscriber    @relation(fields: [botSubId], references: [id])
   subscriptionPlan SubscriptionPlan @relation(fields: [subPlanId], references: [id])

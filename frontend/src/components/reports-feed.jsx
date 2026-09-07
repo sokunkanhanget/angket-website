@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { rememberAuthOrigin } from "@/lib/authBack"
@@ -27,7 +27,19 @@ function normalize(report) {
     desc: { en: report.description_en, km: report.description_km || report.description_en },
     user_id: report.user_id,
     status: report.status,
+    is_anonymous: report.is_anonymous ?? false,
+    display_name: report.display_name || null,
+    display_avatar_seed: report.display_avatar_seed || null,
   }
+}
+
+function aliasInitials(name) {
+  return String(name || "")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w.charAt(0).toUpperCase())
+    .join("")
 }
 
 function timeAgo(iso) {
@@ -40,89 +52,6 @@ function timeAgo(iso) {
   const months = Math.floor(days / 30)
   return months === 1 ? "1 month ago" : `${months} months ago`
 }
-
-const daysAgo = (n) => new Date(Date.now() - n * 24 * 60 * 60 * 1000).toISOString()
-
-const SAMPLE_REPORTS = [
-  {
-    id: 1,
-    category: "prize",
-    platform: "telegram",
-    reported_count: 86,
-    created_at: daysAgo(2),
-    title_en: "Fake cash prize message asks for a fee",
-    title_km: "សាររង្វាន់លុយក្លែងក្លាយសុំថ្លៃសេវា",
-    description_en:
-      "A forwarded message claimed the receiver won a $500 cash prize but had to pay a $15 processing fee first. Asking for an upfront payment is a common scam sign.",
-    description_km:
-      "សារបញ្ជូនបន្តបានអះអាងថាអ្នកទទួលបានឈ្នះរង្វាន់សាច់ប្រាក់ 500 ដុល្លារ ប៉ុន្តែត្រូវបង់ថ្លៃសេវា 15 ដុល្លារមុន។ ការសុំបង់ប្រាក់ជាមុនគឺជាសញ្ញានៃការបោកប្រាស់។",
-  },
-  {
-    id: 2,
-    category: "fake-job",
-    platform: "facebook",
-    reported_count: 54,
-    created_at: daysAgo(4),
-    title_en: "Job offer that asks you to pay for training",
-    title_km: "ការផ្ដល់ការងារសុំឱ្យអ្នកបង់ថ្លៃហ្វឹកហាត់",
-    description_en:
-      "A recruiter posted a high-paying remote job but required a payment for 'training materials' before starting. Legitimate employers never ask for money.",
-    description_km:
-      "អ្នកជ្រើសរើសបុគ្គលិកបានប្រកាសការងារពីចម្ងាយដែលមានប្រាក់ខែខ្ពស់ ប៉ុន្តែទាមទារបង់ប្រាក់សម្រាប់ 'ឯកសារហ្វឹកហាត់' មុនពេលចាប់ផ្ដើម។ និយោជកពិតប្រាកដមិនដែលសុំលុយទេ។",
-  },
-  {
-    id: 3,
-    category: "investment",
-    platform: "whatsapp",
-    reported_count: 41,
-    created_at: daysAgo(6),
-    title_en: "'Guaranteed' trading group disappears with deposits",
-    title_km: "ក្រុមវិនិយោគ 'ចំណេញប្រាកដ' បាត់ខ្លួនជាមួយប្រាក់បញ្ញើ",
-    description_en:
-      "An WhatsApp group promised guaranteed daily returns on a trading app. After members deposited money, the group and app stopped responding.",
-    description_km:
-      "ក្រុម WhatsApp មួយបានសន្យាផ្តល់ប្រាក់ចំណេញប្រចាំថ្ងៃប្រាកដលើកម្មវិធីវិនិយោគ។ បន្ទាប់ពីសមាជិកបានដាក់ប្រាក់ ក្រុម និងកម្មវិធីបានឈប់ឆ្លើយតប។",
-  },
-  {
-    id: 4,
-    category: "phishing",
-    platform: "sms",
-    reported_count: 23,
-    created_at: daysAgo(8),
-    title_en: "Bank SMS with a fake login link",
-    title_km: "SMS ពីធនាគារដែលមានតំណភ្ជាប់ចូលគណនីក្លែងក្លាយ",
-    description_en:
-      "An SMS pretending to be a bank warned of unusual activity and asked to verify the account through a link. The link led to a fake login page that steals credentials.",
-    description_km:
-      "SMS ក្លែងធ្វើជាធនាគារបានព្រមានពីសកម្មភាពមិនប្រក្រតី ហើយសុំឱ្យផ្ទៀងផ្ទាត់គណនីតាមតំណភ្ជាប់។ តំណភ្ជាប់នាំទៅរកទំព័រចូលក្លែងក្លាយដែលលួចព័ត៌មានគណនី។",
-  },
-  {
-    id: 5,
-    category: "fake-seller",
-    platform: "instagram",
-    reported_count: 17,
-    created_at: daysAgo(10),
-    title_en: "Online seller vanished after payment",
-    title_km: "អ្នកលក់តាមអ៊ីនធឺណិតបាត់ខ្លួនបន្ទាប់ពីទទួលប្រាក់",
-    description_en:
-      "A user sent money for a phone from an Instagram store with thousands of followers. After payment, the store blocked them and deleted its account.",
-    description_km:
-      "អ្នកប្រើម្នាក់បានផ្ញើប្រាក់ទិញទូរស័ព្ទពីហាង Instagram ដែលមានអ្នកតាមរាប់ពាន់។ បន្ទាប់ពីបង់ប្រាក់ ហាងបានរារាំងពួកគេ និងលុបគណនីរបស់ខ្លួន។",
-  },
-  {
-    id: 6,
-    category: "impersonation",
-    platform: "telegram",
-    reported_count: 9,
-    created_at: daysAgo(12),
-    title_en: "Scammer impersonates a friend asking for money",
-    title_km: "អ្នកបោកប្រាស់ក្លែងធ្វើជាមិត្តភក្តិសុំលុយ",
-    description_en:
-      "A scammer used a friend's name and profile photo to ask for an urgent money transfer. The real friend's account had been cloned.",
-    description_km:
-      "អ្នកបោកប្រាស់បានប្រើឈ្មោះ និងរូបភាពទម្រង់របស់មិត្តភក្តិដើម្បីសុំផ្ញើប្រាក់ជាបន្ទាន់។ គណនីពិតរបស់មិត្តភក្តិត្រូវបានក្លូន។",
-  },
-]
 
 const PLATFORM_ICONS = {
   facebook: IconFacebook,
@@ -212,16 +141,17 @@ function placeholderHeader(cat, lang) {
 export function ReportsFeed() {
   const { lang, t } = useLang()
   const navigate = useNavigate()
+  const location = useLocation()
   const { admin } = useAuth()
   const [reports, setReports] = useState([])
   const [loading, setLoading] = useState(true)
-  const [usingSample, setUsingSample] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [reportKey, setReportKey] = useState(0)
+  const [reloadKey, setReloadKey] = useState(0)
   const [q, setQ] = useState("")
   const [cat, setCat] = useState("all")
   const [saved, setSaved] = useState(() => new Set())
-  const [detailReport, setDetailReport] = useState(null)
+  const [zoomReport, setZoomReport] = useState(null)
 
   useEffect(() => {
     let mounted = true
@@ -232,11 +162,8 @@ export function ReportsFeed() {
         if (mounted) setReports((res.reports || []).map(normalize))
       })
       .catch((err) => {
-        console.warn("Reports unavailable, using sample data:", err.message)
-        if (mounted) {
-          setReports(SAMPLE_REPORTS.map(normalize))
-          setUsingSample(true)
-        }
+        console.warn("Failed to load reports:", err.message)
+        if (mounted) setReports([])
       })
       .finally(() => {
         if (mounted) setLoading(false)
@@ -244,16 +171,59 @@ export function ReportsFeed() {
     return () => {
       mounted = false
     }
-  }, [])
+  }, [reloadKey])
+
+  useEffect(() => {
+    if (admin && location.state?.openReport) {
+      navigate(location.pathname, { replace: true, state: null })
+      setReportKey((k) => k + 1)
+      setDrawerOpen(true)
+    }
+  }, [admin, location.state, location.pathname, navigate])
+
+  useEffect(() => {
+    if (!admin) return
+    let mounted = true
+    reportsApi
+      .listSaved()
+      .then((res) => {
+        if (mounted) setSaved(new Set(res.savedIds || []))
+      })
+      .catch(() => {})
+    return () => { mounted = false }
+  }, [admin, reloadKey])
 
   const toggleSave = useCallback((id) => {
+    if (!admin) {
+      rememberAuthOrigin()
+      navigate("/login", { state: { from: { pathname: "/report" } } })
+      return
+    }
+    const wasSaved = saved.has(id)
     setSaved((prev) => {
       const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
+      if (wasSaved) next.delete(id)
       else next.add(id)
       return next
     })
-  }, [])
+    if (wasSaved) {
+      reportsApi.unsave(id).catch(() => {
+        setSaved((prev) => {
+          const next = new Set(prev)
+          next.add(id)
+          return next
+        })
+      })
+    } else {
+      reportsApi.save(id).catch(() => {
+        setSaved((prev) => {
+          const next = new Set(prev)
+          next.delete(id)
+          return next
+        })
+      })
+    }
+  }, [admin, saved, navigate])
 
   const visibleReports = useMemo(() => {
     const needle = q.trim().toLowerCase()
@@ -273,24 +243,11 @@ export function ReportsFeed() {
   const activeCatMeta = cat !== "all" ? CATEGORY_META[cat] : null
   const activeCatLabel = cat !== "all" ? TYPE_LABELS[cat] : null
 
-  const handleSubmitted = (form) => {
-    const newReport = {
-      id: Date.now(),
-      cat: form.category,
-      platform: form.sourcePlatform,
-      contactMethod: form.contactMethod,
-      count: 0,
-      ts: Date.now(),
-      when: { en: "Just now", km: "ទើបតែបានរាយការណ៍" },
-      title: { en: form.title.trim(), km: form.title.trim() },
-      desc: { en: form.description.trim(), km: form.description.trim() },
-      user_id: null,
-      status: "published",
-    }
-    setReports((prev) => [newReport, ...prev])
+  const handleSubmitted = () => {
     setDrawerOpen(false)
     setCat("all")
     setQ("")
+    setReloadKey((k) => k + 1)
   }
 
   return (
@@ -338,7 +295,7 @@ export function ReportsFeed() {
             onClick={() => {
               if (!admin) {
                 rememberAuthOrigin()
-                navigate("/login")
+                navigate("/login", { state: { from: { pathname: "/report" } } })
                 return
               }
               setReportKey((k) => k + 1)
@@ -379,20 +336,7 @@ export function ReportsFeed() {
           })}
         </div>
 
-        {usingSample && (
-          <p className="sample-notice">
-            <IconInfo />
-            <span>
-              {t({
-                en: "Live reports are unavailable right now — showing sample reports for preview.",
-                km: "របាយការណ៍ផ្ទាល់មិនអាចប្រើបានទេនៅពេលនេះ — កំពុងបង្ហាញរបាយការណ៍គំរូសម្រាប់មើលជាមុន។",
-              })}
-            </span>
-          </p>
-        )}
-
-        {/* Category section header */}
-        {cat !== "all" && activeCatMeta && activeCatLabel && (
+{cat !== "all" && activeCatMeta && activeCatLabel && (
           <div className="browse-cat-header">
             <span className="browse-cat-icon">
               <activeCatMeta.icon />
@@ -414,9 +358,16 @@ export function ReportsFeed() {
         <div className="reports-layout">
           <div>
             <div className="browse-cards">
-              {loading && (
-                <p className="empty-msg">{t({ en: "Loading reports…", km: "កំពុងផ្ទុករបាយការណ៍…" })}</p>
-              )}
+              {loading && Array.from({ length: 6 }).map((_, i) => (
+                <div className="skeleton-card" key={`skel-${i}`}>
+                  <div className="skeleton-img" />
+                  <div className="skeleton-body">
+                    <div className="skeleton skeleton-line w80" />
+                    <div className="skeleton skeleton-line w60" />
+                    <div className="skeleton skeleton-line w40" style={{ marginTop: "0.5rem" }} />
+                  </div>
+                </div>
+              ))}
               {!loading && visibleReports.map((r) => (
                 <article className="browse-card" key={r.id}>
                   {/* Image area */}
@@ -440,6 +391,19 @@ export function ReportsFeed() {
 
                   {/* Card body */}
                   <div className="browse-card-body">
+                    <div className="browse-card-author">
+                      <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
+                        {r.is_anonymous
+                          ? <IconInfo />
+                          : <span>{aliasInitials(r.display_name) || "U"}</span>}
+                      </span>
+                      <span className="browse-card-authorname">
+                        {r.is_anonymous ? r.display_name : r.display_name || "Angket User"}
+                      </span>
+                      {r.is_anonymous && (
+                        <span className="browse-card-anonbadge">{t({ en: "Anonymous", km: "អនាមិក" })}</span>
+                      )}
+                    </div>
                     <h3 className="browse-card-title">{t(r.title)}</h3>
                     <p className="browse-card-desc">{t(r.desc)}</p>
                     <div className="browse-card-foot">
@@ -450,9 +414,9 @@ export function ReportsFeed() {
                       <button
                         type="button"
                         className="browse-card-btn"
-                        onClick={() => setDetailReport(r)}
+                        onClick={() => setZoomReport(r)}
                       >
-                        {t({ en: "View Details", km: "មើលលម្អិត" })}
+                        {t({ en: "See More", km: "មើលច្រើនទៀត" })}
                       </button>
                     </div>
                   </div>
@@ -475,33 +439,32 @@ export function ReportsFeed() {
         </div>
       </div>
 
-      {/* Detail modal */}
-      {detailReport && (
+      {/* Enlarged view popup */}
+      {zoomReport && (
         <>
-          <div className="detail-overlay" onClick={() => setDetailReport(null)} />
-          <div className="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
-            <div className="detail-img-area">
-              {detailReport.image ? (
-                <img src={detailReport.image} alt="" />
+          <div className="zoom-overlay" onClick={() => setZoomReport(null)} />
+          <div className="zoom-modal" role="dialog" aria-modal="true" aria-labelledby="zoom-title">
+            <div className="zoom-img-area">
+              {zoomReport.image ? (
+                <img src={zoomReport.image} alt="" />
               ) : (
-                placeholderHeader(detailReport.cat, lang)
+                placeholderHeader(zoomReport.cat, lang)
               )}
-              <button type="button" className="detail-close" onClick={() => setDetailReport(null)} aria-label={t({ en: "Close", km: "បិទ" })}>
+              <button type="button" className="detail-close" onClick={() => setZoomReport(null)} aria-label={t({ en: "Close", km: "បិទ" })}>
                 <IconClose />
               </button>
             </div>
-            <div className="detail-body">
-              <span className="detail-type">{t(TYPE_LABELS[detailReport.cat] ?? { en: detailReport.cat, km: detailReport.cat })}</span>
-              <h3 id="detail-title">{t(detailReport.title)}</h3>
-              <p className="detail-desc">{t(detailReport.desc)}</p>
+            <div className="detail-body zoom-body">
+              <span className="detail-type">{t(TYPE_LABELS[zoomReport.cat] ?? { en: zoomReport.cat, km: zoomReport.cat })}</span>
+              <h3 id="zoom-title">{t(zoomReport.title)}</h3>
+              <p className="detail-desc zoom-desc">{t(zoomReport.desc)}</p>
               <div className="detail-meta">
                 <span className="browse-card-platform">
-                  <PlatformIcon name={detailReport.platform} />
-                  <span>{detailReport.platform}</span>
+                  <PlatformIcon name={zoomReport.platform} />
+                  <span>{zoomReport.platform}</span>
                 </span>
-                <span className="detail-when">{t(detailReport.when)}</span>
+                <span className="detail-when">{t(zoomReport.when)}</span>
               </div>
-              
             </div>
           </div>
         </>

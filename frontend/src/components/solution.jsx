@@ -59,7 +59,7 @@ export function Solution() {
             <article className="func-card" key={f.title.en}>
               <div className="func-head">
                 <span className="func-ic" aria-hidden="true">
-                  <f.Icon size={24} strokeWidth={2} style={{ color: "var(--blue-700)" }} />
+                  <f.Icon size={24} strokeWidth={2} style={{ color: "#fff" }} />
                 </span>
                 <h3>{t(f.title)}</h3>
               </div>

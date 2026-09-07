@@ -1,10 +1,20 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
+import { useAuth } from "@/lib/auth"
 import { NAV_LINKS } from "@/lib/data"
 import { rememberAuthOrigin } from "@/lib/authBack"
 import { IconMenu } from "./icons"
 import logoImg from "@/assets/logo.png"
+
+function userInitials(name) {
+  return (name || "")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w.charAt(0).toUpperCase())
+    .join("")
+}
 
 function FlagGB() {
   return (
@@ -36,6 +46,7 @@ function FlagKH() {
 
 export function SiteHeader() {
   const { lang, setLang, t } = useLang()
+  const { admin } = useAuth()
   const [open, setOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const langRef = useRef(null)
@@ -129,9 +140,21 @@ export function SiteHeader() {
               )}
             </div>
 
-            <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
-              {t({ en: "Log in", km: "ចូលគណនី" })}
-            </Link>
+            {admin ? (
+              <Link
+                className="nav-user"
+                to="/profile"
+                title={admin.name}
+                aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
+              >
+                <span className="nav-user-avatar">{userInitials(admin.name)}</span>
+                <span className="nav-user-name">{admin.name}</span>
+              </Link>
+            ) : (
+              <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
+                {t({ en: "Log in", km: "ចូលគណនី" })}
+              </Link>
+            )}
 
             <button
               type="button"
@@ -162,9 +185,21 @@ export function SiteHeader() {
               </NavLink>
             ))}
           </nav>
-          <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>
-            {t({ en: "Log in", km: "ចូលគណនី" })}
-          </Link>
+          {admin ? (
+            <Link
+              className="nav-user m-user"
+              to="/profile"
+              onClick={closeMenu}
+              aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
+            >
+              <span className="nav-user-avatar">{userInitials(admin.name)}</span>
+              <span className="nav-user-name">{admin.name}</span>
+            </Link>
+          ) : (
+            <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>
+              {t({ en: "Log in", km: "ចូលគណនី" })}
+            </Link>
+          )}
         </div>
       </div>
     </header>

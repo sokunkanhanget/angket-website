@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react"
 import { useLang } from "@/lib/i18n"
 import { SCAM_TYPES } from "@/lib/data"
-import { reportsApi } from "@/lib/services"
+import { categoriesApi, reportsApi, uploadsApi } from "@/lib/services"
 import { IconCheck, IconClose, IconLock } from "./icons"
+import { generateAlias, generateAvatarSeed } from "@/lib/alias"
 
 const MAX_SCREENSHOT_MB = 5
 
@@ -17,10 +18,29 @@ export function ReportForm({ open, onClose, onSubmitted }) {
     sourcePlatform: "",
     description: "",
     dateOccurred: "",
+    postAnonymously: false,
   })
   const [screenshot, setScreenshot] = useState(null)
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [categories, setCategories] = useState([])
+
+  const categoryOptions = categories.length > 0
+    ? categories.map((c) => ({ value: c.value, en: c.label_en || c.id, km: c.label_km || null }))
+    : SCAM_TYPES
+
+  useEffect(() => {
+    if (!open) return
+    let cancelled = false
+    categoriesApi.list()
+      .then((res) => {
+        if (!cancelled && Array.isArray(res.categories)) setCategories(res.categories)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -58,8 +78,6 @@ export function ReportForm({ open, onClose, onSubmitted }) {
     }
     setScreenshot((prev) => {
       if (prev?.url) URL.revokeObjectURL(prev.url)
-      // Local preview only — production should upload the file to real storage
-      // (S3, Cloudinary, etc.) and store the resulting URL, not the raw image blob.
       return { file, url: URL.createObjectURL(file) }
     })
     setErrors((er) => {
@@ -94,14 +112,28 @@ export function ReportForm({ open, onClose, onSubmitted }) {
 
     setSubmitting(true)
     try {
-      await reportsApi.create({
+      const file = screenshot?.file
+      const uploaded =
+        file && (await uploadsApi.screenshot(file))
+      const isAnonymous = form.postAnonymously
+      let reportData = {
         title: form.title,
         description: form.description,
         category: form.category,
         platform: form.sourcePlatform,
         contactMethod: form.sourcePlatform,
         dateOccurred: form.dateOccurred,
-      })
+        screenshotUrl: uploaded?.url || null,
+        isAnonymous,
+      }
+      if (isAnonymous) {
+        reportData.displayName = generateAlias()
+        reportData.displayAvatarSeed = generateAvatarSeed()
+      } else {
+        reportData.displayName = null
+        reportData.displayAvatarSeed = null
+      }
+      await reportsApi.create(reportData)
       onSubmitted?.(form)
       setSubmitted(true)
       requestAnimationFrame(() => successTitleRef.current?.focus())
@@ -120,6 +152,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
       sourcePlatform: "",
       description: "",
       dateOccurred: "",
+      postAnonymously: false,
     })
     setScreenshot(null)
     setErrors({})
@@ -265,7 +298,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                     aria-invalid={errors.category ? "true" : undefined}
                   >
                     <option value="">{t({ en: "Select category", km: "ជ្រើសរើសប្រភេទ" })}</option>
-                    {SCAM_TYPES.map((type) => (
+                    {categoryOptions.map((type) => (
                       <option key={type.value} value={type.value}>
                         {t(type)}
                       </option>
@@ -352,13 +385,32 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                 />
               </div>
 
+              {/* ─── Post anonymously ─── */}
+              <div className="anon-box">
+                <label className="anon-label">
+                  <input
+                    type="checkbox"
+                    className="anon-check"
+                    checked={form.postAnonymously}
+                    onChange={(e) => setForm((f) => ({ ...f, postAnonymously: e.target.checked }))}
+                  />
+                  <span>{t({ en: "Post this report anonymously", km: "បង្ហោះរបាយការណ៍នេះដោយអនាមិក" })}</span>
+                </label>
+                <p className="anon-sub">
+                  {t({
+                    en: "If unchecked, your name and profile photo will be shown with this report.",
+                    km: "ប្រសិនបើមិនបានជ្រើសរើស ឈ្មោះ និងរូបថតទម្រង់របស់អ្នកនឹងត្រូវបានបង្ហាញជាមួយរបាយការណ៍នេះ។",
+                  })}
+                </p>
+              </div>
+
               {/* ─── Privacy note ─── */}
               <p className="privacy-note">
                 <IconLock />
                 <span>
                   {t({
-                    en: "Privacy Notice: We do not publicly share who submitted the report. Only the information included in the report will be visible to others.",
-                    km: "សេចក្តីជូនដំណឹងអំពីភាពឯកជន៖ យើងមិនផ្សព្វផ្សាយជាសាធារណៈអំពីអ្នកដែលដាក់ស្នើរបាយការណ៍នោះទេ។ មានតែព័ត៌មានដែលបានបញ្ចូលក្នុងរបាយការណ៍ប៉ុណ្ណោះដែលនឹងបង្ហាញដល់អ្នកដទៃ។",
+                    en: "By default, your name and profile photo are shown with your report. Check the box above if you'd prefer to post anonymously — we still retain your account information internally for safety and moderation, but it won't be shown to other users.",
+                    km: "តាមលំនាំដើម ឈ្មោះ និងរូបថតទម្រង់របស់អ្នកត្រូវបានបង្ហាញជាមួយរបាយការណ៍របស់អ្នក។ សូមធីកប្រអប់ខាងលើ ប្រសិនបើអ្នកចង់បង្ហោះដោយអនាមិក — យើងនៅតែរក្សាទុកព័ត៌មានគណនីរបស់អ្នកខាងក្នុងសម្រាប់សុវត្ថិភាព និងការសម្របសម្រួល ប៉ុន្តែវានឹងមិនត្រូវបានបង្ហាញដល់អ្នកប្រើប្រាស់ផ្សេងទៀតទេ។",
                   })}
                 </span>
               </p>

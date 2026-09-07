@@ -7,9 +7,31 @@ export const authApi = {
   me: () => api.get("/users/me"),
 }
 
+export const usersApi = {
+  updateMe: ({ name, phone }) => api.put("/users/me", { name, phone }),
+  avatar: (file) => {
+    const formData = new FormData()
+    formData.append("avatar", file)
+    return api.postForm("/users/avatar", formData)
+  },
+  changePassword: ({ currentPassword, newPassword }) =>
+    api.post("/users/change-password", { currentPassword, newPassword }),
+}
+
+export const uploadsApi = {
+  screenshot: (file) => {
+    const formData = new FormData()
+    formData.append("screenshot", file)
+    return api.postForm("/uploads/screenshot", formData)
+  },
+}
+
 export const reportsApi = {
   list: (params = {}) => api.get(`/reports?${new URLSearchParams(params)}`),
   create: (report) => api.post("/reports", report),
+  save: (reportId) => api.post(`/saved-reports/${reportId}`),
+  unsave: (reportId) => api.del(`/saved-reports/${reportId}`),
+  listSaved: () => api.get("/saved-reports"),
 }
 
 export const categoriesApi = {

@@ -40,7 +40,7 @@ const now = Date.now()
 // Local SVG placeholder used only for demo screenshots — no network, no real files.
 // Each scene is a small "phone screen" illustration themed to the report's context:
 // a platform-colored header, a central category icon, message bars, and a warn badge.
-function scene({ header = "#229ED9", ink = "#1e293b", bars = ["#cbd5e1", "#94a3b8"], badge = "#ef4444", icon = "chat" }) {
+export function scene({ header = "#229ED9", ink = "#1e293b", bars = ["#cbd5e1", "#94a3b8"], badge = "#ef4444", icon = "chat" }) {
   const sh =
     '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200" viewBox="0 0 320 200" font-family="Inter, system-ui, sans-serif">' +
     '<rect width="320" height="200" fill="#eef2f7"/>' +

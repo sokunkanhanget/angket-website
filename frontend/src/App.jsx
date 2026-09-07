@@ -10,6 +10,7 @@ import { Solution } from "@/components/solution"
 import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
 import { ReportsFeed } from "@/components/reports-feed"
+import { UserProfile } from "@/components/user-profile"
 import { SafetyTips } from "@/components/safety-tips"
 import { SiteFooter } from "@/components/site-footer"
 import { LangProvider, useLang } from "@/lib/i18n"
@@ -99,6 +100,7 @@ export default function App() {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/report" element={<ReportsFeed />} />
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="*" element={<HomePage />} />
           </Route>
           <Route element={<CleanLayout />}>

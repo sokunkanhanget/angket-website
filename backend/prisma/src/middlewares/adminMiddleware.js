@@ -3,9 +3,9 @@ import supabase from "../services/supabaseClient.js"
 export default async function adminMiddleware(req, res, next) {
   try {
     const { data, error } = await supabase
-      .from("profiles")
+      .from("users")
       .select("role")
-      .eq("id", req.user?.id)
+      .eq("user_id", req.user?.id)
       .maybeSingle()
 
     if (error) {

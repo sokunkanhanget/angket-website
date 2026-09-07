@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
-import { goAuthBack } from "@/lib/authBack"
+import { consumeAuthOrigin, goAuthBack } from "@/lib/authBack"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { AuthTabs } from "@/components/auth/AuthTabs"
 import { PasswordInput } from "@/components/auth/PasswordInput"
@@ -59,9 +59,16 @@ export function Login() {
 
     setSubmitting(true)
     try {
-      const from = location.state?.from?.pathname || "/admin/dashboard"
-      await login({ email: activeTab === "email" ? cleanEmail : phone, password })
-      navigate(from, { replace: true })
+      const user = await login({ email: activeTab === "email" ? cleanEmail : phone, password })
+      const fallback = user?.role === "admin" ? "/admin/dashboard" : "/"
+      let dest = location.state?.from?.pathname
+      if (!dest || dest === "/login" || dest === "/signup") {
+        dest = consumeAuthOrigin() || fallback
+      }
+      if (user?.role !== "admin" && dest.startsWith("/admin")) {
+        dest = fallback
+      }
+      navigate(dest, { replace: true })
     } catch (err) {
       setErrors({ password: err.message })
     } finally {

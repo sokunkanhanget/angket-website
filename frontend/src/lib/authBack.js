@@ -6,10 +6,15 @@ export function rememberAuthOrigin(pathname) {
   sessionStorage.setItem(ORIGIN_KEY, value === "/login" || value === "/signup" ? "/" : value)
 }
 
-export function goAuthBack(navigate) {
+export function consumeAuthOrigin() {
   const origin = sessionStorage.getItem(ORIGIN_KEY)
+  if (origin) sessionStorage.removeItem(ORIGIN_KEY)
+  return origin
+}
+
+export function goAuthBack(navigate) {
+  const origin = consumeAuthOrigin()
   if (origin) {
-    sessionStorage.removeItem(ORIGIN_KEY)
     navigate(origin, { replace: true })
     return
   }

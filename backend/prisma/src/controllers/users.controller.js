@@ -1,4 +1,5 @@
 import supabase from "../services/supabaseClient.js"
+import { uploadAvatar } from "../services/storageService.js"
 import { emailRule, passwordRule, phoneRule, requiredRule, validate } from "../utils/validators.js"
 
 export async function signup(req, res, next) {
@@ -27,6 +28,14 @@ export async function signup(req, res, next) {
       return res.status(400).json({ error: error.message })
     }
 
+    const { error: insertError } = await supabase
+      .from("users")
+      .insert({ user_id: data.user.id, name: full_name, email, role: "user", phone })
+
+    if (insertError) {
+      return res.status(400).json({ error: "Account created but could not be saved", detail: insertError.message })
+    }
+
     return res.status(201).json({
       message: "Account created",
       user: { id: data.user.id, email: data.user.email },
@@ -51,9 +60,9 @@ export async function login(req, res, next) {
     }
 
     const { data: profile } = await supabase
-      .from("profiles")
-      .select("id, full_name, role")
-      .eq("id", data.user.id)
+      .from("users")
+      .select("user_id, name, email, phone, role, avatar_url")
+      .eq("user_id", data.user.id)
       .maybeSingle()
 
     return res.json({
@@ -61,7 +70,9 @@ export async function login(req, res, next) {
       user: {
         id: data.user.id,
         email: data.user.email,
-        full_name: profile?.full_name || data.user.user_metadata?.full_name || null,
+        full_name: profile?.name || data.user.user_metadata?.full_name || null,
+        phone: profile?.phone || data.user.user_metadata?.phone || null,
+        avatarUrl: profile?.avatar_url || null,
         role: profile?.role || "user",
       },
     })
@@ -73,21 +84,140 @@ export async function login(req, res, next) {
 export async function me(req, res, next) {
   try {
     const { data: profile } = await supabase
-      .from("profiles")
-      .select("id, full_name, phone, role")
-      .eq("id", req.user.id)
+      .from("users")
+      .select("user_id, name, email, phone, role, avatar_url, created_at")
+      .eq("user_id", req.user.id)
       .maybeSingle()
 
     res.json({
       user: {
         id: req.user.id,
-        email: req.user.email,
-        full_name: profile?.full_name || req.user.user_metadata?.full_name || null,
-        phone: profile?.phone || null,
+        name: profile?.name || req.user.user_metadata?.full_name || null,
+        email: req.user.email || profile?.email || null,
+        phone: profile?.phone || req.user.user_metadata?.phone || null,
+        avatarUrl: profile?.avatar_url || null,
         role: profile?.role || "user",
+        createdAt: profile?.created_at || null,
       },
     })
   } catch (err) {
     next(err)
   }
+}
+
+export async function updateMe(req, res, next) {
+  try {
+    const { name, phone } = req.body
+
+    const { valid, errors } = validate({
+      name: () => requiredRule(name, "Name is required"),
+      phone: () => phoneRule(phone),
+    })
+    if (!valid) {
+      return res.status(400).json({ error: "Validation failed", fields: errors })
+    }
+
+    const patch = {
+      name: String(name).trim(),
+      phone: String(phone).trim(),
+      updated_at: new Date().toISOString(),
+    }
+
+    const { data, error } = await supabase
+      .from("users")
+      .update(patch)
+      .eq("user_id", req.user.id)
+      .select("user_id, name, email, phone, role, avatar_url, created_at")
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) return res.status(404).json({ error: "User not found" })
+
+    return res.json({
+      user: {
+        id: data.user_id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        avatarUrl: data.avatar_url,
+        role: data.role,
+        createdAt: data.created_at,
+      },
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function avatar(req, res, next) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No image provided" })
+    }
+
+    const avatarUrl = await uploadAvatar(req.file)
+
+    await supabase
+      .from("profile_image")
+      .insert({ user_id: req.user.id, image_url: avatarUrl })
+      .catch((e) => console.warn("profile_image insert failed:", e.message))
+
+    const { data, error } = await supabase
+      .from("users")
+      .update({ avatar_url: avatarUrl, updated_at: new Date().toISOString() })
+      .eq("user_id", req.user.id)
+      .select("user_id, name, email, phone, role, avatar_url, created_at")
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) return res.status(404).json({ error: "User not found" })
+
+    return res.json({
+      user: {
+        id: data.user_id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        avatarUrl: data.avatar_url,
+        role: data.role,
+        createdAt: data.created_at,
+      },
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function changePassword(req, res, next) {
+  try {
+    const { currentPassword, newPassword } = req.body
+
+    const { valid, errors } = validate({
+      currentPassword: () => requiredRule(currentPassword, "Current password is required"),
+      newPassword: () => passwordRule(newPassword),
+    })
+    if (!valid) {
+      return res.status(400).json({ error: "Validation failed", fields: errors })
+    }
+
+    const email = req.user.email || (await lookupEmailWithoutUser(req.user.id))
+    if (email) {
+      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password: currentPassword })
+      if (signInError) {
+        return res.status(400).json({ error: "Current password is incorrect" })
+      }
+    }
+
+    const { error } = await supabase.auth.admin.updateUserById(req.user.id, { password: newPassword })
+    if (error) throw error
+
+    return res.json({ message: "Password updated" })
+  } catch (err) {
+    next(err)
+  }
+}
+
+async function lookupEmailWithoutUser(userId) {
+  const { data } = await supabase.from("users").select("email").eq("user_id", userId).maybeSingle()
+  return data?.email || null
 }

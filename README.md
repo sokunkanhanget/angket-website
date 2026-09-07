@@ -8,13 +8,23 @@ Express + Supabase.
 ### Database (required once)
 
 Run `backend/schema.sql` in the Supabase Dashboard → SQL Editor for the project in
-`backend/.env`. This creates the `profiles`, `categories`, `reports`, `subscriptions`,
-and `verifications` tables and seeds the default scam categories.
+`backend/.env`. This creates the `users` and `category` tables and seeds the default
+scam categories.
+
+> **Schema source of truth:** `backend/schema.sql` is the authoritative schema for the
+> running app — user and category data live in `users` and `category`, and every
+> controller reads/writes them via Supabase REST. The report/subscription/verification
+> APIs currently return empty data until re-implemented on the remaining legacy tables
+> (`report_form`, `report_image`, `subscription_plan`, `user_subscription`,
+> `subscription_order`, `subscription_member`, `bot_subscriber`). If you need a feature
+> touching categories, subscriptions, or user/profile data, reuse or extend the `users`/
+> `category` tables (or the space above) instead of creating new ones, and confirm
+> before adding anything that overlaps.
 
 To make the first user an admin:
 
 ```sql
-update public.profiles set role = 'admin' where id = '<user-uuid>'
+update public.users set role = 'admin' where email = 'you@example.com'
 ```
 
 ### Backend
