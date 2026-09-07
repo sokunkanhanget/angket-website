@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react"
+import { Link } from "react-router-dom"
 import PageShell from "../components/PageShell"
 import { categoriesApi } from "@/lib/services"
 
@@ -59,6 +60,14 @@ export default function CategoriesPage() {
           <label>Label (KM)</label>
           <input className="control" value={form.label_km} onChange={update("label_km")} placeholder="ការងារក្លែងក្លាយ" />
         </div>
+        <div className="field">
+          <label>Description (EN)</label>
+          <input className="control" value={form.description_en} onChange={update("description_en")} placeholder="Describe this category in English" />
+        </div>
+        <div className="field">
+          <label>Description (KM)</label>
+          <input className="control" value={form.description_km} onChange={update("description_km")} placeholder="ពណ៌នាជាភាសាខ្មែរ" />
+        </div>
         <button type="submit" className="btn-sm btn-sm-green">Add</button>
       </form>
 
@@ -83,11 +92,18 @@ export default function CategoriesPage() {
               {!loading && categories.map((c) => (
                 <tr key={c.id}>
                   <td className="mono">{c.value}</td>
-                  <td className="cell-strong">{c.label_en}</td>
+                  <td className="cell-strong">
+                    <Link className="cell-link" to={`/admin/reports?category=${c.value}`}>
+                      {c.label_en}
+                    </Link>
+                  </td>
                   <td>{c.label_km || "—"}</td>
                   <td>{c.description_en || "—"}</td>
                   <td>
-                    <button type="button" className="btn-sm btn-sm-rose" onClick={() => handleDelete(c.id)}>Delete</button>
+                    <div className="table-actions">
+                      <Link className="btn-sm btn-sm-view" to={`/admin/reports?category=${c.value}`}>View</Link>
+                      <button type="button" className="btn-sm btn-sm-rose" onClick={() => handleDelete(c.id)}>Delete</button>
+                    </div>
                   </td>
                 </tr>
               ))}

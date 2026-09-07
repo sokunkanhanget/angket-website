@@ -63,10 +63,14 @@ export function Login() {
       const fallback = user?.role === "admin" ? "/admin/dashboard" : "/"
       let dest = location.state?.from?.pathname
       if (!dest || dest === "/login" || dest === "/signup") {
-        dest = consumeAuthOrigin() || fallback
+        const origin = consumeAuthOrigin()
+        dest = origin && origin !== "/" ? origin : fallback
       }
       if (user?.role !== "admin" && dest.startsWith("/admin")) {
         dest = fallback
+      }
+      if (user?.role === "admin" && !dest.startsWith("/admin") && !location.state?.from) {
+        dest = "/admin/dashboard"
       }
       navigate(dest, { replace: true })
     } catch (err) {

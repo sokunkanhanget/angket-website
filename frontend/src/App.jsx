@@ -19,6 +19,7 @@ import ProtectedAdminRoute from "@/admin/ProtectedAdminRoute"
 import AdminLayout from "@/admin/AdminLayout"
 import DashboardPage from "@/admin/pages/DashboardPage"
 import UsersPage from "@/admin/pages/UsersPage"
+import UserDetailPage from "@/admin/pages/UserDetailPage"
 import VerificationsPage from "@/admin/pages/VerificationsPage"
 import ReportsPage from "@/admin/pages/ReportsPage"
 import CategoriesPage from "@/admin/pages/CategoriesPage"
@@ -88,6 +89,7 @@ export default function App() {
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="users" element={<UsersPage />} />
+              <Route path="users/:id" element={<UserDetailPage />} />
               <Route path="verifications" element={<VerificationsPage />} />
               <Route path="reports" element={<ReportsPage />} />
               <Route path="categories" element={<CategoriesPage />} />

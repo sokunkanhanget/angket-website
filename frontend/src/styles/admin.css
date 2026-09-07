@@ -229,6 +229,22 @@
   padding: 20px;
 }
 
+.stat-card-link {
+  text-decoration: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.stat-card-link:hover {
+  border-color: #1d5fc4;
+  box-shadow: 0 4px 14px rgba(29, 95, 196, 0.12);
+  transform: translateY(-1px);
+}
+
+.stat-card-link:focus-visible {
+  outline: 2px solid #1d5fc4;
+  outline-offset: 2px;
+}
+
 .stat-icon {
   width: 42px;
   height: 42px;
@@ -402,6 +418,16 @@
   background: #e2e7ee;
 }
 
+.btn-sm-view {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.btn-sm-view:hover {
+  background: #38bdf8;
+  color: #ffffff;
+}
+
 .filter-row {
   display: flex;
   gap: 8px;
@@ -429,6 +455,21 @@
   background: #1d5fc4;
   border-color: #1d5fc4;
   color: #ffffff;
+}
+
+.filter-row + .filter-row {
+  margin-top: 10px;
+  padding-bottom: 2px;
+}
+
+.cell-link {
+  color: #1d5fc4;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cell-link:hover {
+  text-decoration: underline;
 }
 
 .category-form {
@@ -468,6 +509,85 @@
 
 .category-form .control:focus {
   border-color: #1d5fc4;
+}
+
+/* ---------- User detail ---------- */
+.user-detail-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+}
+
+.user-detail-profile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #ffffff;
+  border: 1px solid #e1e8f0;
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+
+.user-detail-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1d5fc4;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.user-detail-meta {
+  min-width: 0;
+}
+
+.user-detail-meta h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #16202b;
+  margin: 0 0 2px;
+}
+
+.user-detail-email {
+  font-size: 13px;
+  color: #6c7a89;
+  margin: 0 0 8px;
+}
+
+.user-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.user-detail-row > span {
+  min-width: 60px;
+  color: #6c7a89;
+}
+
+.user-detail-row > strong {
+  color: #16202b;
+}
+
+.detail-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #16202b;
+  margin: 0 0 6px;
 }
 
 /* ---------- Responsive ---------- */

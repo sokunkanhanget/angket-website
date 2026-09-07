@@ -50,8 +50,8 @@ export default function VerificationsPage() {
               )}
               {!loading && verifications.map((v) => (
                 <tr key={v.id}>
-                  <td className="mono">{v.user_id || "—"}</td>
-                  <td className="cell-strong">{v.type}</td>
+                  <td className="cell-strong">{v.user_name || v.email || "—"}</td>
+                  <td>{v.type}</td>
                   <td><span className={`badge ${statusBadge(v.status)}`}>{v.status}</span></td>
                   <td>{v.submitted_at ? new Date(v.submitted_at).toLocaleDateString() : "—"}</td>
                   <td>

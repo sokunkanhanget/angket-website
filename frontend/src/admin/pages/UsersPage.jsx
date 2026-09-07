@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import PageShell from "../components/PageShell"
 import { adminApi } from "@/lib/services"
 
@@ -31,14 +32,15 @@ export default function UsersPage() {
                 <th>Phone</th>
                 <th>Role</th>
                 <th>Joined</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {loading && (
-                <tr><td colSpan={4} className="table-empty">Loading…</td></tr>
+                <tr><td colSpan={5} className="table-empty">Loading…</td></tr>
               )}
               {!loading && users.length === 0 && (
-                <tr><td colSpan={4} className="table-empty">No users yet.</td></tr>
+                <tr><td colSpan={5} className="table-empty">No users yet.</td></tr>
               )}
               {!loading && users.map((u) => (
                 <tr key={u.id}>
@@ -46,6 +48,9 @@ export default function UsersPage() {
                   <td className="mono">{u.phone || "—"}</td>
                   <td><span className={`badge ${u.role === "admin" ? "badge-blue" : "badge-neutral"}`}>{u.role}</span></td>
                   <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}</td>
+                  <td>
+                    <Link className="btn-sm btn-sm-view" to={`/admin/users/${u.id}`}>View</Link>
+                  </td>
                 </tr>
               ))}
             </tbody>

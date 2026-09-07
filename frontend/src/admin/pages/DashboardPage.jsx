@@ -61,17 +61,17 @@ export default function DashboardPage() {
     )
   }
 
-  const rowOne = [
-    { icon: <Users size={20} />, ...COLORS.blue, value: stats.totalUsers, label: "Total Users" },
-    { icon: <FileText size={20} />, ...COLORS.blue, value: stats.totalReports, label: "Total Reports" },
-    { icon: <BadgeCheck size={20} />, ...COLORS.green, value: stats.activeSubscriptions, label: "Active Subscriptions" },
-    { icon: <Hourglass size={20} />, ...COLORS.amber, value: stats.pendingVerifications, label: "Pending Verifications" },
-  ]
+const rowOne = [
+  { icon: <Users size={20} />, ...COLORS.blue, value: stats.totalUsers, label: "Total Users", to: "/admin/users" },
+  { icon: <FileText size={20} />, ...COLORS.blue, value: stats.totalReports, label: "Total Reports", to: "/admin/reports" },
+  { icon: <BadgeCheck size={20} />, ...COLORS.green, value: stats.activeSubscriptions, label: "Active Subscriptions", to: "/admin/subscriptions" },
+  { icon: <Hourglass size={20} />, ...COLORS.amber, value: stats.pendingVerifications, label: "Pending Verifications", to: "/admin/verifications" },
+]
 
-  const rowTwo = [
-    { icon: <CheckCircle2 size={20} />, ...COLORS.green, value: stats.reportsApprovedToday, label: "Reports Approved Today" },
-    { icon: <UserPlus size={20} />, ...COLORS.blue, value: stats.newSignupsThisWeek, label: "New Signups This Week" },
-  ]
+const rowTwo = [
+  { icon: <CheckCircle2 size={20} />, ...COLORS.green, value: stats.reportsApprovedToday, label: "Reports Approved Today", to: "/admin/reports" },
+  { icon: <UserPlus size={20} />, ...COLORS.blue, value: stats.newSignupsThisWeek, label: "New Signups This Week", to: "/admin/users" },
+]
 
   return (
     <PageShell title="Dashboard">

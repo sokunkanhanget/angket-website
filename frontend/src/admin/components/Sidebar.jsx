@@ -21,13 +21,16 @@ const NAV_ITEMS = [
 ]
 
 export default function Sidebar() {
-  const { logout } = useAuth()
+  const { admin, logout } = useAuth()
   const navigate = useNavigate()
 
   const handleLogout = () => {
     logout()
     navigate("/login", { replace: true })
   }
+
+  const displayName = admin?.name || "Admin"
+  const initials = displayName.charAt(0).toUpperCase()
 
   return (
     <aside className="sidebar">
@@ -53,9 +56,9 @@ export default function Sidebar() {
       </nav>
 
       <div className="sidebar-profile">
-        <span className="profile-avatar">A</span>
+        <span className="profile-avatar">{initials}</span>
         <div className="profile-meta">
-          <span className="profile-name">Admin</span>
+          <span className="profile-name">{displayName}</span>
         </div>
         <button type="button" className="profile-logout" onClick={handleLogout} aria-label="Log out">
           <LogOut size={16} />

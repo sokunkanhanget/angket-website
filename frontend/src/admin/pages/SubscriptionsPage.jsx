@@ -41,8 +41,8 @@ export default function SubscriptionsPage() {
               )}
               {!loading && subscriptions.map((s) => (
                 <tr key={s.id}>
-                  <td className="mono">{s.user_id || "—"}</td>
-                  <td className="cell-strong">{s.plan}</td>
+                  <td className="cell-strong">{s.email || "—"}</td>
+                  <td>{s.plan}</td>
                   <td><span className={`badge ${s.status === "active" ? "badge-green" : "badge-neutral"}`}>{s.status}</span></td>
                   <td>{s.started_at ? new Date(s.started_at).toLocaleDateString() : "—"}</td>
                   <td>{s.expires_at ? new Date(s.expires_at).toLocaleDateString() : "—"}</td>

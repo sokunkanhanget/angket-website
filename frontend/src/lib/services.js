@@ -44,7 +44,9 @@ export const categoriesApi = {
 export const adminApi = {
   stats: () => api.get("/admin/dashboard/stats"),
   users: () => api.get("/admin/users"),
-  reports: (status = "all") => api.get(`/admin/reports?status=${status}`),
+  userDetail: (id) => api.get(`/admin/users/${id}`),
+  reports: (status = "all", category = "all") =>
+    api.get(`/admin/reports?status=${status}&category=${category}`),
   setReportStatus: (id, status) => api.patch(`/admin/reports/${id}/status`, { status }),
   subscriptions: () => api.get("/admin/subscriptions"),
   verifications: () => api.get("/admin/subscriptions/verifications"),
