@@ -1,3 +1,4 @@
+import { isAdminEmail } from "../config.js"
 import supabase from "../services/supabaseClient.js"
 import { uploadAvatar } from "../services/storageService.js"
 import { emailRule, passwordRule, phoneRule, requiredRule, validate } from "../utils/validators.js"
@@ -30,7 +31,7 @@ export async function signup(req, res, next) {
 
     const { error: insertError } = await supabase
       .from("users")
-      .insert({ user_id: data.user.id, name: full_name, email, role: "user", phone })
+      .insert({ user_id: data.user.id, name: full_name, email, role: isAdminEmail(email) ? "admin" : "user", phone })
 
     if (insertError) {
       return res.status(400).json({ error: "Account created but could not be saved", detail: insertError.message })
@@ -59,11 +60,35 @@ export async function login(req, res, next) {
       return res.status(401).json({ error: error.message || "Invalid credentials" })
     }
 
-    const { data: profile } = await supabase
+    let { data: profile } = await supabase
       .from("users")
       .select("user_id, name, email, phone, role, avatar_url")
       .eq("user_id", data.user.id)
       .maybeSingle()
+
+    const loginEmail = profile?.email || data.user.email
+
+    if (isAdminEmail(loginEmail) && profile?.role !== "admin") {
+      if (profile) {
+        const { error: promoteError } = await supabase
+          .from("users")
+          .update({ role: "admin" })
+          .eq("user_id", data.user.id)
+        if (promoteError) throw promoteError
+      } else {
+        const { error: insertError } = await supabase
+          .from("users")
+          .insert({
+            user_id: data.user.id,
+            name: data.user.user_metadata?.full_name || null,
+            email: loginEmail,
+            role: "admin",
+            phone: data.user.user_metadata?.phone || null,
+          })
+        if (insertError) throw insertError
+      }
+      profile = { ...(profile || {}), role: "admin", email: loginEmail }
+    }
 
     return res.json({
       token: data.session.access_token,

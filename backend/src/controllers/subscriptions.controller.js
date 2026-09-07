@@ -11,7 +11,7 @@ function mapSubscription(row) {
     started_at: row.start_date,
     expires_at: row.end_date,
     payment_ref: row.payment_ref || null,
-    email: row.user?.email || null,
+    email: row.users?.email || null,
     created_at: row.created_at,
   }
 }
@@ -20,7 +20,7 @@ export async function listSubscriptions(req, res, next) {
   try {
     const { data, error } = await supabase
       .from("user_subscription")
-      .select("*, subscription_plan(name), user(name, email)")
+      .select("*, subscription_plan(name), users(name, email)")
       .order("start_date", { ascending: false })
 
     if (error) throw error
@@ -35,7 +35,7 @@ export async function listVerifications(req, res, next) {
     const { status } = req.query
     let query = supabase
       .from("verifications")
-      .select("*, user(name, email)")
+      .select("*, users(name, email)")
       .order("submitted_at", { ascending: false })
 
     if (status) query = query.eq("status", status)
@@ -46,8 +46,8 @@ export async function listVerifications(req, res, next) {
       verifications: (data || []).map((v) => ({
         id: v.id,
         user_id: v.user_id,
-        user_name: v.user?.name || null,
-        email: v.user?.email || null,
+        user_name: v.users?.name || null,
+        email: v.users?.email || null,
         type: v.type,
         status: v.status,
         submitted_at: v.submitted_at,
@@ -72,7 +72,7 @@ export async function updateVerification(req, res, next) {
       .from("verifications")
       .update({ status, reviewed_at: new Date().toISOString() })
       .eq("id", id)
-      .select("*, user(name, email)")
+      .select("*, users(name, email)")
       .single()
 
     if (error) throw error
@@ -82,8 +82,8 @@ export async function updateVerification(req, res, next) {
       verification: {
         id: data.id,
         user_id: data.user_id,
-        user_name: data.user?.name || null,
-        email: data.user?.email || null,
+        user_name: data.users?.name || null,
+        email: data.users?.email || null,
         type: data.type,
         status: data.status,
         submitted_at: data.submitted_at,

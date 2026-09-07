@@ -56,22 +56,117 @@ export async function listUsers(req, res, next) {
   }
 }
 
+export async function getUserDetail(req, res, next) {
+  try {
+    const { id } = req.params
+
+    const [userResult, reportsResult, subscriptionsResult, verificationsResult] =
+      await Promise.all([
+        supabase
+          .from("users")
+          .select("user_id, name, email, phone, role, avatar_url, created_at")
+          .eq("user_id", id)
+          .maybeSingle(),
+        supabase
+          .from("report_form")
+          .select("report_form_id, title_en, category, platform, status, reported_count, created_at")
+          .eq("user_id", id)
+          .order("created_at", { ascending: false }),
+        supabase
+          .from("user_subscription")
+          .select("*, subscription_plan(name)")
+          .eq("user_id", id)
+          .order("start_date", { ascending: false }),
+        supabase
+          .from("verifications")
+          .select("id, type, status, submitted_at, reviewed_at")
+          .eq("user_id", id)
+          .order("submitted_at", { ascending: false }),
+      ])
+
+    if (userResult.error) throw userResult.error
+    if (!userResult.data) return res.status(404).json({ error: "User not found" })
+    if (reportsResult.error) throw reportsResult.error
+    if (subscriptionsResult.error) throw subscriptionsResult.error
+    if (verificationsResult.error) throw verificationsResult.error
+
+    const user = userResult.data
+    return res.json({
+      user: {
+        id: user.user_id,
+        full_name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        avatar_url: user.avatar_url,
+        created_at: user.created_at,
+      },
+      reports: (reportsResult.data || []).map((r) => ({
+        report_form_id: r.report_form_id,
+        title: r.title_en,
+        category: r.category,
+        platform: r.platform,
+        status: r.status,
+        reported_count: r.reported_count,
+        created_at: r.created_at,
+      })),
+      subscriptions: (subscriptionsResult.data || []).map((s) => ({
+        id: s.sub_id,
+        plan: s.subscription_plan?.name || s.sub_plan_id,
+        status: s.status,
+        started_at: s.start_date,
+        expires_at: s.end_date,
+      })),
+      verifications: (verificationsResult.data || []).map((v) => ({
+        id: v.id,
+        type: v.type,
+        status: v.status,
+        submitted_at: v.submitted_at,
+        reviewed_at: v.reviewed_at,
+      })),
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
 const ADMIN_REPORT_COLUMNS =
-  "report_form_id, user_id, category_id, title_en, title_km, description_en, category, platform, status, reported_count, created_at"
+  "report_form_id, user_id, category_id, title_en, title_km, description_en, category, platform, status, reported_count, created_at, users(name, email)"
+
+function mapAdminReport(row) {
+  return {
+    report_form_id: row.report_form_id,
+    user_id: row.user_id,
+    user_name: row.users?.name || null,
+    user_email: row.users?.email || null,
+    category_id: row.category_id,
+    title_en: row.title_en,
+    title_km: row.title_km,
+    description_en: row.description_en,
+    category: row.category,
+    platform: row.platform,
+    status: row.status,
+    reported_count: row.reported_count,
+    created_at: row.created_at,
+  }
+}
 
 export async function listAdminReports(req, res, next) {
   try {
-    const { status } = req.query
+    const { status, category } = req.query
     let query = supabase
       .from("report_form")
       .select(ADMIN_REPORT_COLUMNS)
       .order("created_at", { ascending: false })
 
     if (status && status !== "all") query = query.eq("status", status)
+    if (category && category !== "all") {
+      query = query.or(`category.eq.${category},category_id.eq.${category}`)
+    }
 
     const { data, error } = await query
     if (error) throw error
-    return res.json({ reports: data || [] })
+    return res.json({ reports: (data || []).map(mapAdminReport) })
   } catch (err) {
     next(err)
   }
@@ -95,7 +190,7 @@ export async function updateReportStatus(req, res, next) {
 
     if (error) throw error
     if (!data) return res.status(404).json({ error: "Report not found" })
-    return res.json({ report: data })
+    return res.json({ report: mapAdminReport(data) })
   } catch (err) {
     next(err)
   }
