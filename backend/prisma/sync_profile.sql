@@ -27,6 +27,11 @@ create table if not exists public.saved_reports (
   unique (user_id, report_form_id)
 );
 
+-- All DB access goes through the authenticated backend (service role); the
+-- Supabase dashboard creates new tables with RLS ON by default but no policies,
+-- which silently blocks save/list/unsave. Disable RLS to match report_form/users.
+alter table public.saved_reports disable row level security;
+
 -- Anonymous posting support (defaults to identified)
 alter table public.report_form
   add column if not exists is_anonymous boolean not null default false,

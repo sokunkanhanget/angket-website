@@ -6,6 +6,7 @@ import { rememberAuthOrigin } from "@/lib/authBack"
 import { SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { reportsApi } from "@/lib/services"
 import { Reveal } from "./reveal"
+import { User } from "lucide-react"
 import { ReportForm } from "./report-form"
 import {
   IconGlobe, IconFacebook, IconTelegram, IconWhatsApp,
@@ -84,6 +85,7 @@ const PLATFORM_ICONS = {
   tiktok: IconTikTok,
   instagram: IconInstagram,
   sms: IconSms,
+  email: IconMail,
   "telephone call": IconSms,
   other: IconGlobe,
 }
@@ -95,6 +97,7 @@ const PLATFORM_COLORS = {
   tiktok: "#010101",
   instagram: "#E1306C",
   sms: "#2563EB",
+  email: "#EA4335",
   "telephone call": "#2563EB",
   other: "#6b7280",
 }
@@ -418,7 +421,7 @@ export function ReportsFeed() {
                     <div className="browse-card-author">
                       <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
                         {r.is_anonymous
-                          ? <IconInfo />
+                          ? <User className="icon" />
                           : r.author_avatar_url
                             ? <img src={r.author_avatar_url} alt="" />
                             : <span>{aliasInitials(r.author_name) || "U"}</span>}

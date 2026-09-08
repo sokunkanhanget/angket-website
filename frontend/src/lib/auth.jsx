@@ -29,13 +29,14 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const login = useCallback(async ({ email, password }) => {
-    const res = await authApi.login({ email, password })
+  const login = useCallback(async ({ email, phone, password }) => {
+    const res = await authApi.login({ email, phone, password })
     api.setToken(res.token)
     const user = {
       id: res.user.id,
       name: res.user.full_name || res.user.email,
       email: res.user.email,
+      avatarUrl: res.user.avatarUrl || null,
       role: res.user.role,
     }
     setAdmin(user)

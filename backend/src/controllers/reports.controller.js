@@ -234,6 +234,111 @@ async function categoryIdFallback(category) {
   return data?.category_id || null
 }
 
+export async function updateReport(req, res, next) {
+  try {
+    const reportId = req.params.id
+
+    const { data: existing, error: existingError } = await supabase
+      .from("report_form")
+      .select("report_form_id, user_id")
+      .eq("report_form_id", reportId)
+      .maybeSingle()
+
+    if (existingError) throw existingError
+    if (!existing) return res.status(404).json({ error: "Report not found" })
+    if (existing.user_id !== req.user?.id) {
+      return res.status(403).json({ error: "You do not have access to this report" })
+    }
+
+    const {
+      title, description, category, platform, contactMethod,
+      amountLost, dateOccurred, screenshotUrl,
+      isAnonymous, displayName, displayAvatarSeed,
+    } = req.body
+
+    const payload = {}
+
+    if (title !== undefined && String(title).trim()) payload.title_en = title
+    if (description !== undefined && String(description).trim()) {
+      payload.description = description
+      payload.description_en = description
+    }
+    if (platform !== undefined) payload.platform = platform || null
+    if (contactMethod !== undefined) payload.contact_method = contactMethod || null
+    if (amountLost !== undefined) payload.amount_lost = amountLost || null
+    if (dateOccurred !== undefined) {
+      payload.date_occurred = dateOccurred || null
+    }
+    if (screenshotUrl !== undefined) payload.screenshot_url = screenshotUrl || null
+    if (isAnonymous !== undefined) payload.is_anonymous = Boolean(isAnonymous)
+    if (displayName !== undefined) payload.display_name = displayName || null
+    if (displayAvatarSeed !== undefined) payload.display_avatar_seed = displayAvatarSeed || null
+
+    if (category !== undefined && String(category).trim()) {
+      const categoryValue = String(category).trim()
+      const { data: catRow } = await supabase
+        .from("category")
+        .select("category_id")
+        .eq("value", categoryValue)
+        .maybeSingle()
+      const categoryId = catRow?.category_id || (await categoryIdFallback(categoryValue))
+      if (!categoryId) {
+        return res.status(400).json({ error: `Unknown category: ${categoryValue}` })
+      }
+      payload.category_id = categoryId
+      payload.category = categoryValue
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return res.status(400).json({ error: "No fields to update" })
+    }
+
+    const { data, error } = await supabase
+      .from("report_form")
+      .update(payload)
+      .eq("report_form_id", reportId)
+      .select(REPORT_COLUMNS)
+      .single()
+
+    if (error) throw error
+
+    const categoryMap = await loadCategoryMap()
+    const userMap = await loadUsers([data.user_id])
+    return res.json({ report: mapReport(data, categoryMap, new Map(), userMap) })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function deleteReport(req, res, next) {
+  try {
+    const reportId = req.params.id
+
+    const { data: existing, error: existingError } = await supabase
+      .from("report_form")
+      .select("report_form_id, user_id")
+      .eq("report_form_id", reportId)
+      .maybeSingle()
+
+    if (existingError) throw existingError
+    if (!existing) return res.status(404).json({ error: "Report not found" })
+    if (existing.user_id !== req.user?.id) {
+      return res.status(403).json({ error: "You do not have access to this report" })
+    }
+
+    const { error } = await supabase
+      .from("report_form")
+      .delete()
+      .eq("report_form_id", reportId)
+
+    if (error) throw error
+
+    return res.json({ deleted: true })
+  } catch (err) {
+    next(err)
+  }
+}
+
 export async function addReportImages(req, res, next) {
   try {
     const files = req.files || []

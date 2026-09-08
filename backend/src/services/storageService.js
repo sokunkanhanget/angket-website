@@ -55,3 +55,16 @@ export async function uploadScreenshots(files, reportId) {
 export async function uploadAvatar(file, userId) {
   return uploadToBucket(file, AVATAR_BUCKET, userId)
 }
+
+export async function deleteAvatar(userId) {
+  const { data: listData } = await supabase.storage
+    .from(AVATAR_BUCKET)
+    .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } })
+
+  const names = (listData || []).filter((f) => !f.name.endsWith("/")).map((f) => `${userId}/${f.name}`)
+  if (names.length === 0) return 0
+
+  const { error } = await supabase.storage.from(AVATAR_BUCKET).remove(names)
+  if (error) return 0
+  return names.length
+}

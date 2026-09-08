@@ -1,7 +1,7 @@
 import { api } from "./api"
 
 export const authApi = {
-  login: ({ email, password }) => api.post("/users/login", { email, password }),
+  login: ({ email, phone, password }) => api.post("/users/login", { email, phone, password }),
   signup: ({ full_name, email, password, phone }) =>
     api.post("/users/signup", { full_name, email, password, phone }),
   me: () => api.get("/users/me"),
@@ -14,6 +14,7 @@ export const usersApi = {
     formData.append("avatar", file)
     return api.postForm("/users/avatar", formData)
   },
+  removeAvatar: () => api.del("/users/avatar"),
   changePassword: ({ currentPassword, newPassword }) =>
     api.post("/users/change-password", { currentPassword, newPassword }),
 }
@@ -29,6 +30,8 @@ export const uploadsApi = {
 export const reportsApi = {
   list: (params = {}) => api.get(`/reports?${new URLSearchParams(params)}`),
   create: (report) => api.post("/reports", report),
+  update: (id, report) => api.put(`/reports/${id}`, report),
+  remove: (id) => api.del(`/reports/${id}`),
   save: (reportId) => api.post(`/saved-reports/${reportId}`),
   unsave: (reportId) => api.del(`/saved-reports/${reportId}`),
   listSaved: () => api.get("/saved-reports"),

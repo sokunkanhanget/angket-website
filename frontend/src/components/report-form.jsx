@@ -6,11 +6,12 @@ import { IconCheck, IconClose, IconLock } from "./icons"
 
 const MAX_SCREENSHOT_MB = 5
 
-export function ReportForm({ open, onClose, onSubmitted }) {
+export function ReportForm({ open, onClose, onSubmitted, editReport = null }) {
   const { t } = useLang()
   const successTitleRef = useRef(null)
   const fileRef = useRef(null)
   const [submitted, setSubmitted] = useState(false)
+  const isEditing = Boolean(editReport)
   const [form, setForm] = useState({
     title: "",
     category: "",
@@ -40,6 +41,37 @@ export function ReportForm({ open, onClose, onSubmitted }) {
       cancelled = true
     }
   }, [open])
+
+  useEffect(() => {
+    if (!open) return
+    setSubmitted(false)
+    setErrors({})
+    setScreenshot((prev) => {
+      if (prev?.url) URL.revokeObjectURL(prev.url)
+      const existing = editReport?.screenshot_url || null
+      return existing ? { file: null, url: existing } : null
+    })
+    if (editReport) {
+      setForm({
+        title: editReport.title_en || editReport.title || "",
+        category: editReport.category || "",
+        sourcePlatform: editReport.platform || "",
+        description: editReport.description_en || editReport.description || "",
+        dateOccurred: editReport.date_occurred || "",
+        postAnonymously: Boolean(editReport.is_anonymous),
+      })
+    } else {
+      setForm({
+        title: "",
+        category: "",
+        sourcePlatform: "",
+        description: "",
+        dateOccurred: "",
+        postAnonymously: false,
+      })
+    }
+    if (fileRef.current) fileRef.current.value = ""
+  }, [open, editReport])
 
   useEffect(() => {
     if (!open) return
@@ -122,7 +154,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         platform: form.sourcePlatform,
         contactMethod: form.sourcePlatform,
         dateOccurred: form.dateOccurred,
-        screenshotUrl: uploaded?.url || null,
+        screenshotUrl: uploaded?.url || (isEditing ? editReport?.screenshot_url || null : null),
         isAnonymous,
       }
       if (isAnonymous) {
@@ -132,7 +164,11 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         reportData.displayName = null
         reportData.displayAvatarSeed = null
       }
-      await reportsApi.create(reportData)
+      if (isEditing && editReport?.id) {
+        await reportsApi.update(editReport.id, reportData)
+      } else {
+        await reportsApi.create(reportData)
+      }
       onSubmitted?.(form)
       setSubmitted(true)
       requestAnimationFrame(() => successTitleRef.current?.focus())
@@ -177,7 +213,9 @@ export function ReportForm({ open, onClose, onSubmitted }) {
           <div className="container">
             <div className="section-head">
               
-              <h2 id="drawer-title">{t({ en: "Share What Happened", km: "ចែករំលែកអ្វីដែលបានកើតឡើង" })}</h2>
+              <h2 id="drawer-title">{isEditing
+                ? t({ en: "Edit Report", km: "កែសម្រួលរបាយការណ៍" })
+                : t({ en: "Share What Happened", km: "ចែករំលែកអ្វីដែលបានកើតឡើង" })}</h2>
               <p>
                 {t({
                   en: "Your experience could help someone else recognize the same scam before it happens to them. Share what happened, what the scam looked like, and any warning signs you noticed.",
@@ -330,6 +368,7 @@ export function ReportForm({ open, onClose, onSubmitted }) {
                     <option value="Instagram">Instagram</option>
                     <option value="TikTok">{t({ en: "TikTok", km: "TikTok" })}</option>
                     <option value="SMS">SMS</option>
+                    <option value="Email">{t({ en: "Email", km: "អ៊ីមែល" })}</option>
                     <option value="Telephone call">{t({ en: "Telephone call", km: "ការហៅទូរស័ព្ទ" })}</option>
                     <option value="Other">{t({ en: "Other", km: "ផ្សេងទៀត" })}</option>
                   </select>
@@ -418,8 +457,10 @@ export function ReportForm({ open, onClose, onSubmitted }) {
               <div className="rf-submit-row">
                 <button type="submit" className="btn btn-primary" disabled={submitting}>
                   <span>{submitting
-                    ? t({ en: "Submitting…", km: "កំពុងដាក់ស្នើ…" })
-                    : t({ en: "Submit Report", km: "ដាក់ស្នើរបាយការណ៍" })}</span>
+                    ? t({ en: "Saving…", km: "កំពុងរក្សាទុក…" })
+                    : (isEditing
+                      ? t({ en: "Save Changes", km: "រក្សាទុកការផ្លាស់ប្តូរ" })
+                      : t({ en: "Submit Report", km: "ដាក់ស្នើរបាយការណ៍" }))}</span>
                 </button>
                 <button type="button" className="rf-cancel-link" onClick={handleCancel}>
                   {t({ en: "Cancel", km: "បោះបង់" })}

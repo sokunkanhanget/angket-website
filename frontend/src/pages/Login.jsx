@@ -17,6 +17,7 @@ export function Login() {
   const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
+  const [phoneCode, setPhoneCode] = useState("+855")
   const [password, setPassword] = useState("")
   const [keepSignedIn, setKeepSignedIn] = useState(true)
   const [errors, setErrors] = useState({})
@@ -59,7 +60,11 @@ export function Login() {
 
     setSubmitting(true)
     try {
-      const user = await login({ email: activeTab === "email" ? cleanEmail : phone, password })
+      const user = await login(
+        activeTab === "email"
+          ? { email: cleanEmail, password }
+          : { phone: `${phoneCode}${phone.replace(/\s+/g, "")}`, password },
+      )
       const fallback = user?.role === "admin" ? "/admin/dashboard" : "/"
       let dest = location.state?.from?.pathname
       if (!dest || dest === "/login" || dest === "/signup") {
@@ -133,7 +138,12 @@ export function Login() {
                 {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
               </label>
               <div className="auth-phone">
-                <select className="control auth-phone__code" aria-label="Country code">
+                <select
+                  className="control auth-phone__code"
+                  aria-label="Country code"
+                  value={phoneCode}
+                  onChange={(e) => setPhoneCode(e.target.value)}
+                >
                   <option>+855</option>
                   <option>+1</option>
                   <option>+44</option>

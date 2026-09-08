@@ -1,17 +1,35 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { VenetianMask } from "lucide-react"
+import { User } from "lucide-react"
 import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { TYPE_LABELS } from "@/lib/data"
 import { authApi, reportsApi, usersApi } from "@/lib/services"
+import { ReportForm } from "./report-form"
+import { PasswordInput } from "@/components/auth/PasswordInput"
 import {
   IconBriefcase, IconCamera, IconChart, IconCheck, IconClose, IconEdit,
-  IconEye, IconFacebook, IconFile, IconGift, IconGlobe, IconInfo,
+  IconFacebook, IconFile, IconGift, IconGlobe, IconInfo,
   IconInstagram, IconLogOut, IconMail, IconSave, IconSettings, IconShield,
   IconSms, IconStore, IconTelegram, IconTikTok, IconTrash, IconUser,
   IconWhatsApp,
 } from "./icons"
+
+const PASSWORD_RULES = [
+  { key: "length", test: (v) => v.length >= 8, en: "At least 8 characters", km: "យ៉ាងតិច ៨ តួអក្សរ" },
+  { key: "upper", test: (v) => /[A-Z]/.test(v), en: "One uppercase letter (A-Z)", km: "អក្សរធំមួយ (A-Z)" },
+  { key: "lower", test: (v) => /[a-z]/.test(v), en: "One lowercase letter (a-z)", km: "អក្សរតូចមួយ (a-z)" },
+  { key: "number", test: (v) => /[0-9]/.test(v), en: "One number (0-9)", km: "លេខមួយ (0-9)" },
+  { key: "special", test: (v) => /[^A-Za-z0-9]/.test(v), en: "One special character (!@#…)", km: "តួអក្សរពិសេសមួយ (!@#…)" },
+]
+
+function passwordStrength(v) {
+  if (!v) return 0
+  const passed = PASSWORD_RULES.reduce((n, r) => n + (r.test(v) ? 1 : 0), 0)
+  if (passed <= 2) return 1
+  if (passed === 3 || passed === 4) return passed < 5 && v.length < 12 ? 2 : 3
+  return v.length >= 12 ? 4 : 3
+}
 
 const DAY_MS = 24 * 60 * 60 * 1000
 
@@ -38,23 +56,25 @@ const CATEGORY_ICONS = {
 }
 
 const PLATFORM_ICONS = {
-  Facebook: IconFacebook,
-  Telegram: IconTelegram,
-  Whatsapp: IconWhatsApp,
-  Tiktok: IconTikTok,
-  Instagram: IconInstagram,
-  SMS: IconSms,
+  facebook: IconFacebook,
+  telegram: IconTelegram,
+  whatsapp: IconWhatsApp,
+  tiktok: IconTikTok,
+  instagram: IconInstagram,
+  sms: IconSms,
+  email: IconMail,
   "telephone call": IconSms,
   other: IconGlobe,
 }
 
 const PLATFORM_COLORS = {
-  Facebook: "#1877F2",
-  Telegram: "#229ED9",
-  Whatsapp: "#25D366",
-  Tiktok: "#010101",
-  Instagram: "#E1306C",
-  SMS: "#2563EB",
+  facebook: "#1877F2",
+  telegram: "#229ED9",
+  whatsapp: "#25D366",
+  tiktok: "#010101",
+  instagram: "#E1306C",
+  sms: "#2563EB",
+  email: "#EA4335",
   "telephone call": "#2563EB",
   other: "#6b7280",
 }
@@ -96,7 +116,7 @@ function relTime(ts, lang) {
 }
 
 function initials(name) {
-  return name
+  return String(name || "")
     .trim()
     .split(/\s+/)
     .slice(0, 2)
@@ -152,13 +172,23 @@ export function UserProfile() {
   const [myReports, setMyReports] = useState([])
   const [savedReports, setSavedReports] = useState([])
   const [savedLoading, setSavedLoading] = useState(true)
+  const [mineReloadKey, setMineReloadKey] = useState(0)
+  const [editingReport, setEditingReport] = useState(null)
+  const [editDrawerOpen, setEditDrawerOpen] = useState(false)
+  const [deleteTarget, setDeleteTarget] = useState(null)
+  const [deleting, setDeleting] = useState(false)
   const [infoEditing, setInfoEditing] = useState(false)
   const [draft, setDraft] = useState(null)
   const [toast, setToast] = useState(null)
   const [detailReport, setDetailReport] = useState(null)
   const [passwords, setPasswords] = useState({ current: "", next: "", confirm: "" })
+  const [pwdErrs, setPwdErrs] = useState({})
   const [avatarUploading, setAvatarUploading] = useState(false)
+  const [avatarDeleting, setAvatarDeleting] = useState(false)
+  const [avatarOptionsOpen, setAvatarOptionsOpen] = useState(false)
+  const [avatarView, setAvatarView] = useState(null)
   const avatarInputRef = useRef(null)
+  const avatarOptionsRef = useRef(null)
 
   useEffect(() => {
     let mounted = true
@@ -200,7 +230,21 @@ export function UserProfile() {
             status: r.status,
             ts: r.created_at ? parseServerDate(r.created_at).getTime() : 0,
             reason: null,
+            cat: r.category,
+            category: r.category,
+            platform: r.platform,
+            image: r.screenshot_url || (Array.isArray(r.images) ? r.images[0] : null) || null,
+            screenshot_url: r.screenshot_url || (Array.isArray(r.images) ? r.images[0] : null) || null,
             title: { en: r.title_en, km: r.title_km || r.title_en },
+            title_en: r.title_en,
+            title_km: r.title_km,
+            desc: { en: r.description_en, km: r.description_km || r.description_en },
+            description_en: r.description_en,
+            description_km: r.description_km,
+            date_occurred: r.date_occurred || null,
+            is_anonymous: r.is_anonymous ?? false,
+            author_name: r.author_name || null,
+            author_avatar_url: r.author_avatar_url || null,
           }))
         setMyReports(mine)
       })
@@ -208,10 +252,10 @@ export function UserProfile() {
     return () => {
       mounted = false
     }
-  }, [user?.id])
+  }, [user?.id, mineReloadKey])
 
   useEffect(() => {
-    if (!user?.id) return
+    if (!user?.id || tab !== "saved") return
     let mounted = true
     setSavedLoading(true)
     reportsApi
@@ -237,7 +281,22 @@ export function UserProfile() {
       .catch(() => {})
       .finally(() => { if (mounted) setSavedLoading(false) })
     return () => { mounted = false }
-  }, [user?.id])
+  }, [user?.id, tab])
+
+  useEffect(() => {
+    if (!avatarOptionsOpen) return
+    const onDown = (e) => {
+      if (avatarOptionsRef.current && !avatarOptionsRef.current.contains(e.target)) setAvatarOptionsOpen(false)
+    }
+    const onKey = (e) => { if (e.key === "Escape") setAvatarOptionsOpen(false) }
+    document.addEventListener("mousedown", onDown)
+    document.addEventListener("keydown", onKey)
+    return () => {
+      document.removeEventListener("mousedown", onDown)
+      document.removeEventListener("keydown", onKey)
+    }
+  }, [avatarOptionsOpen])
+
   const showToast = useCallback((message) => setToast(message), [])
   const clearToast = useCallback(() => setToast(null), [])
 
@@ -263,9 +322,6 @@ export function UserProfile() {
       }).catch(() => {})
     })
   }, [])
-  const comingSoon = () =>
-    showToast(t({ en: "This action is coming soon.", km: "សកម្មភាពនេះនឹងមានក្នុងពេលឆាប់ៗនេះ។" }))
-
   const startEditing = () => {
     setDraft({ ...user })
     setInfoEditing(true)
@@ -310,6 +366,7 @@ export function UserProfile() {
   const handleAvatarChange = async (e) => {
     const file = e.target.files && e.target.files[0]
     if (!file) return
+    setAvatarOptionsOpen(false)
     setAvatarUploading(true)
     try {
       const res = await usersApi.avatar(file)
@@ -323,19 +380,76 @@ export function UserProfile() {
     }
   }
 
+  const openAvatarOptions = () => setAvatarOptionsOpen((v) => !v)
+  const openAvatarView = () => {
+    if (user?.avatarUrl) setAvatarView(user.avatarUrl)
+    setAvatarOptionsOpen(false)
+  }
+  const triggerAvatarUpload = () => {
+    setAvatarOptionsOpen(false)
+    avatarInputRef.current?.click()
+  }
+  const deleteAvatar = async () => {
+    setAvatarOptionsOpen(false)
+    setAvatarDeleting(true)
+    try {
+      await usersApi.removeAvatar()
+      setUser((prev) => ({ ...prev, avatarUrl: null }))
+      showToast(t({ en: "Profile photo removed", km: "រូបថតទម្រង់ត្រូវបានលុប" }))
+    } catch (err) {
+      showToast(err.message || t({ en: "Could not remove profile photo", km: "មិនអាចលុបរូបថតទម្រង់បានទេ" }))
+    } finally {
+      setAvatarDeleting(false)
+    }
+  }
+
   const submitPassword = async (e) => {
     e.preventDefault()
-    if (passwords.next !== passwords.confirm) {
-      showToast(t({ en: "New passwords do not match", km: "ពាក្យសម្ងាត់ថ្មីមិនត្រូវគ្នាទេ" }))
-      return
+    const errs = {}
+    if (!passwords.current.trim()) {
+      errs.current = t({ en: "Enter your current password.", km: "បញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន។" })
     }
+    if (PASSWORD_RULES.some((r) => !r.test(passwords.next))) {
+      errs.next = t({ en: "New password does not meet all requirements.", km: "ពាក្យសម្ងាត់ថ្មីមិនគ្រប់តាមលក្ខខណ្ឌទាំងអស់។" })
+    }
+    if (passwords.next !== passwords.confirm || !passwords.confirm) {
+      errs.confirm = t({ en: "New passwords do not match.", km: "ពាក្យសម្ងាត់ថ្មីមិនត្រូវគ្នាទេ។" })
+    }
+    setPwdErrs(errs)
+    if (Object.keys(errs).length > 0) return
+
     try {
       await usersApi.changePassword({ currentPassword: passwords.current, newPassword: passwords.next })
       setPasswords({ current: "", next: "", confirm: "" })
+      setPwdErrs({})
       showToast(t({ en: "Password updated", km: "ពាក្យសម្ងាត់ត្រូវបានធ្វើបច្ចុប្បន្នភាព" }))
     } catch (err) {
-      showToast(err.message || t({ en: "Could not update password", km: "មិនអាចធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់បានទេ" }))
+      const fields = err.data?.fields
+      if (fields && (fields.currentPassword || fields.newPassword)) {
+        const mapped = {}
+        if (fields.currentPassword) mapped.current = fields.currentPassword
+        if (fields.newPassword) mapped.next = fields.newPassword
+        setPwdErrs(mapped)
+      } else if (err.message && /incorrect/i.test(err.message)) {
+        setPwdErrs((p) => ({ ...p, current: err.message }))
+      } else {
+        showToast(err.message || t({ en: "Could not update password", km: "មិនអាចធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់បានទេ" }))
+      }
     }
+  }
+
+  const setPwdField = (key) => (e) => {
+    const value = e.target.value
+    setPasswords((p) => ({ ...p, [key]: value }))
+    setPwdErrs((p) => {
+      const next = { ...p }
+      delete next[key]
+      if (key === "next" && p.confirm) {
+        if (value !== p.confirm) next.confirm = t({ en: "New passwords do not match.", km: "ពាក្យសម្ងាត់ថ្មីមិនត្រូវគ្នាទេ។" })
+        else delete next.confirm
+      }
+      return next
+    })
   }
 
   const handleLogout = () => {
@@ -345,7 +459,54 @@ export function UserProfile() {
 
   const openReportPanel = () => navigate("/report", { state: { openReport: true } })
 
+  const openEdit = (report) => {
+    setEditingReport(report)
+    setEditDrawerOpen(true)
+  }
+
+  const closeEdit = () => {
+    setEditDrawerOpen(false)
+    setEditingReport(null)
+  }
+
+  const handleEditSubmitted = () => {
+    setEditDrawerOpen(false)
+    setEditingReport(null)
+    setMineReloadKey((k) => k + 1)
+    showToast(t({ en: "Report updated", km: "របាយការណ៍ត្រូវបានធ្វើបច្ចុប្បន្នភាព" }))
+  }
+
+  const confirmDelete = (report) => setDeleteTarget(report)
+
+  const cancelDelete = () => {
+    setDeleteTarget(null)
+    setDeleting(false)
+  }
+
+  const handleDelete = async () => {
+    if (!deleteTarget || deleting) return
+    setDeleting(true)
+    try {
+      await reportsApi.remove(deleteTarget.id)
+      setDeleteTarget(null)
+      setDeleting(false)
+      setMineReloadKey((k) => k + 1)
+      showToast(t({ en: "Report deleted", km: "របាយការណ៍ត្រូវបានលុប" }))
+    } catch (err) {
+      setDeleting(false)
+      showToast(err.message || t({ en: "Could not delete report", km: "មិនអាចលុបរបាយការណ៍បានទេ" }))
+    }
+  }
+
   const pwdMismatch = Boolean(passwords.next && passwords.confirm && passwords.next !== passwords.confirm)
+  const strength = passwordStrength(passwords.next)
+  const strengthLabel = ["", 
+    { en: "Weak", km: "ខ្សោយ" },
+    { en: "Fair", km: "មធ្យម" },
+    { en: "Strong", km: "រឹងមាំ" },
+    { en: "Very Strong", km: "រឹងមាំខ្លាំង" },
+  ][strength]
+  const rulesMet = PASSWORD_RULES.reduce((acc, r) => ({ ...acc, [r.key]: r.test(passwords.next) }), {})
 
   if (loading) return null
 
@@ -374,34 +535,72 @@ export function UserProfile() {
           <div className="prof-card">
             <div className="prof-card-head">
               <div className="prof-head">
-                <div className="prof-avatar">
-                  {user.avatarUrl ? (
-                    <img className="prof-avatar-img" src={user.avatarUrl} alt="" />
-                  ) : (
-                    <span className="prof-avatar-init">{initials(user.name)}</span>
-                  )}
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                    ref={avatarInputRef}
-                    onChange={handleAvatarChange}
-                    className="prof-avatar-input"
-                    aria-hidden="true"
-                    tabIndex={-1}
-                  />
-                  <button
-                    type="button"
-                    className={`prof-avatar-cam${avatarUploading ? " uploading" : ""}`}
-                    onClick={() => avatarInputRef.current?.click()}
-                    disabled={avatarUploading}
-                    aria-label={t({ en: "Change profile photo", km: "ផ្លាស់ប្តូររូបថតទម្រង់" })}
-                  >
-                    <IconCamera />
-                  </button>
+                <div className="prof-avatar-zone">
+                  <div className="prof-avatar">
+                    {user.avatarUrl ? (
+                      <img
+                        className="prof-avatar-img"
+                        src={user.avatarUrl}
+                        alt={t({ en: "Profile photo", km: "រូបថតទម្រង់" })}
+                        onClick={openAvatarOptions}
+                      />
+                    ) : (
+                      <span className="prof-avatar-init">{initials(user.name)}</span>
+                    )}
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp"
+                      ref={avatarInputRef}
+                      onChange={handleAvatarChange}
+                      className="prof-avatar-input"
+                      aria-hidden="true"
+                      tabIndex={-1}
+                    />
+                    <button
+                      type="button"
+                      className={`prof-avatar-cam${avatarUploading ? " uploading" : ""}`}
+                      onClick={openAvatarOptions}
+                      disabled={avatarUploading || avatarDeleting}
+                      aria-label={t({ en: "Profile photo options", km: "ជម្រើសរូបថតទម្រង់" })}
+                      aria-expanded={avatarOptionsOpen}
+                    >
+                      <IconCamera />
+                    </button>
+
+                    {avatarOptionsOpen && (
+                      <div className="avatar-options" ref={avatarOptionsRef} role="menu" aria-label={t({ en: "Profile photo options", km: "ជម្រើសរូបថតទម្រង់" })}>
+                        {user.avatarUrl && (
+                          <button type="button" role="menuitem" onClick={openAvatarView}>
+                            {t({ en: "View current profile photo", km: "មើលរូបថតទម្រង់បច្ចុប្បន្ន" })}
+                          </button>
+                        )}
+                        <button type="button" role="menuitem" onClick={triggerAvatarUpload}>
+                          {t({ en: "Change profile photo", km: "ផ្លាស់ប្តូររូបថតទម្រង់" })}
+                        </button>
+                        {user.avatarUrl && (
+                          <button
+                            type="button"
+                            role="menuitem"
+                            className="avatar-option--danger"
+                            onClick={deleteAvatar}
+                            disabled={avatarDeleting}
+                          >
+                            {avatarDeleting
+                              ? t({ en: "Removing…", km: "កំពុងលុប…" })
+                              : t({ en: "Delete profile photo", km: "លុបរូបថតទម្រង់" })}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="prof-head-text">
                   <span className="prof-head-name">{user.name}</span>
                 </div>
+                <button type="button" className="btn prof-head-logout" onClick={handleLogout}>
+                  <IconLogOut />
+                  {t({ en: "Log Out", km: "ចេញពីគណនី" })}
+                </button>
               </div>
 
               <nav className="prof-nav" aria-label={t({ en: "Profile sections", km: "ផ្នែកនៃទម្រង់" })}>
@@ -474,7 +673,7 @@ export function UserProfile() {
                             <div className="browse-card-author">
                               <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
                                 {r.is_anonymous
-                                  ? <VenetianMask className="icon" />
+                                  ? <User className="icon" />
                                   : r.author_avatar_url
                                     ? <img src={r.author_avatar_url} alt="" />
                                     : <span>{initials(r.author_name) || "U"}</span>}
@@ -528,36 +727,60 @@ export function UserProfile() {
                       </button>
                     </div>
                   ) : (
-                    <ul className="prof-mine-list">
+                    <div className="browse-cards prof-saved-grid">
                       {myReports.map((r) => (
-                        <li className="prof-mine-row" key={r.id}>
-                          <div className="prof-mine-main">
-                            <span className="prof-mine-title">{t(r.title)}</span>
-                            <span
-                              className={`prof-status prof-status--${r.status}`}
-                              title={r.status === "rejected" ? t(r.reason) : undefined}
-                            >
+                        <article className="browse-card" key={r.id}>
+                          <div className="browse-card-img">
+                            {r.image ? (
+                              <img src={r.image} alt="" loading="lazy" />
+                            ) : (
+                              <ProfPlaceholder cat={r.cat} lang={lang} />
+                            )}
+                            <span className={`prof-status prof-status--${r.status}`}>
                               {t(STATUS_META[r.status] ?? { en: r.status, km: r.status })}
                             </span>
-                            <span className="prof-mine-date">{relTime(r.ts, lang)}</span>
                           </div>
-                          <div className="prof-mine-actions">
-                            <button type="button" onClick={comingSoon}>
-                              <IconEye />
-                              {t({ en: "View", km: "មើល" })}
-                            </button>
-                            <button type="button" onClick={comingSoon}>
-                              <IconEdit />
-                              {t({ en: "Edit", km: "កែសម្រួល" })}
-                            </button>
-                            <button type="button" className="prof-danger" onClick={comingSoon}>
-                              <IconTrash />
-                              {t({ en: "Delete", km: "លុប" })}
-                            </button>
+                          <div className="browse-card-body">
+                            <div className="browse-card-author mine-actions">
+                              <button
+                                type="button"
+                                className="mine-action mine-action--edit"
+                                onClick={() => openEdit(r)}
+                              >
+                                <IconEdit />
+                                {t({ en: "Edit", km: "កែសម្រួល" })}
+                              </button>
+                              <button
+                                type="button"
+                                className="mine-action mine-action--delete"
+                                onClick={() => confirmDelete(r)}
+                              >
+                                <IconTrash />
+                                {t({ en: "Delete", km: "លុប" })}
+                              </button>
+                            </div>
+                            <h3 className="browse-card-title">{t(r.title)}</h3>
+                            <p className="browse-card-desc">{t(r.desc)}</p>
+                            <div className="browse-card-foot">
+                              <span className="browse-card-meta">
+                                <span className="browse-card-platform">
+                                  <ProfPlatformIcon name={r.platform} />
+                                  <span>{r.platform}</span>
+                                </span>
+                                <span className="browse-card-date">{relTime(r.ts, lang)}</span>
+                              </span>
+                              <button
+                                type="button"
+                                className="browse-card-btn"
+                                onClick={() => setDetailReport(r)}
+                              >
+                                {t({ en: "See More", km: "មើលច្រើនទៀត" })}
+                              </button>
+                            </div>
                           </div>
-                        </li>
+                        </article>
                       ))}
-                    </ul>
+                    </div>
                   )}
                 </>
               )}
@@ -653,41 +876,75 @@ export function UserProfile() {
                         <label className="set-label" htmlFor="pw-current">
                           {t({ en: "Current Password", km: "ពាក្យសម្ងាត់បច្ចុប្បន្ន" })}
                         </label>
-                        <input
+                        <PasswordInput
                           id="pw-current"
-                          className="control"
-                          type="password"
-                          autoComplete="current-password"
+                          name="current"
                           value={passwords.current}
-                          onChange={(e) => setPasswords((p) => ({ ...p, current: e.target.value }))}
+                          onChange={setPwdField("current")}
+                          autoComplete="current-password"
+                          placeholder={t({ en: "Current password", km: "ពាក្យសម្ងាត់បច្ចុប្បន្ន" })}
+                          errorId={pwdErrs.current ? "pw-current-err" : undefined}
                         />
+                        {pwdErrs.current && (
+                          <p className="set-error" id="pw-current-err" role="alert">{pwdErrs.current}</p>
+                        )}
                       </div>
                       <div className="set-field">
                         <label className="set-label" htmlFor="pw-new">
                           {t({ en: "New Password", km: "ពាក្យសម្ងាត់ថ្មី" })}
                         </label>
-                        <input
+                        <PasswordInput
                           id="pw-new"
-                          className="control"
-                          type="password"
-                          autoComplete="new-password"
+                          name="next"
                           value={passwords.next}
-                          onChange={(e) => setPasswords((p) => ({ ...p, next: e.target.value }))}
+                          onChange={setPwdField("next")}
+                          autoComplete="new-password"
+                          placeholder={t({ en: "New password", km: "ពាក្យសម្ងាត់ថ្មី" })}
+                          errorId={pwdErrs.next ? "pw-new-err" : undefined}
                         />
+                        {pwdErrs.next && (
+                          <p className="set-error" id="pw-new-err" role="alert">{pwdErrs.next}</p>
+                        )}
                       </div>
                       <div className="set-field">
                         <label className="set-label" htmlFor="pw-confirm">
                           {t({ en: "Confirm New Password", km: "បញ្ជាក់ពាក្យសម្ងាត់ថ្មី" })}
                         </label>
-                        <input
+                        <PasswordInput
                           id="pw-confirm"
-                          className="control"
-                          type="password"
-                          autoComplete="new-password"
+                          name="confirm"
                           value={passwords.confirm}
-                          onChange={(e) => setPasswords((p) => ({ ...p, confirm: e.target.value }))}
+                          onChange={setPwdField("confirm")}
+                          autoComplete="new-password"
+                          placeholder={t({ en: "Re-enter new password", km: "បញ្ចូលពាក្យសម្ងាត់ថ្មីម្តងទៀត" })}
+                          errorId={pwdErrs.confirm ? "pw-confirm-err" : undefined}
                         />
+                        {pwdErrs.confirm && (
+                          <p className="set-error" id="pw-confirm-err" role="alert">{pwdErrs.confirm}</p>
+                        )}
                       </div>
+
+                      {passwords.next && (
+                        <>
+                          <div className="pwd-strength" aria-label={`${t({ en: "Password strength", km: "កម្រិតពាក្យសម្ងាត់" })}: ${t(strengthLabel)}`}>
+                            <div className="pwd-strength__bars">
+                              {[1, 2, 3, 4].map((i) => (
+                                <span key={i} className={`pwd-strength__bar${i <= strength ? ` level-${strength}` : ""}`} />
+                              ))}
+                            </div>
+                            <span className={`pwd-strength__label level-${strength}`}>{t(strengthLabel)}</span>
+                          </div>
+                          <ul className="pwd-rules" aria-label={t({ en: "Password requirements", km: "លក្ខខណ្ឌពាក្យសម្ងាត់" })}>
+                            {PASSWORD_RULES.map((r) => (
+                              <li key={r.key} className={rulesMet[r.key] ? "met" : ""}>
+                                <IconCheck className="icon" />
+                                <span>{t(r)}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+
                       {pwdMismatch && (
                         <p className="set-error" role="alert">
                           {t({ en: "New passwords do not match.", km: "ពាក្យសម្ងាត់ថ្មីមិនត្រូវគ្នាទេ។" })}
@@ -697,25 +954,12 @@ export function UserProfile() {
                         <button
                           type="submit"
                           className="btn btn--teal"
-                          disabled={!passwords.next || pwdMismatch}
+                          disabled={!passwords.current || !passwords.next || pwdMismatch || strength < 2}
                         >
                           {t({ en: "Update Password", km: "ធ្វើបច្ចុប្បន្នភាពពាក្យសម្ងាត់" })}
                         </button>
                       </div>
                     </form>
-                  </div>
-
-                  <hr className="set-divider" />
-
-                  <div className="set-account">
-                    <div className="set-account-info">
-                      <span className="set-label">{t({ en: "Signed in as", km: "បានចូលគណនីជា" })}</span>
-                      <strong>{user.email}</strong>
-                    </div>
-                    <button type="button" className="btn set-logout-btn" onClick={handleLogout}>
-                      <IconLogOut />
-                      {t({ en: "Log Out", km: "ចេញពីគណនី" })}
-                    </button>
                   </div>
                 </>
               )}
@@ -758,6 +1002,53 @@ export function UserProfile() {
           </>
         )}
       </section>
+
+      {avatarView && (
+        <div className="avatar-view-overlay" onClick={() => setAvatarView(null)} aria-hidden="true" />
+      )}
+      {avatarView && (
+        <div className="avatar-view-modal" role="dialog" aria-modal="true" aria-label={t({ en: "Profile photo", km: "រូបថតទម្រង់" })} onClick={() => setAvatarView(null)}>
+          <img src={avatarView} alt={t({ en: "Profile photo", km: "រូបថតទម្រង់" })} />
+          <button
+            type="button"
+            className="avatar-view-close detail-close"
+            onClick={() => setAvatarView(null)}
+            aria-label={t({ en: "Close", km: "បិទ" })}
+          >
+            <IconClose />
+          </button>
+        </div>
+      )}
+
+      <ReportForm
+        open={editDrawerOpen}
+        onClose={closeEdit}
+        onSubmitted={handleEditSubmitted}
+        editReport={editingReport}
+      />
+      {deleteTarget && (
+        <div className="confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="delete-title">
+          <div className="confirm-modal">
+            <h3 id="delete-title">{t({ en: "Delete Report", km: "លុបរបាយការណ៍" })}</h3>
+            <p>
+              {t({
+                en: "Are you sure you want to delete this report? This action cannot be undone.",
+                km: "តើអ្នកប្រាកដថាចង់លុបរបាយការណ៍នេះទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។",
+              })}
+            </p>
+            <div className="confirm-actions">
+              <button type="button" className="btn btn-outline" onClick={cancelDelete} disabled={deleting}>
+                {t({ en: "Cancel", km: "បោះបង់" })}
+              </button>
+              <button type="button" className="btn confirm-delete" onClick={handleDelete} disabled={deleting}>
+                {deleting
+                  ? t({ en: "Deleting…", km: "កំពុងលុប…" })
+                  : t({ en: "Delete", km: "លុប" })}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <Toast message={toast} onDone={clearToast} />
     </>
   )

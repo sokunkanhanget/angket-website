@@ -1,6 +1,6 @@
 import { isAdminEmail } from "../config.js"
 import supabase from "../services/supabaseClient.js"
-import { uploadAvatar } from "../services/storageService.js"
+import { uploadAvatar, deleteAvatar } from "../services/storageService.js"
 import { emailRule, passwordRule, phoneRule, requiredRule, validate } from "../utils/validators.js"
 
 export async function signup(req, res, next) {
@@ -48,13 +48,33 @@ export async function signup(req, res, next) {
 
 export async function login(req, res, next) {
   try {
-    const { email, password } = req.body
+    const { email, phone, password } = req.body
 
-    if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" })
+    if ((!email && !phone) || !password) {
+      return res.status(400).json({ error: "Email/phone and password are required" })
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    let loginEmail = email
+
+    if (phone || (email && !email.includes("@"))) {
+      const inputDigits = (phone || email || "").replace(/\D/g, "")
+      const localInput = (inputDigits.startsWith("855") ? inputDigits.slice(3) : inputDigits).replace(/^0/, "")
+      const { data: candidates } = await supabase
+        .from("users")
+        .select("email, phone")
+        .not("phone", "is", null)
+      const matched = (candidates || []).find((u) => {
+        const d = (u.phone || "").replace(/\D/g, "")
+        const local = (d.startsWith("855") ? d.slice(3) : d).replace(/^0/, "")
+        return d === inputDigits || local === localInput
+      })
+      loginEmail = matched?.email
+      if (!loginEmail) {
+        return res.status(401).json({ error: "No account found for this phone number" })
+      }
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email: loginEmail, password })
 
     if (error) {
       return res.status(401).json({ error: error.message || "Invalid credentials" })
@@ -66,7 +86,7 @@ export async function login(req, res, next) {
       .eq("user_id", data.user.id)
       .maybeSingle()
 
-    const loginEmail = profile?.email || data.user.email
+    if (!loginEmail) loginEmail = profile?.email || data.user.email
 
     if (isAdminEmail(loginEmail) && profile?.role !== "admin") {
       if (profile) {
@@ -190,6 +210,42 @@ export async function avatar(req, res, next) {
     const { data, error } = await supabase
       .from("users")
       .update({ avatar_url: avatarUrl, updated_at: new Date().toISOString() })
+      .eq("user_id", req.user.id)
+      .select("user_id, name, email, phone, role, avatar_url, created_at")
+      .maybeSingle()
+
+    if (error) throw error
+    if (!data) return res.status(404).json({ error: "User not found" })
+
+    return res.json({
+      user: {
+        id: data.user_id,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        avatarUrl: data.avatar_url,
+        role: data.role,
+        createdAt: data.created_at,
+      },
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export async function removeAvatar(req, res, next) {
+  try {
+    await deleteAvatar(req.user.id)
+
+    const { error: imageError } = await supabase
+      .from("profile_image")
+      .delete()
+      .eq("user_id", req.user.id)
+    if (imageError) console.warn("profile_image delete failed:", imageError.message)
+
+    const { data, error } = await supabase
+      .from("users")
+      .update({ avatar_url: null, updated_at: new Date().toISOString() })
       .eq("user_id", req.user.id)
       .select("user_id, name, email, phone, role, avatar_url, created_at")
       .maybeSingle()
