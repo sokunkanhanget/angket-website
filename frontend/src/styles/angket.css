@@ -1180,6 +1180,14 @@ input[type="date"].control {
 }
 .tip-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
 
+.tip-card-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
 .tip-ic {
   width: 46px; height: 46px; border-radius: 13px; font-size: 1.3rem;
   display: grid; place-items: center; background: var(--surface);
