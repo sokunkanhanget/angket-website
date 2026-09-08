@@ -180,12 +180,12 @@ export async function avatar(req, res, next) {
       return res.status(400).json({ error: "No image provided" })
     }
 
-    const avatarUrl = await uploadAvatar(req.file)
+    const avatarUrl = await uploadAvatar(req.file, req.user.id)
 
-    await supabase
+    const { error: profileImageError } = await supabase
       .from("profile_image")
       .insert({ user_id: req.user.id, image_url: avatarUrl })
-      .catch((e) => console.warn("profile_image insert failed:", e.message))
+    if (profileImageError) console.warn("profile_image insert failed:", profileImageError.message)
 
     const { data, error } = await supabase
       .from("users")

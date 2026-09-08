@@ -20,7 +20,7 @@ function normalize(report) {
     cat: report.category,
     platform: report.platform,
     count: report.reported_count || 0,
-    ts: report.created_at ? new Date(report.created_at).getTime() : 0,
+    ts: report.created_at ? parseServerDate(report.created_at).getTime() : 0,
     image: report.screenshot_url || null,
     when: { en: timeAgo(report.created_at), km: timeAgo(report.created_at) },
     title: { en: report.title_en, km: report.title_km || report.title_en },
@@ -30,6 +30,8 @@ function normalize(report) {
     is_anonymous: report.is_anonymous ?? false,
     display_name: report.display_name || null,
     display_avatar_seed: report.display_avatar_seed || null,
+    author_name: report.author_name || null,
+    author_avatar_url: report.author_avatar_url || null,
   }
 }
 
@@ -42,15 +44,37 @@ function aliasInitials(name) {
     .join("")
 }
 
+function formatDate(date) {
+  const dd = String(date.getDate()).padStart(2, "0")
+  const mm = String(date.getMonth() + 1).padStart(2, "0")
+  const yy = String(date.getFullYear()).slice(-2)
+  const hh = String(date.getHours()).padStart(2, "0")
+  const min = String(date.getMinutes()).padStart(2, "0")
+  return `${dd}/${mm}/${yy} ${hh}:${min}`
+}
+
+// Postgres timestamps without a timezone come back with no "Z"/offset; treat them as UTC.
+function parseServerDate(value) {
+  if (!value) return new Date(NaN)
+  if (typeof value === "string" && !/[zZ]|[+-]\d{2}:?\d{2}$/.test(value)) {
+    return new Date(`${value}Z`)
+  }
+  return new Date(value)
+}
+
 function timeAgo(iso) {
   if (!iso) return ""
-  const diff = Date.now() - new Date(iso).getTime()
-  const days = Math.floor(diff / (24 * 60 * 60 * 1000))
-  if (days <= 0) return "Just now"
+  const date = parseServerDate(iso)
+  const diffMs = Date.now() - date.getTime()
+  const minutes = Math.floor(diffMs / (60 * 1000))
+  if (minutes < 1) return "Just now"
+  if (minutes < 60) return `${minutes} min${minutes === 1 ? "" : "s"} ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours} hour${hours === 1 ? "" : "s"} ago`
+  const days = Math.floor(hours / 24)
   if (days === 1) return "1 day ago"
-  if (days < 30) return `${days} days ago`
-  const months = Math.floor(days / 30)
-  return months === 1 ? "1 month ago" : `${months} months ago`
+  if (days < 7) return `${days} days ago`
+  return formatDate(date)
 }
 
 const PLATFORM_ICONS = {
@@ -395,21 +419,23 @@ export function ReportsFeed() {
                       <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
                         {r.is_anonymous
                           ? <IconInfo />
-                          : <span>{aliasInitials(r.display_name) || "U"}</span>}
+                          : r.author_avatar_url
+                            ? <img src={r.author_avatar_url} alt="" />
+                            : <span>{aliasInitials(r.author_name) || "U"}</span>}
                       </span>
                       <span className="browse-card-authorname">
-                        {r.is_anonymous ? r.display_name : r.display_name || "Angket User"}
+                        {r.is_anonymous ? t({ en: "Anonymous", km: "អនាមិក" }) : r.author_name || "Angket User"}
                       </span>
-                      {r.is_anonymous && (
-                        <span className="browse-card-anonbadge">{t({ en: "Anonymous", km: "អនាមិក" })}</span>
-                      )}
                     </div>
                     <h3 className="browse-card-title">{t(r.title)}</h3>
                     <p className="browse-card-desc">{t(r.desc)}</p>
                     <div className="browse-card-foot">
-                      <span className="browse-card-platform">
-                        <PlatformIcon name={r.platform} />
-                        <span>{r.platform}</span>
+                      <span className="browse-card-meta">
+                        <span className="browse-card-platform">
+                          <PlatformIcon name={r.platform} />
+                          <span>{r.platform}</span>
+                        </span>
+                        <span className="browse-card-date">{t(r.when)}</span>
                       </span>
                       <button
                         type="button"
