@@ -1,4 +1,5 @@
 import supabase from "../services/supabaseClient.js"
+import { uploadScreenshots } from "../services/storageService.js"
 import { requiredRule, validate } from "../utils/validators.js"
 
 const REPORT_COLUMNS =
@@ -30,11 +31,27 @@ async function loadImages(reportIds) {
   return map
 }
 
-function mapReport(row, categoryMap, imageMap) {
+async function loadUsers(userIds) {
+  const ids = [...new Set((userIds || []).filter(Boolean))]
+  if (ids.length === 0) return new Map()
+  const { data, error } = await supabase
+    .from("users")
+    .select("user_id, name, avatar_url")
+    .in("user_id", ids)
+  if (error) throw error
+
+  const map = new Map()
+  for (const row of data || []) map.set(row.user_id, row)
+  return map
+}
+
+function mapReport(row, categoryMap, imageMap, userMap) {
   const categoryId = row.category_id
   const categoryValue = row.category || categoryMap.get(categoryId) || null
   const images = imageMap?.get(row.report_form_id) || []
   const screenshot = row.screenshot_url || images[0] || null
+  const author = userMap?.get(row.user_id) || null
+  const isAnonymous = row.is_anonymous ?? false
 
   return {
     id: row.report_form_id,
@@ -52,9 +69,11 @@ function mapReport(row, categoryMap, imageMap) {
     title_km: row.title_km || null,
     description_en: row.description_en || row.description || "",
     description_km: row.description_km || null,
-    is_anonymous: row.is_anonymous ?? false,
+    is_anonymous: isAnonymous,
     display_name: row.display_name || null,
     display_avatar_seed: row.display_avatar_seed || null,
+    author_name: isAnonymous ? null : author?.name || null,
+    author_avatar_url: isAnonymous ? null : author?.avatar_url || null,
     images,
   }
 }
@@ -100,8 +119,11 @@ export async function listReports(req, res, next) {
       )
     }
 
-    const imageMap = await loadImages(rows.map((r) => r.report_form_id))
-    return res.json({ reports: rows.map((row) => mapReport(row, categoryMap, imageMap)) })
+    const [imageMap, userMap] = await Promise.all([
+      loadImages(rows.map((r) => r.report_form_id)),
+      loadUsers(rows.map((r) => r.user_id)),
+    ])
+    return res.json({ reports: rows.map((row) => mapReport(row, categoryMap, imageMap, userMap)) })
   } catch (err) {
     next(err)
   }
@@ -119,8 +141,11 @@ export async function getReport(req, res, next) {
     if (!data) return res.status(404).json({ error: "Report not found" })
 
     const categoryMap = await loadCategoryMap()
-    const imageMap = await loadImages([data.report_form_id])
-    return res.json({ report: mapReport(data, categoryMap, imageMap) })
+    const [imageMap, userMap] = await Promise.all([
+      loadImages([data.report_form_id]),
+      loadUsers([data.user_id]),
+    ])
+    return res.json({ report: mapReport(data, categoryMap, imageMap, userMap) })
   } catch (err) {
     next(err)
   }
@@ -186,14 +211,15 @@ export async function createReport(req, res, next) {
     if (error) throw error
 
     if (screenshotUrl) {
-      await supabase
+      const { error: imageError } = await supabase
         .from("report_image")
         .insert({ report_form_id: data.report_form_id, image_url: screenshotUrl })
-        .catch(() => {})
+      if (imageError) console.warn("report_image insert failed:", imageError.message)
     }
 
     const categoryMap = await loadCategoryMap()
-    return res.status(201).json({ report: mapReport(data, categoryMap) })
+    const userMap = await loadUsers([data.user_id])
+    return res.status(201).json({ report: mapReport(data, categoryMap, new Map(), userMap) })
   } catch (err) {
     next(err)
   }
@@ -206,4 +232,42 @@ async function categoryIdFallback(category) {
     .eq("category_id", category)
     .maybeSingle()
   return data?.category_id || null
+}
+
+export async function addReportImages(req, res, next) {
+  try {
+    const files = req.files || []
+    if (files.length === 0) {
+      return res.status(400).json({ error: "No images provided" })
+    }
+
+    const { data: report, error: reportError } = await supabase
+      .from("report_form")
+      .select("report_form_id, user_id")
+      .eq("report_form_id", req.params.id)
+      .maybeSingle()
+
+    if (reportError) throw reportError
+    if (!report) return res.status(404).json({ error: "Report not found" })
+    if (report.user_id !== req.user?.id) {
+      return res.status(403).json({ error: "You do not have access to this report" })
+    }
+
+    const imageUrls = await uploadScreenshots(files, report.report_form_id)
+
+    const { data: inserted, error: insertError } = await supabase
+      .from("report_image")
+      .insert(imageUrls.map((imageUrl) => ({ report_form_id: report.report_form_id, image_url: imageUrl })))
+      .select("report_image_id, image_url")
+
+    if (insertError) {
+      const err = new Error("Images uploaded but could not be saved")
+      err.status = 502
+      throw err
+    }
+
+    return res.status(201).json({ images: inserted })
+  } catch (err) {
+    next(err)
+  }
 }

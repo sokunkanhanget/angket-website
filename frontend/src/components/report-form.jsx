@@ -3,7 +3,6 @@ import { useLang } from "@/lib/i18n"
 import { SCAM_TYPES } from "@/lib/data"
 import { categoriesApi, reportsApi, uploadsApi } from "@/lib/services"
 import { IconCheck, IconClose, IconLock } from "./icons"
-import { generateAlias, generateAvatarSeed } from "@/lib/alias"
 
 const MAX_SCREENSHOT_MB = 5
 
@@ -127,8 +126,8 @@ export function ReportForm({ open, onClose, onSubmitted }) {
         isAnonymous,
       }
       if (isAnonymous) {
-        reportData.displayName = generateAlias()
-        reportData.displayAvatarSeed = generateAvatarSeed()
+        reportData.displayName = "Anonymous"
+        reportData.displayAvatarSeed = null
       } else {
         reportData.displayName = null
         reportData.displayAvatarSeed = null

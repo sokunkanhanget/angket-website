@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { VenetianMask } from "lucide-react"
 import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { TYPE_LABELS } from "@/lib/data"
@@ -61,16 +62,37 @@ const PLATFORM_COLORS = {
 // ------------------------------------------------------------------
 // Small helpers
 // ------------------------------------------------------------------
+// Postgres timestamps without a timezone come back with no "Z"/offset; treat them as UTC.
+function parseServerDate(value) {
+  if (!value) return new Date(NaN)
+  if (typeof value === "string" && !/[zZ]|[+-]\d{2}:?\d{2}$/.test(value)) {
+    return new Date(`${value}Z`)
+  }
+  return new Date(value)
+}
+
 function relTime(ts, lang) {
   if (!ts) return ""
-  const diff = Date.now() - ts
-  const days = Math.floor(diff / DAY_MS)
-  if (days <= 0) return lang === "km" ? "ទើបតែ" : "Just now"
+  const diffMs = Date.now() - ts
+  const minutes = Math.floor(diffMs / (60 * 1000))
+  if (minutes < 1) return lang === "km" ? "ទើបតែ" : "Just now"
+  if (minutes < 60) {
+    return lang === "km" ? `${minutes} នាទីមុន` : `${minutes} min${minutes === 1 ? "" : "s"} ago`
+  }
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) {
+    return lang === "km" ? `${hours} ម៉ងមុន` : `${hours} hour${hours === 1 ? "" : "s"} ago`
+  }
+  const days = Math.floor(hours / 24)
   if (days === 1) return lang === "km" ? "1 ថ្ងៃមុន" : "1 day ago"
-  if (days < 30) return lang === "km" ? `${days} ថ្ងៃមុន` : `${days} days ago`
-  const months = Math.floor(days / 30)
-  if (months === 1) return lang === "km" ? "1 ខែមុន" : "1 month ago"
-  return lang === "km" ? `${months} ខែមុន` : `${months} months ago`
+  if (days < 7) return lang === "km" ? `${days} ថ្ងៃមុន` : `${days} days ago`
+  const date = new Date(ts)
+  const dd = String(date.getDate()).padStart(2, "0")
+  const mm = String(date.getMonth() + 1).padStart(2, "0")
+  const yy = String(date.getFullYear()).slice(-2)
+  const hh = String(date.getHours()).padStart(2, "0")
+  const min = String(date.getMinutes()).padStart(2, "0")
+  return `${dd}/${mm}/${yy} ${hh}:${min}`
 }
 
 function initials(name) {
@@ -176,7 +198,7 @@ export function UserProfile() {
           .map((r) => ({
             id: r.id,
             status: r.status,
-            ts: r.created_at ? new Date(r.created_at).getTime() : 0,
+            ts: r.created_at ? parseServerDate(r.created_at).getTime() : 0,
             reason: null,
             title: { en: r.title_en, km: r.title_km || r.title_en },
           }))
@@ -200,13 +222,15 @@ export function UserProfile() {
           id: r.id,
           cat: r.category,
           platform: r.platform,
-          ts: r.created_at ? new Date(r.created_at).getTime() : 0,
+          ts: r.created_at ? parseServerDate(r.created_at).getTime() : 0,
           image: r.screenshot_url || null,
           title: { en: r.title_en, km: r.title_km || r.title_en },
           desc: { en: r.description_en, km: r.description_km || r.description_en },
           is_anonymous: r.is_anonymous ?? false,
           display_name: r.display_name || null,
           display_avatar_seed: r.display_avatar_seed || null,
+          author_name: r.author_name || null,
+          author_avatar_url: r.author_avatar_url || null,
         }))
         setSavedReports(list)
       })
@@ -225,13 +249,15 @@ export function UserProfile() {
           id: r.id,
           cat: r.category,
           platform: r.platform,
-          ts: r.created_at ? new Date(r.created_at).getTime() : 0,
+          ts: r.created_at ? parseServerDate(r.created_at).getTime() : 0,
           image: r.screenshot_url || null,
           title: { en: r.title_en, km: r.title_km || r.title_en },
           desc: { en: r.description_en, km: r.description_km || r.description_en },
           is_anonymous: r.is_anonymous ?? false,
           display_name: r.display_name || null,
           display_avatar_seed: r.display_avatar_seed || null,
+          author_name: r.author_name || null,
+          author_avatar_url: r.author_avatar_url || null,
         }))
         setSavedReports(list)
       }).catch(() => {})
@@ -448,22 +474,24 @@ export function UserProfile() {
                             <div className="browse-card-author">
                               <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
                                 {r.is_anonymous
-                                  ? <IconInfo />
-                                  : <span>{initials(r.display_name) || "U"}</span>}
+                                  ? <VenetianMask className="icon" />
+                                  : r.author_avatar_url
+                                    ? <img src={r.author_avatar_url} alt="" />
+                                    : <span>{initials(r.author_name) || "U"}</span>}
                               </span>
                               <span className="browse-card-authorname">
-                                {r.is_anonymous ? r.display_name : r.display_name || "Angket User"}
+                                {r.is_anonymous ? t({ en: "Anonymous", km: "អនាមិក" }) : r.author_name || "Angket User"}
                               </span>
-                              {r.is_anonymous && (
-                                <span className="browse-card-anonbadge">{t({ en: "Anonymous", km: "អនាមិក" })}</span>
-                              )}
                             </div>
                             <h3 className="browse-card-title">{t(r.title)}</h3>
                             <p className="browse-card-desc">{t(r.desc)}</p>
                             <div className="browse-card-foot">
-                              <span className="browse-card-platform">
-                                <ProfPlatformIcon name={r.platform} />
-                                <span>{r.platform}</span>
+                              <span className="browse-card-meta">
+                                <span className="browse-card-platform">
+                                  <ProfPlatformIcon name={r.platform} />
+                                  <span>{r.platform}</span>
+                                </span>
+                                <span className="browse-card-date">{relTime(r.ts, lang)}</span>
                               </span>
                               <button
                                 type="button"
