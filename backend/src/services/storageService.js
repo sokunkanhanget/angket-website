@@ -2,60 +2,69 @@ import supabase from "./supabaseClient.js"
 
 const SCREENSHOT_BUCKET = "screenshots"
 const AVATAR_BUCKET = "avatars"
+const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "image/webp"]
+const MAX_FILE_BYTES = 5 * 1024 * 1024
 
-async function ensureBucket(bucket) {
-  const { error } = await supabase.storage.getBucket(bucket)
-  if (!error) return
-  if (error.message?.toLowerCase().includes("not found") || error.statusCode === 404) {
-    const created = await supabase.storage.createBucket(bucket, { public: true })
-    if (created.error) {
-      console.error("Failed to create bucket:", created.error.message)
-      throw new Error(`Storage bucket "${bucket}" does not exist and could not be created. Please create it manually in your Supabase dashboard under Storage.`)
-    }
-    return
-  }
-  throw error
-}
-
-export async function uploadImage(file, bucket) {
-  const allow = ["image/png", "image/jpeg", "image/webp"]
-  if (!allow.includes(file.mimetype)) {
-    const err = new Error("Unsupported image type")
+function validateImageFile(file) {
+  if (!file) {
+    const err = new Error("No image provided")
     err.status = 400
     throw err
   }
-  const maxBytes = 5 * 1024 * 1024
-  if (file.size > maxBytes) {
+  if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
+    const err = new Error("Unsupported image type. Allowed: PNG, JPEG, WEBP")
+    err.status = 400
+    throw err
+  }
+  if (file.size > MAX_FILE_BYTES) {
     const err = new Error("Image must be under 5MB")
     err.status = 400
     throw err
   }
+}
 
-  await ensureBucket(bucket)
+async function uploadToBucket(file, bucket, folder) {
+  validateImageFile(file)
 
   const ext = file.mimetype.split("/")[1] || "png"
   const name = `${Date.now()}-${Math.round(Math.random() * 1e9)}.${ext}`
+  const path = folder ? `${folder}/${name}` : name
 
   const { data, error } = await supabase.storage
     .from(bucket)
-    .upload(name, file.buffer, { contentType: file.mimetype })
+    .upload(path, file.buffer, { contentType: file.mimetype })
 
-  if (error) throw error
+  if (error) {
+    const err = new Error(`Failed to upload image: ${error.message}`)
+    err.status = 502
+    throw err
+  }
 
   const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(data.path)
   return urlData.publicUrl
 }
 
-export async function uploadScreenshot(file) {
-  return uploadImage(file, SCREENSHOT_BUCKET)
+export async function uploadScreenshot(file, reportId) {
+  return uploadToBucket(file, SCREENSHOT_BUCKET, reportId)
 }
 
-export async function uploadAvatar(file) {
-  return uploadImage(file, AVATAR_BUCKET)
+export async function uploadScreenshots(files, reportId) {
+  return Promise.all((files || []).map((file) => uploadScreenshot(file, reportId)))
 }
 
-export async function parseScreenshot(formData) {
-  const file = formData.get("screenshot")
-  if (!file || typeof file === "string") return null
-  return uploadScreenshot(file)
+export async function uploadAvatar(file, userId) {
+  return uploadToBucket(file, AVATAR_BUCKET, userId)
+}
+
+export async function deleteAvatar(userId) {
+  const { data: listData } = await supabase.storage
+    .from(AVATAR_BUCKET)
+    .list(userId, { limit: 100, sortBy: { column: "updated_at", order: "desc" } })
+
+  const names = (listData || []).filter((f) => !f.name.endsWith("/")).map((f) => `${userId}/${f.name}`)
+  if (names.length === 0) return 0
+
+  const { error } = await supabase.storage.from(AVATAR_BUCKET).remove(names)
+  if (error) return 0
+  return names.length
 }

@@ -90,10 +90,23 @@ export async function listSavedReports(req, res, next) {
       imageMap.get(row.report_form_id).push(row.image_url)
     }
 
+    const userIds = [...new Set((reportRows || []).map((r) => r.user_id).filter(Boolean))]
+    const userMap = new Map()
+    if (userIds.length > 0) {
+      const { data: userRows, error: userErr } = await supabase
+        .from("users")
+        .select("user_id, name, avatar_url")
+        .in("user_id", userIds)
+      if (userErr) throw userErr
+      for (const row of userRows || []) userMap.set(row.user_id, row)
+    }
+
     const reportMap = new Map()
     for (const row of reportRows || []) {
       const images = imageMap.get(row.report_form_id) || []
       const screenshot = row.screenshot_url || images[0] || null
+      const author = userMap.get(row.user_id) || null
+      const isAnonymous = row.is_anonymous ?? false
       reportMap.set(row.report_form_id, {
         id: row.report_form_id,
         user_id: row.user_id,
@@ -110,9 +123,11 @@ export async function listSavedReports(req, res, next) {
         title_km: row.title_km || null,
         description_en: row.description_en || row.description || "",
         description_km: row.description_km || null,
-        is_anonymous: row.is_anonymous ?? false,
+        is_anonymous: isAnonymous,
         display_name: row.display_name || null,
         display_avatar_seed: row.display_avatar_seed || null,
+        author_name: isAnonymous ? null : author?.name || null,
+        author_avatar_url: isAnonymous ? null : author?.avatar_url || null,
         images,
       })
     }

@@ -147,7 +147,13 @@ export function SiteHeader() {
                 title={admin.name}
                 aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
               >
-                <span className="nav-user-avatar">{userInitials(admin.name)}</span>
+                <span className="nav-user-avatar">
+                  {admin.avatarUrl ? (
+                    <img className="nav-user-img" src={admin.avatarUrl} alt="" />
+                  ) : (
+                    userInitials(admin.name)
+                  )}
+                </span>
                 <span className="nav-user-name">{admin.name}</span>
               </Link>
             ) : (
@@ -192,7 +198,13 @@ export function SiteHeader() {
               onClick={closeMenu}
               aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
             >
-              <span className="nav-user-avatar">{userInitials(admin.name)}</span>
+              <span className="nav-user-avatar">
+                {admin.avatarUrl ? (
+                  <img className="nav-user-img" src={admin.avatarUrl} alt="" />
+                ) : (
+                  userInitials(admin.name)
+                )}
+              </span>
               <span className="nav-user-name">{admin.name}</span>
             </Link>
           ) : (

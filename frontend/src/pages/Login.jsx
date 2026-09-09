@@ -16,6 +16,7 @@ export function Login() {
   const [activeTab, setActiveTab] = useState("email")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
+  const [phoneCode, setPhoneCode] = useState("+855")
   const [password, setPassword] = useState("")
   const [keepSignedIn, setKeepSignedIn] = useState(true)
   const [errors, setErrors] = useState({})
@@ -54,7 +55,11 @@ export function Login() {
 
     setSubmitting(true)
     try {
-      const user = await login({ email: activeTab === "email" ? cleanEmail : phone, password })
+      const user = await login(
+        activeTab === "email"
+          ? { email: cleanEmail, password }
+          : { phone: `${phoneCode}${phone.replace(/\s+/g, "")}`, password },
+      )
       const fallback = user?.role === "admin" ? "/admin/dashboard" : "/"
       let dest = location.state?.from?.pathname
       if (!dest || dest === "/login" || dest === "/signup") {

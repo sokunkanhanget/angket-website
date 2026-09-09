@@ -1,6 +1,9 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import avoidScamsImg from "@/assets/avoid-scams-online.png"
+import stopImg from "@/assets/STOP!-1.png"
+import checkImg from "@/assets/CHECK-1.png"
+import protectImg from "@/assets/PROTECT-1.png"
 import {
   AlertTriangle,
   Search,
@@ -70,6 +73,7 @@ function StopCheckProtect() {
       icon: AlertTriangle,
       accent: "#E05252",
       accentBg: "#FEE2E2",
+      image: stopImg,
       label: t({ en: "Stop", km: "ឈប់" }),
       tagline: t({ en: "Don’t act too quickly. ", km: "កុំប្រញាប់ធ្វើសកម្មភាព" }),
       description: t({
@@ -100,6 +104,7 @@ function StopCheckProtect() {
       icon: Search,
       accent: "#D97706",
       accentBg: "#FEF3C7",
+      image: checkImg,
       label: t({ en: "Check", km: "ត្រួតពិនិត្យ" }),
       tagline: t({ en: "Make sure it’s legitimate", km: "ប្រាកដថាវាជារបស់ពិត" }),
       description: t({
@@ -130,6 +135,7 @@ function StopCheckProtect() {
       icon: ShieldCheck,
       accent: "#0D9488",
       accentBg: "#CCFBF1",
+      image: protectImg,
       label: t({ en: "Protect", km: "ការពារ" }),
       tagline: t({ en: "Take action and help protect others", km: "ចាត់វិធានការ និងជួយការពារអ្នកដទៃ" }),
       description: t({
@@ -185,6 +191,7 @@ whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវ�
             return (
               <Reveal key={i}>
                 <article className="tip-card" style={{ borderTopColor: c.accent }}>
+                  {c.image && <img src={c.image} alt={c.label} className="tip-card-image" />}
                   <div className="tip-head">
                   <div className="tip-ic" style={{ background: c.accentBg }}>
                     <Icon size={26} style={{ color: c.accent }} strokeWidth={2} />
