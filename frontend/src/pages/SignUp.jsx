@@ -1,17 +1,17 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
-import { IconCheck } from "@/components/icons"
 import { goAuthBack } from "@/lib/authBack"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
+import { useAuth } from "@/lib/auth"
 import { authApi } from "@/lib/services"
 
 export function SignUp() {
   const { t } = useLang()
+  const { login } = useAuth()
   const navigate = useNavigate()
-  const successRef = useRef(null)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -22,7 +22,6 @@ export function SignUp() {
   })
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [errors, setErrors] = useState({})
-  const [registered, setRegistered] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
@@ -84,14 +83,15 @@ export function SignUp() {
 
     setSubmitting(true)
     try {
+      const email = form.email.trim()
       await authApi.signup({
         full_name: form.name,
-        email: form.email,
+        email,
         password: form.password,
         phone: `${form.code}${form.phone}`,
       })
-      setRegistered(true)
-      requestAnimationFrame(() => successRef.current?.focus())
+      await login({ email, password: form.password })
+      navigate("/", { replace: true })
     } catch (err) {
       setErrors(err.data?.fields || { email: err.message })
     } finally {
@@ -108,30 +108,6 @@ export function SignUp() {
           </svg>
           {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
         </button>
-        {registered ? (
-        <div className="auth-success">
-          <span className="auth-success__icon" aria-hidden="true">
-            <IconCheck style={{ width: 32, height: 32 }} />
-          </span>
-          <h2 ref={successRef} tabIndex={-1}>
-            {t({ en: "Account created!", km: "គណនីត្រូវបានបង្កើតដោយជោគជ័យ!" })}
-          </h2>
-          <p>
-            {t({
-              en: "Welcome to Angket. You can now sign in with your new account.",
-              km: "សូមស្វាគមន៍មកកាន់ Angket។ អ្នកអាចចូលដោយប្រើគណនីថ្មីរបស់អ្នកបានហើយ។",
-            })}
-          </p>
-          <Link className="btn btn-outline" to="/login">
-            {t({ en: "Go to sign in", km: "ទៅកាន់ទំព័រចូលគណនី" })}
-          </Link>
-        </div>
-      ) : (
-        <>
-          <h1 className="auth-split__heading">
-            {t({ en: "Create your Angket account", km: "បង្កើតគណនី Angket របស់អ្នក" })}
-          </h1>
-
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div className="auth-field">
               <label className="auth-field__label" htmlFor="signup-name">
@@ -293,8 +269,6 @@ export function SignUp() {
             <Link to="/login">{t({ en: "Sign in", km: "ចូលគណនី" })}</Link>
           </p>
         </>
-        )}
-      </>
     </AuthLayout>
   )
 }

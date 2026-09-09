@@ -4,17 +4,8 @@ import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { NAV_LINKS } from "@/lib/data"
 import { rememberAuthOrigin } from "@/lib/authBack"
-import { IconMenu } from "./icons"
+import { IconMenu, IconUser } from "./icons"
 import logoImg from "@/assets/logo.png"
-
-function userInitials(name) {
-  return (name || "")
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w.charAt(0).toUpperCase())
-    .join("")
-}
 
 function FlagGB() {
   return (
@@ -142,19 +133,12 @@ export function SiteHeader() {
 
             {admin ? (
               <Link
-                className="nav-user"
+                className="nav-user nav-user--icon"
                 to="/profile"
                 title={admin.name}
                 aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
               >
-                <span className="nav-user-avatar">
-                  {admin.avatarUrl ? (
-                    <img className="nav-user-img" src={admin.avatarUrl} alt="" />
-                  ) : (
-                    userInitials(admin.name)
-                  )}
-                </span>
-                <span className="nav-user-name">{admin.name}</span>
+                <IconUser />
               </Link>
             ) : (
               <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
@@ -193,19 +177,12 @@ export function SiteHeader() {
           </nav>
           {admin ? (
             <Link
-              className="nav-user m-user"
+              className="nav-user nav-user--icon m-user"
               to="/profile"
               onClick={closeMenu}
               aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
             >
-              <span className="nav-user-avatar">
-                {admin.avatarUrl ? (
-                  <img className="nav-user-img" src={admin.avatarUrl} alt="" />
-                ) : (
-                  userInitials(admin.name)
-                )}
-              </span>
-              <span className="nav-user-name">{admin.name}</span>
+              <IconUser />
             </Link>
           ) : (
             <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>

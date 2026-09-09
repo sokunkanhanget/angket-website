@@ -226,6 +226,14 @@ html.km .eyebrow { font-size: 0.85rem; }
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .nav-user:hover { border-color: var(--teal); background: var(--teal-50); }
+.nav-user--icon {
+  padding: 0.35rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+}
+.nav-user--icon .icon { width: 1.4rem; height: 1.4rem; }
+.nav-user--icon:hover { border-color: transparent; background: transparent; color: var(--teal); }
 .nav-user-avatar {
   width: 32px; height: 32px; border-radius: 50%; flex: none;
   overflow: hidden;
