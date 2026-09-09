@@ -14,7 +14,6 @@ export function Login() {
   const navigate = useNavigate()
   const location = useLocation()
   const [activeTab, setActiveTab] = useState("email")
-  const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
   const [password, setPassword] = useState("")
@@ -28,29 +27,25 @@ export function Login() {
     const cleanEmail = email.trim()
     const digits = phone.replace(/\D/g, "")
 
-    if (!fullName.trim()) {
-      errs.fullName = t({ en: "Full name is required.", km: "ត្រូវការឈ្មោះពេញ។" })
-    }
-
     if (activeTab === "email") {
       if (!cleanEmail) {
-        errs.email = t({ en: "Email is required.", km: "ត្រូវការអ៊ីមែល។" })
+        errs.email = t({ en: "Email is required.", km: "សូមបញ្ចូលអ៊ីមែល" })
       } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(cleanEmail)) {
-        errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។" })
+        errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ" })
       }
     } else {
       if (!phone.trim()) {
-        errs.phone = t({ en: "Phone number is required.", km: "ត្រូវការលេខទូរស័ព្ទ។" })
+        errs.phone = t({ en: "Phone number is required.", km: "សូមបញ្ចូលលេខទូរស័ព្ទ" })
       } else if (digits.length < 8 || digits.length > 12) {
         errs.phone = t({
-          en: "Please enter a valid phone number (e.g. 012 345 678).",
-          km: "សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ (ឧ. ០១២ ៣៤៥ ៦៧៨)។",
+          en: "Please enter a valid phone number (example: 0XX XXX XXX).",
+          km: "សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ (ឧទាហរណ៍៖ 0XX XXX XXX)",
         })
       }
     }
 
     if (!password) {
-      errs.password = t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" })
+      errs.password = t({ en: "Password is required.", km: "សូមបញ្ចូលពាក្យសម្ងាត់" })
     }
 
     setErrors(errs)
@@ -91,15 +86,9 @@ export function Login() {
           </svg>
           {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
         </button>
-        <h1 className="auth-split__heading">
-          {t({ en: "Welcome to Angket !!", km: "សូមស្វាគមន៍មកកាន់ Angket !!" })}
+        <h1 className="auth-split__heading auth-split__heading--login">
+          {t({ en: "Welcome to Angket!", km: "សូមស្វាគមន៍មកកាន់ Angket!" })}
         </h1>
-        <p className="auth-split__sub">
-          {t({
-            en: "A community-powered platform to report scams and protect others.",
-            km: "វេទិកាដែលជួយរាយការណ៍ការបោកប្រាស់ និងការពារអ្នកដទៃ។",
-          })}
-        </p>
 
         <AuthTabs activeTab={activeTab} onChange={(tab) => { setActiveTab(tab); setErrors({}) }} />
 
@@ -117,7 +106,7 @@ export function Login() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="abc@angket.kh"
+                placeholder="sophavortey@gmail.com"
                 aria-describedby={errors.email ? "login-email-err" : undefined}
                 aria-invalid={errors.email ? "true" : undefined}
               />
@@ -134,9 +123,16 @@ export function Login() {
               </label>
               <div className="auth-phone">
                 <select className="control auth-phone__code" aria-label="Country code">
-                  <option>+855</option>
-                  <option>+1</option>
-                  <option>+44</option>
+                  <option value="+855">+855</option>
+                  <option value="+84">+84</option>
+                  <option value="+856">+856</option>
+                  <option value="+60">+60</option>
+                  <option value="+65">+65</option>
+                  <option value="+62">+62</option>
+                  <option value="+63">+63</option>
+                  <option value="+86">+86</option>
+                  <option value="+81">+81</option>
+                  <option value="+82">+82</option>
                 </select>
                 <input
                   id="login-phone"
@@ -146,17 +142,11 @@ export function Login() {
                   autoComplete="tel"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="012 345 678"
+                  placeholder="0XX XXX XXX"
                   aria-describedby={errors.phone ? "login-phone-err" : undefined}
                   aria-invalid={errors.phone ? "true" : undefined}
                 />
               </div>
-              <p className="f-hint">
-                {t({
-                  en: "Enter a valid number between 8 and 12 digits.",
-                  km: "បញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ ដែលមានពី ៨ ទៅ ១២ ខ្ទង់។",
-                })}
-              </p>
               {errors.phone && (
                 <p className="auth-field__error" id="login-phone-err" role="alert">
                   {errors.phone}
@@ -164,29 +154,6 @@ export function Login() {
               )}
             </div>
           )}
-
-          <div className="auth-field">
-            <label className="auth-field__label" htmlFor="login-name">
-              {t({ en: "Full name", km: "ឈ្មោះពេញ" })}
-            </label>
-            <input
-              id="login-name"
-              name="fullName"
-              className={`control ${errors.fullName ? "control--error" : ""}`}
-              type="text"
-              autoComplete="name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder={t({ en: "e.g. Sok Dara", km: "ឧ. សុខ ដារា" })}
-              aria-describedby={errors.fullName ? "login-name-err" : undefined}
-              aria-invalid={errors.fullName ? "true" : undefined}
-            />
-            {errors.fullName && (
-              <p className="auth-field__error" id="login-name-err" role="alert">
-                {errors.fullName}
-              </p>
-            )}
-          </div>
 
           <div className="auth-field">
             <label className="auth-field__label" htmlFor="login-password">
@@ -197,7 +164,7 @@ export function Login() {
               name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder={t({ en: "Enter your password", km: "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក" })}
+              placeholder={t({ en: "Enter your password", km: "សូមបញ្ចូលពាក្យសម្ងាត់របស់អ្នក" })}
               autoComplete="current-password"
               required
               errorId={errors.password ? "login-password-err" : undefined}
@@ -215,7 +182,7 @@ export function Login() {
               checked={keepSignedIn}
               onChange={(e) => setKeepSignedIn(e.target.checked)}
             >
-              {t({ en: "Keep me signed in", km: "រក្សាទុកការចូល" })}
+              {t({ en: "Keep me signed in", km: "រក្សាការចូលរបស់ខ្ញុំ" })}
             </Checkbox>
             <Link className="auth-row__link" to="/login">
               {t({ en: "Forgot password?", km: "ភ្លេចពាក្យសម្ងាត់?" })}
@@ -228,8 +195,8 @@ export function Login() {
         </form>
 
         <p className="auth-alt">
-          {t({ en: "First time here?", km: "ទើបមកដល់?" })}{" "}
-          <Link to="/signup">{t({ en: "Sign up", km: "ចុះឈ្មោះ" })}</Link>
+          {t({ en: "Do not have an account yet?", km: "តើអ្នកមិនទាន់មានគណនីមែនទេ?" })}{" "}
+          <Link to="/signup">{t({ en: "Sign up", km: "បង្កើតគណនី" })}</Link>
         </p>
       </>
     </AuthLayout>
