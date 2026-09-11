@@ -1,17 +1,17 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
-import { IconCheck } from "@/components/icons"
 import { goAuthBack } from "@/lib/authBack"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
+import { useAuth } from "@/lib/auth"
 import { authApi } from "@/lib/services"
 
 export function SignUp() {
   const { t } = useLang()
+  const { login } = useAuth()
   const navigate = useNavigate()
-  const successRef = useRef(null)
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -22,7 +22,6 @@ export function SignUp() {
   })
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [errors, setErrors] = useState({})
-  const [registered, setRegistered] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
@@ -34,36 +33,36 @@ export function SignUp() {
   const validate = () => {
     const errs = {}
     if (!form.name.trim()) {
-      errs.name = t({ en: "Full name is required.", km: "ត្រូវការឈ្មោះពេញ។" })
+      errs.name = t({ en: "Full name is required.", km: "សូមបញ្ចូលឈ្មោះពេញ" })
     }
     if (!form.email.trim()) {
-      errs.email = t({ en: "Email is required.", km: "ត្រូវការអ៊ីមែល។" })
+      errs.email = t({ en: "Email is required.", km: "សូមបញ្ចូលអ៊ីមែល។" })
     } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអ៊ីមែលត្រឹមត្រូវ។" })
+      errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ" })
     }
     if (!form.phone.trim()) {
-      errs.phone = t({ en: "Phone number is required.", km: "ត្រូវការលេខទូរស័ព្ទ។" })
+      errs.phone = t({ en: "Phone number is required.", km: "សូមបញ្ចូលលេខទូរស័ព្ទ" })
     } else {
       const fullPhone = `${form.code}${form.phone.replace(/\s+/g, "")}`
-      if (!/^\+855[0-9]{8,9}$/.test(fullPhone)) {
+      if (!/^\+\d{1,3}[0-9]{7,12}$/.test(fullPhone)) {
         errs.phone = t({
-          en: "Please enter a valid phone number (e.g. 012 345 678).",
-          km: "សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ (ឧ. 012 345 678)។",
+          en: "Please enter a valid phone number (example: 0XX XXX XXX).",
+          km: "សូមបញ្ចូលលេខទូរស័ព្ទត្រឹមត្រូវ (ឧទាហរណ៍៖ 0XX XXX XXX)",
         })
       }
     }
     if (!form.password) {
-      errs.password = t({ en: "Password is required.", km: "ត្រូវការពាក្យសម្ងាត់។" })
+      errs.password = t({ en: "Password is required.", km: "សូមបញ្ចូលពាក្យសម្ងាត់" })
     } else if (form.password.length < 8) {
       errs.password = t({ en: "Password must be at least 8 characters.", km: "ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច ៨ តួអក្សរ។" })
     } else if (!/[A-Z]/.test(form.password)) {
-      errs.password = t({ en: "Password must include an uppercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរធំ។" })
+      errs.password = t({ en: "Password must include an uppercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរធំយ៉ាងតិចមួយ" })
     } else if (!/[a-z]/.test(form.password)) {
-      errs.password = t({ en: "Password must include a lowercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរតូច។" })
+      errs.password = t({ en: "Password must include a lowercase letter.", km: "ពាក្យសម្ងាត់ត្រូវមានអក្សរតូចយ៉ាងតិចមួយ" })
     } else if (!/[0-9]/.test(form.password)) {
-      errs.password = t({ en: "Password must include a number.", km: "ពាក្យសម្ងាត់ត្រូវមានលេខ។" })
+      errs.password = t({ en: "Password must include a number.", km: "ពាក្យសម្ងាត់ត្រូវមានលេខយ៉ាងតិចមួយ" })
     } else if (!/[^A-Za-z0-9]/.test(form.password)) {
-      errs.password = t({ en: "Password must include a special character.", km: "ពាក្យសម្ងាត់ត្រូវមានតួអក្សរពិសេស។" })
+      errs.password = t({ en: "Password must include a special character.", km: "ពាក្យសម្ងាត់ត្រូវមានតួអក្សរពិសេសយ៉ាងតិចមួយ" })
     }
     if (!form.confirm) {
       errs.confirm = t({ en: "Please confirm your password.", km: "សូមបញ្ជាក់ពាក្យសម្ងាត់។" })
@@ -71,7 +70,7 @@ export function SignUp() {
       errs.confirm = t({ en: "Passwords do not match.", km: "ពាក្យសម្ងាត់មិនត្រូវគ្នាទេ។" })
     }
     if (!agreeTerms) {
-      errs.terms = t({ en: "You must agree to the terms.", km: "អ្នកត្រូវឯកភាពនឹងលក្ខខណ្ឌ។" })
+      errs.terms = t({ en: "You must agree to the terms.", km: "អ្នកត្រូវយល់ព្រមតាមលក្ខខណ្ឌ" })
     }
     return errs
   }
@@ -84,14 +83,15 @@ export function SignUp() {
 
     setSubmitting(true)
     try {
+      const email = form.email.trim()
       await authApi.signup({
         full_name: form.name,
-        email: form.email,
+        email,
         password: form.password,
         phone: `${form.code}${form.phone}`,
       })
-      setRegistered(true)
-      requestAnimationFrame(() => successRef.current?.focus())
+      await login({ email, password: form.password })
+      navigate("/", { replace: true })
     } catch (err) {
       setErrors(err.data?.fields || { email: err.message })
     } finally {
@@ -108,36 +108,6 @@ export function SignUp() {
           </svg>
           {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
         </button>
-        {registered ? (
-        <div className="auth-success">
-          <span className="auth-success__icon" aria-hidden="true">
-            <IconCheck style={{ width: 32, height: 32 }} />
-          </span>
-          <h2 ref={successRef} tabIndex={-1}>
-            {t({ en: "Account created!", km: "គណនីត្រូវបានបង្កើត!" })}
-          </h2>
-          <p>
-            {t({
-              en: "Welcome to Angket. You can now sign in with your new account.",
-              km: "សូមស្វាគមន៍មកកាន់ Angket។ អ្នកអាចចូលដោយប្រើគណនីថ្មីរបស់អ្នកបានហើយ។",
-            })}
-          </p>
-          <Link className="btn btn-outline" to="/login">
-            {t({ en: "Go to sign in", km: "ទៅទំព័រចូលគណនី" })}
-          </Link>
-        </div>
-      ) : (
-        <>
-          <h1 className="auth-split__heading">
-            {t({ en: "Create your Angket account", km: "បង្កើតគណនី Angket របស់អ្នក" })}
-          </h1>
-          <p className="auth-split__sub">
-            {t({
-              en: "A community-powered platform to report scams and protect others.",
-              km: "វេទិកាដែលជួយរាយការណ៍ការបោកប្រាស់ និងការពារអ្នកដទៃ។",
-            })}
-          </p>
-
           <form className="auth-form" onSubmit={handleSubmit} noValidate>
             <div className="auth-field">
               <label className="auth-field__label" htmlFor="signup-name">
@@ -151,7 +121,7 @@ export function SignUp() {
                 autoComplete="name"
                 value={form.name}
                 onChange={update("name")}
-                placeholder={t({ en: "e.g. Sok Dara", km: "ឧ. សុខ ដារា" })}
+                placeholder={t({ en: "example: Sopha Vortey", km: "ឧទាហរណ៍: សុផា​ វតី" })}
                 aria-describedby={errors.name ? "signup-name-err" : undefined}
                 aria-invalid={errors.name ? "true" : undefined}
               />
@@ -174,7 +144,7 @@ export function SignUp() {
                 autoComplete="email"
                 value={form.email}
                 onChange={update("email")}
-                placeholder="abc@angket.kh"
+                placeholder="sophavortey@gmail.com"
                 aria-describedby={errors.email ? "signup-email-err" : undefined}
                 aria-invalid={errors.email ? "true" : undefined}
               />
@@ -196,9 +166,16 @@ export function SignUp() {
                   value={form.code}
                   onChange={update("code")}
                 >
-                  <option>+855</option>
-                  <option>+1</option>
-                  <option>+44</option>
+                  <option value="+855">+855</option>
+                  <option value="+84">+84</option>
+                  <option value="+856">+856</option>
+                  <option value="+60">+60</option>
+                  <option value="+65">+65</option>
+                  <option value="+62">+62</option>
+                  <option value="+63">+63</option>
+                  <option value="+86">+86</option>
+                  <option value="+81">+81</option>
+                  <option value="+82">+82</option>
                 </select>
                 <input
                   id="signup-phone"
@@ -208,7 +185,7 @@ export function SignUp() {
                   autoComplete="tel"
                   value={form.phone}
                   onChange={updatePhone}
-                  placeholder="012 345 678"
+                  placeholder="0XX XXX XXX"
                   aria-describedby={errors.phone ? "signup-phone-err" : undefined}
                   aria-invalid={errors.phone ? "true" : undefined}
                 />
@@ -251,7 +228,7 @@ export function SignUp() {
                 name="confirm"
                 value={form.confirm}
                 onChange={update("confirm")}
-                placeholder={t({ en: "Re-enter your password", km: "បញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
+                placeholder={t({ en: "Re-enter your password", km: "សូមបញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
                 autoComplete="new-password"
                 required
                 minLength={8}
@@ -272,7 +249,7 @@ export function SignUp() {
               >
                 {t({
                   en: "I agree to the Terms of Service and Privacy Policy",
-                  km: "ខ្ញុំឯកភាពនឹងលក្ខខណ្ឌសេវាកម្ម និងគោលនយោបាយឯកជនភាព",
+                  km: "ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌសេវាកម្ម និងគោលការណ៍ឯកជនភាព",
                 })}
               </Checkbox>
               {errors.terms && (
@@ -288,12 +265,10 @@ export function SignUp() {
           </form>
 
           <p className="auth-alt">
-            {t({ en: "Already have an account?", km: "មានគណនីរួចហើយ?" })}{" "}
+            {t({ en: "Already have an account?", km: "មានគណនីរួចហើយមែនទេ?" })}{" "}
             <Link to="/login">{t({ en: "Sign in", km: "ចូលគណនី" })}</Link>
           </p>
         </>
-        )}
-      </>
     </AuthLayout>
   )
 }
