@@ -29,9 +29,6 @@ export function About() {
       <section id="about" className="about-hero" aria-labelledby="about-title">
         <div className="container">
           <Reveal className="about-hero-inner">
-            <span className="about-kicker">
-              {t({ en: "ABOUT ANGKET", km: "អំពី Angket" })}
-            </span>
             <h1 id="about-title" className="about-hero-title">
               {t({
                 en: "Empowering People to Make Safer Digital Decisions",
@@ -59,9 +56,6 @@ export function About() {
         <div className="container">
           <Reveal className="about-problem-grid">
             <div className="about-problem-left">
-              <span className="about-kicker about-kicker--dark">
-                {t({ en: "THE PROBLEM WE ADDRESS", km: "បញ្ហាដែលយើងដោះស្រាយ" })}
-              </span>
               <h2 id="problem-title" className="about-section-title">
                 {t({
                   en: "Scams Are Easier to Encounter Than You Think",

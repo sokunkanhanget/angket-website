@@ -475,7 +475,7 @@ html.km .eyebrow { font-size: 0.85rem; }
   background:
     radial-gradient(640px 340px at 90% 0%, rgba(56,189,248,.18), transparent 70%),
     radial-gradient(520px 320px at 0% 100%, rgba(37,99,235,.35), transparent 70%),
-    linear-gradient(135deg, #0B2545, #12234d);
+    linear-gradient(135deg, #274198, #1B439A);
   color: #fff;
 }
 .about-hero-inner { max-width: 720px; }
@@ -484,11 +484,11 @@ html.km .eyebrow { font-size: 0.85rem; }
   color: #fff; margin: 0 0 1.5rem; letter-spacing: -0.02em;
 }
 .about-hero-lead {
-  color: #c5d4ec; font-size: 1.08rem; line-height: 1.75;
+  color: #eaf0fd; font-size: 1.08rem; line-height: 1.75;
   margin-bottom: 1rem;
 }
 .about-hero-sub {
-  color: #9fb4dd; font-size: 0.98rem; line-height: 1.75;
+  color: #d2ddf5; font-size: 0.98rem; line-height: 1.75;
 }
 
 /* --- Problem Section --- */
@@ -534,7 +534,7 @@ html.km .eyebrow { font-size: 0.85rem; }
   background:
     radial-gradient(640px 340px at 90% 0%, rgba(56,189,248,.18), transparent 70%),
     radial-gradient(520px 320px at 0% 100%, rgba(37,99,235,.35), transparent 70%),
-    linear-gradient(135deg, #0B2545, #12234d);
+    linear-gradient(135deg, #274198, #1B439A);
   color: #fff;
 }
 .about-solution-header { max-width: 640px; margin-bottom: 3rem; }
@@ -566,7 +566,7 @@ html.km .eyebrow { font-size: 0.85rem; }
   margin: 0 0 0.6rem;
 }
 .about-solution-card-desc {
-  color: #9fb4dd; font-size: 0.92rem; line-height: 1.65;
+  color: #d2ddf5; font-size: 0.92rem; line-height: 1.65;
   margin-bottom: 1.2rem;
 }
 .about-solution-card-list {
@@ -575,7 +575,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 }
 .about-solution-card-list li {
   display: flex; align-items: center; gap: 0.55rem;
-  color: #c5d4ec; font-size: 0.88rem; line-height: 1.4;
+  color: #eaf0fd; font-size: 0.88rem; line-height: 1.4;
 }
 .about-solution-list-icon { width: 18px; height: 18px; color: #F5A623; flex-shrink: 0; }
 
