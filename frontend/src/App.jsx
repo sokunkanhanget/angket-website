@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/site-header"
 import { Login } from "@/pages/Login"
 import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
-import { Pricing } from "@/components/pricing"
+import { Subscription } from "@/components/subscription"
 import { Problems } from "@/components/problems"
 import { Solution } from "@/components/solution"
 import { About } from "@/components/about"
@@ -69,7 +69,7 @@ function HomePage() {
       <Hero />
       <Problems />
       <Solution />
-      <Pricing />
+      <Subscription />
     </>
   )
 }

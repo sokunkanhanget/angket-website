@@ -2,19 +2,30 @@ import { Link } from "react-router-dom"
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { IconSend, IconShield, IconWarning, IconCheckDouble, IconFlag } from "./icons"
+import HeroHomepage from "@/assets/Hero-Homepage.png"
 
 export function Hero() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
 
   return (
-    <section className="hero" id="home" aria-labelledby="hero-title">
+    <section
+      className="hero"
+      id="home"
+      aria-labelledby="hero-title"
+      style={{ backgroundImage: `url(${HeroHomepage})` }}
+    >
       <div className="container hero-grid">
         <div className="hero-copy">
           <h1 id="hero-title" className="rise d1">
-            {t({
-              en: "Not Sure If It​ is a Scam? Check Before You Trust.",
-              km: "មិនច្បាស់ថាវាជាការបោកប្រាស់មែនដែរឬទេ? ពិនិត្យមុនពេលធ្វើការសម្រេចចិត្ត",
-            })}
+            {lang === "en" ? (
+              <>
+                Not Sure If It is a <span style={{ color: "#dc2626" }}>Scam</span>? Check Before You Trust.
+              </>
+            ) : (
+              t({
+                km: "មិនច្បាស់ថាវាជាការបោកប្រាស់មែនដែរឬទេ? ពិនិត្យមុនពេលធ្វើការសម្រេចចិត្ត",
+              })
+            )}
           </h1>
           <p className="lede rise d2">
             {t({

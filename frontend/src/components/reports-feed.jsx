@@ -5,14 +5,14 @@ import { useAuth } from "@/lib/auth"
 import { rememberAuthOrigin } from "@/lib/authBack"
 import { SCAM_TYPES, TYPE_LABELS } from "@/lib/data"
 import { reportsApi } from "@/lib/services"
-import { Reveal } from "./reveal"
 import { User } from "lucide-react"
 import { ReportForm } from "./report-form"
 import {
   IconGlobe, IconFacebook, IconTelegram, IconWhatsApp,
-  IconTikTok, IconInstagram, IconSms, IconInfo, IconSearch,
-  IconPlus, IconSave, IconClose,
-  IconBriefcase, IconGift, IconStore, IconChart, IconMail, IconShield,
+  IconTikTok, IconInstagram, IconSms, IconSearch,
+  IconPlus, IconSave, IconShield, IconCheck, IconInfo,
+  IconBriefcase, IconGift, IconStore, IconChart, IconMail,
+  IconWarning, IconArrowRight, IconUser, IconClose,
 } from "./icons"
 
 function normalize(report) {
@@ -153,15 +153,188 @@ const CATEGORY_META = {
   },
 }
 
+// Category badge colors shared across hero, filters, cards and detail page.
+const CATEGORY_BADGES = {
+  "fake-job": "#ef4444",
+  investment: "#f59e0b",
+  prize: "#16a34a",
+  phishing: "#8b5cf6",
+  "fake-seller": "#ec4899",
+  impersonation: "#2563eb",
+}
+
+const HERO_AVATARS = [
+  { initials: "SB", bg: "#3b82f6" },
+  { initials: "KK", bg: "#f97316" },
+  { initials: "JD", bg: "#8b5cf6" },
+  { initials: "MN", bg: "#10b981" },
+]
+
+function avatarColor(name) {
+  const s = String(name || "")
+  let h = 0
+  for (let i = 0; i < s.length; i += 1) h = (h * 31 + s.charCodeAt(i)) % 360
+  return `hsl(${h} 65% 52%)`
+}
+
+function catLabel(cat, lang) {
+  const meta = TYPE_LABELS[cat]
+  if (!meta) return cat
+  return lang === "km" ? meta.km : meta.en
+}
+
 function placeholderHeader(cat, lang) {
   const meta = CATEGORY_META[cat]
-  const label = TYPE_LABELS[cat]
   const Icon = meta?.icon ?? IconInfo
   return (
     <div className="card-img-placeholder">
       <span className="card-img-emoji"><Icon /></span>
-      <span className="card-img-label">{label ? (lang === "km" ? label.km : label.en) : cat}</span>
+      <span className="card-img-label">{catLabel(cat, lang)}</span>
     </div>
+  )
+}
+
+function ReportsHero() {
+  const { t } = useLang()
+  return (
+    <section className="rp-hero" id="reports" aria-labelledby="reports-title">
+      <div className="container rp-hero-grid">
+        <div className="rp-hero-copy">
+          <h1 id="reports-title" className="rp-hero-title">
+            <span className="rp-hero-title-line">{t({ en: "Learn From", km: "ស្វែងយល់ពី" })}</span>
+            <span className="rp-hero-title-line rp-hero-title-accent">{t({ en: "Scam Reports", km: "របាយការណ៍ការបោកប្រាស់" })}</span>
+          </h1>
+          <p className="rp-hero-body">
+            {t({
+              en: "See real examples from our community. Discover how scams work, what to watch for, and how others stayed safe.",
+              km: "សូមមើលឧទាហរណ៍ពិតពីសហគមន៍របស់យើង។ ស្វែងយល់ពីរបៀបដែលការបោកប្រាស់ដំណើរការ អ្វីដែលត្រូវប្រុងប្រយ័ត្ន និងរបៀបដែលអ្នកដទៃរក្សាសុវត្ថិភាព។",
+            })}
+          </p>
+        </div>
+
+        <div className="rp-ill" aria-hidden="true">
+
+
+          <span className="rp-script">
+            <span>See it.</span>
+            <span>Learn it.</span>
+            <span>Avoid it.</span>
+            <svg className="rp-script-swoosh" viewBox="0 0 120 18" fill="none">
+              <path d="M4 13C32 4 72 3 114 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ReportCard({ r, lang, saved, onToggleSave, onSeeMore }) {
+  const { t } = useLang()
+  const badgeStyle = CATEGORY_BADGES[r.cat] ? { background: CATEGORY_BADGES[r.cat] } : undefined
+  return (
+    <article className="rp-card">
+      <div className="rp-card-img">
+        {r.image ? (
+          <img src={r.image} alt="" loading="lazy" />
+        ) : (
+          placeholderHeader(r.cat, lang)
+        )}
+        <span className="rp-card-badge" style={badgeStyle}>
+          {catLabel(r.cat, lang)}
+        </span>
+        <button
+          type="button"
+          className={`rp-card-save${saved ? " saved" : ""}`}
+          aria-label={saved
+            ? t({ en: "Unsave report", km: "ដកចេញពីការរក្សាទុក" })
+            : t({ en: "Save report", km: "រក្សាទុករបាយការណ៍" })}
+          onClick={(e) => { e.stopPropagation(); onToggleSave(r.id) }}
+        >
+          <IconSave filled={saved} />
+        </button>
+        {r.label && <span className="rp-card-bubble">{r.label}</span>}
+      </div>
+
+      <div className="rp-card-body">
+        <div className="rp-card-author">
+          <span className={`rp-card-avatar${r.is_anonymous ? " anon" : ""}`} style={!r.is_anonymous ? { background: avatarColor(r.author_name || "u") } : undefined}>
+            {r.is_anonymous
+              ? <User className="icon" />
+              : r.author_avatar_url
+                ? <img src={r.author_avatar_url} alt="" />
+                : <span>{aliasInitials(r.author_name) || "U"}</span>}
+          </span>
+          <span className="rp-card-name">
+            {r.is_anonymous ? t({ en: "Anonymous", km: "អនាមិក" }) : r.author_name || "Angket User"}
+          </span>
+          <span className="rp-card-date">{t(r.when)}</span>
+        </div>
+        <h3 className="rp-card-title">{t(r.title)}</h3>
+        <p className="rp-card-desc">{t(r.desc)}</p>
+        <div className="rp-card-foot">
+          <span className="rp-platform">
+            <PlatformIcon name={r.platform} />
+            <span>{r.platform}</span>
+          </span>
+          <button type="button" className="rp-more" onClick={() => onSeeMore(r)}>
+            {t({ en: "See More", km: "មើលច្រើនទៀត" })}
+            <IconArrowRight />
+          </button>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function ReportDetailModal({ r, onClose }) {
+  const { lang, t } = useLang()
+  if (!r) return null
+  const badgeStyle = CATEGORY_BADGES[r.cat] ? { background: CATEGORY_BADGES[r.cat] } : undefined
+  return (
+    <>
+      <div className="zoom-overlay" role="presentation" onClick={onClose} />
+      <div className="zoom-modal" role="dialog" aria-modal="true">
+        {r.image && (
+          <div className="zoom-img-area">
+            <img src={r.image} alt="" />
+          </div>
+        )}
+        <div className="zoom-body rp-detail-body">
+          <div className="rp-detail-top">
+            <span className="rp-card-badge" style={badgeStyle}>
+              {catLabel(r.cat, lang)}
+            </span>
+            <button type="button" className="rp-detail-close" aria-label={t({ en: "Close", km: "បិទ" })} onClick={onClose}>
+              <IconClose />
+            </button>
+          </div>
+          <h3>{t(r.title)}</h3>
+          <p className="rp-detail-desc">{t(r.desc)}</p>
+          <dl className="detail-meta">
+            <div>
+              <dt>{t({ en: "Platform", km: "ប្រព័ន្ធផ្សព្វផ្សាយ" })}</dt>
+              <dd className="rp-platform">
+                <PlatformIcon name={r.platform} />
+                <span>{r.platform}</span>
+              </dd>
+            </div>
+            <div>
+              <dt>{t({ en: "Posted", km: "បានប្រកាស" })}</dt>
+              <dd className="detail-when">{t(r.when)}</dd>
+            </div>
+            <div>
+              <dt>{t({ en: "Author", km: "អ្នកចែករំលែក" })}</dt>
+              <dd>{r.is_anonymous ? t({ en: "Anonymous", km: "អនាមិក" }) : r.author_name || "Angket User"}</dd>
+            </div>
+          </dl>
+          <p className="rd-note">
+            <IconCheck />
+            <span>{t({ en: "Community reports are personal experiences shared for awareness. Always verify before you act.", km: "របាយការណ៍សហគមន៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកសម្រាប់ការយល់ដឹង។ តែងតែផ្ទៀងផ្ទាត់មុននឹងធ្វើសកម្មភាព។" })}</span>
+          </p>
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -178,7 +351,7 @@ export function ReportsFeed() {
   const [q, setQ] = useState("")
   const [cat, setCat] = useState("all")
   const [saved, setSaved] = useState(() => new Set())
-  const [zoomReport, setZoomReport] = useState(null)
+  const [selected, setSelected] = useState(null)
 
   useEffect(() => {
     let mounted = true
@@ -235,19 +408,11 @@ export function ReportsFeed() {
     })
     if (wasSaved) {
       reportsApi.unsave(id).catch(() => {
-        setSaved((prev) => {
-          const next = new Set(prev)
-          next.add(id)
-          return next
-        })
+        setSaved((prev) => { const next = new Set(prev); next.add(id); return next })
       })
     } else {
       reportsApi.save(id).catch(() => {
-        setSaved((prev) => {
-          const next = new Set(prev)
-          next.delete(id)
-          return next
-        })
+        setSaved((prev) => { const next = new Set(prev); next.delete(id); return next })
       })
     }
   }, [admin, saved, navigate])
@@ -258,7 +423,7 @@ export function ReportsFeed() {
       if (cat !== "all" && r.cat !== cat) return false
       if (!needle) return true
       const hay = [r.title.en, r.title.km, r.desc.en, r.desc.km, r.platform,
-        TYPE_LABELS[r.cat]?.en, TYPE_LABELS[r.cat]?.km, TYPE_LABELS[r.cat]?.en ?? r.cat, r.cat]
+        TYPE_LABELS[r.cat]?.en, TYPE_LABELS[r.cat]?.km, r.cat]
         .join(" ")
         .toLowerCase()
       return hay.includes(needle)
@@ -267,9 +432,6 @@ export function ReportsFeed() {
     return list
   }, [q, cat, reports])
 
-  const activeCatMeta = cat !== "all" ? CATEGORY_META[cat] : null
-  const activeCatLabel = cat !== "all" ? TYPE_LABELS[cat] : null
-
   const handleSubmitted = () => {
     setDrawerOpen(false)
     setCat("all")
@@ -277,229 +439,104 @@ export function ReportsFeed() {
     setReloadKey((k) => k + 1)
   }
 
+  const openReportForm = () => {
+    if (!admin) {
+      rememberAuthOrigin()
+      navigate("/login", { state: { from: { pathname: "/report" } } })
+      return
+    }
+    setReportKey((k) => k + 1)
+    setDrawerOpen(true)
+  }
+
   return (
-    <section className="reports" id="reports" aria-labelledby="reports-title">
-      <div className="container">
-        <Reveal className="section-head">
-          
-          <h2 id="reports-title">
-            {t({ en: "Learn From Scam Reports", km: "ស្វែងយល់តាមរយៈរបាយការណ៍អំពីការបោកប្រាស់" })}
-          </h2>
-          <p>
-            {t({
-              en: "Scammers use different methods to trick people, and the same type of scam can target many others. Explore scam reports shared by the other people to understand how these scams happen and what warning signs to look out for.",
-              km: "អ្នកបោកប្រាស់ប្រើវិធីសាស្ត្រផ្សេងៗ ដើម្បីបញ្ឆោតមនុស្ស ហើយការបោកប្រាស់ប្រភេទដូចគ្នាអាចកើតឡើងចំពោះមនុស្សជាច្រើន។ ស្វែងយល់ពីរបាយការណ៍អំពីការបោកប្រាស់ដែលបានចែករំលែកដោយអ្នកដទៃ ដើម្បីយល់ពីរបៀបដែលការបោកប្រាស់ទាំងនេះកើតឡើង និងស្គាល់សញ្ញាដែលគួរប្រុងប្រយ័ត្ន។",
-            })}
-          </p>
-          <p className="about-sub">
-            {t({
-              en: "Have you experienced a scam? Share your experience with the Angket to help others recognize and avoid similar scams.",
-              km: "តើអ្នកធ្លាប់ជួបការបោកប្រាស់ដែរឬទេ? ចែករំលែកបទពិសោធន៍របស់អ្នកជាមួយ Angket ដើម្បីជួយអ្នកដទៃឱ្យអាចសម្គាល់ និងជៀសវាងការបោកប្រាស់ដែលមានលក្ខណៈស្រដៀងគ្នា។",
-            })}
-          </p>
-        </Reveal>
+    <>
+      <ReportsHero />
 
-        {/* Search bar with result count */}
-        <div className="browse-search-row">
-          <div className="browse-search-wrap">
-            <IconSearch />
-            <label className="sr-only" htmlFor="filter-q">
-              {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
-            </label>
-            <input
-              type="search"
-              id="filter-q"
-              className="browse-search-input"
-              autoComplete="off"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
-            />
-          </div>
-          <button
-            type="button"
-            className="browse-report-btn"
-            onClick={() => {
-              if (!admin) {
-                rememberAuthOrigin()
-                navigate("/login", { state: { from: { pathname: "/report" } } })
-                return
-              }
-              setReportKey((k) => k + 1)
-              setDrawerOpen(true)
-            }}
-          >
-            <IconPlus />
-            <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
-          </button>
-        </div>
+      <section className="rp-section">
+        <div className="container">
+          <div className="rp-toolbar">
+            <div className="rp-search">
+              <IconSearch />
+              <label className="sr-only" htmlFor="rp-q">
+                {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
+              </label>
+              <input
+                type="search"
+                id="rp-q"
+                className="rp-search-input"
+                autoComplete="off"
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
+              />
+            </div>
 
-        {/* Category filter pills */}
-        <div className="browse-pills" role="group" aria-label={t({ en: "Filter by category", km: "ត្រងតាមប្រភេទ" })}>
-          <button
-            type="button"
-            className={`browse-pill${cat === "all" ? " active" : ""}`}
-            aria-pressed={cat === "all"}
-            onClick={() => setCat("all")}
-          >
-            {t({ en: "All", km: "ទាំងអស់" })}
-          </button>
-          {SCAM_TYPES.map((type) => {
-            const CatIcon = CATEGORY_META[type.value]?.icon
-            return (
+            <div className="rp-pills" role="group" aria-label={t({ en: "Filter by category", km: "ត្រងតាមប្រភេទ" })}>
               <button
-                key={type.value}
                 type="button"
-                className={`browse-pill${cat === type.value ? " active" : ""}`}
-                aria-pressed={cat === type.value}
-                onClick={() => setCat(type.value)}
+                className={`rp-pill${cat === "all" ? " active" : ""}`}
+                aria-pressed={cat === "all"}
+                onClick={() => setCat("all")}
               >
-                {CatIcon && (
-                  <span className="pill-emoji"><CatIcon /></span>
-                )}
-                {t(type)}
+                {t({ en: "All", km: "ទាំងអស់" })}
               </button>
-            )
-          })}
-        </div>
-
-{cat !== "all" && activeCatMeta && activeCatLabel && (
-          <div className="browse-cat-header">
-            <span className="browse-cat-icon">
-              <activeCatMeta.icon />
-            </span>
-            <div className="browse-cat-text">
-              <h3>
-                {t(activeCatLabel)}
-                <span className="browse-cat-count">
-                  {lang === "km"
-                    ? `${visibleReports.length} របាយការណ៍`
-                    : `${visibleReports.length} report${visibleReports.length !== 1 ? "s" : ""}`}
-                </span>
-              </h3>
-              <p>{t(activeCatMeta.desc)}</p>
+              {SCAM_TYPES.map((type) => {
+                const CatIcon = CATEGORY_META[type.value]?.icon
+                return (
+                  <button
+                    key={type.value}
+                    type="button"
+                    className={`rp-pill${cat === type.value ? " active" : ""}`}
+                    aria-pressed={cat === type.value}
+                    onClick={() => setCat(type.value)}
+                  >
+                    {CatIcon && <CatIcon />}
+                    {t(type)}
+                  </button>
+                )
+              })}
             </div>
-          </div>
-        )}
 
-        <div className="reports-layout">
-          <div>
-            <div className="browse-cards">
-              {loading && Array.from({ length: 6 }).map((_, i) => (
-                <div className="skeleton-card" key={`skel-${i}`}>
-                  <div className="skeleton-img" />
-                  <div className="skeleton-body">
-                    <div className="skeleton skeleton-line w80" />
-                    <div className="skeleton skeleton-line w60" />
-                    <div className="skeleton skeleton-line w40" style={{ marginTop: "0.5rem" }} />
-                  </div>
+            <button type="button" className="rp-report-btn" onClick={openReportForm}>
+              <IconPlus />
+              <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
+            </button>
+          </div>
+
+          <div className="rp-cards">
+            {loading && Array.from({ length: 6 }).map((_, i) => (
+              <div className="skeleton-card" key={`skel-${i}`}>
+                <div className="skeleton-img" />
+                <div className="skeleton-body">
+                  <div className="skeleton skeleton-line w80" />
+                  <div className="skeleton skeleton-line w60" />
+                  <div className="skeleton skeleton-line w40" style={{ marginTop: "0.5rem" }} />
                 </div>
-              ))}
-              {!loading && visibleReports.map((r) => (
-                <article className="browse-card" key={r.id}>
-                  {/* Image area */}
-                  <div className="browse-card-img">
-                    {r.image ? (
-                      <img src={r.image} alt="" loading="lazy" />
-                    ) : (
-                      placeholderHeader(r.cat, lang)
-                    )}
-                    <button
-                      type="button"
-                      className={`browse-card-save${saved.has(r.id) ? " saved" : ""}`}
-                      aria-label={saved.has(r.id)
-                        ? t({ en: "Unsave report", km: "ដកចេញពីការរក្សាទុក" })
-                        : t({ en: "Save report", km: "រក្សាទុករបាយការណ៍" })}
-                      onClick={(e) => { e.stopPropagation(); toggleSave(r.id) }}
-                    >
-                      <IconSave filled={saved.has(r.id)} />
-                    </button>
-                  </div>
-
-                  {/* Card body */}
-                  <div className="browse-card-body">
-                    <div className="browse-card-author">
-                      <span className={`browse-card-avatar ${r.is_anonymous ? "anon" : ""}`} aria-hidden="true">
-                        {r.is_anonymous
-                          ? <User className="icon" />
-                          : r.author_avatar_url
-                            ? <img src={r.author_avatar_url} alt="" />
-                            : <span>{aliasInitials(r.author_name) || "U"}</span>}
-                      </span>
-                      <span className="browse-card-authorname">
-                        {r.is_anonymous ? t({ en: "Anonymous", km: "អនាមិក" }) : r.author_name || "Angket User"}
-                      </span>
-                    </div>
-                    <h3 className="browse-card-title">{t(r.title)}</h3>
-                    <p className="browse-card-desc">{t(r.desc)}</p>
-                    <div className="browse-card-foot">
-                      <span className="browse-card-meta">
-                        <span className="browse-card-platform">
-                          <PlatformIcon name={r.platform} />
-                          <span>{r.platform}</span>
-                        </span>
-                        <span className="browse-card-date">{t(r.when)}</span>
-                      </span>
-                      <button
-                        type="button"
-                        className="browse-card-btn"
-                        onClick={() => setZoomReport(r)}
-                      >
-                        {t({ en: "See More", km: "មើលច្រើនទៀត" })}
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              ))}
-              {!loading && visibleReports.length === 0 && (
-                <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
-              )}
-            </div>
-            <p className="reports-disclaimer">
-              <IconInfo />
-              <span>
-                {t({
-                  en: "Reports are personal experiences shared anonymously - useful for awareness, but not verified facts.",
-                  km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
-                })}
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Enlarged view popup */}
-      {zoomReport && (
-        <>
-          <div className="zoom-overlay" onClick={() => setZoomReport(null)} />
-          <div className="zoom-modal" role="dialog" aria-modal="true" aria-labelledby="zoom-title">
-            <div className="zoom-img-area">
-              {zoomReport.image ? (
-                <img src={zoomReport.image} alt="" />
-              ) : (
-                placeholderHeader(zoomReport.cat, lang)
-              )}
-              <button type="button" className="detail-close" onClick={() => setZoomReport(null)} aria-label={t({ en: "Close", km: "បិទ" })}>
-                <IconClose />
-              </button>
-            </div>
-            <div className="detail-body zoom-body">
-              <span className="detail-type">{t(TYPE_LABELS[zoomReport.cat] ?? { en: zoomReport.cat, km: zoomReport.cat })}</span>
-              <h3 id="zoom-title">{t(zoomReport.title)}</h3>
-              <p className="detail-desc zoom-desc">{t(zoomReport.desc)}</p>
-              <div className="detail-meta">
-                <span className="browse-card-platform">
-                  <PlatformIcon name={zoomReport.platform} />
-                  <span>{zoomReport.platform}</span>
-                </span>
-                <span className="detail-when">{t(zoomReport.when)}</span>
               </div>
-            </div>
+            ))}
+            {!loading && visibleReports.map((r) => (
+              <ReportCard key={r.id} r={r} lang={lang} saved={saved.has(r.id)} onToggleSave={toggleSave} onSeeMore={setSelected} />
+            ))}
+            {!loading && visibleReports.length === 0 && (
+              <p className="empty-msg">{t({ en: "No reports match your search.", km: "រកមិនឃើញរបាយការណ៍ដែលត្រូវនឹងការស្វែងរករបស់អ្នកទេ។" })}</p>
+            )}
           </div>
-        </>
-      )}
+
+          <p className="reports-disclaimer">
+            <IconInfo />
+            <span>
+              {t({
+                en: "Reports are personal experiences shared anonymously - useful for awareness, but not verified facts.",
+                km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
+              })}
+            </span>
+          </p>
+        </div>
+      </section>
 
       <ReportForm key={reportKey} open={drawerOpen} onClose={() => setDrawerOpen(false)} onSubmitted={handleSubmitted} />
-    </section>
+      <ReportDetailModal r={selected} onClose={() => setSelected(null)} />
+    </>
   )
 }

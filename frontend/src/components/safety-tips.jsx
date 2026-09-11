@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
-import avoidScamsImg from "@/assets/avoid-scams-online.png"
+import staySafeBg from "@/assets/Stay safe -2.png"
 import stopImg from "@/assets/STOP!-1.png"
 import checkImg from "@/assets/CHECK-1.png"
 import protectImg from "@/assets/PROTECT-1.png"
@@ -35,7 +35,7 @@ import { Reveal } from "./reveal"
 function TipsHero() {
   const { t } = useLang()
   return (
-    <section className="tips-hero" id="stay-safe">
+    <section className="tips-hero" id="stay-safe" style={{ backgroundImage: `url(${staySafeBg})` }}>
       <div className="container tips-hero-grid">
         <div className="tips-hero-copy">
           <Reveal className="d1">
@@ -57,9 +57,6 @@ function TipsHero() {
           </Reveal>
         </div>
 
-        <div className="tips-hero-illust">
-          <img src={avoidScamsImg} alt="Staying safe online" className="tips-hero-img" />
-        </div>
       </div>
     </section>
   )

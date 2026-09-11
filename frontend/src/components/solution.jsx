@@ -1,38 +1,46 @@
 import { useLang } from "@/lib/i18n"
-import { Reveal } from "./reveal"
-import { Search, BarChart3, Brain, ShieldCheck } from "lucide-react"
+import { IconSearch, IconShield, IconBrain } from "./icons"
+import detectImg from "@/assets/detect.jpg"
+import checkImg from "@/assets/check.jpg"
+import understandImg from "@/assets/understand.jpg"
+import protectImg from "@/assets/protect.jpg"
 
 const FEATURES = [
   {
-    Icon: Search,
-    title: { en: "Detect", km: "ស្វែងរកហានិភ័យ" },
+    Icon: IconSearch,
+    ill: detectImg,
+    title: { en: "Detect", km: "ស្វែងរក" },
     desc: {
-      en: "Automatically scan incoming messages for suspicious patterns and alert users when potential scam activity is detected.",
-      km: "កម្មវិធីជំនួយស្វ័យប្រវត្តិនៅលើតេលេក្រាម អាចពិនិត្យសារដែលចូលមកដោយស្វ័យប្រវត្តិ ដើម្បីស្វែងរកសញ្ញា ឬលំនាំដែលគួរឱ្យសង្ស័យ ហើយជូនដំណឹងដល់អ្នកប្រើប្រាស់នៅពេលរកឃើញហានិភ័យដែលអាចជាការបោកប្រាស់។",
+      en: "Finds suspicious messages, links, and patterns automatically.",
+      km: "ស្វែងរកសារ តំណភ្ជាប់ និងលំនាំគួរឲ្យសង្ស័យដោយស្វ័យប្រវត្តិ។",
     },
   },
   {
-    Icon: BarChart3,
+    Icon: IconShield,
+    check: true,
+    ill: checkImg,
     title: { en: "Check", km: "ពិនិត្យ" },
     desc: {
-      en: "Send a suspicious message, link, URL, or file to Angket and receive an estimated scam risk score with an explanation of the results.",
-      km: "អ្នកប្រើប្រាស់អាចផ្ញើសារ តំណភ្ជាប់ ឬឯកសារដែលគួរឱ្យសង្ស័យទៅកាន់កម្មវិធីជំនួយស្វ័យប្រវត្តិនៅលើតេលេក្រាមដើម្បីទទួលបានពិន្ទុប៉ាន់ស្មាននៃហានិភ័យនៃការបោកប្រាស់ព្រមទាំងការពន្យល់អំពីលទ្ធផល។",
+      en: "Verifies links, files, and content before you click.",
+      km: "ពិនិត្យតំណភ្ជាប់ ឯកសារ និងមាតិកាមុនពេលអ្នកចុច។",
     },
   },
   {
-    Icon: Brain,
+    Icon: IconBrain,
+    ill: understandImg,
     title: { en: "Understand", km: "ស្វែងយល់" },
     desc: {
-      en: "Learn why the content may be suspicious, what scam patterns were detected, and what warning signs to look out for.",
-      km: "បង្ហាញពីមូលហេតុដែលមាតិកាអាចមានភាពគួរឱ្យសង្ស័យ លំនាំនៃការបោកប្រាស់ដែលបានរកឃើញ និងសញ្ញាដែលអ្នកប្រើប្រាស់គួរប្រុងប្រយ័ត្ន។",
+      en: "Explains why something is risky in simple language.",
+      km: "ពន្យល់ពីមូលហេតុដែលអ្វីមួយប្រថុយប្រថាន ក្នុងភាសាងាយស្រួលយល់។",
     },
   },
   {
-    Icon: ShieldCheck,
+    Icon: IconShield,
+    ill: protectImg,
     title: { en: "Protect", km: "ការពារ" },
     desc: {
-      en: "Get clear safety recommendations and learn from community-reported scam experiences to help avoid similar threats.",
-      km: "ផ្តល់ការណែនាំអំពីវិធីសុវត្ថិភាពដែលអ្នកប្រើប្រាស់គួរអនុវត្តនិងអនុញ្ញាតឱ្យពួកគេស្វែងយល់ពីបទពិសោធន៍នៃការបោកប្រាស់ដែលបានចែករំលែកដោយអ្នកប្រើប្រាស់ផ្សេងៗដើម្បីជួយជៀសវាងការបោកប្រាស់ស្រដៀងគ្នា។",
+      en: "Helps you and your community stay safer online.",
+      km: "ជួយអ្នក និងសហគមន៍របស់អ្នកឱ្យមានសុវត្ថិភាពជាងមុននៅលើអ៊ីនធឺណិត។",
     },
   },
 ]
@@ -41,32 +49,54 @@ export function Solution() {
   const { t } = useLang()
 
   return (
-    <section id="solution" aria-labelledby="solution-title">
+    <section className="solution" id="solution" aria-labelledby="solution-title">
       <div className="container">
-        <Reveal className="section-head">
-          <h2 id="solution-title">
-            {t({ en: "How Angket Helps", km: "របៀបដែល Angket ជួយអ្នក" })}
-          </h2>
-          <p className="solution-lead">
-            {t({
-              en: "Angket is a digital safety tool designed to help people identify and understand potential online scams before they take action. Through our Telegram bot, users can check suspicious messages, links, URLs, and files, while the website allows users to report scam experiences and help protect others in the community.",
-              km: "Angket គឺជាឧបករណ៍សុវត្ថិភាពឌីជីថល ដែលបង្កើតឡើងដើម្បីជួយអ្នកប្រើប្រាស់កំណត់អត្តសញ្ញាណនិងស្វែងយល់អំពីការបោកប្រាស់ដែលអាចកើតមាននៅលើអ៊ីនធឺណិត មុនពេលធ្វើសកម្មភាពណាមួយ។ តាមរយៈកម្មវិធីជំនួយស្វ័យប្រវត្តិនៅលើតេលេក្រាម អ្នកប្រើប្រាស់អាចពិនិត្យសារ តំណភ្ជាប់ និងឯកសារដែលគួរឱ្យសង្ស័យ ខណៈដែលគេហទំព័ររបស់យើងអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ចែករំលែកបទពិសោធន៍អំពីការបោកប្រាស់ ដើម្បីជួយព្រមាន និងការពារអ្នកដទៃក្នុងសហគមន៍។",
-            })}
-          </p>
-        </Reveal>
-        <Reveal className="func-grid">
+        <header className="sol-head">
+          <div className="sol-head-copy">
+            <h2 id="solution-title">
+              {t({ en: "How", km: "របៀប" })} <span className="sol-accent">Angket</span>{" "}
+              {t({ en: "Helps", km: "ជួយអ្នក" })}
+            </h2>
+            <p className="sol-lead">
+              {t({
+                en: "Angket scans, checks, and warns, so you can stay one step ahead of online scams.",
+                km: "Angket ពិនិត្យ ផ្ទៀងផ្ទាត់ និងជូនដំណឹង ដើម្បីឱ្យអ្នកអាចនៅជាមួយជំហានខាងមុខនៃការបោកប្រាស់តាមអ៊ីនធឺណិត។",
+              })}
+            </p>
+          </div>
+          <span className="sol-flourish" aria-hidden="true">
+            <span>Smarter scans. Safer you.</span>
+            <svg className="sol-swoosh" viewBox="0 0 120 18" fill="none">
+              <path
+                d="M4 13C32 4 72 3 114 8"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
+        </header>
+
+        <div className="sol-cards">
           {FEATURES.map((f) => (
-            <article className="func-card" key={f.title.en}>
-              <div className="func-head">
-                <span className="func-ic" aria-hidden="true">
-                  <f.Icon size={24} strokeWidth={2} style={{ color: "#fff" }} />
-                </span>
-                <h3>{t(f.title)}</h3>
+            <article className="sol-card" key={f.title.en}>
+              {/* placeholder illustrations — swap real artwork into /public/images/placeholder-*.png */}
+              <div className="sol-ill">
+                <span className="sol-glow" aria-hidden="true" />
+                <img src={f.ill} alt="" loading="lazy" />
               </div>
-              <p>{t(f.desc)}</p>
+              <div className="sol-body">
+                <div className="sol-head-row">
+                  <span className="sol-badge" aria-hidden="true">
+                    <f.Icon check={f.check} />
+                  </span>
+                  <h3>{t(f.title)}</h3>
+                </div>
+                <p>{t(f.desc)}</p>
+              </div>
             </article>
           ))}
-        </Reveal>
+        </div>
       </div>
     </section>
   )
