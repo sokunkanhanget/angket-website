@@ -1,0 +1,7 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fake job offers">
+  <g stroke="#7B3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M4 12.5A2.5 2.5 0 0 1 6.5 10H25.5A2.5 2.5 0 0 1 28 12.5V22.5A2.5 2.5 0 0 1 25.5 25H6.5A2.5 2.5 0 0 1 4 22.5Z"/>
+    <path d="M12 10V8a4 4 0 0 1 8 0V10"/>
+    <path d="M16 25v-2"/>
+  </g>
+</svg>

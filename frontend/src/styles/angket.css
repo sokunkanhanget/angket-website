@@ -404,115 +404,192 @@ html.km .problem-note { font-family: var(--font-km); }
 .func-card p { color: var(--muted); font-size: 0.9rem; }
 
 /* ============================================================
-   ABOUT PAGE — /about (Hero, Story, Team, Contact)
+   ABOUT PAGE — /about (Hero, Problem, Solution, Mission, DMIL, Contact)
    ============================================================ */
 
-/* --- Why We Started --- */
-.about-started {
+/* --- Shared --- */
+.about-kicker {
+  display: inline-block;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #F5A623; margin-bottom: 0.8rem;
+}
+.about-kicker--dark { color: var(--blue-700); }
+.about-section-title {
+  font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; color: #fff;
+  margin: 0 0 1rem; line-height: 1.2; letter-spacing: -0.02em;
+}
+.about-section-body {
+  color: #9fb4dd; font-size: 1rem; line-height: 1.75;
+}
+.about-section-lead {
+  color: var(--muted); font-size: 1rem; line-height: 1.7;
+  max-width: 640px;
+}
+
+/* --- Hero (About Angket) --- */
+.about-hero {
   position: relative; overflow: hidden;
-  padding: 5.5rem 0 5.5rem;
+  padding: 6rem 0 5rem;
   background:
     radial-gradient(640px 340px at 90% 0%, rgba(56,189,248,.18), transparent 70%),
     radial-gradient(520px 320px at 0% 100%, rgba(37,99,235,.35), transparent 70%),
     linear-gradient(135deg, #0B2545, #12234d);
   color: #fff;
 }
-.about-started-grid {
-  display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem; align-items: start;
+.about-hero-inner { max-width: 720px; }
+.about-hero-title {
+  font-size: clamp(2rem, 4.5vw, 2.8rem); line-height: 1.15; font-weight: 700;
+  color: #fff; margin: 0 0 1.5rem; letter-spacing: -0.02em;
+}
+.about-hero-lead {
+  color: #c5d4ec; font-size: 1.08rem; line-height: 1.75;
+  margin-bottom: 1rem;
+}
+.about-hero-sub {
+  color: #9fb4dd; font-size: 0.98rem; line-height: 1.75;
 }
 
-/* Left column */
-.about-started-left { max-width: 540px; }
-.about-started-kicker {
-  display: inline-block;
-  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: #F5A623; margin-bottom: 1.1rem;
-}
-.about-started-headline {
-  font-size: clamp(1.75rem, 3.6vw, 2.25rem); line-height: 1.2; font-weight: 700;
-  color: #fff; margin: 0 0 1.3rem; letter-spacing: -0.02em;
-}
-.about-started-body {
-  color: #9fb4dd; font-size: 1.02rem; line-height: 1.75;
-  max-width: 440px;
-}
-
-/* Right column — vertical timeline */
-.about-started-right { padding-top: 0.2rem; }
-.about-started-timeline {
-  display: flex; flex-direction: column; gap: 0;
-}
-.about-timeline-beat {
-  position: relative;
-  padding: 1.3rem 0 1.3rem 1.6rem;
-  border-left: 2px solid rgba(255,255,255,.15);
-  font-size: 0.95rem; line-height: 1.65;
-  color: #9fb4dd;
-}
-.about-timeline-beat:first-child { padding-top: 0; }
-.about-timeline-beat:last-child { border-left-color: transparent; }
-.about-timeline-beat::before {
-  content: ""; position: absolute; left: -5px; top: 1.45rem;
-  width: 8px; height: 8px; border-radius: 50%;
-  background: #F5A623;
-}
-.about-timeline-beat:first-child::before { top: 0.3rem; }
-.about-beat-lead {
-  color: #fff; font-weight: 700; font-size: 1rem;
-}
-
-/* --- Team --- */
-.about-team {
-  position: relative; overflow: hidden;
+/* --- Problem Section --- */
+.about-problem {
   background: linear-gradient(180deg, #eef3fa 0%, #f0f4f9 100%);
 }
-.about-team-circles {
-  position: absolute; top: -60px; right: -80px;
-  width: 400px; height: 400px;
-  color: var(--blue-200); opacity: 0.4;
-  pointer-events: none;
+.about-problem-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start;
 }
-.about-team-header { max-width: 520px; margin-bottom: 2.5rem; position: relative; }
-.about-team-kicker {
-  display: inline-block;
-  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--blue-700); margin-bottom: 0.6rem;
+.about-problem-left { max-width: 520px; }
+.about-problem-left .about-section-title { color: var(--ink); }
+.about-problem-left .about-section-body { color: var(--muted); }
+.about-problem-right { padding-top: 0.2rem; }
+.about-problem-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin-bottom: 1.5rem;
 }
-.about-team-header h2 {
-  font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 700; color: var(--ink);
-  margin: 0 0 0.7rem; line-height: 1.2;
+.about-problem-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 14px;
+  padding: 1.2rem; display: flex; align-items: flex-start; gap: 0.7rem;
+  box-shadow: var(--shadow-sm);
 }
-.about-team-sub {
-  color: var(--muted); font-size: 0.95rem; line-height: 1.65;
+.about-problem-ic {
+  width: 40px; height: 40px; border-radius: 12px;
+  background: #F4EDEB; border: 1px solid #E8DBD3;
+  display: grid; place-items: center; flex-shrink: 0;
+}
+.about-problem-ic img { display: block; }
+.about-problem-card p {
+  color: var(--text); font-size: 0.9rem; line-height: 1.5; margin: 0;
+}
+.about-problem-note {
+  color: var(--muted); font-size: 0.93rem; line-height: 1.7;
+  background: var(--amber-bg); border: 1px solid var(--amber-border);
+  border-radius: 12px; padding: 1rem 1.2rem;
+  color: var(--amber-text);
 }
 
-.about-team-card {
-  background: #fff; border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  padding: 0; overflow: hidden; position: relative;
+/* --- Solution Section --- */
+.about-solution {
+  position: relative; overflow: hidden;
+  padding: 5.5rem 0;
+  background:
+    radial-gradient(640px 340px at 90% 0%, rgba(56,189,248,.18), transparent 70%),
+    radial-gradient(520px 320px at 0% 100%, rgba(37,99,235,.35), transparent 70%),
+    linear-gradient(135deg, #0B2545, #12234d);
+  color: #fff;
 }
-.about-team-card-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.4rem 1.8rem;
-  border-bottom: 1px solid var(--border);
+.about-solution-header { max-width: 640px; margin-bottom: 3rem; }
+.about-solution-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
 }
-.about-team-card-title {
-  font-size: 1.05rem; font-weight: 700; color: var(--ink); margin: 0;
+.about-solution-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2rem 1.6rem;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.about-team-pill {
-  font-size: 0.72rem; font-weight: 600; color: var(--blue-700);
+.about-solution-card:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-3px);
+}
+.about-solution-card-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(245,166,35,0.15); border: 1px solid rgba(245,166,35,0.25);
+  display: grid; place-items: center;
+  margin-bottom: 1.2rem;
+  color: #F5A623;
+}
+.about-solution-card-icon .icon { width: 26px; height: 26px; }
+.about-solution-card h3 {
+  font-size: 1.15rem; font-weight: 700; color: #fff;
+  margin: 0 0 0.6rem;
+}
+.about-solution-card-desc {
+  color: #9fb4dd; font-size: 0.92rem; line-height: 1.65;
+  margin-bottom: 1.2rem;
+}
+.about-solution-card-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.6rem;
+}
+.about-solution-card-list li {
+  display: flex; align-items: center; gap: 0.55rem;
+  color: #c5d4ec; font-size: 0.88rem; line-height: 1.4;
+}
+.about-solution-list-icon { width: 18px; height: 18px; color: #F5A623; flex-shrink: 0; }
+
+/* --- Mission & Vision --- */
+.about-mission {
+  background: #fff; border-block: 1px solid var(--border);
+}
+.about-mission-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+}
+.about-mission-card {
+  padding: 2rem 0;
+}
+.about-mission-title {
+  font-size: clamp(1.3rem, 2.5vw, 1.6rem); font-weight: 700; color: var(--ink);
+  margin: 0 0 1rem; line-height: 1.3;
+}
+.about-mission-body {
+  color: var(--muted); font-size: 0.97rem; line-height: 1.75;
+}
+
+/* --- DMIL Section --- */
+.about-dmil {
+  background: linear-gradient(180deg, #eef3fa 0%, #f0f4f9 100%);
+}
+.about-dmil-header { max-width: 640px; margin-bottom: 3rem; }
+.about-dmil-header .about-section-title { color: var(--ink); }
+.about-dmil-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem;
+}
+.about-dmil-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  padding: 1.8rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.about-dmil-card:hover {
+  box-shadow: var(--shadow-md); transform: translateY(-3px);
+}
+.about-dmil-card:first-child { grid-column: span 1; }
+.about-dmil-card:nth-child(4) { grid-column: span 1; }
+.about-dmil-card:nth-child(5) { grid-column: span 1; }
+.about-dmil-card-icon {
+  width: 48px; height: 48px; border-radius: 13px;
   background: var(--blue-50); border: 1px solid var(--blue-100);
-  border-radius: 9999px; padding: 0.3rem 0.85rem;
-  white-space: nowrap;
+  display: grid; place-items: center;
+  margin-bottom: 1rem;
+  color: var(--blue-700);
 }
-.about-team-card-body {
-  padding: 1.6rem 1.8rem;
+.about-dmil-card-icon .icon { width: 24px; height: 24px; }
+.about-dmil-card h3 {
+  font-size: 1.05rem; font-weight: 700; color: var(--ink);
+  margin: 0 0 0.5rem;
 }
-.about-team-card-body p {
-  color: #374151; font-size: 0.95rem; line-height: 1.8;
-}
-.about-team-card-body p + p {
-  margin-top: 1rem;
+.about-dmil-card p {
+  color: var(--muted); font-size: 0.9rem; line-height: 1.65;
 }
 
 /* --- Contact --- */
@@ -525,12 +602,6 @@ html.km .problem-note { font-family: var(--font-km); }
   font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--blue-700); margin-bottom: 0.6rem;
 }
-.about-contact h2 {
-  font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 700; color: var(--ink);
-  margin: 0 0 0.7rem; line-height: 1.2;
-}
-.about-contact-lead { color: var(--muted); font-size: 0.95rem; line-height: 1.65; }
-
 .about-contact-card {
   max-width: 640px;
   background: #f8fafc; border: 1px solid #e2e8f0;
@@ -1497,7 +1568,10 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
   .tg-steps { grid-template-columns: repeat(2, 1fr); }
   .browse-cards { grid-template-columns: repeat(2, 1fr); }
   .tips-grid, .why-grid { grid-template-columns: repeat(2, 1fr); }
-  .about-started-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-problem-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .about-solution-grid { grid-template-columns: 1fr; }
+  .about-mission-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .about-dmil-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 840px) {
   .nav-links, .nav-actions .btn { display: none; }
@@ -1521,6 +1595,8 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
   .detail-modal { width: min(480px, calc(100vw - 1.5rem)); max-height: 90vh; }
   .zoom-modal { width: calc(100vw - 1rem); max-height: 92vh; }
   .about-contact-card { max-width: none; }
+  .about-problem-cards { grid-template-columns: 1fr; }
+  .about-dmil-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
   section { padding: 3.4rem 0; }
