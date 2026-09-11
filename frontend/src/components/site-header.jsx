@@ -133,12 +133,19 @@ export function SiteHeader() {
 
             {admin ? (
               <Link
-                className="nav-user nav-user--icon"
+                className="nav-user"
                 to="/profile"
                 title={admin.name}
                 aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
               >
-                <IconUser />
+                <span className="nav-user-avatar">
+                  {admin.avatarUrl ? (
+                    <img className="nav-user-img" src={admin.avatarUrl} alt="" />
+                  ) : (
+                    <IconUser />
+                  )}
+                </span>
+                <span className="nav-user-name">{admin.name}</span>
               </Link>
             ) : (
               <Link className="btn btn-outline" to="/login" onClick={rememberAuthOrigin}>
@@ -177,12 +184,19 @@ export function SiteHeader() {
           </nav>
           {admin ? (
             <Link
-              className="nav-user nav-user--icon m-user"
+              className="nav-user m-user"
               to="/profile"
               onClick={closeMenu}
               aria-label={`${t({ en: "My profile", km: "ទម្រង់របស់ខ្ញុំ" })} — ${admin.name}`}
             >
-              <IconUser />
+              <span className="nav-user-avatar">
+                {admin.avatarUrl ? (
+                  <img className="nav-user-img" src={admin.avatarUrl} alt="" />
+                ) : (
+                  <IconUser />
+                )}
+              </span>
+              <span className="nav-user-name">{admin.name}</span>
             </Link>
           ) : (
             <Link className="btn btn-outline btn-lg" to="/login" onClick={() => { rememberAuthOrigin(); closeMenu() }}>

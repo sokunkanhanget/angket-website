@@ -1,6 +1,6 @@
 import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
-import staySafeBg from "@/assets/Stay safe -2.png"
+import staySafeBg from "@/assets/Stay safe-3.png"
 import stopImg from "@/assets/STOP!-1.png"
 import checkImg from "@/assets/CHECK-1.png"
 import protectImg from "@/assets/PROTECT-1.png"
