@@ -1,116 +1,123 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
-import { IconMail, IconFacebook, IconPhone } from "./icons"
+import briefcaseIcon from "@/assets/icons/briefcase.svg"
+import phishingIcon from "@/assets/icons/phishing.svg"
+import moneyScamIcon from "@/assets/icons/money-scam.svg"
+import brokenLinkIcon from "@/assets/icons/broken-link.svg"
+import {
+  IconMail,
+  IconFacebook,
+  IconPhone,
+  IconShield,
+  IconBot,
+  IconEye,
+  IconFlag,
+  IconBrain,
+  IconSearch,
+  IconLock,
+  IconInfo,
+  IconCheckDouble,
+  IconWarning,
+} from "./icons"
 
 export function About() {
   const { t } = useLang()
 
   return (
     <>
-      {/* ── Why We Started ── */}
-      <section id="about" className="about-started" aria-labelledby="started-title">
+      {/* ── About Angket ── */}
+      <section id="about" className="about-hero" aria-labelledby="about-title">
         <div className="container">
-          <Reveal className="about-started-grid">
-            <div className="about-started-left">
-              <span className="about-started-kicker">
-                {t({ en: "WHY WE STARTED", km: "មូលហេតុដែលយើងចាប់ផ្ដើម" })}
-              </span>
-              <h1 id="started-title" className="about-started-headline">
-                {t({
-                  en: "People were losing money to scams — and had nowhere to check before it was too late.",
-                  km: "មនុស្សជាច្រើនបានបាត់បង់ប្រាក់ដោយសារការបោកប្រាស់ — ហើយគ្មានកន្លែងណាមួយអាចពិនិត្យជាមុន មុនពេលដែលវាហួសពេល។",
-                })}
-              </h1>
-              <p className="about-started-body">
-                {t({
-                  en: "We kept seeing the same thing: people forwarding suspicious messages in group chats, asking \"is this real?\" — after they'd already clicked, already paid, already lost. The question was always too late. We wanted to put the answer before the damage.",
-                  km: "យើងឃើញរឿងដដែលៗជានិច្ច៖ មនុស្សភាគច្រើនផ្ញើសារសង្ស័យនៅក្នុងក្រុម chat សួរថា «តើនេះពិតឬទេ?» — បន្ទាប់ពីពួកគេចុចរួចហើយ បង់ប្រាក់រួចហើយ បាត់បង់រួចហើយ។ សំណួរនោះគឺតែងតែយឺតពេល។ ពួកយើងចង់ផ្ដល់់ដំណឹងជាមុន​ មុនពេលដែលអាចមានការបាត់បង់កើតឡើង។",
-                })}
-              </p>
-            </div>
-            <div className="about-started-right">
-              <div className="about-started-timeline">
-                <div className="about-timeline-beat">
-                  <span className="about-beat-lead">
-                    {t({ en: "The gap.", km: "គម្លាត" })}
-                  </span>{" "}
-                  {t({
-                    en: "Existing tools weren't in Khmer, weren't inside the apps people actually use, and never explained why something was risky — only that it might be.",
-                    km: "ឧបករណ៍ដែលមានស្រាប់មិនមានភាសាខ្មែរ មិននៅក្នុងកម្មវិធីដែលមនុស្សប្រើប្រាស់ពិតប្រាកដ ហើយមិនដែលពន្យល់ថាហេតុអ្វីបានជាអ្វីមួយមានហានិភ័យ — តែប្រាប់ថាវាអាចមានប៉ុណ្ណោះ។",
-                  })}
-                </div>
-                <div className="about-timeline-beat">
-                  <span className="about-beat-lead">
-                    {t({ en: "The idea.", km: "គំនិត។" })}
-                  </span>{" "}
-                  {t({
-                    en: "Put the check right where the scam arrives: inside Telegram itself. No new app to download, no website to visit — just forward the message.",
-                    km: "ដាក់ការពិនិត្យនៅកន្លែងដែលការបោកប្រាស់មកដល់៖ ខាងក្នុង Telegram ផ្ទាល់។ មិនមានកម្មវិធីថ្មីដែលត្រូវទាញយក មិនមានគេហទំព័រដែលត្រូវចូល — គ្រាន់តែផ្ញើសារនោះប៉ុណ្ណោះ។",
-                  })}
-                </div>
-                <div className="about-timeline-beat">
-                  <span className="about-beat-lead">
-                    {t({ en: "The mission now.", km: "បេសកកម្មបច្ចុប្បន្ន។" })}
-                  </span>{" "}
-                  {t({
-                    en: "Give every Cambodian a free, instant way to verify before they act — and build a community that learns from every reported scam.",
-                    km: "ផ្តល់ឱ្យមនុស្សកម្ពុជាគ្រប់គ្នានូវវិធីឥតគិតថ្លៃ ភ្លាមៗដើម្បីផ្ទៀងផ្ទាត់មុននឹងធ្វើសកម្មភាព — និងសាងសង់សហគមន៍មួយដែលរៀនពីរាល់ការបោកប្រាស់ដែលបានរាយការណ៍។",
-                  })}
-                </div>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── Section 2: Meet the Team ── */}
-      <section id="team" className="about-team" aria-labelledby="team-title">
-        <div className="about-team-circles" aria-hidden="true">
-          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="300" cy="100" r="180" stroke="currentColor" strokeWidth="1" />
-            <circle cx="300" cy="100" r="140" stroke="currentColor" strokeWidth="1" />
-            <circle cx="300" cy="100" r="100" stroke="currentColor" strokeWidth="1" />
-            <circle cx="300" cy="100" r="60" stroke="currentColor" strokeWidth="1" />
-          </svg>
-        </div>
-        <div className="container">
-          <Reveal className="about-team-header">
-            <span className="about-team-kicker">
-              {t({ en: "THE PEOPLE BEHIND IT", km: "មនុស្សដែលនៅពីក្រោយវា" })}
+          <Reveal className="about-hero-inner">
+            <span className="about-kicker">
+              {t({ en: "ABOUT ANGKET", km: "អំពី Angket" })}
             </span>
-            <h2 id="team-title">
+            <h1 id="about-title" className="about-hero-title">
               {t({
-                en: "A small team of university student ",
-                km: "",
+                en: "Empowering People to Make Safer Digital Decisions",
+                km: "ជំរុញមនុស្សឱ្យធ្វើការសម្រេចចិត្តឌីជីថលប្រកបដោយសុវត្ថិភាព",
               })}
-            </h2>
-            <p className="about-team-sub">
+            </h1>
+            <p className="about-hero-lead">
               {t({
-                en: "Students and volunteers building Angket in our spare time, driven by the belief that Cambodians deserve safer digital spaces.",
-                km: "និស្សិត និងអ្នកស្ម័គ្រចិត្តសាងសង់ Angket នៅពេលទំនេរ ដោយមានជំនឿថាពលរដ្ឋកម្ពុជាមានសិទ្ធិក្នុងការមានប្រព័ន្ធឌីជីថលប្រកបដោយសុវត្ថិភាព។",
+                en: "Angket is an AI-driven digital safety platform designed to help people identify and understand potential online threats. Through our Telegram Bot and reporting platform, users can check suspicious messages, links, URLs, and files before taking action.",
+                km: "Angket ជាវេទិកាសុវត្ថិភាពឌីជីថលដែលដំណើរការដោយ AI រចនាឡើងដើម្បីជួយមនុស្សកំណត់ និងយល់ពីការគំរាមកំហែងតាមអ៊ីនធឺណិតដែលអាចកើតមាន។ តាមរយៈ Telegram Bot និងវេទិការាយការណ៍របស់យើង អ្នកប្រើប្រាស់អាចពិនិត្យសារសង្ស័យ តំណភ្ជាប់ URL និងឯកសារមុននឹងធ្វើសកម្មភាព។",
+              })}
+            </p>
+            <p className="about-hero-sub">
+              {t({
+                en: "Angket provides a risk assessment, explains suspicious patterns, and offers recommendations to help users make safer decisions online. We believe that digital safety should be accessible to everyone, even without technical knowledge.",
+                km: "Angket ផ្តល់នូវការវាយតម្លៃហានិភ័យ ពន្យល់ពីលំនាំសង្ស័យ និងផ្តល់អនុសាសន៍ដើម្បីជួយអ្នកប្រើប្រាស់ធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពតាមអ៊ីនធឺណិត។ យើងជឿថាសុវត្ថិភាពឌីជីថលគួរតែអាចចូលដោយគ្រប់គ្នា សូម្បីតែគ្មានចំណេះដឹងបច្ចេកវិទ្យា។",
               })}
             </p>
           </Reveal>
-          <Reveal className="about-team-card">
-            <div className="about-team-card-head">
-              <h3 className="about-team-card-title">
-                {t({ en: "Angket Team", km: "ក្រុម Angket" })}
-              </h3>
-              <span className="about-team-pill">
-                {t({ en: "NGEP Batch III · Angket Bot", km: "កម្មវិធី NGEP លើកទី ៣ · Angket Bot" })}
+        </div>
+      </section>
+
+      {/* ── The Problem We Address ── */}
+      <section id="problem" className="about-problem" aria-labelledby="problem-title">
+        <div className="container">
+          <Reveal className="about-problem-grid">
+            <div className="about-problem-left">
+              <span className="about-kicker about-kicker--dark">
+                {t({ en: "THE PROBLEM WE ADDRESS", km: "បញ្ហាដែលយើងដោះស្រាយ" })}
               </span>
-            </div>
-            <div className="about-team-card-body">
-              <p>
+              <h2 id="problem-title" className="about-section-title">
                 {t({
-                  en: "Angket was built by students from CADT through the NGEP (Next-Gen Engagament Program) Batch III program. What started as a Telegram bot to verify suspicious messages has grown into a community-driven platform that helps people stay safe online - united by the belief that technology should protect, not exploit.",
-                  km: "Angket ត្រូវបានបង្កើតឡើងដោយនិស្សិតពី​ CADT តាមរយៈកម្មវិធី NGEP (Next-Gen Engagament Program) លើកទី ៣។ ចាប់ផ្ដើមជាមួយ Telegram bot ដើម្បីផ្ទៀងផ្ទាត់សារសង្ស័យបានក្លាយជាវេទិកាមួយដែលជួយមនុស្សឱ្យមានសុវត្ថិភាពតាមអ៊ីនធឺណិតជាងមុន។ រួមគ្នាដោយជំនឿថាបច្ចេកវិទ្យាគួរការពារ មិនមែនកេងប្រវ័ញ្ញ។",
+                  en: "Scams Are Easier to Encounter Than You Think",
+                  km: "ការបោកប្រាស់ងាយស្រួលជួបជាងអ្វីដែលអ្នកគិត",
+                })}
+              </h2>
+              <p className="about-section-body">
+                {t({
+                  en: "Every day, people receive suspicious messages, links, URLs, and files online. These may include fake job offers, prize notifications, phishing attempts, impersonation, investment scams, and other forms of online fraud.",
+                  km: "រាល់ថ្ងៃ មនុស្សទទួលបានសារសង្ស័យ តំណភ្ជាប់ URL និងឯកសារតាមអ៊ីនធឺណិត។ ទាំងនេះអាចរួមបញ្ចូលការផ្តល់ការងារក្លែងក្លាយ ការជូនពរឈ្នះរង្វាន់ ការព្យាយាម钓鱼 ការក្លែងបន្លំអត្តសញ្ញាណ ការវិនិយោគបោកប្រាស់ និងទម្រង់ផ្សេងទៀតនៃការក្បត់តាមអ៊ីនធឺណិត។",
                 })}
               </p>
-              <p>
+            </div>
+            <div className="about-problem-right">
+              <div className="about-problem-cards">
+                <div className="about-problem-card">
+                  <span className="about-problem-ic" aria-hidden="true"><img src={briefcaseIcon} alt="" width="32" height="32" /></span>
+                  <p>
+                    {t({
+                      en: "Fake job offers and prize notifications",
+                      km: "ការផ្តល់ការងារក្លែងក្លាយ និងការជូនពរឈ្នះរង្វាន់",
+                    })}
+                  </p>
+                </div>
+                <div className="about-problem-card">
+                  <span className="about-problem-ic" aria-hidden="true"><img src={phishingIcon} alt="" width="32" height="32" /></span>
+                  <p>
+                    {t({
+                      en: "Phishing attempts and impersonation",
+                      km: "ការព្យាយាម钓鱼 និងការក្លែងបន្លំអត្តសញ្ញាណ",
+                    })}
+                  </p>
+                </div>
+                <div className="about-problem-card">
+                  <span className="about-problem-ic" aria-hidden="true"><img src={moneyScamIcon} alt="" width="32" height="32" /></span>
+                  <p>
+                    {t({
+                      en: "Investment scams and online fraud",
+                      km: "ការវិនិយោគបោកប្រាស់ និងការក្បត់តាមអ៊ីនធឺណិត",
+                    })}
+                  </p>
+                </div>
+                <div className="about-problem-card">
+                  <span className="about-problem-ic" aria-hidden="true"><img src={brokenLinkIcon} alt="" width="32" height="32" /></span>
+                  <p>
+                    {t({
+                      en: "Suspicious links, URLs, and files",
+                      km: "តំណភ្ជាប់ URL និងឯកសារសង្ស័យ",
+                    })}
+                  </p>
+                </div>
+              </div>
+              <p className="about-problem-note">
                 {t({
-                  en: "We're not a company. We're students who believe that every Cambodian deserves a tools that can help them from any risk, instant way to check if something is a scam — before it's too late.",
-                  km: "យើងមិនមែនជាក្រុមហ៊ុនទេ។ យើងជាក្រុមនិសិត្សដែលជឿជាក់ថាគ្រប់គ្នាអាចប្រើប្រាស់ Bot នេះ​ ហើយអាចជួយការពារពួកគេពីហានិភ័យនាៗ ភ្លាមៗដើម្បីពិនិត្យមើលថាតើអ្វីវាជាការបោកប្រាស់ដែរឬទេ — មុនពេលដែលវាយឺតពេល។",
+                  en: "However, many people may not know whether the information they receive is legitimate or suspicious. Without a way to share and recognize these threats, users may unknowingly make unsafe decisions.",
+                  km: "ទោះជាយ៉ាងណា មនុស្សជាច្រើនអាចមិនដឹងថាព័ត៌មានដែលពួកគេទទួលបានគឺពិតប្រាកដឬសង្ស័យ។ គ្មានវិធីដើម្បីចែករំលែក និងស្គាល់ការគំរាមកំហែងទាំងនេះ អ្នកប្រើប្រាស់អាចធ្វើការសម្រេចចិត្តមិនសុវត្ថិភាពដោយមិនដឹងខ្លួន។",
                 })}
               </p>
             </div>
@@ -118,7 +125,285 @@ export function About() {
         </div>
       </section>
 
-      {/* ── Section 3: Contact ── */}
+      {/* ── Our Solution ── */}
+      <section id="solution" className="about-solution" aria-labelledby="solution-title">
+        <div className="container">
+          <Reveal className="about-solution-header">
+            <span className="about-kicker">
+              {t({ en: "OUR SOLUTION", km: "ដំណោះស្រាយរបស់យើង" })}
+            </span>
+            <h2 id="solution-title" className="about-section-title">
+              {t({
+                en: "Meet Angket",
+                km: "ស្គាល់ Angket",
+              })}
+            </h2>
+            <p className="about-section-lead">
+              {t({
+                en: "Angket combines AI-assisted analysis with community awareness to help users better understand potential digital threats. Our platform provides three main solutions:",
+                km: "Angket រួមបញ្ចូលការវិភាគដែលជួយដោយ AI ជាមួយការយល់ដឹងរបស់សហគមន៍ដើម្បីជួយអ្នកប្រើប្រាស់យល់ពីការគំរាមកំហែងឌីជីថលដែលអាចកើតមាន។ វេទិការបស់យើងផ្តល់ដំណោះស្រាយសំខាន់ៗបី៖",
+              })}
+            </p>
+          </Reveal>
+          <Reveal className="about-solution-grid">
+            {/* Telegram Bot */}
+            <div className="about-solution-card">
+              <div className="about-solution-card-icon">
+                <IconBot />
+              </div>
+              <h3>
+                {t({ en: "Telegram Bot", km: "Telegram Bot" })}
+              </h3>
+              <p className="about-solution-card-desc">
+                {t({
+                  en: "Users can send suspicious content directly to the Angket Telegram Bot, including messages, links and URLs, and files.",
+                  km: "អ្នកប្រើប្រាស់អាផ្ញើសារសង្ស័យផ្ទាល់ទៅ Angket Telegram Bot រួមទាំងសារ តំណភ្ជាប់ និងឯកសារ។",
+                })}
+              </p>
+              <ul className="about-solution-card-list">
+                <li>
+                  <IconShield className="about-solution-list-icon" />
+                  {t({ en: "Risk level or risk score", km: "កម្រិតហានិភ័យ ឬពិន្ទុហានិភ័យ" })}
+                </li>
+                <li>
+                  <IconInfo className="about-solution-list-icon" />
+                  {t({ en: "Reasons behind the assessment", km: "ហេតុផលនៃការវាយតម្លៃ" })}
+                </li>
+                <li>
+                  <IconSearch className="about-solution-list-icon" />
+                  {t({ en: "Suspicious patterns detected", km: "លំនាំសង្ស័យដែលរកឃើញ" })}
+                </li>
+                <li>
+                  <IconCheckDouble className="about-solution-list-icon" />
+                  {t({ en: "Recommended next steps", km: "ជំហានបន្ទាប់ដែលអនុសាសន៍" })}
+                </li>
+              </ul>
+            </div>
+
+            {/* Live Scan Mode */}
+            <div className="about-solution-card">
+              <div className="about-solution-card-icon">
+                <IconEye />
+              </div>
+              <h3>
+                {t({ en: "Live Scan Mode", km: "Live Scan Mode" })}
+              </h3>
+              <p className="about-solution-card-desc">
+                {t({
+                  en: "When enabled, Live Scan Mode helps users monitor incoming messages and identify potentially suspicious activity.",
+                  km: "នៅពេលបើក Live Scan Mode ជួយអ្នកប្រើប្រាស់ត្រួតពិនិត្យសារចូល និងកំណត់សកម្មភាពសង្ស័យ។",
+                })}
+              </p>
+              <ul className="about-solution-card-list">
+                <li>
+                  <IconEye className="about-solution-list-icon" />
+                  {t({ en: "Monitor incoming messages automatically", km: "ត្រួតពិនិត្យសារចូលដោយស្វ័យប្រវត្តិ" })}
+                </li>
+                <li>
+                  <IconWarning className="about-solution-list-icon" />
+                  {t({ en: "Receive alerts for suspicious content", km: "ទទួលការជូនដំណឹងសម្រាប់មាតិកាសង្ស័យ" })}
+                </li>
+                <li>
+                  <IconSearch className="about-solution-list-icon" />
+                  {t({ en: "Get instant risk analysis", km: "ទទួលការវិភាគហានិភ័យភ្លាមៗ" })}
+                </li>
+                <li>
+                  <IconLock className="about-solution-list-icon" />
+                  {t({ en: "No manual checking needed", km: "មិនចាំបាច់ពិនិត្យដោយដៃ" })}
+                </li>
+              </ul>
+            </div>
+
+            {/* Community Reporting */}
+            <div className="about-solution-card">
+              <div className="about-solution-card-icon">
+                <IconFlag />
+              </div>
+              <h3>
+                {t({ en: "Community Reporting", km: "របាយការណ៍សហគមន៍" })}
+              </h3>
+              <p className="about-solution-card-desc">
+                {t({
+                  en: "Through the Angket website, users can report scam experiences and suspicious activities to help others.",
+                  km: "តាមរយៈគេហទំព័រ Angket អ្នកប្រើប្រាស់អាចរាយការណ៍ពីបទពិសោធន៍បោកប្រាស់ និងសកម្មភាពសង្ស័យដើម្បីជួយអ្នកដទៃ។",
+                })}
+              </p>
+              <ul className="about-solution-card-list">
+                <li>
+                  <IconInfo className="about-solution-list-icon" />
+                  {t({ en: "Increase awareness of common scams", km: "បង្កើនការយល់ដឹងពីការបោកប្រាស់ជាទូទៅ" })}
+                </li>
+                <li>
+                  <IconSearch className="about-solution-list-icon" />
+                  {t({ en: "Identify threats targeting multiple people", km: "កំណត់ការគំរាមកំហែងដែលកំណត់គោលដៅមនុស្សជាច្រើន" })}
+                </li>
+                <li>
+                  <IconFlag className="about-solution-list-icon" />
+                  {t({ en: "Help others recognize similar activities", km: "ជួយអ្នកដទៃស្គាល់សកម្មភាពដែលដូចគ្នា" })}
+                </li>
+                <li>
+                  <IconBrain className="about-solution-list-icon" />
+                  {t({ en: "Build collective digital awareness", km: "សាងសង់ការយល់ដឹងឌីជីថលរួមគ្នា" })}
+                </li>
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Mission & Vision ── */}
+      <section id="mission" className="about-mission" aria-labelledby="mission-title">
+        <div className="container">
+          <Reveal className="about-mission-grid">
+            <div className="about-mission-card">
+              <span className="about-kicker about-kicker--dark">
+                {t({ en: "OUR MISSION", km: "បេសកកម្មរបស់យើង" })}
+              </span>
+              <h2 id="mission-title" className="about-mission-title">
+                {t({
+                  en: "Making digital safety accessible to everyone",
+                  km: "ធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចចូលដោយគ្រប់គ្នា",
+                })}
+              </h2>
+              <p className="about-mission-body">
+                {t({
+                  en: "Our mission is to make digital safety more accessible by helping people recognize, understand, and respond to potential online threats. We aim to empower users with the knowledge and tools they need to make safer and more informed decisions in the digital world.",
+                  km: "បេសកកម្មរបស់យើងគឺធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចចូលបានកាន់តែច្រើនដោយជួយមនុស្សស្គាល់ យល់ និងឆ្លើយតបចំពោះការគំរាមកំហែងតាមអ៊ីនធឺណិតដែលអាចកើតមាន។ យើងមានបំណងជំរុញអ្នកប្រើប្រាស់ជាមួយនឹងចំណេះដឹង និងឧបករណ៍ដែលពួកគេត្រូវការដើម្បីធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាព និងកាន់តែដឹងនៅក្នុងពិភពឌីជីថល។",
+                })}
+              </p>
+            </div>
+            <div className="about-mission-card">
+              <span className="about-kicker about-kicker--dark">
+                {t({ en: "OUR VISION", km: "ចក្ខុវិស័យរបស់យើង" })}
+              </span>
+              <h2 className="about-mission-title">
+                {t({
+                  en: "A safer digital community for all",
+                  km: "សហគមន៍ឌីជីថលប្រកបដោយសុវត្ថិភាពសម្រាប់ទាំងអស់គ្នា",
+                })}
+              </h2>
+              <p className="about-mission-body">
+                {t({
+                  en: "We envision a safer digital community where people are more aware of online threats, better equipped to evaluate information, and able to protect themselves and others from scams and digital risks.",
+                  km: "យើងស្រមៃមើលសហគមន៍ឌីជីថលប្រកបដោយសុវត្ថិភាពដែលមនុស្សមានការយល់ដឹងកាន់តែច្រើនអំពីការគំរាមកំហែងតាមអ៊ីនធឺណិត ប្រដាប់ក្នុងការវាយតម្លៃព័ត៌មានកាន់តែប្រសើរ និងអាចការពារខ្លួនឯង និងអ្នកដទៃពីការបោកប្រាស់ និងហានិភ័យឌីជីថល។",
+                })}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Our Approach to Digital Literacy ── */}
+      <section id="dmil" className="about-dmil" aria-labelledby="dmil-title">
+        <div className="container">
+          <Reveal className="about-dmil-header">
+            <span className="about-kicker">
+              {t({ en: "OUR APPROACH", km: "វិធីសាស្រ្តរបស់យើង" })}
+            </span>
+            <h2 id="dmil-title" className="about-section-title">
+              {t({
+                en: "Built Around Digital, Media and Information Literacy",
+                km: "បង្កើតជុំវិញសមត្ថភាពឌីជីថល សារព័ត៌មាន និងព័ត៌មាន",
+              })}
+            </h2>
+            <p className="about-section-lead">
+              {t({
+                en: "Angket is developed under the theme of Digital, Media and Information Literacy (DMIL). Our solution incorporates several important DMIL domains:",
+                km: "Angket ត្រូវបានអភិវឌ្ឍន៍ក្រោមប្រធានបទសមត្ថភាពឌីជីថល សារព័ត៌មាន និងព័ត៌មាន (DMIL)។ ដំណោះស្រាយរបស់យើងរួមបញ្ចូល domain DMIL សំខាន់ៗជាច្រើន៖",
+              })}
+            </p>
+          </Reveal>
+          <Reveal className="about-dmil-grid">
+            <div className="about-dmil-card">
+              <div className="about-dmil-card-icon">
+                <IconSearch />
+              </div>
+              <h3>
+                {t({
+                  en: "Information and Data Literacy",
+                  km: "សមត្ថភាពព័ត៌មាន និងទិន្នន័យ",
+                })}
+              </h3>
+              <p>
+                {t({
+                  en: "Helping users evaluate whether digital information, messages, links, and files are credible before taking action.",
+                  km: "ជួយអ្នកប្រើប្រាស់វាយតម្លៃថាតើព័ត៌មានឌីជីថល សារ តំណភ្ជាប់ និងឯកសារគឺគួរឱ្យជឿឬអត់មុននឹងធ្វើសកម្មភាព។",
+                })}
+              </p>
+            </div>
+            <div className="about-dmil-card">
+              <div className="about-dmil-card-icon">
+                <IconEye />
+              </div>
+              <h3>
+                {t({
+                  en: "Media Literacy",
+                  km: "សមត្ថភាពសារព័ត៌មាន",
+                })}
+              </h3>
+              <p>
+                {t({
+                  en: "Encouraging users to think critically about content, sources, intentions, and possible manipulation or deception.",
+                  km: "លើកទឹកចិត្តអ្នកប្រើប្រាស់គិតដោយរិះគិតអំពីមាតិកា ប្រភព បំណង និងការបំភ្លៃ ឬការបោកប្រាស់ដែលអាចមាន។",
+                })}
+              </p>
+            </div>
+            <div className="about-dmil-card">
+              <div className="about-dmil-card-icon">
+                <IconFlag />
+              </div>
+              <h3>
+                {t({
+                  en: "Communication and Collaboration",
+                  km: "ការទំនាក់ទំនង និងការសហការ",
+                })}
+              </h3>
+              <p>
+                {t({
+                  en: "Using community reporting to allow users to share experiences and help raise awareness of potential threats.",
+                  km: "ប្រើប្រាស់របាយការណ៍សហគមន៍ដើម្បីអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ចែករំលែកបទពិសោធន៍ និងជួយបង្កើនការយល់ដឹងអំពីការគំរាមកំហែងដែលអាចកើតមាន។",
+                })}
+              </p>
+            </div>
+            <div className="about-dmil-card">
+              <div className="about-dmil-card-icon">
+                <IconLock />
+              </div>
+              <h3>
+                {t({
+                  en: "Security and Safety",
+                  km: "សុវត្ថិភាព និងការពារ",
+                })}
+              </h3>
+              <p>
+                {t({
+                  en: "Helping users recognize potential scams, phishing attempts, fraud, and unsafe digital content.",
+                  km: "ជួយអ្នកប្រើប្រាស់ស្គាល់ការបោកប្រាស់ដែលអាចកើតមាន ការព្យាយាម钓鱼 ការក្បត់ និងមាតិកាឌីជីថលដែលមិនសុវត្ថិភាព។",
+                })}
+              </p>
+            </div>
+            <div className="about-dmil-card">
+              <div className="about-dmil-card-icon">
+                <IconBrain />
+              </div>
+              <h3>
+                {t({
+                  en: "Problem Solving",
+                  km: "ការដោះស្រាយបញ្ហា",
+                })}
+              </h3>
+              <p>
+                {t({
+                  en: "Using technology to address a real-world problem and support users in responding to digital threats.",
+                  km: "ប្រើប្រាស់បច្ចេកវិទ្យាដើម្បីដោះស្រាយបញ្ហាពិតប្រាកដ និងគាំទ្រអ្នកប្រើប្រាស់ក្នុងការឆ្លើយតបចំពោះការគំរាមកំហែងឌីជីថល។",
+                })}
+              </p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Contact ── */}
       <section id="contact" className="about-contact" aria-labelledby="contact-title">
         <div className="container">
           <Reveal className="about-contact-header">

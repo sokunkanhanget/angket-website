@@ -1,0 +1,10 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Suspicious links, URLs, and files">
+  <g stroke="#7B3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M25.12 16.33l2.29-2.28h-.03a6.67 6.67 0 0 0-.16-9.43 6.67 6.67 0 0 0-9.27 0l-2.29 2.28"/>
+    <path d="M6.89 15.67l-2.28 2.28a6.67 6.67 0 0 0 .16 9.43 6.67 6.67 0 0 0 9.27 0l2.28-2.28"/>
+    <path d="M10.67 2.67v4"/>
+    <path d="M2.67 10.67h4"/>
+    <path d="M21.33 25.33v4"/>
+    <path d="M25.33 21.33h4"/>
+  </g>
+</svg>
