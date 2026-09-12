@@ -1,9 +1,6 @@
 import { useLang } from "@/lib/i18n"
+import { Link } from "react-router-dom"
 import { Reveal } from "./reveal"
-import briefcaseIcon from "@/assets/icons/briefcase.svg"
-import phishingIcon from "@/assets/icons/phishing.svg"
-import moneyScamIcon from "@/assets/icons/money-scam.svg"
-import brokenLinkIcon from "@/assets/icons/broken-link.svg"
 import {
   IconMail,
   IconFacebook,
@@ -18,49 +15,169 @@ import {
   IconInfo,
   IconCheckDouble,
   IconWarning,
+  IconBriefcase,
+  IconLink,
+  IconFile,
+  IconUser,
+  IconUsers,
+  IconZap,
+  IconDollar,
+  IconArrowRight,
+  IconTelegram,
 } from "./icons"
 
 export function About() {
-  const { t } = useLang()
+  const { lang, t } = useLang()
 
   return (
     <>
       {/* ── About Angket ── */}
       <section id="about" className="about-hero" aria-labelledby="about-title">
         <div className="container">
-          <Reveal className="about-hero-inner">
-            <h1 id="about-title" className="about-hero-title">
-              {t({
-                en: "Empowering People to Make Safer Digital Decisions",
-                km: "ជំរុញមនុស្សឱ្យធ្វើការសម្រេចចិត្តឌីជីថលប្រកបដោយសុវត្ថិភាព",
-              })}
-            </h1>
-            <p className="about-hero-lead">
-              {t({
-                en: "Angket is an AI-driven digital safety platform designed to help people identify and understand potential online threats. Through our Telegram Bot and reporting platform, users can check suspicious messages, links, URLs, and files before taking action.",
-                km: "Angket ជាវេទិកាសុវត្ថិភាពឌីជីថលដែលដំណើរការដោយ AI រចនាឡើងដើម្បីជួយមនុស្សកំណត់ និងយល់ពីការគំរាមកំហែងតាមអ៊ីនធឺណិតដែលអាចកើតមាន។ តាមរយៈ Telegram Bot និងវេទិការាយការណ៍របស់យើង អ្នកប្រើប្រាស់អាចពិនិត្យសារសង្ស័យ តំណភ្ជាប់ URL និងឯកសារមុននឹងធ្វើសកម្មភាព។",
-              })}
-            </p>
-            <p className="about-hero-sub">
-              {t({
-                en: "Angket provides a risk assessment, explains suspicious patterns, and offers recommendations to help users make safer decisions online. We believe that digital safety should be accessible to everyone, even without technical knowledge.",
-                km: "Angket ផ្តល់នូវការវាយតម្លៃហានិភ័យ ពន្យល់ពីលំនាំសង្ស័យ និងផ្តល់អនុសាសន៍ដើម្បីជួយអ្នកប្រើប្រាស់ធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពតាមអ៊ីនធឺណិត។ យើងជឿថាសុវត្ថិភាពឌីជីថលគួរតែអាចចូលដោយគ្រប់គ្នា សូម្បីតែគ្មានចំណេះដឹងបច្ចេកវិទ្យា។",
-              })}
-            </p>
+          <Reveal className="about-hero-grid">
+            <div className="about-hero-copy">
+              <span className="about-kicker">
+                <IconShield />
+                {t({ en: "ABOUT ANGKET", km: "អំពី Angket" })}
+              </span>
+              <h1 id="about-title" className="about-hero-title">
+                {lang === "km" ? (
+                  t({
+                    km: "ជំរុញមនុស្សឱ្យធ្វើការសម្រេចចិត្តឌីជីថលប្រកបដោយសុវត្ថិភាព",
+                  })
+                ) : (
+                  <>
+                    Empowering People to Make
+                    <span className="about-hero-line">
+                      <span className="about-hero-accent">Safer</span> Digital Decisions
+                    </span>
+                  </>
+                )}
+              </h1>
+              <p className="about-hero-lead">
+                {t({
+                  en: "Angket is an AI-driven digital safety platform designed to help people identify and understand potential online threats. Through our Telegram Bot and reporting platform, users can check suspicious messages, links, URLs, and files before taking action.",
+                  km: "Angket ជាវេទិកាសុវត្ថិភាពឌីជីថលដែលដំណើរការដោយ AI រចនាឡើងដើម្បីជួយមនុស្សកំណត់ និងយល់ពីការគំរាមកំហែងតាមអ៊ីនធឺណិតដែលអាចកើតមាន។ តាមរយៈ Telegram Bot និងវេទិការាយការណ៍របស់យើង អ្នកប្រើប្រាស់អាចពិនិត្យសារសង្ស័យ តំណភ្ជាប់ URL និងឯកសារមុននឹងធ្វើសកម្មភាព។",
+                })}
+              </p>
+              <p className="about-hero-sub">
+                {t({
+                  en: "Angket provides a risk assessment, explains suspicious patterns, and offers recommendations to help users make safer decisions online. We believe that digital safety should be accessible to everyone, even without technical knowledge.",
+                  km: "Angket ផ្តល់នូវការវាយតម្លៃហានិភ័យ ពន្យល់ពីលំនាំសង្ស័យ និងផ្តល់អនុសាសន៍ដើម្បីជួយអ្នកប្រើប្រាស់ធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពតាមអ៊ីនធឺណិត។ យើងជឿថាសុវត្ថិភាពឌីជីថលគួរតែអាចចូលដោយគ្រប់គ្នា សូម្បីតែគ្មានចំណេះដឹងបច្ចេកវិទ្យា។",
+                })}
+              </p>
+              <ul className="about-hero-mini">
+                <li>
+                  <span className="mini-ic" aria-hidden="true"><IconShield /></span>
+                  <span className="mini-label">{t({ en: "Detect Scams", km: "រកឃើញការបោកប្រាស់" })}</span>
+                </li>
+                <li>
+                  <span className="mini-ic" aria-hidden="true"><IconZap /></span>
+                  <span className="mini-label">{t({ en: "Share Reports", km: "ចែករំលែករបាយការណ៍" })}</span>
+                </li>
+                <li>
+                  <span className="mini-ic" aria-hidden="true"><IconUsers /></span>
+                  <span className="mini-label">{t({ en: "Build a Safer Community", km: "បង្កើតសហគមន៍សុវត្ថិភាព" })}</span>
+                </li>
+              </ul>
+              <div className="about-hero-cta">
+                <Link className="btn btn-primary btn-lg" to="/report">
+                  <span>{t({ en: "Join Our Mission", km: "ចូលរួមបេសកកម្មរបស់យើង" })}</span>
+                  <IconArrowRight />
+                </Link>
+              </div>
+            </div>
+
+            <div className="about-hero-ill" aria-hidden="true">
+              <span className="hero-orb hero-orb--c1" />
+              <span className="hero-orb hero-orb--c2" />
+              <span className="hero-orb hero-orb--c3" />
+              <svg className="hero-ring" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.2" strokeDasharray="4 7">
+                <circle cx="50" cy="50" r="48" />
+              </svg>
+              <span className="hero-shield"><IconShield check /></span>
+              <span className="hero-tg"><IconTelegram /></span>
+
+              <div className="phone-wrap">
+                <div className="phone">
+                  <div className="chat-head">
+                    <span className="avatar"><IconShield check style={{ width: 18, height: 18 }} /></span>
+                    <div>
+                      <strong>Angket Bot</strong>
+                      <small>{t({ en: "online", km: "លើបណ្ដាញ" })}</small>
+                    </div>
+                  </div>
+                  <div className="chat-body">
+                    <div className="bubble user">
+                      <span>{t({ en: "Check if this link is safe:", km: "ពិនិត្យមើលតើតំណនេះមានសុវត្ថិភាពឬអត់៖" })}</span>
+                      <span className="link-echo">https://suspicious-link.com/claim</span>
+                    </div>
+                    <div className="bubble bot">
+                      <p className="warn-line">
+                        <IconWarning />
+                        <span>{t({ en: "This link looks suspicious!", km: "តំណនេះមើលទៅគួរឲ្យសង្ស័យ!" })}</span>
+                      </p>
+                      <p className="warn-desc">
+                        {t({
+                          en: "Potentially a phishing site or known scam. Be careful.",
+                          km: "អាចជាគេហទំព័របន្លំ ឬការបោកប្រាស់ដែលគេស្គាល់។ សូមប្រុងប្រយ័ត្ន។",
+                        })}
+                      </p>
+                      <div className="warn-actions">
+                        <span className="warn-btn warn-btn--primary">{t({ en: "Report", km: "រាយការណ៍" })}</span>
+                        <span className="warn-btn warn-btn--ghost">{t({ en: "Learn More", km: "ស្វែងយល់បន្ថែម" })}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="float-card float-card--red">
+                <span className="float-ic float-ic--red"><IconBriefcase /></span>
+                <div>
+                  <strong>{t({ en: "Fake job offers", km: "ការផ្តល់ការងារក្លែងក្លាយ" })}</strong>
+                  <span className="float-bars"><i /><i /></span>
+                </div>
+              </div>
+              <div className="float-card float-card--blue">
+                <span className="float-ic float-ic--blue"><IconLink /></span>
+                <div>
+                  <strong>{t({ en: "Suspicious links", km: "តំណភ្ជាប់សង្ស័យ" })}</strong>
+                  <span className="float-bars"><i /><i /></span>
+                </div>
+              </div>
+              <div className="float-card float-card--orange">
+                <span className="float-ic float-ic--orange"><IconFile /></span>
+                <div>
+                  <strong>{t({ en: "Malicious files", km: "ឯកសារព្យាបាទ" })}</strong>
+                  <span className="float-bars"><i /><i /></span>
+                </div>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── The Problem We Address ── */}
+      {/* ── Why Angket ── */}
       <section id="problem" className="about-problem" aria-labelledby="problem-title">
         <div className="container">
           <Reveal className="about-problem-grid">
             <div className="about-problem-left">
+              <span className="about-kicker">
+                <IconShield />
+                {t({ en: "WHY ANGKET?", km: "ហេតុអ្វី Angket?" })}
+              </span>
               <h2 id="problem-title" className="about-section-title">
-                {t({
-                  en: "Scams Are Easier to Encounter Than You Think",
-                  km: "ការបោកប្រាស់ងាយស្រួលជួបជាងអ្វីដែលអ្នកគិត",
-                })}
+                {lang === "km" ? (
+                  t({
+                    km: "ការបោកប្រាស់ងាយស្រួលជួបជាងអ្វីដែលអ្នកគិត",
+                  })
+                ) : (
+                  <>
+                    Scams Are <span className="about-hero-accent">Easier</span> to
+                    <span className="about-hero-line">Encounter Than You Think</span>
+                  </>
+                )}
               </h2>
               <p className="about-section-body">
                 {t({
@@ -68,53 +185,101 @@ export function About() {
                   km: "រាល់ថ្ងៃ មនុស្សទទួលបានសារសង្ស័យ តំណភ្ជាប់ URL និងឯកសារតាមអ៊ីនធឺណិត។ ទាំងនេះអាចរួមបញ្ចូលការផ្តល់ការងារក្លែងក្លាយ ការជូនពរឈ្នះរង្វាន់ ការព្យាយាម钓鱼 ការក្លែងបន្លំអត្តសញ្ញាណ ការវិនិយោគបោកប្រាស់ និងទម្រង់ផ្សេងទៀតនៃការក្បត់តាមអ៊ីនធឺណិត។",
                 })}
               </p>
+              <p className="about-flourish">
+                {t({
+                  en: "Stop scams. Spread awareness.",
+                  km: "បញ្ឈប់ការបោកប្រាស់។ ចែករំលែកការយល់ដឹង។",
+                })}
+                <svg className="sol-swoosh" viewBox="0 0 120 14" fill="none" aria-hidden="true">
+                  <path d="M2 10 C 26 3, 56 3, 84 7 S 116 8 118 5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+                </svg>
+              </p>
             </div>
             <div className="about-problem-right">
               <div className="about-problem-cards">
-                <div className="about-problem-card">
-                  <span className="about-problem-ic" aria-hidden="true"><img src={briefcaseIcon} alt="" width="32" height="32" /></span>
-                  <p>
+                <div className="about-problem-card about-problem-card--blue">
+                  <span className="about-problem-ic" aria-hidden="true"><IconBriefcase /></span>
+                  <h3>
                     {t({
                       en: "Fake job offers and prize notifications",
                       km: "ការផ្តល់ការងារក្លែងក្លាយ និងការជូនពរឈ្នះរង្វាន់",
                     })}
-                  </p>
-                </div>
-                <div className="about-problem-card">
-                  <span className="about-problem-ic" aria-hidden="true"><img src={phishingIcon} alt="" width="32" height="32" /></span>
+                  </h3>
                   <p>
                     {t({
-                      en: "Phishing attempts and impersonation",
-                      km: "ការព្យាយាម钓鱼 និងការក្លែងបន្លំអត្តសញ្ញាណ",
+                      en: "Spot unreal job offers, lottery scams, and reward fraud.",
+                      km: "ទទួលស្គាល់ការផ្តល់ការងារមិនពិត ការបោកប្រាស់ឆ្នោត និងការក្លែងបន្លំរង្វាន់។",
                     })}
                   </p>
+                  <IconArrowRight className="about-problem-arrow" />
                 </div>
-                <div className="about-problem-card">
-                  <span className="about-problem-ic" aria-hidden="true"><img src={moneyScamIcon} alt="" width="32" height="32" /></span>
+                <div className="about-problem-card about-problem-card--purple">
+                  <span className="about-problem-ic" aria-hidden="true"><IconUser /></span>
+                  <h3>
+                    {t({
+                      en: "Phishing attempts and impersonation",
+                      km: "ការព្យាយាម phishing និងការក្លែងបន្លំអត្តសញ្ញាណ",
+                    })}
+                  </h3>
                   <p>
+                    {t({
+                      en: "Detect fake accounts, impersonators, and identity theft attempts.",
+                      km: "រកឃើញគណនីក្លែងក្លាយ ការក្លែងបន្លំអត្តសញ្ញាណ និងការលួចអត្តសញ្ញាណ។",
+                    })}
+                  </p>
+                  <IconArrowRight className="about-problem-arrow" />
+                </div>
+                <div className="about-problem-card about-problem-card--green">
+                  <span className="about-problem-ic" aria-hidden="true"><IconDollar /></span>
+                  <h3>
                     {t({
                       en: "Investment scams and online fraud",
                       km: "ការវិនិយោគបោកប្រាស់ និងការក្បត់តាមអ៊ីនធឺណិត",
                     })}
-                  </p>
-                </div>
-                <div className="about-problem-card">
-                  <span className="about-problem-ic" aria-hidden="true"><img src={brokenLinkIcon} alt="" width="32" height="32" /></span>
+                  </h3>
                   <p>
+                    {t({
+                      en: "Avoid fake investment schemes, crypto scams, and get-rich-quick traps.",
+                      km: "ជៀសវាងគម្រោងវិនិយោគក្លែងក្លាយ ការបោកប្រាស់រូបិយប័ណ្ណគ្រីបតូ និងអន្ទាក់ចង់បានលុយរហ័ស។",
+                    })}
+                  </p>
+                  <IconArrowRight className="about-problem-arrow" />
+                </div>
+                <div className="about-problem-card about-problem-card--orange">
+                  <span className="about-problem-ic" aria-hidden="true"><IconLink /></span>
+                  <h3>
                     {t({
                       en: "Suspicious links, URLs, and files",
                       km: "តំណភ្ជាប់ URL និងឯកសារសង្ស័យ",
                     })}
+                  </h3>
+                  <p>
+                    {t({
+                      en: "Check links and files before you click or download.",
+                      km: "ពិនិត្យតំណ និងឯកសារមុនពេលចុច ឬទាញយក។",
+                    })}
                   </p>
+                  <IconArrowRight className="about-problem-arrow" />
                 </div>
               </div>
-              <p className="about-problem-note">
-                {t({
-                  en: "However, many people may not know whether the information they receive is legitimate or suspicious. Without a way to share and recognize these threats, users may unknowingly make unsafe decisions.",
-                  km: "ទោះជាយ៉ាងណា មនុស្សជាច្រើនអាចមិនដឹងថាព័ត៌មានដែលពួកគេទទួលបានគឺពិតប្រាកដឬសង្ស័យ។ គ្មានវិធីដើម្បីចែករំលែក និងស្គាល់ការគំរាមកំហែងទាំងនេះ អ្នកប្រើប្រាស់អាចធ្វើការសម្រេចចិត្តមិនសុវត្ថិភាពដោយមិនដឹងខ្លួន។",
-                })}
-              </p>
             </div>
+          </Reveal>
+          <Reveal className="about-problem-note-wrap">
+            <p className="about-problem-note">
+              <span className="note-ic" aria-hidden="true"><IconShield /></span>
+              <span className="note-text">
+                <strong>
+                  {t({
+                    en: "However, many people may not know whether the information they receive is legitimate or suspicious.",
+                    km: "ទោះជាយ៉ាងណា មនុស្សជាច្រើនអាចមិនដឹងថាព័ត៌មានដែលពួកគេទទួលបានគឺពិតប្រាកដឬសង្ស័យ។",
+                  })}
+                </strong>{" "}
+                {t({
+                  en: "Without a way to share and recognize these threats, users may unknowingly make unsafe decisions.",
+                  km: "បើគ្មានវិធីដើម្បីចែករំលែក និងស្គាល់ការគំរាមកំហែងទាំងនេះ អ្នកប្រើប្រាស់អាចធ្វើការសម្រេចចិត្តមិនសុវត្ថិភាពដោយមិនដឹងខ្លួន។",
+                })}
+              </span>
+            </p>
           </Reveal>
         </div>
       </section>

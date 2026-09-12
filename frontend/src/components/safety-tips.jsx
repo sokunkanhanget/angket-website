@@ -239,14 +239,6 @@ function ProtectAccounts() {
           <Reveal className="d1">
             <h2>{t({ en: "Protect your accounts", km: "ការពារ​គណនី​របស់​អ្នក" })}</h2>
           </Reveal>
-          <Reveal className="d2">
-            <p className="lede">
-              {t({
-                en: "A few settings, kept up to date, do most of the work for you.",
-                km: "ការ​កំណត់​តែ​ពីរបី ដែល​រក្សា​ទាន់សម័យ ធ្វើ​ការងារ​ភាគច្រើន​ជំនួស​អ្នកបាន",
-              })}
-            </p>
-          </Reveal>
 
           <Reveal>
             <div className="tips-do-donts">
@@ -419,73 +411,6 @@ function ScammedSteps() {
   )
 }
 
-function TipsFinalCTA() {
-  const { t } = useLang()
-
-  const options = [
-    {
-      icon: MessageSquareText,
-      title: t({ en: "Check a message", km: "ពិនិត្យ​សារ" }),
-      desc: t({ en: "Paste text or a screenshot", km: "ទម្លាក់​អត្ថបទ ឬ​រូបភាព" }),
-    },
-    {
-      icon: FileText,
-      title: t({ en: "Check a file", km: "ពិនិត្យ​ឯកសារ" }),
-      desc: t({ en: "Documents, images, PDFs", km: "ឯកសារ រូបភាព PDF" }),
-    },
-    {
-      icon: Link2,
-      title: t({ en: "Check a URL", km: "ពិនិត្យ URL" }),
-      desc: t({ en: "Any link before you click", km: "តំណភ្ជាប់​ណា​មួយ​មុន​ពេល​អ្នក​ចុច" }),
-    },
-  ]
-
-  return (
-    <section className="tips-cta-section" id="cta">
-      <div className="tips-cta-panel">
-        <div className="container">
-          <Reveal className="d1">
-            <h2>{t({ en: "Something looks suspicious?", km: "មាន​អ្វី​មួយ​មើលទៅ​សង្ស័យ?" })}</h2>
-          </Reveal>
-          <Reveal className="d2">
-            <p className="lede">
-              {t({
-                en: "Don't guess - check it. Send suspicious content to Angket and get help understanding the risk, in plain terms.",
-                km: "កុំ​ទាយ - ពិនិត្យ​វា។ ផ្ញើ​មាតិកា​សង្ស័យ​ទៅកាន់ Angket ដើម្បី​ទទួល​បាន​ជំនួយ​ក្នុង​ការ​យល់​ពី​ហានិភ័យ​ជា​ភាសា​ធម្មតា។",
-              })}
-            </p>
-          </Reveal>
-
-          <Reveal>
-            <div className="tips-action-grid">
-              {options.map((o, i) => {
-                const Icon = o.icon
-                return (
-                  <div key={i} className="tips-action-card">
-                    <div className="tips-action-head">
-                      <Icon size={20} />
-                      <h3>{o.title}</h3>
-                    </div>
-                    <p>{o.desc}</p>
-                  </div>
-                )
-              })}
-            </div>
-          </Reveal>
-
-          <Reveal>
-            <div className="tips-cta-actions">
-              <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-white btn-lg">
-                <Radar size={16} />
-                {t({ en: "Check with Angket", km: "ពិនិត្យ​ជាមួយ Angket" })}
-              </a>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 export function SafetyTips() {
   return (
@@ -494,7 +419,6 @@ export function SafetyTips() {
       <StopCheckProtect />
       <ProtectAccounts />
       <ScammedSteps />
-      <TipsFinalCTA />
     </>
   )
 }

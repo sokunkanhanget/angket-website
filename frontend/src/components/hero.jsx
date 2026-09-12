@@ -22,9 +22,11 @@ export function Hero() {
                 Not Sure If It is a <span style={{ color: "#dc2626" }}>Scam</span>? Check Before You Trust.
               </>
             ) : (
-              t({
-                km: "មិនច្បាស់ថាវាជាការបោកប្រាស់មែនដែរឬទេ? ពិនិត្យមុនពេលធ្វើការសម្រេចចិត្ត",
-              })
+              <>
+                {t({ km: "មិនច្បាស់ថាវាជា" })}
+                <span style={{ color: "#dc2626" }}>{t({ km: "ការបោកប្រាស់" })}</span>
+                {t({ km: "មែនដែរឬទេ? ពិនិត្យមុនពេលធ្វើការសម្រេចចិត្ត" })}
+              </>
             )}
           </h1>
           <p className="lede rise d2">

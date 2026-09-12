@@ -9,7 +9,7 @@ const THREATS = [
     title: { en: "Suspicious Messages", km: "សារគួរឲ្យសង្ស័យ" },
     desc: {
       en: "Fake messages can look real, but hide harmful links or requests.",
-      km: "សារក្លែងក្លាយអាចមើលទៅដូចជាពិត ប៉ុន្តែលាក់បាំងតំណ ឬការស្នើសុំដែលមានគ្រោះថ្នាក់។",
+      km: "សារក្លែងក្លាយអាចមើលទៅដូចជាពិត ប៉ុន្តែការពិតគឺជាការបោកបញ្ឆោត។",
     },
   },
   {
@@ -29,7 +29,7 @@ const THREATS = [
     title: { en: "Suspicious Files", km: "ឯកសារគួរឲ្យសង្ស័យ" },
     desc: {
       en: "Attachments and downloads can carry hidden threats you can't see.",
-      km: "ឯកសារភ្ជាប់ និងការទាញយកអាចផ្ទុកការគំរាមកំហែងដែលលាក់កំបាំង ដែលអ្នកមើលមិនឃើញ។",
+      km: "ឯកសារភ្ជាប់ និងការទាញយកអាចផ្ទុកការគំរាមកំហែងដែលអ្នកមើលមិនឃើញ។",
     },
   },
   {
@@ -53,14 +53,14 @@ export function Problems() {
         <div className="threats-grid">
           <div className="threats-copy">
             <h2 id="threats-title">
-              {t({ en: "Scams Can Happen to Anyone", km: "ការបោកប្រាស់អាចកើតឡើងចំពោះអ្នកណាក៏បាន" })}
+              {t({ en: "Scams Can Happen to Anyone", km: "ការបោកប្រាស់អាចកើតឡើងចំពោះមនុស្សគ្រប់គ្នា" })}
             </h2>
             <p className="threats-body">
               {t({ en: "Scammers use", km: "អ្នកបោកប្រាស់ប្រើ" })}{" "}
-              <strong>{t({ en: "clever tricks,", km: "ល្បិចឆ្លាត" })}</strong>{" "}
+              <strong>{t({ en: "clever tricks,", km: "ល្បិចឈ្លាសវៃ" })}</strong>{" "}
               {t({
-                en: "and they don't just target one type of person. It can happen to anyone at any time, through any channel.",
-                km: "ហើយពួកគេមិនត្រឹមតែកំណត់គោលដៅមនុស្សប្រភេទណាមួយនោះទេ។ វាអាចកើតឡើងចំពោះអ្នកណាក៏បានគ្រប់ពេលវេលា តាមគ្រប់ប៉ុស្តិ៍។",
+                en: "and they don't just target one type of person. It can happen to anyone at any time.",
+                km: "និងមិនកំណត់គោលដៅត្រឹមមនុស្សប្រភេទនោះទេ។ វាអាចកើតឡើងចំពោះមនុស្សគ្រប់គ្នា គ្រប់ពេលវេលា។",
               })}
             </p>
           </div>

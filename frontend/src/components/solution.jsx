@@ -31,7 +31,7 @@ const FEATURES = [
     title: { en: "Understand", km: "ស្វែងយល់" },
     desc: {
       en: "Explains why something is risky in simple language.",
-      km: "ពន្យល់ពីមូលហេតុដែលអ្វីមួយប្រថុយប្រថាន ក្នុងភាសាងាយស្រួលយល់។",
+      km: "ពន្យល់ពីមូលហេតុនៃសកម្មភាពនៃការបោកប្រាស់ក្នុងភាសាងាយស្រួលយល់។",
     },
   },
   {

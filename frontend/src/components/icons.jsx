@@ -423,3 +423,20 @@ export function IconPhone(props) {
     </svg>
   )
 }
+
+export function IconZap(props) {
+  return (
+    <svg className={props.className ? `icon ${props.className}` : "icon"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  )
+}
+
+export function IconDollar(props) {
+  return (
+    <svg className={props.className ? `icon ${props.className}` : "icon"} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" {...props}>
+      <path d="M12 2v20" />
+      <path d="M17 5.5C17 3.6 15.1 2.8 12 2.8S7 3.6 7 6c0 2.8 5 3.2 5 6s-5 3.2-5 6c0 2.4 2.1 3.2 5 3.2s5-.8 5-2.7" />
+    </svg>
+  )
+}
