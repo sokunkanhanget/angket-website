@@ -7,6 +7,7 @@ import { Hero } from "@/components/hero"
 import { Subscription } from "@/components/subscription"
 import { Problems } from "@/components/problems"
 import { Solution } from "@/components/solution"
+import { MeetAngket } from "@/components/meet-angket"
 import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
 import { ReportsFeed } from "@/components/reports-feed"
@@ -69,6 +70,7 @@ function HomePage() {
       <Hero />
       <Problems />
       <Solution />
+      <MeetAngket />
       <Subscription />
     </>
   )
