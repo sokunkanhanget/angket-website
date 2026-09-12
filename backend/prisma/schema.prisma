@@ -30,8 +30,8 @@ model User {
 }
 
 model ProfileImage {
-  id        String   @id @default(uuid()) @db.Uuid @map("id")
-  userId    String   @db.Uuid @map("user_id")
+  id        String   @id @default(uuid()) @map("id")
+  userId    String   @map("user_id") @db.Uuid
   imageUrl  String   @map("image_url")
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -60,7 +60,8 @@ model Verification {
   status      String    @default("pending")
   submittedAt DateTime  @default(now()) @map("submitted_at")
   reviewedAt  DateTime? @map("reviewed_at")
-  user        User      @relation(fields: [userId], references: [id])
+
+  user User @relation(fields: [userId], references: [id])
 
   @@map("verifications")
 }
@@ -76,6 +77,7 @@ model BotSubscriber {
   subscriptionMembers SubscriptionMember[]
   subscriptionOrders  SubscriptionOrder[]
 
+  @@unique([platform, platformUserId])
   @@map("bot_subscriber")
 }
 
@@ -102,19 +104,19 @@ model ReportForm {
   display_name        String?
   display_avatar_seed String?
 
-  user       User          @relation(fields: [userId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
   categoryRef Category      @relation("ReportCategory", fields: [categoryId], references: [id])
-  images     ReportImage[]
-  savedBy    SavedReport[]
+  images      ReportImage[]
+  savedBy     SavedReport[]
 
   @@map("report_form")
 }
 
 model ReportImage {
-  id           String     @id @default(uuid()) @map("report_image_id")
-  imageUrl     String     @map("image_url")
-  createdAt    DateTime   @default(now()) @map("created_at")
-  reportFormId String     @map("report_form_id")
+  id           String   @id @default(uuid()) @map("report_image_id")
+  imageUrl     String   @map("image_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  reportFormId String   @map("report_form_id")
 
   reportForm ReportForm @relation(fields: [reportFormId], references: [id])
 
@@ -122,15 +124,15 @@ model ReportImage {
 }
 
 model Category {
-  id             String       @id @default(uuid()) @map("category_id")
+  id             String   @id @default(uuid()) @map("category_id")
   name           String
   value          String?
   label_en       String?
   label_km       String?
   description_en String?
   description_km String?
-  sort_order     Int          @default(0)
-  created_at     DateTime     @default(now()) @db.Timestamptz(6)
+  sort_order     Int      @default(0)
+  created_at     DateTime @default(now()) @db.Timestamptz(6)
 
   reportForms ReportForm[] @relation("ReportCategory")
 
@@ -138,10 +140,18 @@ model Category {
 }
 
 model SubscriptionPlan {
-  id           String   @id @default(uuid()) @map("sub_plan_id")
+  id           String  @id @default(uuid()) @map("sub_plan_id")
   name         String
   price        Decimal
-  durationDays Int      @map("duration_days")
+  durationDays Int     @map("duration_days")
+
+  maxMembers        Int @default(1) @map("max_members")
+  dailyFileLimit    Int @map("daily_file_limit")
+  dailyMessageLimit Int @map("daily_message_limit")
+  dailyTokenLimit   Int @map("daily_token_limit")
+
+  liveDetect      Boolean @default(false) @map("live_detect")
+  groupLiveDetect Boolean @default(false) @map("group_live_detect")
 
   userSubscriptions  UserSubscription[]
   subscriptionOrders SubscriptionOrder[]
@@ -161,27 +171,51 @@ model UserSubscription {
   userId        String    @map("user_id")
   subPlanId     String    @map("sub_plan_id")
 
-  user             User               @relation(fields: [userId], references: [id])
-  subscriptionPlan SubscriptionPlan   @relation(fields: [subPlanId], references: [id])
-  previousSub      UserSubscription?  @relation("SubscriptionRenewal", fields: [previousSubId], references: [id])
-  renewals         UserSubscription[] @relation("SubscriptionRenewal")
+  user             User             @relation(fields: [userId], references: [id])
+  subscriptionPlan SubscriptionPlan @relation(fields: [subPlanId], references: [id])
+
+  previousSub UserSubscription?  @relation("SubscriptionRenewal", fields: [previousSubId], references: [id])
+  renewals    UserSubscription[] @relation("SubscriptionRenewal")
 
   subscriptionMembers SubscriptionMember[]
+  usage               SubscriptionUsage[]
 
   @@map("user_subscription")
 }
 
+model SubscriptionUsage {
+  id                 String   @id @default(uuid()) @map("usage_id")
+  userSubscriptionId String   @map("user_subscription_id")
+  date               DateTime @db.Date
+
+  fileCount    Int @default(0) @map("file_count")
+  messageCount Int @default(0) @map("message_count")
+  tokenCount   Int @default(0) @map("token_count")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userSubscription UserSubscription @relation(fields: [userSubscriptionId], references: [id])
+
+  @@unique([userSubscriptionId, date])
+  @@map("subscription_usage")
+}
+
 model SubscriptionOrder {
-  id        String   @id @default(uuid()) @map("order_id")
+  id        String    @id @default(uuid()) @map("order_id")
   token     String
   amount    Decimal
   status    String
-  proofRef  String?  @map("proof_ref")
-  createdAt DateTime @default(now()) @map("created_at")
+  proofRef  String?   @map("proof_ref")
+  createdAt DateTime  @default(now()) @map("created_at")
   paidAt    DateTime? @map("paid_at")
-  botSubId  String   @map("bot_sub_id")
-  subPlanId String   @map("sub_plan_id")
-  userId    String   @map("user_id")
+
+  paymentMethod String? @map("payment_method")
+  transactionId String? @map("transaction_id")
+
+  botSubId  String @map("bot_sub_id")
+  subPlanId String @map("sub_plan_id")
+  userId    String @map("user_id")
 
   botSubscriber    BotSubscriber    @relation(fields: [botSubId], references: [id])
   subscriptionPlan SubscriptionPlan @relation(fields: [subPlanId], references: [id])
