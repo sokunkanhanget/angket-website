@@ -9,6 +9,8 @@ function statusBadge(status) {
     case "approved": return "badge-green"
     case "pending": return "badge-amber"
     case "rejected": return "badge-rose"
+    case "banned": return "badge-rose"
+    case "inactive": return "badge-neutral"
     case "active": return "badge-green"
     default: return "badge-neutral"
   }

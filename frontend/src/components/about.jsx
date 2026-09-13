@@ -164,13 +164,13 @@ export function About() {
               <h2 id="mission-title" className="about-mission-title">
                 {t({
                   en: "Making digital safety accessible to everyone",
-                  km: "ធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចចូលដោយគ្រប់គ្នា",
+                  km: "ធ្វើឱ្យមានសុវត្ថិភាពឌីជីថល​ ដែលអាចឲមនុស្សគ្រប់គ្នាប្រើប្រាស់បាន",
                 })}
               </h2>
               <p className="about-mission-body">
                 {t({
                   en: "Our mission is to make digital safety more accessible by helping people recognize, understand, and respond to potential online threats. We aim to empower users with the knowledge and tools they need to make safer and more informed decisions in the digital world.",
-                  km: "បេសកកម្មរបស់យើងគឺធ្វើឱ្យសុវត្ថិភាពឌីជីថលអាចចូលបានកាន់តែច្រើនដោយជួយមនុស្សស្គាល់ យល់ និងឆ្លើយតបចំពោះការគំរាមកំហែងតាមអ៊ីនធឺណិតដែលអាចកើតមាន។ យើងមានបំណងជំរុញអ្នកប្រើប្រាស់ជាមួយនឹងចំណេះដឹង និងឧបករណ៍ដែលពួកគេត្រូវការដើម្បីធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាព និងកាន់តែដឹងនៅក្នុងពិភពឌីជីថល។",
+                  km: "បេសកកម្មរបស់យើងគឺធ្វើឱ្យមានសុវត្ថិភាពឌីជីថលប្រសើរជាងមុន ដោយការជួយមនុស្សឲស្គាល់ យល់ និងឆ្លើយតបចំពោះការគំរាមកំហែងតាមអ៊ីនធឺណិតបានល្អជាងមុន។ យើងមានបំណងជំរុញឲអ្នកប្រើប្រាស់ ប្រើជាមួយនឹងចំណេះដឹង និងឧបករណ៍ដែលជួយពួកគេធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាព និងការធ្វើសកម្មភាពឲបានល្អប្រសើរជាងមុនក្នុងពិភពឌីជីថល។",
                 })}
               </p>
             </div>
@@ -187,7 +187,7 @@ export function About() {
               <p className="about-mission-body">
                 {t({
                   en: "We envision a safer digital community where people are more aware of online threats, better equipped to evaluate information, and able to protect themselves and others from scams and digital risks.",
-                  km: "យើងស្រមៃមើលសហគមន៍ឌីជីថលប្រកបដោយសុវត្ថិភាពដែលមនុស្សមានការយល់ដឹងកាន់តែច្រើនអំពីការគំរាមកំហែងតាមអ៊ីនធឺណិត ប្រដាប់ក្នុងការវាយតម្លៃព័ត៌មានកាន់តែប្រសើរ និងអាចការពារខ្លួនឯង និងអ្នកដទៃពីការបោកប្រាស់ និងហានិភ័យឌីជីថល។",
+                  km: "យើងស្រមៃមើលសហគមន៍ឌីជីថលប្រកបដោយសុវត្ថិភាពដែលមនុស្សគ្រប់គ្នាមានការយល់ដឹងកាន់តែច្រើនអំពីការគំរាមកំហែងតាមអ៊ីនធឺណិត ឧបករណ៏ក្នុងការវាយតម្លៃព័ត៌មានកាន់តែប្រសើរ និងអាចការពារខ្លួនឯង និងអ្នកដទៃពីការបោកប្រាស់ និងហានិភ័យឌីជីថល។",
                 })}
               </p>
             </div>
@@ -229,7 +229,7 @@ export function About() {
               <p>
                 {t({
                   en: "Helping users evaluate whether digital information, messages, links, and files are credible before taking action.",
-                  km: "ជួយអ្នកប្រើប្រាស់វាយតម្លៃថាតើព័ត៌មានឌីជីថល សារ តំណភ្ជាប់ និងឯកសារគឺគួរឱ្យជឿឬអត់មុននឹងធ្វើសកម្មភាព។",
+                  km: "ជួយឲអ្នកប្រើប្រាស់ងាយស្រួលក្នុងការវាយតម្លៃថាតើព័ត៌មានឌីជីថល សារ តំណភ្ជាប់ និងឯកសារគឺគួរឱ្យជឿឬអត់មុននឹងធ្វើសកម្មភាព។",
                 })}
               </p>
             </div>
@@ -246,7 +246,7 @@ export function About() {
               <p>
                 {t({
                   en: "Encouraging users to think critically about content, sources, intentions, and possible manipulation or deception.",
-                  km: "លើកទឹកចិត្តអ្នកប្រើប្រាស់គិតដោយរិះគិតអំពីមាតិកា ប្រភព បំណង និងការបំភ្លៃ ឬការបោកប្រាស់ដែលអាចមាន។",
+                  km: "លើកទឹកចិត្តអ្នកប្រើប្រាស់ ប្រើដោយរិះគិតអំពីមាតិកា ប្រភព បំណង និងការបំភ្លៃ ឬការបោកប្រាស់ដែលអាចមាន។",
                 })}
               </p>
             </div>
@@ -280,7 +280,7 @@ export function About() {
               <p>
                 {t({
                   en: "Helping users recognize potential scams, phishing attempts, fraud, and unsafe digital content.",
-                  km: "ជួយអ្នកប្រើប្រាស់ស្គាល់ការបោកប្រាស់ដែលអាចកើតមាន ការព្យាយាម钓鱼 ការក្បត់ និងមាតិកាឌីជីថលដែលមិនសុវត្ថិភាព។",
+                  km: "ជួយអ្នកប្រើប្រាស់ស្គាល់ការបោកប្រាស់ដែលអាចកើតមាន ការព្យាយាមវាយប្រហារ  និងមាតិកាឌីជីថលដែលមិនមានសុវត្ថិភាព។",
                 })}
               </p>
             </div>
@@ -297,7 +297,7 @@ export function About() {
               <p>
                 {t({
                   en: "Using technology to address a real-world problem and support users in responding to digital threats.",
-                  km: "ប្រើប្រាស់បច្ចេកវិទ្យាដើម្បីដោះស្រាយបញ្ហាពិតប្រាកដ និងគាំទ្រអ្នកប្រើប្រាស់ក្នុងការឆ្លើយតបចំពោះការគំរាមកំហែងឌីជីថល។",
+                  km: "ប្រើប្រាស់បច្ចេកវិទ្យាដើម្បីដោះស្រាយបញ្ហានៅក្នុងសង្គមជាក់ស្ដែង និងគាំទ្រអ្នកប្រើប្រាស់ក្នុងការឆ្លើយតបចំពោះការគំរាមកំហែងឌីជីថល។",
                 })}
               </p>
             </div>

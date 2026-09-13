@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 import PageShell from "../components/PageShell"
 import { adminApi, categoriesApi } from "@/lib/services"
 
-const STATUSES = ["all", "published", "approved", "pending", "rejected"]
+const STATUSES = ["all", "published", "banned", "inactive"]
 
 export default function ReportsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -107,11 +107,11 @@ export default function ReportsPage() {
                   <td><span className={`badge ${statusBadge(r.status)}`}>{r.status}</span></td>
                   <td>
                     <div className="table-actions">
-                      {r.status !== "approved" && (
-                        <button type="button" className="btn-sm btn-sm-green" onClick={() => changeStatus(r.report_form_id, "approved")}>Approve</button>
+                      {r.status !== "inactive" && (
+                        <button type="button" className="btn-sm btn-sm-neutral" onClick={() => changeStatus(r.report_form_id, "inactive")}>Inactive</button>
                       )}
-                      {r.status !== "rejected" && (
-                        <button type="button" className="btn-sm btn-sm-rose" onClick={() => changeStatus(r.report_form_id, "rejected")}>Reject</button>
+                      {r.status !== "banned" && (
+                        <button type="button" className="btn-sm btn-sm-rose" onClick={() => changeStatus(r.report_form_id, "banned")}>Banned</button>
                       )}
                       {r.status !== "published" && (
                         <button type="button" className="btn-sm btn-sm-neutral" onClick={() => changeStatus(r.report_form_id, "published")}>Publish</button>
@@ -130,9 +130,8 @@ export default function ReportsPage() {
 
 function statusBadge(status) {
   switch (status) {
-    case "approved": return "badge-green"
-    case "pending": return "badge-amber"
-    case "rejected": return "badge-rose"
+    case "banned": return "badge-rose"
+    case "inactive": return "badge-neutral"
     default: return "badge-neutral"
   }
 }

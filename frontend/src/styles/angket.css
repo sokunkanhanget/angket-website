@@ -2948,52 +2948,9 @@ button:active, .btn:active { transform: scale(1.08); }
 .sub-head h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); font-weight: 700; color: var(--navy-900); letter-spacing: -0.03em; line-height: 1.15; }
 .sub-head p { color: var(--muted); font-size: 1.02rem; margin-top: 0.6rem; }
 
-.sub-audience {
-  display: flex; justify-content: center; gap: 4px;
-  width: max-content; max-width: 100%; margin-inline: auto;
-  padding: 5px; background: #fff; border: 1px solid var(--border);
-  border-radius: 999px; box-shadow: var(--shadow-sm);
-}
-.sub-seg {
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  padding: 0.5rem 1.15rem; border: none; border-radius: 999px; cursor: pointer;
-  background: transparent; color: var(--ink);
-  font-family: inherit; font-size: 0.92rem; font-weight: 600;
-  transition: background 0.18s ease, color 0.18s ease;
-}
-html.km .sub-seg { padding-top: 0.44rem; padding-bottom: 0.44rem; }
-.sub-seg .icon { width: 16px; height: 16px; }
-.sub-seg:hover { color: var(--blue-700); }
-.sub-seg.active { background: var(--blue-600); color: #fff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35); }
-.sub-seg.active .icon { color: #fff; }
-
-.sub-billing {
-  display: flex; align-items: center; justify-content: center; gap: 0.65rem;
-  flex-wrap: wrap; margin-top: 1.25rem;
-}
-.sub-bill-label { font-size: 0.9rem; font-weight: 600; color: var(--faint); }
-.sub-bill-label.on { color: var(--blue-700); }
-.sub-switch {
-  position: relative; width: 44px; height: 26px; flex: none;
-  border: 1px solid var(--border); background: #fff; border-radius: 999px;
-  cursor: pointer; transition: background 0.2s ease, border-color 0.2s ease;
-}
-.sub-switch[aria-checked="true"] { background: var(--blue-600); border-color: var(--blue-600); }
-.sub-knob {
-  position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
-  background: #fff; border-radius: 50%; box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease;
-}
-.sub-switch[aria-checked="true"] .sub-knob { transform: translateX(18px); }
-.sub-save {
-  font-size: 0.75rem; font-weight: 700; white-space: nowrap;
-  color: var(--blue-700); background: var(--blue-50);
-  border: 1px solid var(--blue-100); border-radius: 999px; padding: 0.22rem 0.7rem;
-}
-
 .sub-grid {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 380px)); gap: 1.4rem;
-  justify-content: center; align-items: stretch; margin-top: 2rem;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem;
+  align-items: stretch; max-width: 1120px; margin-inline: auto; margin-top: 2rem;
 }
 .sub-card {
   position: relative; display: flex; flex-direction: column;
@@ -3021,6 +2978,7 @@ html.km .sub-seg { padding-top: 0.44rem; padding-bottom: 0.44rem; }
 .sub-card-ic .icon { width: 22px; height: 22px; }
 .sub-card-ic--gray { background: #edf0f6; color: var(--faint); }
 .sub-card-ic--blue { background: var(--blue-600); color: #fff; box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3); }
+.sub-card-ic--green { background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
 .sub-card-name { font-size: 1.18rem; font-weight: 700; color: var(--ink); }
 .sub-card-sub { font-size: 0.88rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.45; }
 
@@ -3028,13 +2986,6 @@ html.km .sub-seg { padding-top: 0.44rem; padding-bottom: 0.44rem; }
 .sub-price strong { font-family: var(--font-display); font-size: 2.3rem; font-weight: 700; color: var(--ink); line-height: 1; }
 html.km .sub-price strong { font-family: var(--font-km); }
 .sub-per { font-size: 0.92rem; font-weight: 600; color: var(--faint); }
-
-.sub-annual-note {
-  font-size: 0.8rem; font-weight: 600; line-height: 1.45;
-  color: var(--blue-700); background: var(--blue-50);
-  border: 1px solid var(--blue-100); border-radius: 10px;
-  padding: 0.55rem 0.75rem; margin: 0.6rem 0 0.25rem;
-}
 
 .sub-divider { border: 0; border-top: 1px solid var(--border); margin: 0.95rem 0; }
 
@@ -3050,54 +3001,8 @@ html.km .sub-price strong { font-family: var(--font-km); }
 .sub-btn { width: 100%; justify-content: center; margin-top: auto; border-radius: 999px; }
 html.km .sub-btn { padding-top: 0.62rem; padding-bottom: 0.62rem; }
 
-.sub-family {
-  display: grid; grid-template-columns: 380px 1fr; gap: 2.2rem; align-items: center;
-  margin-top: 2.4rem; padding: 2.2rem 2.4rem;
-  background: linear-gradient(135deg, #f4f8ff, #eaf2fc);
-  border: 1px solid var(--blue-100); border-radius: var(--radius-lg);
-}
-.sub-art { display: grid; place-items: center; }
-.sub-art svg { width: 100%; max-width: 340px; height: auto; }
-
-.sub-family-copy { min-width: 0; }
-.sub-family-badge {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.78rem; font-weight: 700; color: var(--blue-700);
-  background: var(--blue-50); border: 1px solid var(--blue-100);
-  border-radius: 999px; padding: 0.3rem 0.85rem; margin-bottom: 0.7rem;
-}
-.sub-family-badge .icon { width: 15px; height: 15px; }
-.sub-family-copy h2 { font-size: 1.7rem; font-weight: 700; color: var(--navy-900); }
-.sub-family-sub { color: var(--muted); font-size: 1rem; margin: 0.35rem 0 0.6rem; }
-.sub-family-desc { color: var(--text); font-size: 0.94rem; max-width: 58ch; }
-
-.sub-family-features {
-  list-style: none; display: grid; grid-template-columns: 1fr 1fr;
-  gap: 0.5rem 1.5rem; padding: 0; margin: 1.15rem 0 1.35rem;
-}
-.sub-family-features .sub-feature { font-size: 0.9rem; }
-
-.sub-family-foot { display: grid; gap: 0.9rem; justify-items: start; }
-.sub-family-price { font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--ink); line-height: 1; }
-html.km .sub-family-price { font-family: var(--font-km); }
-.sub-family-price small { font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; color: var(--faint); margin-left: 0.1rem; }
-.sub-family-btn { border-radius: 999px; padding: 0.8rem 1.7rem; }
-
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .sub-grid { grid-template-columns: minmax(0, 420px); }
-}
-@media (max-width: 800px) {
-  .sub-family { grid-template-columns: 1fr; gap: 1.6rem; padding: 1.8rem 1.5rem; }
-  .sub-art svg { max-width: 260px; }
-  .sub-family-copy { text-align: center; }
-  .sub-family-desc { margin-inline: auto; }
-  .sub-family-features { text-align: left; }
-  .sub-family-foot { justify-items: center; }
-}
-@media (max-width: 480px) {
-  .sub-art { display: none; }
-  .sub-family-features { grid-template-columns: 1fr; }
-  .sub-billing { gap: 0.5rem; }
 }
 
 /* Scam Report page */
