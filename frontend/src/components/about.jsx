@@ -31,10 +31,6 @@ export function About() {
         <div className="container">
           <Reveal className="about-hero-grid">
             <div className="about-hero-copy">
-              <span className="about-kicker">
-                <IconShield />
-                {t({ en: "ABOUT ANGKET", km: "អំពី Angket" })}
-              </span>
               <h1 id="about-title" className="about-hero-title">
                 {lang === "km" ? (
                   t({
@@ -61,20 +57,7 @@ export function About() {
                   km: "Angket ផ្តល់នូវការវាយតម្លៃហានិភ័យ ពន្យល់ពីលំនាំសង្ស័យ និងផ្តល់អនុសាសន៍ដើម្បីជួយអ្នកប្រើប្រាស់ធ្វើការសម្រេចចិត្តប្រកបដោយសុវត្ថិភាពតាមអ៊ីនធឺណិត។ យើងជឿថាសុវត្ថិភាពឌីជីថលគួរតែអាចចូលដោយគ្រប់គ្នា សូម្បីតែគ្មានចំណេះដឹងបច្ចេកវិទ្យា។",
                 })}
               </p>
-              <ul className="about-hero-mini">
-                <li>
-                  <span className="mini-ic" aria-hidden="true"><IconShield /></span>
-                  <span className="mini-label">{t({ en: "Detect Scams", km: "រកឃើញការបោកប្រាស់" })}</span>
-                </li>
-                <li>
-                  <span className="mini-ic" aria-hidden="true"><IconZap /></span>
-                  <span className="mini-label">{t({ en: "Share Reports", km: "ចែករំលែករបាយការណ៍" })}</span>
-                </li>
-                <li>
-                  <span className="mini-ic" aria-hidden="true"><IconUsers /></span>
-                  <span className="mini-label">{t({ en: "Build a Safer Community", km: "បង្កើតសហគមន៍សុវត្ថិភាព" })}</span>
-                </li>
-              </ul>
+
               <div className="about-hero-cta">
                 <Link className="btn btn-primary btn-lg" to="/report">
                   <span>{t({ en: "Join Our Mission", km: "ចូលរួមបេសកកម្មរបស់យើង" })}</span>
@@ -308,49 +291,53 @@ export function About() {
       {/* ── Contact ── */}
       <section id="contact" className="about-contact" aria-labelledby="contact-title">
         <div className="container">
-          <Reveal className="about-contact-header">
+          <Reveal className="about-contact-head">
             <span className="about-contact-kicker">
               {t({ en: "GET IN TOUCH", km: "អាចទំនាក់ទំនងមកយើងតាមរយៈ" })}
             </span>
+            <h2 className="about-contact-title" id="contact-title">
+              {t({
+                en: "We'd love to hear from you",
+                km: "យើងរីករាយក្នុងការស្តាប់ពីអ្នក",
+              })}
+            </h2>
+            <p className="about-contact-lead">
+              {t({
+                en: "Have questions about scams, need help with a report, or want to partner with us? Reach out, our team is here to help.",
+                km: "មានសំណួរអំពីការបោកប្រាស់ ត្រូវការជំនួយក្នុងការរាយការណ៍ ឬចង់សហការជាមួយយើង? សូមទំនាក់ទំនងមកយើង ក្រុមការងាររបស់យើងនៅទីនេះដើម្បីជួយអ្នក។",
+              })}
+            </p>
           </Reveal>
-          <Reveal className="about-contact-card">
-            <a className="about-contact-row" href="mailto:angket.bot12@gmail.com">
-              <span className="about-contact-ic" aria-hidden="true">
+
+          <Reveal className="about-contact-inline">
+            <a
+              className="contact-chip contact-chip--email"
+              href="mailto:angket.bot12@gmail.com"
+            >
+              <span className="contact-chip-ic" aria-hidden="true">
                 <IconMail />
               </span>
-              <div className="about-contact-text">
-                <span className="about-contact-label">
-                  {t({ en: "Email", km: "អ៊ីមែល" })}
-                </span>
-                <span className="about-contact-value">angket.bot12@gmail.com</span>
-              </div>
+              <span className="contact-chip-num">angket.bot12@gmail.com</span>
             </a>
             <a
-              className="about-contact-row"
+              className="contact-chip contact-chip--fb"
               href="https://www.facebook.com/profile.php?id=61594053519400"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span className="about-contact-ic" aria-hidden="true">
+              <span className="contact-chip-ic" aria-hidden="true">
                 <IconFacebook />
               </span>
-              <div className="about-contact-text">
-                <span className="about-contact-label">
-                  {t({ en: "Facebook", km: "ហ្វេសប៊ុក" })}
-                </span>
-                <span className="about-contact-value">Angket - អង្កេត</span>
-              </div>
+              <span className="contact-chip-num">Angket - អង្កេត</span>
             </a>
-            <a className="about-contact-row about-contact-row-last" href="tel:+855926424621">
-              <span className="about-contact-ic" aria-hidden="true">
+            <a
+              className="contact-chip contact-chip--phone"
+              href="tel:+855926424621"
+            >
+              <span className="contact-chip-ic" aria-hidden="true">
                 <IconPhone />
               </span>
-              <div className="about-contact-text">
-                <span className="about-contact-label">
-                  {t({ en: "Phone", km: "ទូរស័ព្ទ" })}
-                </span>
-                <span className="about-contact-value">092 642 4621</span>
-              </div>
+              <span className="contact-chip-num">092 642 4621</span>
             </a>
           </Reveal>
         </div>
