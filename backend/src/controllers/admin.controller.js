@@ -177,7 +177,7 @@ export async function updateReportStatus(req, res, next) {
     const { id } = req.params
     const { status } = req.body
 
-    if (!["pending", "published", "approved", "rejected"].includes(status)) {
+    if (!["pending", "published", "approved", "rejected", "banned", "inactive"].includes(status)) {
       return res.status(400).json({ error: "Invalid status" })
     }
 
