@@ -4,17 +4,8 @@ import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { NAV_LINKS } from "@/lib/data"
 import { rememberAuthOrigin } from "@/lib/authBack"
-import { IconMenu } from "./icons"
+import { IconMenu, IconUser } from "./icons"
 import logoImg from "@/assets/logo.png"
-
-function userInitials(name) {
-  return (name || "")
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w.charAt(0).toUpperCase())
-    .join("")
-}
 
 function FlagGB() {
   return (
@@ -151,7 +142,7 @@ export function SiteHeader() {
                   {admin.avatarUrl ? (
                     <img className="nav-user-img" src={admin.avatarUrl} alt="" />
                   ) : (
-                    userInitials(admin.name)
+                    <IconUser />
                   )}
                 </span>
                 <span className="nav-user-name">{admin.name}</span>
@@ -202,7 +193,7 @@ export function SiteHeader() {
                 {admin.avatarUrl ? (
                   <img className="nav-user-img" src={admin.avatarUrl} alt="" />
                 ) : (
-                  userInitials(admin.name)
+                  <IconUser />
                 )}
               </span>
               <span className="nav-user-name">{admin.name}</span>

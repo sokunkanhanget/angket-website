@@ -44,12 +44,12 @@ export function SiteFooter() {
               >
                 <IconSend />
               </a>
-              <a className="soc-btn" href="#" aria-label="Facebook (placeholder link)">
+              <a className="soc-btn" href="https://www.facebook.com/profile.php?id=61594053519400" aria-label="Facebook (placeholder link)">
                 <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                 </svg>
               </a>
-              <a className="soc-btn" href="mailto:hello@angket.example" aria-label="Email (placeholder address)">
+              <a className="soc-btn" href="mailto:angket.bot12@gmail.com" aria-label="Email (placeholder address)">
                 <svg className="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
@@ -98,8 +98,8 @@ export function SiteFooter() {
           </span>
           <span>
             {t({
-              en: "Angket gives estimated risk assessments - always verify important information through trusted, official sources.",
-              km: "Angket ផ្ដល់តែការប៉ាន់ស្មានហានិភ័យប៉ុណ្ណោះ - សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
+              en: "Angket helps you analyse the risk that can be happend any times​ - always verify important information through trusted, official sources.",
+              km: "Angket ជួយអ្នកឲយល់ដឹងពីហារិភ័យដែលអាចកើតមានឡើងតាមរយៈការវិភាគ - សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
             })}
           </span>
         </div>

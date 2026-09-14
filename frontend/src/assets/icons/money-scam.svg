@@ -1,0 +1,7 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Investment scams and online fraud">
+  <g stroke="#7B3F3F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <circle cx="16" cy="16" r="12"/>
+    <path d="M21.33 10.67h-8a2.67 2.67 0 1 0 0 5.33h5.33a2.67 2.67 0 1 1 0 5.33H10.67"/>
+    <path d="M16 24V8"/>
+  </g>
+</svg>

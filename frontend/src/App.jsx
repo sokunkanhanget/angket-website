@@ -4,9 +4,10 @@ import { SiteHeader } from "@/components/site-header"
 import { Login } from "@/pages/Login"
 import { SignUp } from "@/pages/SignUp"
 import { Hero } from "@/components/hero"
-import { Pricing } from "@/components/pricing"
+import { Subscription } from "@/components/subscription"
 import { Problems } from "@/components/problems"
 import { Solution } from "@/components/solution"
+import { MeetAngket } from "@/components/meet-angket"
 import { About } from "@/components/about"
 import { HowItWorks } from "@/components/how-it-work"
 import { ReportsFeed } from "@/components/reports-feed"
@@ -69,7 +70,8 @@ function HomePage() {
       <Hero />
       <Problems />
       <Solution />
-      <Pricing />
+      <MeetAngket />
+      <Subscription />
     </>
   )
 }
