@@ -77,7 +77,22 @@ export async function login(req, res, next) {
     const { data, error } = await supabase.auth.signInWithPassword({ email: loginEmail, password })
 
     if (error) {
-      return res.status(401).json({ error: error.message || "Invalid credentials" })
+      let message = error.message || "Invalid credentials"
+      if (/invalid login credentials/i.test(message)) {
+        if (phone || (email && !email.includes("@"))) {
+          message = "Incorrect password."
+        } else {
+          const { data: account } = await supabase
+            .from("users")
+            .select("email")
+            .eq("email", loginEmail)
+            .maybeSingle()
+          message = account
+            ? "Incorrect password."
+            : "No account found with this email address"
+        }
+      }
+      return res.status(401).json({ error: message })
     }
 
     let { data: profile } = await supabase
