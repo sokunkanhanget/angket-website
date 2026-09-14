@@ -5,11 +5,14 @@ import {
   IconBot,
   IconEye,
   IconFlag,
-  IconInfo,
+  IconFile,
   IconSearch,
-  IconLock,
   IconCheckDouble,
-  IconWarning,
+  IconBell,
+  IconZap,
+  IconUsers,
+  IconGlobe,
+  IconArrowRight,
   IconBrain,
 } from "./icons"
 
@@ -39,12 +42,14 @@ export function MeetAngket() {
         <Reveal className="about-solution-grid">
           {/* Telegram Bot */}
           <div className="about-solution-card">
-            <div className="about-solution-card-icon">
-              <IconBot />
+            <div className="about-solution-card-head">
+              <div className="about-solution-card-icon">
+                <IconBot />
+              </div>
+              <h3>
+                {t({ en: "Telegram Bot", km: "Telegram Bot" })}
+              </h3>
             </div>
-            <h3>
-              {t({ en: "Telegram Bot", km: "Telegram Bot" })}
-            </h3>
             <p className="about-solution-card-desc">
               {t({
                 en: "Users can send suspicious content directly to the Angket Telegram Bot, including messages, links and URLs, and files.",
@@ -57,7 +62,7 @@ export function MeetAngket() {
                 {t({ en: "Risk level or risk score", km: "កម្រិតហានិភ័យ ឬពិន្ទុហានិភ័យ" })}
               </li>
               <li>
-                <IconInfo className="about-solution-list-icon" />
+                <IconFile className="about-solution-list-icon" />
                 {t({ en: "Reasons behind the assessment", km: "ហេតុផលនៃការវាយតម្លៃ" })}
               </li>
               <li>
@@ -65,7 +70,7 @@ export function MeetAngket() {
                 {t({ en: "Suspicious patterns detected", km: "លំនាំសង្ស័យដែលរកឃើញ" })}
               </li>
               <li>
-                <IconCheckDouble className="about-solution-list-icon" />
+                <IconArrowRight className="about-solution-list-icon" />
                 {t({ en: "Recommended next steps", km: "ជំហានបន្ទាប់ដែលអនុសាសន៍" })}
               </li>
             </ul>
@@ -73,12 +78,14 @@ export function MeetAngket() {
 
           {/* Live Scan Mode */}
           <div className="about-solution-card">
-            <div className="about-solution-card-icon">
-              <IconEye />
+            <div className="about-solution-card-head">
+              <div className="about-solution-card-icon">
+                <IconEye />
+              </div>
+              <h3>
+                {t({ en: "Live Scan Mode", km: "Live Scan Mode" })}
+              </h3>
             </div>
-            <h3>
-              {t({ en: "Live Scan Mode", km: "Live Scan Mode" })}
-            </h3>
             <p className="about-solution-card-desc">
               {t({
                 en: "When enabled, Live Scan Mode helps users monitor incoming messages and identify potentially suspicious activity.",
@@ -91,15 +98,15 @@ export function MeetAngket() {
                 {t({ en: "Monitor incoming messages automatically", km: "ត្រួតពិនិត្យសារចូលដោយស្វ័យប្រវត្តិ" })}
               </li>
               <li>
-                <IconWarning className="about-solution-list-icon" />
+                <IconBell className="about-solution-list-icon" />
                 {t({ en: "Receive alerts for suspicious content", km: "ទទួលការជូនដំណឹងសម្រាប់មាតិកាសង្ស័យ" })}
               </li>
               <li>
-                <IconSearch className="about-solution-list-icon" />
+                <IconZap className="about-solution-list-icon" />
                 {t({ en: "Get instant risk analysis", km: "ទទួលការវិភាគហានិភ័យភ្លាមៗ" })}
               </li>
               <li>
-                <IconLock className="about-solution-list-icon" />
+                <IconCheckDouble className="about-solution-list-icon" />
                 {t({ en: "No manual checking needed", km: "មិនចាំបាច់ពិនិត្យដោយដៃ" })}
               </li>
             </ul>
@@ -107,12 +114,14 @@ export function MeetAngket() {
 
           {/* Community Reporting */}
           <div className="about-solution-card">
-            <div className="about-solution-card-icon">
-              <IconFlag />
+            <div className="about-solution-card-head">
+              <div className="about-solution-card-icon">
+                <IconFlag />
+              </div>
+              <h3>
+                {t({ en: "Community Reporting", km: "របាយការណ៍សហគមន៍" })}
+              </h3>
             </div>
-            <h3>
-              {t({ en: "Community Reporting", km: "របាយការណ៍សហគមន៍" })}
-            </h3>
             <p className="about-solution-card-desc">
               {t({
                 en: "Through the Angket website, users can report scam experiences and suspicious activities to help others.",
@@ -121,15 +130,15 @@ export function MeetAngket() {
             </p>
             <ul className="about-solution-card-list">
               <li>
-                <IconInfo className="about-solution-list-icon" />
+                <IconEye className="about-solution-list-icon" />
                 {t({ en: "Increase awareness of common scams", km: "បង្កើនការយល់ដឹងពីការបោកប្រាស់ជាទូទៅ" })}
               </li>
               <li>
-                <IconSearch className="about-solution-list-icon" />
+                <IconUsers className="about-solution-list-icon" />
                 {t({ en: "Identify threats targeting multiple people", km: "កំណត់ការគំរាមកំហែងដែលកំណត់គោលដៅមនុស្សជាច្រើន" })}
               </li>
               <li>
-                <IconFlag className="about-solution-list-icon" />
+                <IconGlobe className="about-solution-list-icon" />
                 {t({ en: "Help others recognize similar activities", km: "ជួយអ្នកដទៃស្គាល់សកម្មភាពដែលដូចគ្នា" })}
               </li>
               <li>

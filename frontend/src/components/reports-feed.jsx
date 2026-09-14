@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useCallback } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import ScamReportHero from "@/assets/Scam-Report-hero.png"
 import { useLang } from "@/lib/i18n"
 import { useAuth } from "@/lib/auth"
 import { rememberAuthOrigin } from "@/lib/authBack"
@@ -197,7 +198,7 @@ function placeholderHeader(cat, lang) {
 function ReportsHero() {
   const { t } = useLang()
   return (
-    <section className="rp-hero" id="reports" aria-labelledby="reports-title">
+    <section className="rp-hero" id="reports" aria-labelledby="reports-title" style={{ backgroundImage: `url(${ScamReportHero})` }}>
       <div className="container rp-hero-grid">
         <div className="rp-hero-copy">
           <h1 id="reports-title" className="rp-hero-title">

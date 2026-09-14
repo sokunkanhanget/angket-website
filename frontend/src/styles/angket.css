@@ -692,11 +692,11 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .about-solution-card:hover {
   box-shadow: var(--shadow-md); transform: translateY(-4px);
 }
+.about-solution-card-head { display: flex; align-items: center; gap: 0.95rem; margin-bottom: 1.2rem; }
 .about-solution-card-icon {
-  width: 54px; height: 54px; border-radius: 15px;
+  width: 54px; height: 54px; border-radius: 15px; flex: none;
   background: var(--blue-50); border: 1px solid var(--blue-100);
   display: grid; place-items: center;
-  margin-bottom: 1.2rem;
   color: var(--blue-600);
 }
 .about-solution-card-icon .icon { width: 26px; height: 26px; }
@@ -704,7 +704,7 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .about-solution-card:nth-child(3) .about-solution-card-icon { background: #eafaf2; border-color: #c9eeda; color: #14713d; }
 .about-solution-card h3 {
   font-size: 1.2rem; font-weight: 700; color: var(--ink);
-  margin: 0 0 0.6rem;
+  margin: 0;
 }
 .about-solution-card-desc {
   color: var(--muted); font-size: 0.94rem; line-height: 1.7;
@@ -718,7 +718,9 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
   display: flex; align-items: flex-start; gap: 0.6rem;
   color: var(--text); font-size: 0.9rem; line-height: 1.5;
 }
-.about-solution-list-icon { width: 19px; height: 19px; color: var(--blue-600); flex-shrink: 0; margin-top: 2px; }
+.about-solution-list-icon { width: 19px; height: 19px; color: var(--blue-600); flex-shrink: 0; margin-top: 2px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.about-solution-card:nth-child(2) .about-solution-list-icon { color: #c2701b; }
+.about-solution-card:nth-child(3) .about-solution-list-icon { color: #14713d; }
 
 /* --- Mission & Vision --- */
 .about-mission {
@@ -1819,6 +1821,7 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 @media (max-width: 600px) {
   section { padding: 3.4rem 0; }
   .hero { padding: 3.2rem 0 3.8rem; }
+  .rp-hero { padding: 3.2rem 0 3.8rem; }
   .hero-ctas .btn, .hero-ctas .link-arrow { flex: 1 1 100%; justify-content: center; }
   .link-arrow { padding: 0.6rem 0.35rem; }
   .form-card { padding: 1.4rem; }
@@ -1851,7 +1854,7 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 .tips-hero-img { width: 100%; max-width: 640px; margin: 0 auto; }
 
 @media (min-width: 1025px) {
-  .hero, .tips-hero { min-height: 680px; }
+  .hero, .tips-hero, .rp-hero { min-height: 680px; }
 }
 
 .tips-stop { background: #fff; border-block: 1px solid var(--border); }
@@ -3021,14 +3024,14 @@ html.km .sub-btn { padding-top: 0.62rem; padding-bottom: 0.62rem; }
 }
 
 /* Scam Report page */
-.rp-hero { background: #eff4ff; border-bottom: 1px solid var(--border); }
+.rp-hero { position: relative; overflow: hidden; background-color: var(--blue-50); border-bottom: 1px solid var(--border); background-size: cover; background-position: center; padding: 4.75rem 0 5.25rem; display: flex; flex-direction: column; justify-content: center; }
 .rp-hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 3rem; align-items: center; }
 .rp-hero-copy { display: grid; gap: 1.15rem; justify-items: start; }
 .pill .icon { width: 15px; height: 15px; }
-.rp-hero-title { font-size: clamp(2.3rem, 4.6vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; font-weight: 800; color: var(--navy-900); margin: 0; }
+.rp-hero-title { font-size: clamp(2.3rem, 4.6vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; font-weight: 800; color: #fff; margin: 0; }
 .rp-hero-title-line { display: block; }
 .rp-hero-title-accent { color: var(--blue-600); }
-.rp-hero-body { color: var(--muted); font-size: 1.06rem; line-height: 1.7; max-width: none; margin: 0; }
+.rp-hero-body { color: #fff; font-size: 1.06rem; line-height: 1.7; max-width: none; margin: 0; }
 .rp-avatars { display: flex; align-items: center; gap: 0.95rem; flex-wrap: wrap; }
 .rp-avatar-stack { display: flex; }
 .rp-ava { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 0.8rem; border: 2.5px solid #fff; box-shadow: var(--shadow-sm); }
