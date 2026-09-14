@@ -528,8 +528,8 @@ export function ReportsFeed() {
             <IconInfo />
             <span>
               {t({
-                en: "Reports are personal experiences shared anonymously - useful for awareness, but not verified facts.",
-                km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹង ប៉ុន្តែមិនមែនជាការផ្ទៀងផ្ទាត់ជាការពិតទេ។",
+                en: "Reports are personal experiences shared anonymously - useful for awareness of any scam pattern.",
+                km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹងអំពីប្រភេទនៃការបោកប្រាស់នានា។",
               })}
             </span>
           </p>

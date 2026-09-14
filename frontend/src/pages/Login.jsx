@@ -8,6 +8,21 @@ import { AuthTabs } from "@/components/auth/AuthTabs"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
 
+const LOGIN_ERRORS = {
+  "No account found for this phone number": {
+    en: "No account found for this phone number",
+    km: "រកមិនឃើញគណនីសម្រាប់លេខទូរស័ព្ទនេះទេ",
+  },
+  "Incorrect password.": {
+    en: "Incorrect password.",
+    km: "ពាក្យសម្ងាត់មិនត្រឹមត្រូវ",
+  },
+  "No account found with this email address": {
+    en: "No account found with this email address",
+    km: "រកមិនឃើញគណនីសម្រាប់អាសយដ្ឋានអ៊ីមែលនេះទេ",
+  },
+}
+
 export function Login() {
   const { t } = useLang()
   const { login } = useAuth()
@@ -69,12 +84,20 @@ export function Login() {
       if (user?.role !== "admin" && dest.startsWith("/admin")) {
         dest = fallback
       }
-      if (user?.role === "admin" && !dest.startsWith("/admin") && !location.state?.from) {
+      if (user?.role === "admin" && !dest.startsWith("/admin")) {
         dest = "/admin/dashboard"
       }
       navigate(dest, { replace: true })
     } catch (err) {
-      setErrors({ password: err.message })
+      const raw = err.message || "Login failed"
+      const translated = LOGIN_ERRORS[raw]
+        ? t(LOGIN_ERRORS[raw])
+        : t({ en: raw, km: raw })
+      if (activeTab === "email") {
+        setErrors(/email/i.test(raw) ? { email: translated } : { password: translated })
+      } else {
+        setErrors(/phone/i.test(raw) ? { phone: translated } : { password: translated })
+      }
     } finally {
       setSubmitting(false)
     }

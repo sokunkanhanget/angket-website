@@ -2,19 +2,16 @@ import supabase from "../services/supabaseClient.js"
 
 export async function dashboardStats(_req, res, next) {
   try {
-    const startOfToday = new Date()
-    startOfToday.setHours(0, 0, 0, 0)
-
     const weekAgo = new Date()
     weekAgo.setDate(weekAgo.getDate() - 7)
 
-    const [users, reports, subscriptions, verifications, todayReports, weekUsers] =
+    const [users, reports, subscriptions, verifications, totalCategories, weekUsers] =
       await Promise.all([
         supabase.from("users").select("user_id", { count: "exact", head: true }),
         supabase.from("report_form").select("report_form_id", { count: "exact", head: true }),
         supabase.from("user_subscription").select("sub_id", { count: "exact", head: true }).eq("status", "active"),
         supabase.from("verifications").select("id", { count: "exact", head: true }).eq("status", "pending"),
-        supabase.from("report_form").select("report_form_id", { count: "exact", head: true }).gte("created_at", startOfToday.toISOString()).eq("status", "approved"),
+        supabase.from("category").select("category_id", { count: "exact", head: true }),
         supabase.from("users").select("user_id", { count: "exact", head: true }).gte("created_at", weekAgo.toISOString()),
       ])
 
@@ -24,7 +21,7 @@ export async function dashboardStats(_req, res, next) {
         totalReports: reports.count ?? 0,
         activeSubscriptions: subscriptions.count ?? 0,
         pendingVerifications: verifications.count ?? 0,
-        reportsApprovedToday: todayReports.count ?? 0,
+        totalCategories: totalCategories.count ?? 0,
         newSignupsThisWeek: weekUsers.count ?? 0,
       },
     })
@@ -131,7 +128,7 @@ export async function getUserDetail(req, res, next) {
 }
 
 const ADMIN_REPORT_COLUMNS =
-  "report_form_id, user_id, category_id, title_en, title_km, description_en, category, platform, status, reported_count, created_at, users(name, email)"
+  "report_form_id, user_id, category_id, title_en, title_km, description_en, description_km, category, platform, status, reported_count, created_at, date_occurred, amount_lost, contact_method, is_anonymous, display_name, screenshot_url, users(name, email), report_image(image_url)"
 
 function mapAdminReport(row) {
   return {
@@ -143,11 +140,19 @@ function mapAdminReport(row) {
     title_en: row.title_en,
     title_km: row.title_km,
     description_en: row.description_en,
+    description_km: row.description_km,
     category: row.category,
     platform: row.platform,
     status: row.status,
     reported_count: row.reported_count,
     created_at: row.created_at,
+    date_occurred: row.date_occurred,
+    amount_lost: row.amount_lost,
+    contact_method: row.contact_method,
+    is_anonymous: row.is_anonymous,
+    display_name: row.display_name,
+    screenshot_url: row.screenshot_url,
+    images: (row.report_image || []).map((img) => img.image_url).filter(Boolean),
   }
 }
 

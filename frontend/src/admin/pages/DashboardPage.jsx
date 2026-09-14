@@ -4,7 +4,7 @@ import {
   FileText,
   BadgeCheck,
   Hourglass,
-  CheckCircle2,
+  Tag,
   UserPlus,
 } from "lucide-react"
 import StatCard from "../components/StatCard"
@@ -69,7 +69,7 @@ const rowOne = [
 ]
 
 const rowTwo = [
-  { icon: <CheckCircle2 size={20} />, ...COLORS.green, value: stats.reportsApprovedToday, label: "Reports Approved Today", to: "/admin/reports" },
+  { icon: <Tag size={20} />, ...COLORS.green, value: stats.totalCategories, label: "Report Categories", to: "/admin/categories" },
   { icon: <UserPlus size={20} />, ...COLORS.blue, value: stats.newSignupsThisWeek, label: "New Signups This Week", to: "/admin/users" },
 ]
 
