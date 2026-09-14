@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import {
   LayoutDashboard,
   Users,
@@ -22,11 +22,10 @@ const NAV_ITEMS = [
 
 export default function Sidebar() {
   const { admin, logout } = useAuth()
-  const navigate = useNavigate()
 
   const handleLogout = () => {
     logout()
-    navigate("/login", { replace: true })
+    window.location.replace("/")
   }
 
   const displayName = admin?.name || "Admin"

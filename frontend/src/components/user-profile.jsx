@@ -454,7 +454,7 @@ export function UserProfile() {
 
   const handleLogout = () => {
     logout()
-    navigate("/login")
+    window.location.replace("/")
   }
 
   const openReportPanel = () => navigate("/report", { state: { openReport: true } })
