@@ -229,7 +229,7 @@ export function About() {
               <p>
                 {t({
                   en: "Encouraging users to think critically about content, sources, intentions, and possible manipulation or deception.",
-                  km: "លើកទឹកចិត្តអ្នកប្រើប្រាស់ ប្រើដោយរិះគិតអំពីមាតិកា ប្រភព បំណង និងការបំភ្លៃ ឬការបោកប្រាស់ដែលអាចមាន។",
+                  km: "លើកទឹកចិត្តអ្នកប្រើប្រាស់ ប្រើដោយរិះគិតអំពីមាតិកា ប្រភព បំណង និងការបំភ្លៃ ឬការបោកប្រាស់ដែលអាចកើតមាន។",
                 })}
               </p>
             </div>
@@ -263,7 +263,7 @@ export function About() {
               <p>
                 {t({
                   en: "Helping users recognize potential scams, phishing attempts, fraud, and unsafe digital content.",
-                  km: "ជួយអ្នកប្រើប្រាស់ស្គាល់ការបោកប្រាស់ដែលអាចកើតមាន ការព្យាយាមវាយប្រហារ  និងមាតិកាឌីជីថលដែលមិនមានសុវត្ថិភាព។",
+                  km: "ជួយអ្នកប្រើប្រាស់ឲស្គាល់ការបោកប្រាស់ដែលអាចកើតមាន ការព្យាយាមវាយប្រហារ  និងមាតិកាឌីជីថលដែលមិនមានសុវត្ថិភាព។",
                 })}
               </p>
             </div>

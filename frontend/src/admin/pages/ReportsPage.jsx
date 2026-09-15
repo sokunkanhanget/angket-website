@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react"
 import { useSearchParams } from "react-router-dom"
 import PageShell from "../components/PageShell"
 import { adminApi, categoriesApi } from "@/lib/services"
+import { IconClose } from "@/components/icons"
 
 const STATUSES = ["all", "published", "banned", "inactive"]
 
@@ -12,6 +13,7 @@ export default function ReportsPage() {
   const [error, setError] = useState(null)
   const [categories, setCategories] = useState([])
   const [status, setStatus] = useState("all")
+  const [selected, setSelected] = useState(null)
   const category = searchParams.get("category") || "all"
 
   const load = useCallback((s, c) => {
@@ -98,7 +100,7 @@ export default function ReportsPage() {
                 <tr><td colSpan={7} className="table-empty">No reports.</td></tr>
               )}
               {!loading && reports.map((r) => (
-                <tr key={r.report_form_id}>
+                <tr key={r.report_form_id} className="row-clickable" onClick={() => setSelected(r)}>
                   <td className="cell-strong">{r.title_en}</td>
                   <td>{r.user_name || r.user_email || "—"}</td>
                   <td>{r.category}</td>
@@ -107,14 +109,15 @@ export default function ReportsPage() {
                   <td><span className={`badge ${statusBadge(r.status)}`}>{r.status}</span></td>
                   <td>
                     <div className="table-actions">
+                      <button type="button" className="btn-sm btn-sm-view" onClick={(e) => { e.stopPropagation(); setSelected(r) }}>View</button>
                       {r.status !== "inactive" && (
-                        <button type="button" className="btn-sm btn-sm-neutral" onClick={() => changeStatus(r.report_form_id, "inactive")}>Inactive</button>
+                        <button type="button" className="btn-sm btn-sm-neutral" onClick={(e) => { e.stopPropagation(); changeStatus(r.report_form_id, "inactive") }}>Inactive</button>
                       )}
                       {r.status !== "banned" && (
-                        <button type="button" className="btn-sm btn-sm-rose" onClick={() => changeStatus(r.report_form_id, "banned")}>Banned</button>
+                        <button type="button" className="btn-sm btn-sm-rose" onClick={(e) => { e.stopPropagation(); changeStatus(r.report_form_id, "banned") }}>Banned</button>
                       )}
                       {r.status !== "published" && (
-                        <button type="button" className="btn-sm btn-sm-neutral" onClick={() => changeStatus(r.report_form_id, "published")}>Publish</button>
+                        <button type="button" className="btn-sm btn-sm-neutral" onClick={(e) => { e.stopPropagation(); changeStatus(r.report_form_id, "published") }}>Publish</button>
                       )}
                     </div>
                   </td>
@@ -124,6 +127,7 @@ export default function ReportsPage() {
           </table>
         </div>
       )}
+      {selected && <ReportDetailModal report={selected} onClose={() => setSelected(null)} />}
     </PageShell>
   )
 }
@@ -134,4 +138,79 @@ function statusBadge(status) {
     case "inactive": return "badge-neutral"
     default: return "badge-neutral"
   }
+}
+
+function fmtDateTime(value) {
+  if (!value) return "—"
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return String(value)
+  const dd = String(d.getDate()).padStart(2, "0")
+  const mm = String(d.getMonth() + 1).padStart(2, "0")
+  const yyyy = d.getFullYear()
+  const hh = String(d.getHours()).padStart(2, "0")
+  const min = String(d.getMinutes()).padStart(2, "0")
+  return `${dd}/${mm}/${yyyy} ${hh}:${min}`
+}
+
+function fmtDate(value) {
+  if (!value) return "—"
+  const m = String(value).match(/^\d{4}-\d{2}-\d{2}/)
+  if (m) return m[0].split("-").reverse().join("/")
+  return String(value)
+}
+
+function ReportDetailModal({ report: r, onClose }) {
+  const image = r.screenshot_url || r.images?.[0] || null
+  return (
+    <>
+      <div className="detail-overlay" onClick={onClose} />
+      <div className="detail-modal" role="dialog" aria-modal="true" aria-labelledby="adm-rpt-title">
+        <div className="detail-img-area">
+          {image ? (
+            <img src={image} alt="" />
+          ) : (
+            <div className="adm-rpt-img-placeholder" aria-hidden="true" />
+          )}
+          <button type="button" className="detail-close" aria-label="Close" onClick={onClose}>
+            <IconClose />
+          </button>
+        </div>
+        <div className="detail-body">
+          <span className="detail-type">{r.category || "General"}</span>
+          <h3 id="adm-rpt-title">{r.title_en}</h3>
+          {r.title_km && r.title_km !== r.title_en && (
+            <p className="adm-rpt-sub">{r.title_km}</p>
+          )}
+          {r.description_en && <p className="detail-desc">{r.description_en}</p>}
+          {r.description_km && r.description_km !== r.description_en && (
+            <p className="detail-desc adm-rpt-sub">{r.description_km}</p>
+          )}
+          <dl className="report-detail-list">
+            {r.platform && (
+              <div className="report-detail-row"><dt>Platform</dt><dd>{r.platform}</dd></div>
+            )}
+            <div className="report-detail-row">
+              <dt>Status</dt>
+              <dd><span className={`badge ${statusBadge(r.status)}`}>{r.status}</span></dd>
+            </div>
+            <div className="report-detail-row">
+              <dt>Submitted by</dt>
+              <dd>{r.is_anonymous ? "Anonymous" : (r.user_name || r.user_email || r.display_name || "—")}</dd>
+            </div>
+            <div className="report-detail-row"><dt>Reported count</dt><dd>{r.reported_count ?? 0}</dd></div>
+            {r.date_occurred && (
+              <div className="report-detail-row"><dt>Date occurred</dt><dd>{fmtDate(r.date_occurred)}</dd></div>
+            )}
+            {r.amount_lost && (
+              <div className="report-detail-row"><dt>Amount lost</dt><dd>{r.amount_lost}</dd></div>
+            )}
+            {r.contact_method && (
+              <div className="report-detail-row"><dt>Contact method</dt><dd>{r.contact_method}</dd></div>
+            )}
+            <div className="report-detail-row"><dt>Created at</dt><dd>{fmtDateTime(r.created_at)}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </>
+  )
 }

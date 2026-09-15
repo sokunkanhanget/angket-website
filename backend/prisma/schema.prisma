@@ -140,23 +140,37 @@ model Category {
 }
 
 model SubscriptionPlan {
-  id           String  @id @default(uuid()) @map("sub_plan_id")
-  name         String
-  price        Decimal
-  durationDays Int     @map("duration_days")
-
-  maxMembers        Int @default(1) @map("max_members")
-  dailyFileLimit    Int @map("daily_file_limit")
-  dailyMessageLimit Int @map("daily_message_limit")
-  dailyTokenLimit   Int @map("daily_token_limit")
-
-  liveDetect      Boolean @default(false) @map("live_detect")
-  groupLiveDetect Boolean @default(false) @map("group_live_detect")
+  id                    String   @id @default(uuid()) @map("sub_plan_id")
+  name                  String
+  price                 Decimal
+  durationDays          Int      @map("duration_days")
+  maxMembers            Int      @map("max_members")
+  dailyFileLimit        Int      @map("daily_file_limit")
+  dailyMessageLimit     Int      @map("daily_message_limit")
+  dailyTokenLimit       Int      @map("daily_token_limit")
+  isActive              Boolean  @default(true) @map("is_active")
+  supportsKhmer         Boolean  @default(true) @map("supports_khmer")
+  supportsEnglish       Boolean  @default(true) @map("supports_english")
+  supportsLiveDetection Boolean  @default(false) @map("supports_live_detection")
 
   userSubscriptions  UserSubscription[]
   subscriptionOrders SubscriptionOrder[]
 
   @@map("subscription_plan")
+}
+
+model SubscriptionUsage {
+  id                 String          @id @default(uuid()) @map("usage_id")
+  usageDate          DateTime        @db.Date @map("usage_date")
+  fileCount          Int             @default(0) @map("file_count")
+  messageCount       Int             @default(0) @map("message_count")
+  tokenCount         Int             @default(0) @map("token_count")
+  userSubscriptionId String          @map("user_sub_id")
+
+  userSubscription UserSubscription @relation(fields: [userSubscriptionId], references: [id])
+
+  @@unique([userSubscriptionId, usageDate])
+  @@map("subscription_usage")
 }
 
 model UserSubscription {
@@ -178,7 +192,7 @@ model UserSubscription {
   renewals    UserSubscription[] @relation("SubscriptionRenewal")
 
   subscriptionMembers SubscriptionMember[]
-  usage               SubscriptionUsage[]
+  subscriptionUsages  SubscriptionUsage[]
 
   @@map("user_subscription")
 }
@@ -206,8 +220,12 @@ model SubscriptionOrder {
   token     String
   amount    Decimal
   status    String
-  proofRef  String?   @map("proof_ref")
-  createdAt DateTime  @default(now()) @map("created_at")
+  paymentMethod String? @map("payment_method")
+  idempotencyKey String? @unique @map("idempotency_key")
+  qrMd5     String? @map("qr_md5")
+  transactionId String? @unique @map("transaction_id")
+  proofRef  String?  @map("proof_ref")
+  createdAt DateTime @default(now()) @map("created_at")
   paidAt    DateTime? @map("paid_at")
 
   paymentMethod String? @map("payment_method")
