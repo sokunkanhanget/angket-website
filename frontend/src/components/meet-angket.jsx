@@ -53,7 +53,7 @@ export function MeetAngket() {
             <p className="about-solution-card-desc">
               {t({
                 en: "Users can send suspicious content directly to the Angket Telegram Bot, including messages, links and URLs, and files.",
-                km: "អ្នកប្រើប្រាស់អាផ្ញើសារសង្ស័យផ្ទាល់ទៅ Angket Telegram Bot រួមទាំងសារ តំណភ្ជាប់ និងឯកសារ។",
+                km: "អ្នកប្រើប្រាស់អាចផ្ញើសារសង្ស័យផ្ទាល់ទៅ Angket Telegram Bot រួមទាំងសារ តំណភ្ជាប់ និងឯកសារ។",
               })}
             </p>
             <ul className="about-solution-card-list">
@@ -71,7 +71,7 @@ export function MeetAngket() {
               </li>
               <li>
                 <IconArrowRight className="about-solution-list-icon" />
-                {t({ en: "Recommended next steps", km: "ជំហានបន្ទាប់ដែលអនុសាសន៍" })}
+                {t({ en: "Recommended next steps", km: "ណែនាំជំហានបន្ទាប់ដែលគួរអនុវត្ត" })}
               </li>
             </ul>
           </div>
@@ -89,7 +89,7 @@ export function MeetAngket() {
             <p className="about-solution-card-desc">
               {t({
                 en: "When enabled, Live Scan Mode helps users monitor incoming messages and identify potentially suspicious activity.",
-                km: "នៅពេលបើក Live Scan Mode ជួយអ្នកប្រើប្រាស់ត្រួតពិនិត្យសារចូល និងកំណត់សកម្មភាពសង្ស័យ។",
+                km: "នៅពេលបើក Live Scan Mode ជួយឲអ្នកប្រើប្រាស់ត្រួតពិនិត្យសារចូល និងកំណត់សកម្មភាពសង្ស័យបានលឿនជាងមុន។",
               })}
             </p>
             <ul className="about-solution-card-list">

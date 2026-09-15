@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { to: "/admin/subscriptions", label: "Subscriptions", icon: <CreditCard size={18} /> },
 ]
 
-export default function Sidebar() {
+export default function Sidebar({ open, onNavigate }) {
   const { admin, logout } = useAuth()
 
   const handleLogout = () => {
@@ -32,7 +32,7 @@ export default function Sidebar() {
   const initials = displayName.charAt(0).toUpperCase()
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${open ? " sidebar--open" : ""}`}>
       <div className="sidebar-brand">
         <img src={logoImg} alt="Angket" className="brand-img sidebar-logo" />
         <span className="brand-word">Angket</span>
@@ -44,6 +44,7 @@ export default function Sidebar() {
           <NavLink
             key={item.to}
             to={item.to}
+            onClick={onNavigate}
             className={({ isActive }) =>
               isActive ? "nav-item active" : "nav-item"
             }

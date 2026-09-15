@@ -175,6 +175,29 @@
   flex-direction: column;
 }
 
+/* ---------- Admin menu button (mobile) ---------- */
+.admin-menu-btn {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 1200;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #e1e8f0;
+  background: #ffffff;
+  color: #16202b;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.1);
+}
+
+.admin-overlay {
+  display: none;
+}
+
 .topbar {
   display: flex;
   align-items: center;
@@ -604,8 +627,49 @@
     grid-template-columns: 1fr;
   }
 
+  .admin-menu-btn {
+    display: grid;
+  }
+
   .sidebar {
-    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1100;
+    width: 260px;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+
+  .sidebar.sidebar--open {
+    transform: translateX(0);
+  }
+
+  .admin-overlay.open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background: rgba(15, 23, 42, 0.45);
+    animation: fadeIn 0.2s ease;
+  }
+
+  .admin-main {
+    padding-top: 62px;
+  }
+
+  .topbar {
+    padding-left: 60px;
+  }
+
+  .detail-modal {
+    width: min(520px, calc(100vw - 1rem));
+    max-height: 92vh;
+  }
+
+  .report-detail-row {
+    grid-template-columns: 100px 1fr;
   }
 }
 
