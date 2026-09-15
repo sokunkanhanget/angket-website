@@ -2,8 +2,8 @@ import { useLang } from "@/lib/i18n"
 import { IconUser, IconUsers, IconCheck, IconStar } from "./icons"
 
 // Presentational only: prices are demo values.
-const PREMIUM_MONTHLY = 4.99
-const FAMILY_MONTHLY = 9.99
+const PREMIUM_MONTHLY = 1.99
+const FAMILY_MONTHLY = 5.99
 
 function FeatureCheck({ children }) {
   return (
@@ -58,9 +58,11 @@ export function Subscription() {
             </div>
             <hr className="sub-divider" />
             <ul className="sub-features">
-              <FeatureCheck>{t({ en: "Basic scam detection", km: "ការរកឃើញការបោកប្រាស់ជាមូលដ្ឋាន" })}</FeatureCheck>
-              <FeatureCheck>{t({ en: "Check suspicious links and messages", km: "ពិនិត្យតំណ និងសារគួរឱ្យសង្ស័យ" })}</FeatureCheck>
-              <FeatureCheck>{t({ en: "Limited usage and features", km: "ការប្រើប្រាស់ និងមុខងារមានកំណត់" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Live scam detection (7-day trial)", km: "ការរកឃើញការបោកប្រាស់ផ្ទាល់ (សាកល្បង 7 ថ្ងៃ)" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Check up to 3 files a day", km: "ពិនិត្យរហូតដល់ 3 ឯកសារក្នុងមួយថ្ងៃ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Check up to 10 messages or links a day", km: "ពិនិត្យរហូតដល់ 10 សារ ឬតំណក្នុងមួយថ្ងៃ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Group chat protection (7-day trial)", km: "ការការពារការជជែកជាក្រុម (សាកល្បង 7 ថ្ងៃ)" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Khmer and English support", km: "ការគាំទ្រភាសារខ្មែរ និងអង់គ្លេស" })}</FeatureCheck>
             </ul>
             <button type="button" className="btn btn-outline sub-btn">
               {t({ en: "Get Started", km: "ចាប់ផ្ដើម" })}
@@ -94,15 +96,12 @@ export function Subscription() {
             </div>
             <hr className="sub-divider" />
             <ul className="sub-features">
-              <FeatureCheck>{t({ en: "Everything in Freemium", km: "អ្វីគ្រប់យ៉ាងក្នុងកញ្ចប់ Freemium" })}</FeatureCheck>
-              <FeatureCheck>
-                {t({
-                  en: "Advanced scam detection (messages, links, files)",
-                  km: "ការរកឃើញការបោកប្រាស់កម្រិតខ្ពស់ (សារ តំណ ឯកសារ)",
-                })}
-              </FeatureCheck>
-              <FeatureCheck>{t({ en: "More scans and higher limits", km: "ការពិនិត្យច្រើនជាង និងដែនកំណត់ខ្ពស់ជាង" })}</FeatureCheck>
-              <FeatureCheck>{t({ en: "Enhanced protection features", km: "មុខងារការពារកម្រិតខ្ពស់" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Everything in Freemium, always on", km: "អ្វីគ្រប់យ៉ាងក្នុងកញ្ចប់ Freemium ប្រើបានជាប់ជានិច្ច" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Check up to 5 files a day", km: "ពិនិត្យរហូតដល់ 5 ឯកសារក្នុងមួយថ្ងៃ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Check up to 15 messages or links a day", km: "ពិនិត្យរហូតដល់ 15 សារ ឬតំណក្នុងមួយថ្ងៃ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Deeper scam pattern detection", km: "ការរកឃើញលំនាំការបោកប្រាស់កាន់តែស៊ីជម្រៅ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Group chat protection included", km: "រួមបញ្ចូលការការពារការជជែកជាក្រុម" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Khmer and English support", km: "ការគាំទ្រភាសារខ្មែរ និងអង់គ្លេស" })}</FeatureCheck>
             </ul>
             <button type="button" className="btn btn-primary sub-btn">
               {t({ en: "Upgrade to Premium", km: "ដំឡើងកញ្ចប់ Premium" })}
@@ -125,14 +124,18 @@ export function Subscription() {
             </div>
             <div className="sub-price">
               <strong>${FAMILY_MONTHLY.toFixed(2)}</strong>
-              <span className="sub-per">{t({ en: "/ month", km: "/ ខែ" })}</span>
+              <span className="sub-per">
+                {t({ en: "/ month · up to 5 members", km: "/ ខែ · រហូតដល់ 5 នាក់" })}
+              </span>
             </div>
             <hr className="sub-divider" />
             <ul className="sub-features">
-              <FeatureCheck>{t({ en: "Everything in Premium", km: "អ្វីគ្រប់យ៉ាងក្នុងកញ្ចប់ Premium" })}</FeatureCheck>
-              <FeatureCheck>{t({ en: "Family protection features", km: "មុខងារការពារគ្រួសារ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Everything in Premium, shared with the family", km: "អ្វីគ្រប់យ៉ាងក្នុងកញ្ចប់ Premium ចែករំលែកជាមួយគ្រួសារ" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Up to 15 files a day (shared)", km: "រហូតដល់ 15 ឯកសារក្នុងមួយថ្ងៃ (ចែករំលែក)" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Up to 50 messages or links a day (shared)", km: "រហូតដល់ 50 សារ ឬតំណក្នុងមួយថ្ងៃ (ចែករំលែក)" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Deepest scam pattern detection", km: "ការរកឃើញលំនាំការបោកប្រាស់ជ្រៅបំផុត" })}</FeatureCheck>
               <FeatureCheck>{t({ en: "Manage family accounts", km: "គ្រប់គ្រងគណនីគ្រួសារ" })}</FeatureCheck>
-              <FeatureCheck>{t({ en: "Safer online habits together", km: "ទម្លាប់តាមអ៊ីនធឺណិតប្រកបដោយសុវត្ថិភាពរួមគ្នា" })}</FeatureCheck>
+              <FeatureCheck>{t({ en: "Khmer and English support", km: "ការគាំទ្រភាសារខ្មែរ និងអង់គ្លេស" })}</FeatureCheck>
             </ul>
             <button type="button" className="btn btn-primary sub-btn">
               {t({ en: "Get Premium Family", km: "ទទួលកញ្ចប់ Premium គ្រួសារ" })}

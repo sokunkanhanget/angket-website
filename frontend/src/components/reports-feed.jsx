@@ -457,20 +457,27 @@ export function ReportsFeed() {
       <section className="rp-section">
         <div className="container">
           <div className="rp-toolbar">
-            <div className="rp-search">
-              <IconSearch />
-              <label className="sr-only" htmlFor="rp-q">
-                {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
-              </label>
-              <input
-                type="search"
-                id="rp-q"
-                className="rp-search-input"
-                autoComplete="off"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
-              />
+            <div className="rp-toolbar-row">
+              <div className="rp-search">
+                <IconSearch />
+                <label className="sr-only" htmlFor="rp-q">
+                  {t({ en: "Search reports", km: "ស្វែងរករបាយការណ៍" })}
+                </label>
+                <input
+                  type="search"
+                  id="rp-q"
+                  className="rp-search-input"
+                  autoComplete="off"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder={t({ en: "Search reports…", km: "ស្វែងរករបាយការណ៍…" })}
+                />
+              </div>
+
+              <button type="button" className="rp-report-btn" onClick={openReportForm}>
+                <IconPlus />
+                <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
+              </button>
             </div>
 
             <div className="rp-pills" role="group" aria-label={t({ en: "Filter by category", km: "ត្រងតាមប្រភេទ" })}>
@@ -498,11 +505,6 @@ export function ReportsFeed() {
                 )
               })}
             </div>
-
-            <button type="button" className="rp-report-btn" onClick={openReportForm}>
-              <IconPlus />
-              <span>{t({ en: "Report", km: "រាយការណ៍" })}</span>
-            </button>
           </div>
 
           <div className="rp-cards">
