@@ -98,7 +98,7 @@ export function SiteFooter() {
           </span>
           <span>
             {t({
-              en: "Angket helps you analyse the risk that can be happend any times​ - always verify important information through trusted, official sources.",
+              en: "Angket provides risk analysis for awareness and education.",
               km: "Angket ជួយអ្នកឲយល់ដឹងពីហារិភ័យដែលអាចកើតមានឡើងតាមរយៈការវិភាគ - សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
             })}
           </span>

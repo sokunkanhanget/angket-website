@@ -208,15 +208,13 @@ function ReportsHero() {
           <p className="rp-hero-body">
             {t({
               en: "See real examples from our community. Discover how scams work, what to watch for, and how others stayed safe.",
-              km: "សូមមើលឧទាហរណ៍ពិតពីសហគមន៍របស់យើង។ ស្វែងយល់ពីរបៀបដែលការបោកប្រាស់ដំណើរការ អ្វីដែលត្រូវប្រុងប្រយ័ត្ន និងរបៀបដែលអ្នកដទៃរក្សាសុវត្ថិភាព។",
+              km: "មើលឧទាហរណ៍ពិតពីសហគមន៍របស់យើង។ ស្វែងយល់ពីរបៀបដែលការបោកប្រាស់ដំណើរការ អ្វីដែលត្រូវប្រុងប្រយ័ត្ន និងរបៀបដែលអ្នកដទៃរក្សាសុវត្ថិភាព។",
             })}
           </p>
         </div>
 
         <div className="rp-ill" aria-hidden="true">
-
-
-          <span className="rp-script">
+          <span className="rp-script rp-script-static">
             <span>See it.</span>
             <span>Learn it.</span>
             <span>Avoid it.</span>
@@ -530,8 +528,8 @@ export function ReportsFeed() {
             <IconInfo />
             <span>
               {t({
-                en: "Reports are personal experiences shared anonymously - useful for awareness of any scam pattern.",
-                km: "របាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលចែករំលែកដោយអនាមិក - មានប្រយោជន៍សម្រាប់បង្កើនការយល់ដឹងអំពីប្រភេទនៃការបោកប្រាស់នានា។",
+                en: "Reports are personal experiences shared by users, with the option to remain anonymous or share their identity, helping raise awareness of scam patterns.",
+                km: "ការរាយការណ៍គឺជាបទពិសោធន៍ផ្ទាល់ខ្លួនដែលបានចែករំលែកដោយអ្នកប្រើប្រាស់ ដោយអាចជ្រើសរើសរក្សាអនាមិក ឬបង្ហាញអត្តសញ្ញាណរបស់ខ្លួន ដើម្បីជួយបង្កើនការយល់ដឹងអំពីល្បិចបោកប្រាស់ផ្សេងៗ។",
               })}
             </span>
           </p>

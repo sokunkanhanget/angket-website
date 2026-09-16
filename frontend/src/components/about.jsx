@@ -182,9 +182,6 @@ export function About() {
       <section id="dmil" className="about-dmil" aria-labelledby="dmil-title">
         <div className="container">
           <Reveal className="about-dmil-header">
-            <span className="about-kicker">
-              {t({ en: "OUR APPROACH", km: "វិធីសាស្រ្តរបស់យើង" })}
-            </span>
             <h2 id="dmil-title" className="about-section-title">
               {t({
                 en: "Built Around Digital, Media and Information Literacy",
@@ -193,8 +190,8 @@ export function About() {
             </h2>
             <p className="about-section-lead">
               {t({
-                en: "Angket is developed under the theme of Digital, Media and Information Literacy (DMIL). Our solution incorporates several important DMIL domains:",
-                km: "Angket ត្រូវបានអភិវឌ្ឍន៍ក្រោមប្រធានបទសមត្ថភាពឌីជីថល សារព័ត៌មាន និងព័ត៌មាន (DMIL)។ ដំណោះស្រាយរបស់យើងរួមបញ្ចូល domain DMIL សំខាន់ៗជាច្រើន៖",
+                en: "Angket is developed under the theme of Digital, Media and Information Literacy (DMIL). It incorporates several important DMIL domains:",
+                km: "Angket ត្រូវបានអភិវឌ្ឍន៍ក្រោមប្រធានបទសមត្ថភាពឌីជីថល សារព័ត៌មាន និងព័ត៌មាន (DMIL)។ វារួមបញ្ចូល domain DMIL សំខាន់ៗជាច្រើន៖",
               })}
             </p>
           </Reveal>
@@ -292,9 +289,6 @@ export function About() {
       <section id="contact" className="about-contact" aria-labelledby="contact-title">
         <div className="container">
           <Reveal className="about-contact-head">
-            <span className="about-contact-kicker">
-              {t({ en: "GET IN TOUCH", km: "អាចទំនាក់ទំនងមកយើងតាមរយៈ" })}
-            </span>
             <h2 className="about-contact-title" id="contact-title">
               {t({
                 en: "We'd love to hear from you",

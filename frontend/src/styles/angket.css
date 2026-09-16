@@ -492,7 +492,7 @@ html.km .eyebrow { font-size: 0.85rem; }
 /* --- Hero (About Angket) --- */
 .about-hero {
   position: relative; overflow: hidden;
-  padding: clamp(4.5rem, 9vw, 7rem) 0 clamp(3.5rem, 7vw, 5.5rem);
+  padding: clamp(2.4rem, 4vw, 3.5rem) 0 clamp(3.5rem, 7vw, 5.5rem);
   background:
     radial-gradient(820px 520px at 90% 4%, rgba(59, 130, 246, 0.14), transparent 68%),
     radial-gradient(640px 420px at 0% 96%, rgba(147, 197, 253, 0.3), transparent 70%),
@@ -3060,12 +3060,24 @@ html.km .sub-btn { padding-top: 0.62rem; padding-bottom: 0.62rem; }
 /* Scam Report page */
 .rp-hero { position: relative; overflow: hidden; background-color: var(--blue-50); border-bottom: 1px solid var(--border); background-size: cover; background-position: center; padding: 4.75rem 0 5.25rem; display: flex; flex-direction: column; justify-content: center; }
 .rp-hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 3rem; align-items: center; }
-.rp-hero-copy { display: grid; gap: 1.15rem; justify-items: start; }
+.rp-hero-copy { display: grid; gap: 1.15rem; justify-items: start; animation: rp-hero-copy-in 0.7s ease both; }
 .pill .icon { width: 15px; height: 15px; }
-.rp-hero-title { font-size: clamp(2.3rem, 4.6vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; font-weight: 800; color: #fff; margin: 0; }
+.rp-hero-title { font-size: clamp(2.3rem, 4.6vw, 3.3rem); line-height: 1.08; letter-spacing: -0.03em; font-weight: 800; color: #fff; margin: 0; animation: rp-hero-title-in 0.8s ease both; }
 .rp-hero-title-line { display: block; }
 .rp-hero-title-accent { color: var(--blue-600); }
-.rp-hero-body { color: #fff; font-size: 1.06rem; line-height: 1.7; max-width: none; margin: 0; }
+.rp-hero-body { color: #fff; font-size: 1.06rem; line-height: 1.7; max-width: none; margin: 0; animation: rp-hero-body-in 0.9s ease both; }
+@keyframes rp-hero-copy-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes rp-hero-title-in {
+  from { opacity: 0; transform: translateY(10px); letter-spacing: -0.01em; }
+  to { opacity: 1; transform: none; letter-spacing: -0.03em; }
+}
+@keyframes rp-hero-body-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
 .rp-avatars { display: flex; align-items: center; gap: 0.95rem; flex-wrap: wrap; }
 .rp-avatar-stack { display: flex; }
 .rp-ava { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 0.8rem; border: 2.5px solid #fff; box-shadow: var(--shadow-sm); }
@@ -3081,7 +3093,12 @@ html.km .sub-btn { padding-top: 0.62rem; padding-bottom: 0.62rem; }
 .rp-blob--3 { width: 120px; height: 120px; top: 42%; left: 8%; background: rgba(56,189,248,.16); }
 
 .rp-script { position: absolute; top: -4px; right: 3%; transform: rotate(-4deg); display: grid; gap: 0.1rem; font-family: "Caveat", "Segoe Script", "Comic Sans MS", cursive; font-size: 1.7rem; line-height: 1.05; color: #3b82f6; z-index: 2; }
+.rp-script-static { animation: rp-script-float 5s ease-in-out infinite; }
 .rp-script-swoosh { width: 104px; margin-top: 0.2rem; color: #60a5fa; opacity: 0.85; }
+@keyframes rp-script-float {
+  0%, 100% { transform: rotate(-4deg) translateY(0px); }
+  50% { transform: rotate(-2deg) translateY(-6px); }
+}
 
 .rp-phone { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 300px; background: #fff; border: 1px solid var(--border); border-radius: 28px; box-shadow: 0 24px 60px rgba(15,23,42,0.16); padding: 0.9rem; z-index: 1; }
 .rp-chat-head { display: flex; align-items: center; gap: 0.6rem; padding-bottom: 0.7rem; border-bottom: 1px solid var(--border); }
