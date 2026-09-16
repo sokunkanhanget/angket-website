@@ -23,9 +23,6 @@ export function MeetAngket() {
     <section id="meet-angket" className="about-solution" aria-labelledby="meet-angket-title">
       <div className="container">
         <Reveal className="about-solution-header">
-          <span className="about-kicker">
-            {t({ en: "OUR SOLUTION", km: "ដំណោះស្រាយរបស់យើង" })}
-          </span>
           <h2 id="meet-angket-title" className="about-section-title">
             {t({
               en: "Meet Angket",
@@ -34,8 +31,8 @@ export function MeetAngket() {
           </h2>
           <p className="about-section-lead">
             {t({
-              en: "Angket combines AI-assisted analysis with community awareness to help users better understand potential digital threats. Our platform provides three main solutions:",
-              km: "Angket រួមបញ្ចូលការវិភាគដែលជួយដោយ AI ជាមួយការយល់ដឹងរបស់សហគមន៍ដើម្បីជួយអ្នកប្រើប្រាស់យល់ពីការគំរាមកំហែងឌីជីថលដែលអាចកើតមាន។ វេទិការបស់យើងផ្តល់ដំណោះស្រាយសំខាន់ៗបី៖",
+              en: "Angket combines AI-assisted analysis with community awareness to help users better understand potential digital threats. Our platform provides three main features:",
+              km: "Angket រួមបញ្ចូលការវិភាគដែលជួយដោយ AI ជាមួយការយល់ដឹងរបស់សហគមន៍ដើម្បីជួយអ្នកប្រើប្រាស់យល់ពីការគំរាមកំហែងឌីជីថលដែលអាចកើតមាន។ វេទិការបស់យើងផ្តល់មុខងារសំខាន់ៗបី៖",
             })}
           </p>
         </Reveal>
