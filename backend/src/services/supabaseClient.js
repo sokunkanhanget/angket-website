@@ -12,11 +12,20 @@ if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY/SUPABASE_SECRET_KEY in environment variables');
 }
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+const authOptions = {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
   },
-});
+};
+
+// Privileged client: always acts as the service role. Never call
+// signInWithPassword on this instance — doing so replaces its session with the
+// user's JWT and enforces RLS (breaking storage uploads, etc.).
+const supabase = createClient(supabaseUrl, supabaseServiceKey, authOptions);
+
+// Dedicated client for password sign-in so the privileged client above stays
+// authenticated as the service role.
+export const authClient = createClient(supabaseUrl, supabaseServiceKey, authOptions);
 
 export default supabase;

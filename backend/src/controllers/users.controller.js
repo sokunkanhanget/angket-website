@@ -1,5 +1,5 @@
 import { isAdminEmail } from "../config.js"
-import supabase from "../services/supabaseClient.js"
+import supabase, { authClient } from "../services/supabaseClient.js"
 import { uploadAvatar, deleteAvatar } from "../services/storageService.js"
 import { emailRule, passwordRule, phoneRule, requiredRule, validate } from "../utils/validators.js"
 
@@ -74,7 +74,7 @@ export async function login(req, res, next) {
       }
     }
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email: loginEmail, password })
+    const { data, error } = await authClient.auth.signInWithPassword({ email: loginEmail, password })
 
     if (error) {
       let message = error.message || "Invalid credentials"
@@ -298,7 +298,7 @@ export async function changePassword(req, res, next) {
 
     const email = req.user.email || (await lookupEmailWithoutUser(req.user.id))
     if (email) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password: currentPassword })
+      const { error: signInError } = await authClient.auth.signInWithPassword({ email, password: currentPassword })
       if (signInError) {
         return res.status(400).json({ error: "Current password is incorrect" })
       }
