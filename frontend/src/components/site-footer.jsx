@@ -99,7 +99,7 @@ export function SiteFooter() {
           <span>
             {t({
               en: "Angket provides risk analysis for awareness and education.",
-              km: "Angket ជួយអ្នកឲយល់ដឹងពីហារិភ័យដែលអាចកើតមានឡើងតាមរយៈការវិភាគ - សូមផ្ទៀងផ្ទាត់ព័ត៌មានសំខាន់ៗតាមប្រភពផ្លូវការដែលទុកចិត្តបានជានិច្ច។",
+              km: "Angket ផ្តល់ការវិភាគហានិភ័យសម្រាប់ការយល់ដឹង និងការអប់រំ។",
             })}
           </span>
         </div>

@@ -3,6 +3,7 @@ import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { IconSend, IconShield, IconWarning, IconCheckDouble, IconFlag } from "./icons"
 import HeroHomepage from "@/assets/Hero-Homepage.png"
+import HeroImg from "@/assets/HeroImg.jpg"
 
 export function Hero() {
   const { lang, t } = useLang()
@@ -47,7 +48,15 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="phone-wrap rise d3">
+        <div className="hero-visual rise d3">
+          <img
+            className="hero-image"
+            src={HeroImg}
+            alt={t({
+              en: "Angket Bot reviewing a suspicious file in a Telegram conversation.",
+              km: "Angket Bot ពិនិត្យឯកសារគួរឱ្យសង្ស័យនៅក្នុងការសន្ទនា Telegram។",
+            })}
+          />
           <div
             className="phone"
             role="img"
