@@ -1,59 +1,67 @@
 import { useLang } from "@/lib/i18n"
 import { Reveal } from "./reveal"
 import { TelegramBand } from "./telegram"
-import { IconInfo, IconSend, IconBot, IconChart, IconShield, IconArrowRight } from "./icons"
+import { IconInfo, IconSearch, IconSend, IconBot, IconWarning } from "./icons"
+import searchingBotImg from "@/assets/telegrambot/searching_bot.jpg"
+import sendContentImg from "@/assets/telegrambot/send_content.jpg"
+import analyseContentImg from "@/assets/telegrambot/analyse_content.jpg"
+import getResultImg from "@/assets/telegrambot/get_result.jpg"
 
 const FLOW = [
   {
     num: 1,
+    img: searchingBotImg,
+    Icon: IconSearch,
+    title: { en: "Find the bot", km: "ស្វែងរកបូត" },
+    tag: {
+      en: "Get the bot on Telegram.",
+      km: "ទទួលបានបូត Angket លើ Telegram",
+    },
+    desc: {
+      en: "Search for the bot's username directly in Telegram, or open the Angket website and tap through to the bot.",
+      km: "ស្វែងរកឈ្មោះបូតនៅក្នុង Telegram ដោយផ្ទាល់ ឬចូលទៅកាន់គេហទំព័រ Angket ហើយចុចភ្ជាប់ទៅបូតដោយផ្ទាល់។",
+    },
+  },
+  {
+    num: 2,
+    img: sendContentImg,
     Icon: IconSend,
-    title: { en: "Send", km: "ផ្ញើ" },
+    title: { en: "Send it", km: "ផ្ញើវា" },
     tag: {
       en: "Send something suspicious.",
       km: "ផ្ញើអ្វីដែលអ្នកសង្ស័យ",
     },
     desc: {
-      en: "Forward a suspicious message, link, URL, or file to the Angket Telegram Bot.",
-      km: "បញ្ជូនបន្តសារ តំណភ្ជាប់ URL ឬឯកសារដែលគួរឱ្យសង្ស័យទៅកាន់ បូត Telegram របស់ Angket។",
-    },
-  },
-  {
-    num: 2,
-    Icon: IconBot,
-    title: { en: "Check", km: "ពិនិត្យ" },
-    tag: {
-      en: "Angket looks for warning signs.",
-      km: "Angket ស្វែងរកសញ្ញាគួរឱ្យសង្ស័យ",
-    },
-    desc: {
-      en: "Angket analyzes the content and checks for patterns and indicators commonly associated with online scams.",
-      km: "Angket វិភាគមាតិកា និងពិនិត្យរកលំនាំ ឬសញ្ញាដែលជាទូទៅអាចពាក់ព័ន្ធនឹងការបោកប្រាស់តាមអ៊ីនធឺណិត។",
+      en: "Send or forward a suspicious message, link, or file to the bot.",
+      km: "ផ្ញើ ឬបញ្ជូនបន្តសារ តំណភ្ជាប់ ឬឯកសារដែលគួរឱ្យសង្ស័យទៅកាន់បូត។",
     },
   },
   {
     num: 3,
-    Icon: IconChart,
-    title: { en: "Understand", km: "ស្វែងយល់" },
+    img: analyseContentImg,
+    Icon: IconBot,
+    title: { en: "Analyze", km: "វិភាគ" },
     tag: {
-      en: "See the risk and why it was flagged.",
-      km: "មើលកម្រិតហានិភ័យ និងមូលហេតុ",
+      en: "The bot analyzes your content.",
+      km: "បូតវិភាគមាតិការបស់អ្នក",
     },
     desc: {
-      en: "Get an estimated scam risk percentage together with a clear explanation of the warning signs detected.",
-      km: "ទទួលបាន ភាគរយប៉ាន់ស្មាននៃហានិភ័យនៃការបោកប្រាស់ ព្រមទាំងការពន្យល់ច្បាស់លាស់អំពីសញ្ញាគួរឱ្យសង្ស័យដែលបានរកឃើញ។",
+      en: "After you send the content, the bot analyzes the message, link, or file.",
+      km: "បន្ទាប់ពីអ្នកផ្ញើរួច បូតនឹងវិភាគសារ តំណភ្ជាប់ ឬឯកសារនោះ។",
     },
   },
   {
     num: 4,
-    Icon: IconShield,
-    title: { en: "Stay Safe", km: "ការពារ" },
+    img: getResultImg,
+    Icon: IconWarning,
+    title: { en: "Get the result", km: "ទទួលលទ្ធផល" },
     tag: {
-      en: "Decide what to do next.",
-      km: "សម្រេចចិត្តថាតើត្រូវធ្វើអ្វីបន្ទាប់",
+      en: "Get a clear warning or confirmation.",
+      km: "ទទួលបានការព្រមាន ឬការបញ្ជាក់ច្បាស់លាស់",
     },
     desc: {
-      en: "Use the results and safety recommendations to make a more informed decision before you click, reply, send money, or share personal information.",
-      km: "ប្រើប្រាស់លទ្ធផល និងការណែនាំអំពីសុវត្ថិភាព ដើម្បីសម្រេចចិត្តបានកាន់តែច្បាស់ មុនពេលអ្នកចុច តបសារ ផ្ញើប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន។",
+      en: "You'll see an easy-to-understand result that warns you or confirms the content is safe.",
+      km: "អ្នកនឹងឃើញលទ្ធផលងាយយល់ ដែលព្រមានអ្នក ឬបញ្ជាក់ថាមាតិកាមានសុវត្ថិភាព។",
     },
   },
 ]
@@ -66,7 +74,6 @@ export function HowItWorks() {
       <section className="how" id="how" aria-labelledby="how-title">
         <div className="container">
           <Reveal className="section-head">
-            
             <h2 id="how-title">{t({ en: "How Angket Works", km: "របៀបដែល Angket ដំណើរការ" })}</h2>
             <p>
               {t({
@@ -81,7 +88,16 @@ export function HowItWorks() {
               <li className="flow-step" key={step.num}>
                 <span className="step-num" aria-hidden="true">
                   {String(step.num).padStart(2, "0")}
-                </span>
+              </span> 
+                <div className="step-shot">
+                  {step.img ? (
+                    <img src={step.img} alt={t(step.title)} loading="lazy" />
+                  ) : (
+                    <span className="step-shot-ph">
+                      {t({ en: "Add screenshot", km: "បន្ថែមរូបថតអេក្រង់" })}
+                    </span>
+                  )}
+              </div>  
                 <div className="step-head">
                   <span className="step-ic" aria-hidden="true">
                     <step.Icon />
@@ -90,11 +106,6 @@ export function HowItWorks() {
                 </div>
                 <p className="step-tag">{t(step.tag)}</p>
                 <p>{t(step.desc)}</p>
-                {step.num < FLOW.length && (
-                  <span className="flow-arrow" aria-hidden="true">
-                    <IconArrowRight />
-                  </span>
-                )}
               </li>
             ))}
           </Reveal>
