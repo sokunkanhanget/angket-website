@@ -2,7 +2,10 @@ import { useLang } from "@/lib/i18n"
 import { TELEGRAM_BOT_URL } from "@/lib/data"
 import { Reveal } from "./reveal"
 import { IconSend, IconSearch, IconBrain, IconBell } from "./icons"
-import connectBotImg from "@/assets/livescan/connect_bot.jpg"
+import connectBotImg from "@/assets/livescan/connect_bot.png"
+import incomingContentImg from "@/assets/livescan/incoming_message.jpg"
+import checkingContentImg from "@/assets/livescan/checking_content.png"
+import resultImg from "@/assets/livescan/result.png"
 
 const FLOW = [
   {
@@ -21,6 +24,7 @@ const FLOW = [
   },
   {
     num: 2,
+    img: incomingContentImg,
     Icon: IconSend,
     title: { en: "Incoming message", km: "សារចូល" },
     tag: {
@@ -34,6 +38,7 @@ const FLOW = [
   },
   {
     num: 3,
+    img: checkingContentImg,
     Icon: IconBrain,
     title: { en: "Automatic analysis", km: "ការវិភាគស្វ័យប្រវត្តិ" },
     tag: {
@@ -47,6 +52,7 @@ const FLOW = [
   },
   {
     num: 4,
+    img: resultImg,
     Icon: IconBell,
     title: { en: "User alert", km: "ការជូនដំណឹងដល់អ្នកប្រើ" },
     tag: {

@@ -890,7 +890,7 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .flow-step .step-ic .icon { width: 20px; height: 20px; }
 .flow-step .step-head h3 { margin: 0; }
 .flow-step .step-num {
-  position: absolute; top: -14px; left: 1.4rem;
+  position: absolute; top: -14px; left: 0;
   width: 30px; height: 30px; border-radius: 50%;
   background: var(--blue-600); color: #fff; font-size: 0.8rem; font-weight: 700;
   display: grid; place-items: center; box-shadow: var(--shadow-sm);
@@ -910,9 +910,10 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .how .flow { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 8px; }
 .how .flow-step { flex: 1 1 0; min-width: 0; padding: 12px 12px 20px; }
 .how .flow-step .step-shot {
-  width: 100%; aspect-ratio: 16 / 10; flex: none;
+  width: 100%; aspect-ratio: 4 / 3; flex: none;
   margin: 0 0 16px; border-radius: 8px;
 }
+.how .flow-step .step-shot img { object-fit: contain; height: 100%; }
 .how .flow-step .step-head { gap: 0.7rem; margin-bottom: 10px; }
 .how .flow-step .step-head .step-ic { width: 32px; height: 32px; border-radius: 12px; }
 .how .flow-step .step-ic .icon { width: 16px; height: 16px; }
@@ -939,9 +940,10 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .tg-band .flow { display: flex; flex-wrap: nowrap; align-items: stretch; gap: 8px; }
 .tg-band .flow-step { flex: 1 1 0; min-width: 0; padding: 12px 12px 20px; }
 .tg-band .flow-step .step-shot {
-  width: 100%; aspect-ratio: 16 / 10; flex: none;
+  width: 100%; aspect-ratio: 325 / 406; flex: none;
   margin: 0 0 16px; border-radius: 8px;
 }
+.tg-band .flow-step .step-shot img { object-fit: contain; height: 100%; }
 .tg-band .flow-step .step-head { gap: 0.7rem; margin-bottom: 10px; }
 .tg-band .flow-step .step-head .step-ic { width: 32px; height: 32px; border-radius: 12px; }
 .tg-band .flow-step .step-ic .icon { width: 16px; height: 16px; }
