@@ -256,11 +256,6 @@ html.km .eyebrow { font-size: 0.85rem; }
   position: relative; overflow: hidden;
   padding: 4.75rem 0 5.25rem;
   background-color: var(--surface);
-  background-image:
-    url("https://img-cdn.publive.online/fit-in/1280x960/filters:format(webp)/socialsamosa/media/media_files/2026/03/12/meta-scam-detection-2026-03-12-12-55-16.png");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
 }
 .hero::before { content: ""; position: absolute; inset: 0; z-index: 0; background: transparent; }
 .hero > * { position: relative; z-index: 1; }
@@ -272,15 +267,19 @@ html.km .eyebrow { font-size: 0.85rem; }
 .link-arrow:hover { color: var(--blue-800); text-decoration: underline; }
 .hero-trust { margin-top: 1.15rem; font-size: 0.84rem; color: var(--faint); }
 
-.phone-wrap { position: relative; max-width: 430px; margin-inline: auto; width: 100%; }
-@supports (-webkit-touch-callout: none) {
-  .hero { background-attachment: scroll; }
+.hero-visual { position: relative; max-width: 430px; margin-inline: auto; width: 100%; display: grid; place-items: center; padding: 1rem 0 1.5rem; isolation: isolate; }
+.hero-visual::before {
+  content: ""; position: absolute; top: 2.5rem; left: 50%; width: min(290px, 82%); bottom: 0.75rem; z-index: -1;
+  border: 1px solid rgba(255, 255, 255, 0.72); border-radius: 32px;
+  background: #fff; transform: translateX(-45%) rotate(4deg);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
 }
-.phone-wrap::before {
-  content: ""; position: absolute; inset: -36px -48px auto auto; width: 230px; height: 230px;
-  background: radial-gradient(closest-side, var(--blue-100), transparent 72%);
-  z-index: -1;
+.hero-image {
+  display: block; width: min(100%, 290px); max-height: 610px; object-fit: contain;
+  border: 9px solid #171923; border-radius: 30px;
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.28);
 }
+.hero-visual .phone { display: none; }
 .phone { background: #fff; border: 1px solid var(--border); border-radius: 26px; box-shadow: var(--shadow-lg); padding: 0.7rem; }
 .chat-head {
   display: flex; align-items: center; gap: 0.65rem;
@@ -1868,7 +1867,7 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 
 @media (max-width: 1020px) {
   .hero-grid { grid-template-columns: 1fr; gap: 2.6rem; }
-  .phone-wrap { margin-inline: auto; }
+  .hero-visual { margin-inline: auto; }
   .func-grid { grid-template-columns: repeat(2, 1fr); }
   .flow { grid-template-columns: repeat(5, 1fr); gap: 1.2rem; }
   .tg-steps { grid-template-columns: repeat(2, 1fr); }
@@ -1909,7 +1908,9 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
 }
 @media (max-width: 600px) {
   section { padding: 3.4rem 0; }
-  .hero { padding: 3.2rem 0 3.8rem; background-attachment: scroll; }
+  .hero { padding: 3.2rem 0 3.8rem; }
+  .hero-visual::before { top: 2rem; width: min(250px, 82%); bottom: 0.5rem; }
+  .hero-image { width: min(100%, 250px); border-width: 7px; border-radius: 24px; }
   .rp-hero { padding: 3.2rem 0 3.8rem; }
   .hero-ctas .btn, .hero-ctas .link-arrow { flex: 1 1 100%; justify-content: center; }
   .link-arrow { padding: 0.6rem 0.35rem; }
