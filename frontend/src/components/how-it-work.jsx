@@ -26,7 +26,7 @@ const FLOW = [
     num: 2,
     img: sendContentImg,
     Icon: IconSend,
-    title: { en: "Send it", km: "ផ្ញើវា" },
+    title: { en: "Send it", km: "ផ្ញើមាតិការ" },
     tag: {
       en: "Send something suspicious.",
       km: "ផ្ញើអ្វីដែលអ្នកសង្ស័យ",
@@ -40,7 +40,7 @@ const FLOW = [
     num: 3,
     img: analyseContentImg,
     Icon: IconBot,
-    title: { en: "Analyze", km: "វិភាគ" },
+    title: { en: "Analyze​ and Evaluate", km: "វិភាគ និង ​វាតម្លៃ" },
     tag: {
       en: "The bot analyzes your content.",
       km: "បូតវិភាគមាតិការបស់អ្នក",
@@ -61,7 +61,7 @@ const FLOW = [
     },
     desc: {
       en: "You'll see an easy-to-understand result that warns you or confirms the content is safe.",
-      km: "អ្នកនឹងឃើញលទ្ធផលងាយយល់ ដែលព្រមានអ្នក ឬបញ្ជាក់ថាមាតិកាមានសុវត្ថិភាព។",
+      km: "អ្នកនឹងឃើញលទ្ធផលងាយយល់ ដែលអាចជាការព្រមានអ្នក ឬបញ្ជាក់ថាមាតិកាមានសុវត្ថិភាពឬអត់។",
     },
   },
 ]
@@ -78,7 +78,7 @@ export function HowItWorks() {
             <p>
               {t({
                 en: "Angket makes it simple to check suspicious content through Telegram. Just send it to the Angket bot, review the results, and decide what to do next.",
-                km: "Angket ធ្វើឱ្យការពិនិត្យមាតិកាដែលគួរឱ្យសង្ស័យតាមរយៈ Telegram មានភាពងាយស្រួល។ គ្រាន់តែផ្ញើមាតិកាទៅកាន់បូត Angket ពិនិត្យលទ្ធផល ហើយសម្រេចចិត្តថាតើអ្នកគួរធ្វើអ្វីបន្ទាប់។",
+                km: "Angket ធ្វើឱ្យការពិនិត្យមាតិកាដែលគួរឱ្យសង្ស័យតាមរយៈ Telegram មានភាពងាយស្រួល។ គ្រាន់តែផ្ញើមាតិកាទៅកាន់ Angket Bot ពិនិត្យលទ្ធផល ហើយអ្នកអាចសម្រេចចិត្តថាតើអ្នកគួរធ្វើអ្វីបន្ទាប់។",
               })}
             </p>
           </Reveal>
@@ -114,8 +114,8 @@ export function HowItWorks() {
             <IconInfo />
             <span>
               {t({
-                en: "Note: Angket provides an estimated risk assessment based on detected patterns. It does not guarantee that content is safe or fraudulent.",
-                km: "ចំណាំ៖ Angket ផ្តល់ការប៉ាន់ស្មានកម្រិតហានិភ័យ ដោយផ្អែកលើលំនាំ និងសញ្ញាដែលបានរកឃើញ។ លទ្ធផលនេះមិនមែនជាការធានាថាមាតិកានោះមានសុវត្ថិភាព ឬជាការបោកប្រាស់ជាក់លាក់នោះទេ។",
+                en: "Note: Angket provides an estimated risk assessment based on detected patterns.",
+                km: "ចំណាំ៖ Angket ផ្តល់ការប៉ាន់ស្មានកម្រិតហានិភ័យ ដោយផ្អែកលើលំនាំ និងសញ្ញាដែលបានរកឃើញ។",
               })}
             </span>
           </p>

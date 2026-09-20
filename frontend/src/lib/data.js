@@ -1,5 +1,4 @@
-// Placeholder bot link — swap for the real one before launch.
-export const TELEGRAM_BOT_URL = "https://t.me/AngketBot"
+export const TELEGRAM_BOT_URL = "https://t.me/AngketIs_bot"
 
 export const NAV_LINKS = [
   { href: "/", en: "Home", km: "ទំព័រដើម" },

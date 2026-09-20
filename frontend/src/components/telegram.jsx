@@ -12,28 +12,28 @@ const FLOW = [
     num: 1,
     img: connectBotImg,
     Icon: IconSearch,
-    title: { en: "Get the bot", km: "ទទួលបានបូត" },
+    title: { en: "Connect the bot with chat automation", km: "ភ្ជាប់បូតទៅនឹងមុខងារឆាតអូតូ" },
     tag: {
-      en: "Find and connect in Telegram.",
-      km: "ស្វែងរក និងភ្ជាប់ក្នុង Telegram",
+      en: "Find and connect bot with chat automation in Telegram.",
+      km: "ស្វែងរក និងភ្ជាប់បូតជាមួយមុខងារឆាតដោយស្វ័យប្រវត្តិក្នុង Telegram។",
     },
     desc: {
       en: "Search the bot's username directly in Telegram, or open the Angket website and tap through to the bot. Then connect with its chat automation.",
-      km: "ស្វែងរកឈ្មោះបូតនៅក្នុង Telegram ដោយផ្ទាល់ ឬចូលទៅកាន់គេហទំព័រ Angket ហើយចុចភ្ជាប់ទៅបូត។ បន្ទាប់មកភ្ជាប់ជាមួយការឆ្លើយតបដោយស្វ័យប្រវត្តិ។",
+      km: "ស្វែងរកឈ្មោះបូតនៅក្នុង Telegram ដោយផ្ទាល់ ឬចូលទៅកាន់គេហទំព័រ Angket ហើយចុចភ្ជាប់ទៅបូត។ បន្ទាប់មកភ្ជាប់ជាមួយមុខងារឆាតដោយស្វ័យប្រវត្តិ។",
     },
   },
   {
     num: 2,
     img: incomingContentImg,
     Icon: IconSend,
-    title: { en: "Incoming message", km: "សារចូល" },
+    title: { en: "Incoming message", km: "មាតិការសារដែលចូលមក" },
     tag: {
-      en: "Send or forward suspicious content.",
-      km: "ផ្ញើ ឬបញ្ជូនបន្តមាតិកាគួរឱ្យសង្ស័យ",
+      en: "Someone Send or forward suspicious content​ to you.",
+      km: "នរណាម្នាក់ផ្ញើ ឬបញ្ជូនបន្តមាតិកាគួរឱ្យសង្ស័យមកអ្នក។",
     },
     desc: {
-      en: "Send or forward a suspicious message, link, or file so it reaches the bot conversation.",
-      km: "ផ្ញើ ឬបញ្ជូនបន្តសារ តំណភ្ជាប់ ឬឯកសារដែលគួរឱ្យសង្ស័យ ដើម្បីឱ្យវាមកដល់ការសន្ទនាជាមួយបូត។",
+      en: "The live scan mode will check them manually without you forward them to the bot.",
+      km: "ជាមួយមុខងារវិភាគ​ឆាត និងជូនដំណឹងដោយស្វ័យប្រវត្តិនេះកាន់តែមានភាពងាយស្រួល​​ ដោយអ្នកមិនចាំបាច់ផ្ញើមាតិការនោះដោយខ្លួនឯងឡើយ។",
     },
   },
   {
@@ -43,7 +43,7 @@ const FLOW = [
     title: { en: "Automatic analysis", km: "ការវិភាគស្វ័យប្រវត្តិ" },
     tag: {
       en: "The bot analyzes instantly.",
-      km: "បូតវិភាគភ្លាមៗ",
+      km: "បូតនឹងវិភាគមាតិការដែលចូលមកនោះភ្លាមៗ",
     },
     desc: {
       en: "The bot automatically analyzes the message, link, or file it receives - no waiting around.",
@@ -54,21 +54,21 @@ const FLOW = [
     num: 4,
     img: resultImg,
     Icon: IconBell,
-    title: { en: "User alert", km: "ការជូនដំណឹងដល់អ្នកប្រើ" },
+    title: { en: "User alert", km: "ការជូនដំណឹងដល់អ្នកប្រើប្រាស់" },
     tag: {
       en: "A clear alert with everything you need.",
       km: "ការជូនដំណឹងច្បាស់លាស់ជាមួយអ្វីដែលអ្នកត្រូវការ",
     },
     desc: {
-      en: "You get an easy-to-understand alert so you can decide what to do next.",
-      km: "អ្នកនឹងទទួលបានការជូនដំណឹងងាយយល់ ដើម្បីសម្រេចចិត្តថាត្រូវធ្វើអ្វីបន្ទាប់។",
+      en: "You get an easy-to-understand alert so you can decide what to do next. You will get result with",
+      km: "អ្នកនឹងទទួលបានការជូនដំណឹងងាយយល់ ដូចនេះអ្នកអាចសម្រេចចិត្តថាត្រូវធ្វើអ្វីបន្ទាប់។ ការជូនដំណឹងនឹងភ្ជាប់មកជាមួយ៖",
     },
     details: [
       { en: "Sender", km: "អ្នកផ្ញើ" },
       { en: "Date/time", km: "កាលបរិច្ឆេទ/ពេលវេលា" },
-      { en: "Risk score", km: "ពិន្ទុហានិភ័យ" },
+      { en: "Risk score", km: "ភាគរយហានិភ័យ" },
       { en: "Reasons", km: "មូលហេតុ" },
-      { en: "Recommended actions", km: "សកម្មភាពដែលណែនាំ" },
+      { en: "Recommended actions", km: "សកម្មភាពដែលណែនាំគួរធ្វើបន្ទាប់" },
     ],
   },
 ]
@@ -80,11 +80,11 @@ export function TelegramBand() {
     <section className="tg-band" id="telegram" aria-labelledby="tg-title">
       <div className="container">
         <Reveal className="tg-inner">
-          <h2 id="tg-title">{t({ en: "Angket Bot Usage", km: "របៀបប្រើប្រាស់ Bot Angket" })}</h2>
+          <h2 id="tg-title">{t({ en: "Angket Bot Usage​ With Live Scan Mode", km: "របៀបប្រើប្រាស់ Bot Angket ជាមួយនឹងមុខងារវិភាគ​ និងជូនដំណឹងដោយស្វ័យប្រវត្តិ" })}</h2>
           <p className="tg-copy">
             {t({
-              en: "This website is the front door - the bot is where your messages actually get checked. Send anything suspicious and receive an estimated risk assessment with clear reasons, right inside Telegram.",
-              km: "គេហទំព័រនេះគ្រាន់តែជាទ្វារមុខ - Bot គឺជាកន្លែងពិតដែលសាររបស់អ្នកត្រូវបានពិនិត្យ។ ផ្ញើអ្វីៗដែលគួរឲ្យសង្ស័យទៅកាន់ Bot ហើយអ្នកនឹងទទួលបានការវិភាគពីហានិភ័យ ជាមួយមូលហេតុច្បាស់លាស់ ក្នុង Telegram ផ្ទាល់។",
+              en: "With Live Scanning feature, the bot automatically scans incoming messages without requiring the user to forward them manually.",
+              km: "ជាមួយនឹងមុខងារវិភាគ​ និងជូនដំណឹងដោយស្វ័យប្រវត្តិនេះ បូតនឹងធ្វើការស្កេន​ និងវិភាគមាតិការក្នុងសារដែលចូលមក ដោយអ្នកមិនចាំបាច់ផ្ញើទៅបូតផ្ទាល់នោះទេ។",
             })}
           </p>
 
