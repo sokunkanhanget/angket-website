@@ -1,57 +1,39 @@
-# Angket — Scam Detection Platform
+# Angket
 
-Community platform to report and detect scams. Frontend is React + Vite, backend is
-Express + Supabase.
+**Theme:** Digital, Media and Information Literacy (DMIL)
 
-## Setup
+Angket helps people identify scams, phishing, and fraudulent messages before they act on them. It combines a Telegram bot for instant risk analysis with a website where users can report scam experiences to warn others. The website includes a direct link to the Telegram bot, so users can move seamlessly between reporting scams and getting instant risk analysis.
 
-### Database (required once)
+## Problem
 
-Run `backend/schema.sql` in the Supabase Dashboard → SQL Editor for the project in
-`backend/.env`. This creates the `users` and `category` tables and seeds the default
-scam categories.
+People frequently receive suspicious messages, links, URLs, and files — fake job offers, prize notifications, phishing requests, investment scams — without knowing whether they're legitimate. Many are also unaware that the same scam has already targeted others, increasing the risk of unsafe decisions, financial loss, or exposed personal information.
 
-> **Schema source of truth:** `backend/schema.sql` is the authoritative schema for the
-> running app — user and category data live in `users` and `category`, and every
-> controller reads/writes them via Supabase REST. The report/subscription/verification
-> APIs currently return empty data until re-implemented on the remaining legacy tables
-> (`report_form`, `report_image`, `subscription_plan`, `user_subscription`,
-> `subscription_order`, `subscription_member`, `bot_subscriber`). If you need a feature
-> touching categories, subscriptions, or user/profile data, reuse or extend the `users`/
-> `category` tables (or the space above) instead of creating new ones, and confirm
-> before adding anything that overlaps.
+## Features
 
-To make the first user an admin:
+**Telegram Bot**
+- **On-demand analysis** — send a message, file, link, or URL and get a risk score (% likelihood of being a scam), an explanation of why it was flagged, and recommended next steps.
+- **Live scan mode** — toggle automatic scanning of incoming messages on/off. When enabled, the bot flags suspicious messages without needing to be manually forwarded, alerting on the sender, a content summary, and the same risk analysis as on-demand mode.
 
-```sql
-update public.users set role = 'admin' where email = 'you@example.com'
+**Website**
+- **Community reporting** — users report their own scam experiences (with supporting images and details) to build a shared record that helps warn others about known threats.
+- **Bot access** — a button on the site links directly to the Telegram bot, so users can start on-demand analysis without leaving the site.
+
+## Value Proposition
+- **Speed** — instant risk analysis, no technical knowledge required
+- **Convenience** — live scan mode removes manual forwarding
+- **Transparency** — clear reasoning behind each risk score, not just safe/unsafe
+- **Collective Protection** — community reports help others recognize threats early
+- **Accessibility** — delivered via Telegram, a platform already widely adopted
+- **Actionability** — concrete next steps, not just a warning
+
+## Project Structure
 ```
-
-### Backend
-
-```bash
-cd backend
-npm install
-# configure backend/.env (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, PORT, CLIENT_ORIGIN)
-npm run dev   # http://localhost:3000
+angket-website/
+├── frontend/          # React + Vite app (source of the UI)
+│   ├── src/
+│   └── ...
+├── backend/
+│   └── api/           # Express server (handles API requests, e.g. account creation)
+├── package.json       # Root package.json — build scripts run from here
+└── vite.config.js     # Vite config (root: 'frontend')
 ```
-
-### Frontend
-
-```bash
-npm install
-npm run dev   # http://localhost:5173 (proxies /api -> http://localhost:3000)
-```
-
-## API
-
-All endpoints are under `/api`:
-
-- `POST /api/users/signup` — create an account
-- `POST /api/users/login` — sign in, returns a JWT token
-- `GET /api/users/me` — current user (auth required)
-- `GET|POST /api/reports`, `GET /api/reports/:id` — community reports
-- `GET /api/categories` — scam categories
-- `GET /api/admin/*` — admin endpoints (auth + admin role required)
-
-Scripts: frontend `npm run dev|build|lint`, backend `npm run dev|start|test`.
