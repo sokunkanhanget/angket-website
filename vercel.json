@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://angket-website-backend.onrender.com/api/:path*" }
+  ]
+}
