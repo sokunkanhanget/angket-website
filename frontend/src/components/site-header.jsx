@@ -92,7 +92,7 @@ export function SiteHeader() {
                 onClick={() => setLangOpen((v) => !v)}
               >
                 {lang === "km" ? <FlagKH /> : <FlagGB />}
-                {lang === "km" ? "ខ្មែរ" : "ENGLISH"}
+                <span className="lang-label">{lang === "km" ? "ខ្មែរ" : "ENGLISH"}</span>
                 <svg
                   className={`lang-caret${langOpen ? " up" : ""}`}
                   viewBox="0 0 16 16"

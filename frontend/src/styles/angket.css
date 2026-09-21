@@ -932,7 +932,12 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
   .how .flow-step { flex: 0 0 240px; min-width: 0; scroll-snap-align: start; }
 }
 @media (max-width: 640px) {
-  .how .flow-step { flex: 0 0 80%; min-width: 240px; }
+  .how .flow {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+  .how .flow-step { flex: 1 1 100%; min-width: 0; scroll-snap-align: none; }
 }
 
 .tg-band .container { width: min(1400px, 100%); padding-inline: 24px; }
@@ -962,7 +967,12 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
   .tg-band .flow-step { flex: 0 0 240px; min-width: 0; scroll-snap-align: start; }
 }
 @media (max-width: 640px) {
-  .tg-band .flow-step { flex: 0 0 80%; min-width: 240px; }
+  .tg-band .flow {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    scroll-snap-type: none;
+  }
+  .tg-band .flow-step { flex: 1 1 100%; min-width: 0; scroll-snap-align: none; }
 }
 
 /* ============================================================
@@ -1881,6 +1891,14 @@ dialog.info-modal::backdrop { background: rgba(15, 23, 42, 0.45); }
   .nav-links, .nav-actions .btn { display: none; }
   .menu-btn { display: grid; }
   .nav { gap: 0.75rem; }
+  .nav-actions { margin-left: auto; }
+}
+@media (max-width: 640px) {
+  .nav-actions { gap: 0.5rem; }
+  .lang-toggle { padding: 0.45rem; }
+  .lang-label, .lang-caret { display: none; }
+  .lang-toggle .flag { width: 24px; }
+  .nav-user-name { display: none; }
 }
 @media (max-width: 720px) {
   .prob-grid, .tips-grid, .why-grid, .func-grid { grid-template-columns: 1fr; }
