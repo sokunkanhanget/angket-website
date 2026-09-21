@@ -951,7 +951,7 @@ html.km .about-flourish { font-family: var(--font-km); font-size: 1.05rem; }
 .tg-band .flow-step .step-head { gap: 0.7rem; margin-bottom: 10px; }
 .tg-band .flow-step .step-head .step-ic { width: 32px; height: 32px; border-radius: 12px; }
 .tg-band .flow-step .step-ic .icon { width: 16px; height: 16px; }
-.tg-band .flow-step .step-head h3 { margin: 0; font-size: 1rem; line-height: 1.3; }
+.tg-band .flow-step .step-head h3 { margin: 0; font-size: 1rem; line-height: 1.3; color: var(--ink); }
 .tg-band .flow-step p { color: var(--muted); font-size: 0.8125rem; line-height: 1.6; margin: 0; }
 .tg-band .flow-step p + p { margin-top: 6px; }
 .tg-band .flow-step .step-tag { color: var(--blue-700); font-weight: 600; font-size: 0.875rem; line-height: 1.4; margin-bottom: 6px; }
