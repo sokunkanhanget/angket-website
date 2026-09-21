@@ -197,24 +197,6 @@ model UserSubscription {
   @@map("user_subscription")
 }
 
-model SubscriptionUsage {
-  id                 String   @id @default(uuid()) @map("usage_id")
-  userSubscriptionId String   @map("user_subscription_id")
-  date               DateTime @db.Date
-
-  fileCount    Int @default(0) @map("file_count")
-  messageCount Int @default(0) @map("message_count")
-  tokenCount   Int @default(0) @map("token_count")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  userSubscription UserSubscription @relation(fields: [userSubscriptionId], references: [id])
-
-  @@unique([userSubscriptionId, date])
-  @@map("subscription_usage")
-}
-
 model SubscriptionOrder {
   id        String    @id @default(uuid()) @map("order_id")
   token     String
@@ -227,9 +209,6 @@ model SubscriptionOrder {
   proofRef  String?  @map("proof_ref")
   createdAt DateTime @default(now()) @map("created_at")
   paidAt    DateTime? @map("paid_at")
-
-  paymentMethod String? @map("payment_method")
-  transactionId String? @map("transaction_id")
 
   botSubId  String @map("bot_sub_id")
   subPlanId String @map("sub_plan_id")
