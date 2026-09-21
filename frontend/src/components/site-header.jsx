@@ -6,33 +6,15 @@ import { NAV_LINKS } from "@/lib/data"
 import { rememberAuthOrigin } from "@/lib/authBack"
 import { IconMenu, IconUser } from "./icons"
 import logoImg from "@/assets/logo.png"
+import flagEnImg from "@/assets/flags/flag-en.webp"
+import flagKhImg from "@/assets/flags/flag-kh.svg"
 
 function FlagGB() {
-  return (
-    <svg className="flag" viewBox="0 0 60 30" aria-hidden="true">
-      <clipPath id="gb-clip"><rect width="60" height="30" /></clipPath>
-      <g clipPath="url(#gb-clip)">
-        <rect width="60" height="30" fill="#012169" />
-        <path d="M0,0 60,30 M60,0 0,30" stroke="#fff" strokeWidth="6" />
-        <path d="M0,0 60,30 M60,0 0,30" stroke="#C8102E" strokeWidth="4" />
-        <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10" />
-        <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6" />
-      </g>
-    </svg>
-  )
+  return <img className="flag" src={flagEnImg} alt="English" />
 }
 
 function FlagKH() {
-  return (
-    <svg className="flag" viewBox="0 0 60 30" aria-hidden="true">
-      <rect width="60" height="30" fill="#032ea1" />
-      <rect y="7.5" width="60" height="15" fill="#e00025" />
-      <g fill="#fff">
-        <path d="M26 9 h8 v2 l1 1 v3 l-1 1 h-8 l-1 -1 v-3 l1 -1 z" />
-        <rect x="24.5" y="16" width="11" height="2" />
-      </g>
-    </svg>
-  )
+  return <img className="flag" src={flagKhImg} alt="ខ្មែរ" />
 }
 
 export function SiteHeader() {
