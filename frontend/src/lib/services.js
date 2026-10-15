@@ -4,6 +4,12 @@ export const authApi = {
   login: ({ email, phone, password }) => api.post("/users/login", { email, phone, password }),
   signup: ({ full_name, email, password, phone }) =>
     api.post("/users/signup", { full_name, email, password, phone }),
+  resendVerification: (email) => api.post("/users/resend-verification", { email }),
+  verifySignupOtp: ({ email, token }) => api.post("/users/verify-otp", { email, token }),
+  logout: () => api.post("/users/logout"),
+  forgotPassword: (email) => api.post("/users/forgot-password", { email }),
+  verifyEmailLink: ({ token_hash, type }) => api.post("/users/verify", { token_hash, type }),
+  resetPassword: (password, resetGrant) => api.post("/users/reset-password", { password, resetGrant }),
   me: () => api.get("/users/me"),
 }
 

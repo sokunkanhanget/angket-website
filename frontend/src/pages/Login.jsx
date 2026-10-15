@@ -7,6 +7,7 @@ import { AuthLayout } from "@/components/auth/AuthLayout"
 import { AuthTabs } from "@/components/auth/AuthTabs"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
+import { authApi } from "@/lib/services"
 
 export function Login() {
   const { t } = useLang()
@@ -18,9 +19,13 @@ export function Login() {
   const [phone, setPhone] = useState("")
   const [phoneCode, setPhoneCode] = useState("+855")
   const [password, setPassword] = useState("")
-  const [keepSignedIn, setKeepSignedIn] = useState(true)
+  const [keepSignedIn, setKeepSignedIn] = useState(false)
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
+  const [loginMessage, setLoginMessage] = useState("")
+  const [canResend, setCanResend] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [resendMessage, setResendMessage] = useState("")
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -53,12 +58,15 @@ export function Login() {
     if (Object.keys(errs).length > 0) return
     if (submitting) return
 
+    setLoginMessage("")
+    setCanResend(false)
+    setResendMessage("")
     setSubmitting(true)
     try {
       const user = await login(
         activeTab === "email"
-          ? { email: cleanEmail, password }
-          : { phone: `${phoneCode}${phone.replace(/\s+/g, "")}`, password },
+          ? { email: cleanEmail, password, keepSignedIn }
+          : { phone: `${phoneCode}${phone.replace(/\s+/g, "")}`, password, keepSignedIn },
       )
       const fallback = user?.role === "admin" ? "/admin/dashboard" : "/"
       let dest = location.state?.from?.pathname
@@ -74,9 +82,30 @@ export function Login() {
       }
       navigate(dest, { replace: true })
     } catch (err) {
-      setErrors({ password: err.message })
+      if (err.data?.code === "EMAIL_NOT_VERIFIED") {
+        setLoginMessage(t({
+          en: "Please verify your email address before signing in.",
+          km: "សូមផ្ទៀងផ្ទាត់អាសយដ្ឋានអ៊ីមែលរបស់អ្នក មុនពេលចូលគណនី។",
+        }))
+        setCanResend(activeTab === "email")
+      } else {
+        setErrors({ password: err.data?.error || err.message })
+      }
     } finally {
       setSubmitting(false)
+    }
+  }
+
+  const handleResend = async () => {
+    setResending(true)
+    setResendMessage("")
+    try {
+      const result = await authApi.resendVerification(email.trim())
+      setResendMessage(result.message)
+    } catch (err) {
+      setResendMessage(err.data?.error || err.message)
+    } finally {
+      setResending(false)
     }
   }
 
@@ -94,8 +123,36 @@ export function Login() {
         <h1 className="auth-split__heading auth-split__heading--login">
           {t({ en: "Welcome to Angket!", km: "សូមស្វាគមន៍មកកាន់ Angket!" })}
         </h1>
+        {location.state?.passwordReset && (
+          <p className="auth-notice" role="status">
+            {t({ en: "Your password has been updated. Sign in with your new password.", km: "ពាក្យសម្ងាត់របស់អ្នកត្រូវបានធ្វើបច្ចុប្បន្នភាព។ សូមចូលដោយប្រើពាក្យសម្ងាត់ថ្មី។" })}
+          </p>
+        )}
 
-        <AuthTabs activeTab={activeTab} onChange={(tab) => { setActiveTab(tab); setErrors({}) }} />
+        <AuthTabs activeTab={activeTab} onChange={(tab) => {
+          setActiveTab(tab)
+          setErrors({})
+          setLoginMessage("")
+          setCanResend(false)
+          setResendMessage("")
+        }} />
+
+        {loginMessage && (
+          <p className="auth-notice" role="alert">
+            {loginMessage}
+            {canResend && email.trim() && (
+              <>
+                {" "}
+                <button type="button" className="auth-inline-link" onClick={handleResend} disabled={resending}>
+                  {resending
+                    ? t({ en: "Sending…", km: "កំពុងផ្ញើ…" })
+                    : t({ en: "Resend verification email", km: "ផ្ញើអ៊ីមែលផ្ទៀងផ្ទាត់ម្តងទៀត" })}
+                </button>
+              </>
+            )}
+          </p>
+        )}
+        {resendMessage && <p className="auth-notice" role="status">{resendMessage}</p>}
 
         <form className="auth-form" onSubmit={handleLogin} noValidate>
           {activeTab === "email" ? (
@@ -127,7 +184,12 @@ export function Login() {
                 {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
               </label>
               <div className="auth-phone">
-                <select className="control auth-phone__code" aria-label="Country code">
+                <select
+                  className="control auth-phone__code"
+                  aria-label="Country code"
+                  value={phoneCode}
+                  onChange={(event) => setPhoneCode(event.target.value)}
+                >
                   <option value="+855">+855</option>
                   <option value="+84">+84</option>
                   <option value="+856">+856</option>
@@ -189,7 +251,7 @@ export function Login() {
             >
               {t({ en: "Keep me signed in", km: "រក្សាការចូលរបស់ខ្ញុំ" })}
             </Checkbox>
-            <Link className="auth-row__link" to="/login">
+            <Link className="auth-row__link" to="/forgot-password">
               {t({ en: "Forgot password?", km: "ភ្លេចពាក្យសម្ងាត់?" })}
             </Link>
           </div>

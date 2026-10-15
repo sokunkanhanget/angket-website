@@ -3,6 +3,10 @@ import { BrowserRouter, Routes, Route, Outlet, useLocation } from "react-router-
 import { SiteHeader } from "@/components/site-header"
 import { Login } from "@/pages/Login"
 import { SignUp } from "@/pages/SignUp"
+import { ForgotPassword } from "@/pages/ForgotPassword"
+import { ResetPassword } from "@/pages/ResetPassword"
+import { AuthCallback } from "@/pages/AuthCallback"
+import { VerifyEmail } from "@/pages/VerifyEmail"
 import { Hero } from "@/components/hero"
 import { Subscription } from "@/components/subscription"
 import { Problems } from "@/components/problems"
@@ -17,6 +21,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { LangProvider, useLang } from "@/lib/i18n"
 import { AuthProvider } from "@/lib/auth"
 import ProtectedAdminRoute from "@/admin/ProtectedAdminRoute"
+import ProtectedRoute from "@/admin/ProtectedRoute"
 import AdminLayout from "@/admin/AdminLayout"
 import DashboardPage from "@/admin/pages/DashboardPage"
 import UsersPage from "@/admin/pages/UsersPage"
@@ -104,12 +109,20 @@ export default function App() {
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/report" element={<ReportsFeed />} />
-            <Route path="/profile" element={<UserProfile />} />
             <Route path="*" element={<HomePage />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route element={<PublicLayout />}>
+              <Route path="/profile" element={<UserProfile />} />
+            </Route>
           </Route>
           <Route element={<CleanLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
           </Route>
         </Routes>
       </BrowserRouter>

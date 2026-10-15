@@ -5,12 +5,10 @@ import { goAuthBack } from "@/lib/authBack"
 import { AuthLayout } from "@/components/auth/AuthLayout"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
-import { useAuth } from "@/lib/auth"
 import { authApi } from "@/lib/services"
 
 export function SignUp() {
   const { t } = useLang()
-  const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({
     name: "",
@@ -40,9 +38,7 @@ export function SignUp() {
     } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
       errs.email = t({ en: "Please enter a valid email.", km: "សូមបញ្ចូលអាសយដ្ឋានអ៊ីមែលដែលត្រឹមត្រូវ" })
     }
-    if (!form.phone.trim()) {
-      errs.phone = t({ en: "Phone number is required.", km: "សូមបញ្ចូលលេខទូរស័ព្ទ" })
-    } else {
+    if (form.phone.trim()) {
       const fullPhone = `${form.code}${form.phone.replace(/\s+/g, "")}`
       if (!/^\+\d{1,3}[0-9]{7,12}$/.test(fullPhone)) {
         errs.phone = t({
@@ -88,12 +84,14 @@ export function SignUp() {
         full_name: form.name,
         email,
         password: form.password,
-        phone: `${form.code}${form.phone}`,
+        phone: form.phone.trim() ? `${form.code}${form.phone}` : "",
       })
-      await login({ email, password: form.password })
-      navigate("/", { replace: true })
+      sessionStorage.setItem("angket_pending_email", email)
+      sessionStorage.setItem("angket_otp_sent_at", String(Date.now()))
+      setForm((current) => ({ ...current, password: "", confirm: "" }))
+      navigate("/verify-email", { replace: true, state: { email } })
     } catch (err) {
-      setErrors(err.data?.fields || { email: err.message })
+      setErrors(err.data?.fields || { email: err.data?.error || err.message })
     } finally {
       setSubmitting(false)
     }
@@ -157,7 +155,7 @@ export function SignUp() {
 
             <div className="auth-field">
               <label className="auth-field__label" htmlFor="signup-phone">
-                {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
+                {t({ en: "Phone number (optional)", km: "លេខទូរស័ព្ទ (មិនចាំបាច់)" })}
               </label>
               <div className="auth-phone">
                 <select

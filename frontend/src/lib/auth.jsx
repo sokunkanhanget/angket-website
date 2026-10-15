@@ -4,6 +4,17 @@ import { authApi } from "./services"
 
 const AuthContext = createContext(null)
 
+function mapUser(user) {
+  return {
+    id: user.id,
+    name: user.name || user.full_name || user.email,
+    email: user.email,
+    phone: user.phone || null,
+    avatarUrl: user.avatarUrl || null,
+    role: user.role || "user",
+  }
+}
+
 export function AuthProvider({ children }) {
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -29,26 +40,40 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const login = useCallback(async ({ email, phone, password }) => {
+  const login = useCallback(async ({ email, phone, password, keepSignedIn = true }) => {
     const res = await authApi.login({ email, phone, password })
-    api.setToken(res.token)
-    const user = {
-      id: res.user.id,
-      name: res.user.full_name || res.user.email,
-      email: res.user.email,
-      avatarUrl: res.user.avatarUrl || null,
-      role: res.user.role,
-    }
+    api.setSession({ token: res.token, refreshToken: res.refreshToken }, keepSignedIn)
+    const user = mapUser(res.user)
     setAdmin(user)
     return user
   }, [])
 
-  const logout = useCallback(() => {
-    api.clearToken()
-    setAdmin(null)
+  const completeSession = useCallback(async ({ token, refreshToken }, persist = false) => {
+    api.setSession({ token, refreshToken }, persist)
+    try {
+      const res = await authApi.me()
+      const user = mapUser(res.user)
+      setAdmin(user)
+      return user
+    } catch (error) {
+      api.clearToken()
+      throw error
+    }
   }, [])
 
-  const value = useMemo(() => ({ admin, login, logout, loading }), [admin, login, logout, loading])
+  const logout = useCallback(() => {
+    const revocation = authApi.logout()
+    api.clearToken()
+    setAdmin(null)
+    return revocation.catch((error) => {
+      console.error("logout token revocation failed:", error)
+    })
+  }, [])
+
+  const value = useMemo(
+    () => ({ admin, login, completeSession, logout, loading }),
+    [admin, login, completeSession, logout, loading],
+  )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

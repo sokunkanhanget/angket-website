@@ -1,57 +1,55 @@
-# Angket — Scam Detection Platform
 
-Community platform to report and detect scams. Frontend is React + Vite, backend is
-Express + Supabase.
+# Angket – Smarter Check, Safer Choice
 
-## Setup
+## 1. Project Title
+Angket – Digital Safety Platform
 
-### Database (required once)
+## 2. Description
+Angket is a digital safety platform designed to help users identify suspicious messages, links, URLs, and files. It consists of a Telegram bot and a web application. Users can submit suspicious content to the Telegram bot for analysis and receive a risk score, reasons for the assessment, and recommended actions.
 
-Run `backend/schema.sql` in the Supabase Dashboard → SQL Editor for the project in
-`backend/.env`. This creates the `users` and `category` tables and seeds the default
-scam categories.
+For proactive protection, Angket provides a Live Scan feature that automatically scans messages received in connected Telegram groups or personal chats. Users receive alerts containing the sender, date, time, message type, risk score, reasons, and recommended actions.
 
-> **Schema source of truth:** `backend/schema.sql` is the authoritative schema for the
-> running app — user and category data live in `users` and `category`, and every
-> controller reads/writes them via Supabase REST. The report/subscription/verification
-> APIs currently return empty data until re-implemented on the remaining legacy tables
-> (`report_form`, `report_image`, `subscription_plan`, `user_subscription`,
-> `subscription_order`, `subscription_member`, `bot_subscriber`). If you need a feature
-> touching categories, subscriptions, or user/profile data, reuse or extend the `users`/
-> `category` tables (or the space above) instead of creating new ones, and confirm
-> before adding anything that overlaps.
+The web application also allows users to report scam experiences by submitting details and supporting images. These reports help build a shared source of scam information, raise awareness, and help others recognize similar scams.
 
-To make the first user an admin:
+**Angket, smarter check, safer choice.**
 
-```sql
-update public.users set role = 'admin' where email = 'you@example.com'
-```
+## Email OTP authentication setup
 
-### Backend
+Sign-up uses Supabase Auth and verifies the email with a six-digit OTP entered
+on Angket's `/verify-email` page. In the Supabase Dashboard:
 
-```bash
-cd backend
-npm install
-# configure backend/.env (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, PORT, CLIENT_ORIGIN)
-npm run dev   # http://localhost:3000
-```
+1. Enable **Authentication → Sign In / Providers → Email → Confirm email**.
+2. Under **Authentication → Email Templates → Confirm signup**, show the code
+   with `{{ .Token }}` (not `{{ .ConfirmationURL }}`), for example:
 
-### Frontend
+   ```html
+   <h2>Confirm your Angket account</h2>
+   <p>Your verification code is: <strong>{{ .Token }}</strong></p>
+   ```
 
-```bash
-npm install
-npm run dev   # http://localhost:5173 (proxies /api -> http://localhost:3000)
-```
+3. Configure SMTP for production email delivery. Supabase's default email OTP
+   expires after one hour and has a 60-second resend interval; configure these
+   under the Email provider settings as needed. The app follows the resend
+   interval and displays validation/errors for rejected or expired codes.
+4. Keep `SUPABASE_URL`, `SUPABASE_ANON_KEY` (or
+   `SUPABASE_PUBLISHABLE_KEY`), and `SUPABASE_SECRET_KEY` in the backend
+   environment only. Do not put the service-role/secret key in frontend config.
 
-## API
+The confirmation email contains only an OTP, not a sign-up URL. Users enter it
+in the app, where the backend calls Supabase `verifyOtp` with their email,
+the code, and `type: "signup"`. Passwords and OTPs are not stored by Angket.
+Password recovery continues to use the existing recovery flow.
 
-All endpoints are under `/api`:
+To verify the full email flow, run the backend and frontend, sign up with an
+email address you can access, retrieve the code from that inbox, and enter it
+on `/verify-email`. Then confirm the user can sign in and open `/profile`, while
+an unverified session is rejected by protected APIs.
 
-- `POST /api/users/signup` — create an account
-- `POST /api/users/login` — sign in, returns a JWT token
-- `GET /api/users/me` — current user (auth required)
-- `GET|POST /api/reports`, `GET /api/reports/:id` — community reports
-- `GET /api/categories` — scam categories
-- `GET /api/admin/*` — admin endpoints (auth + admin role required)
-
-Scripts: frontend `npm run dev|build|lint`, backend `npm run dev|start|test`.
+## 3. Features
+- **Scam Detection:** Analyze suspicious messages, links, URLs, and files.
+- **Risk Assessment:** Provide risk scores, reasons, and recommended actions.
+- **Telegram Bot:** Allow users to submit suspicious content directly through Telegram.
+- **Live Scan:** Automatically scan new messages in connected Telegram groups or personal chats.
+- **Real-Time Alerts:** Notify users about potential threats with relevant message and risk information.
+- **Scam Reporting:** Allow users to submit scam experiences with supporting images.
+- **Community Awareness:** Help users recognize scam patterns through shared reports and information.
