@@ -41,17 +41,17 @@ export default function DashboardPage() {
     return (
       <PageShell title="Dashboard">
         {error ? (
-          <div className="placeholder-card">
+          <div className="bg-white border border-admin-border rounded-2xl p-10 text-center text-admin-slate-600 text-[15px]">
             <p>Failed to load stats: {error}</p>
           </div>
         ) : (
-          <div className="stat-row">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="stat-card">
-                <span className="stat-icon" style={COLORS.blue} />
-                <div className="stat-text">
-                  <span className="stat-value mono">–</span>
-                  <span className="stat-label">Loading…</span>
+              <div key={i} className="flex items-center gap-3.5 bg-white border border-admin-border rounded-2xl p-5">
+                <span className="w-[42px] h-[42px] rounded-[11px] inline-flex items-center justify-center flex-shrink-0" style={COLORS.blue} />
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[22px] font-bold text-admin-slate leading-[1.2] font-[IBM_Plex_Mono,monospace] font-variant-numeric-tabular-nums">–</span>
+                  <span className="text-[13px] text-admin-slate-600 leading-[1.4] mt-0.5">Loading…</span>
                 </div>
               </div>
             ))}
@@ -75,12 +75,12 @@ const rowTwo = [
 
   return (
     <PageShell title="Dashboard">
-      <section className="stat-row">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {rowOne.map((card) => (
           <StatCard key={card.label} {...card} />
         ))}
       </section>
-      <section className="stat-row">
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {rowTwo.map((card) => (
           <StatCard key={card.label} {...card} />
         ))}

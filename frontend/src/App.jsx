@@ -37,7 +37,7 @@ function ScrollToTop() {
 function SkipLink() {
   const { t } = useLang()
   return (
-    <a className="skip-link" href="#main">
+    <a className="absolute left-[-9999px] top-0 z-[300] rounded-br-[10px] bg-blue-700 px-4 py-3 font-semibold text-white focus:left-0" href="#main">
       {t({ en: "Skip to main content", km: "រំលងទៅមាតិកាសំខាន់" })}
     </a>
   )

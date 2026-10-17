@@ -8,6 +8,11 @@ import { Checkbox } from "@/components/auth/Checkbox"
 import { useAuth } from "@/lib/auth"
 import { authApi } from "@/lib/services"
 
+const CONTROL =
+  "rounded-[10px] border border-[#e3e9f3] bg-white px-[0.9rem] py-[0.68rem] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-blue-500 focus:shadow-[0_0_0_3px_var(--color-blue-100)] focus:outline-none"
+const BTN_LG =
+  "inline-flex items-center justify-center gap-2 rounded-full border cursor-pointer px-[1.7rem] py-[0.88rem] text-[1.03rem] font-semibold whitespace-nowrap transition-[background-color,box-shadow,transform] duration-[180ms] ease-out km:pt-[0.62rem] km:pb-[0.62rem]"
+
 export function SignUp() {
   const { t } = useLang()
   const { login } = useAuth()
@@ -25,8 +30,7 @@ export function SignUp() {
   const [submitting, setSubmitting] = useState(false)
 
   const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
-  const updatePhone = (e) =>
-    setForm((f) => ({ ...f, phone: e.target.value.replace(/[^\d\s()+.-]/g, "") }))
+  const updatePhone = (e) => setForm((f) => ({ ...f, phone: e.target.value.replace(/[^\d\s()+.-]/g, "") }))
 
   const goBack = () => goAuthBack(navigate)
 
@@ -102,173 +106,181 @@ export function SignUp() {
   return (
     <AuthLayout>
       <>
-        <button type="button" className="auth-back" onClick={goBack}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <button
+          type="button"
+          className="mb-[1.3rem] inline-flex cursor-pointer items-center gap-[0.45rem] border-none bg-transparent px-0 py-[0.3rem] text-[0.88rem] font-semibold text-blue-700 transition-colors duration-150 hover:text-blue-600"
+          onClick={goBack}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-4 w-4">
             <path d="m15 18-6-6 6-6" />
           </svg>
           {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
         </button>
-          <form className="auth-form" onSubmit={handleSubmit} noValidate>
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="signup-name">
-                {t({ en: "Full name", km: "ឈ្មោះពេញ" })}
-              </label>
-              <input
-                id="signup-name"
-                name="name"
-                className={`control ${errors.name ? "control--error" : ""}`}
-                type="text"
-                autoComplete="name"
-                value={form.name}
-                onChange={update("name")}
-                placeholder={t({ en: "example: Sopha Vortey", km: "ឧទាហរណ៍: សុផា​ វតី" })}
-                aria-describedby={errors.name ? "signup-name-err" : undefined}
-                aria-invalid={errors.name ? "true" : undefined}
-              />
-              {errors.name && (
-                <p className="auth-field__error" id="signup-name-err" role="alert">
-                  {errors.name}
-                </p>
-              )}
-            </div>
+        <form className="flex flex-col gap-[1.15rem]" onSubmit={handleSubmit} noValidate>
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="signup-name">
+              {t({ en: "Full name", km: "ឈ្មោះពេញ" })}
+            </label>
+            <input
+              id="signup-name"
+              name="name"
+              className={`w-full ${CONTROL}${errors.name ? " !border-red-600" : ""}`}
+              type="text"
+              autoComplete="name"
+              value={form.name}
+              onChange={update("name")}
+              placeholder={t({ en: "example: Sopha Vortey", km: "ឧទាហរណ៍: សុផា​ វតី" })}
+              aria-describedby={errors.name ? "signup-name-err" : undefined}
+              aria-invalid={errors.name ? "true" : undefined}
+            />
+            {errors.name && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-name-err" role="alert">
+                {errors.name}
+              </p>
+            )}
+          </div>
 
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="signup-email">
-                {t({ en: "Email address", km: "អាសយដ្ឋានអ៊ីមែល" })}
-              </label>
-              <input
-                id="signup-email"
-                name="email"
-                className={`control ${errors.email ? "control--error" : ""}`}
-                type="email"
-                autoComplete="email"
-                value={form.email}
-                onChange={update("email")}
-                placeholder="sophavortey@gmail.com"
-                aria-describedby={errors.email ? "signup-email-err" : undefined}
-                aria-invalid={errors.email ? "true" : undefined}
-              />
-              {errors.email && (
-                <p className="auth-field__error" id="signup-email-err" role="alert">
-                  {errors.email}
-                </p>
-              )}
-            </div>
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="signup-email">
+              {t({ en: "Email address", km: "អាសយដ្ឋានអ៊ីមែល" })}
+            </label>
+            <input
+              id="signup-email"
+              name="email"
+              className={`w-full ${CONTROL}${errors.email ? " !border-red-600" : ""}`}
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={update("email")}
+              placeholder="sophavortey@gmail.com"
+              aria-describedby={errors.email ? "signup-email-err" : undefined}
+              aria-invalid={errors.email ? "true" : undefined}
+            />
+            {errors.email && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-email-err" role="alert">
+                {errors.email}
+              </p>
+            )}
+          </div>
 
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="signup-phone">
-                {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
-              </label>
-              <div className="auth-phone">
-                <select
-                  className="control auth-phone__code"
-                  aria-label="Country code"
-                  value={form.code}
-                  onChange={update("code")}
-                >
-                  <option value="+855">+855</option>
-                  <option value="+84">+84</option>
-                  <option value="+856">+856</option>
-                  <option value="+60">+60</option>
-                  <option value="+65">+65</option>
-                  <option value="+62">+62</option>
-                  <option value="+63">+63</option>
-                  <option value="+86">+86</option>
-                  <option value="+81">+81</option>
-                  <option value="+82">+82</option>
-                </select>
-                <input
-                  id="signup-phone"
-                  name="phone"
-                  className={`control ${errors.phone ? "control--error" : ""}`}
-                  type="tel"
-                  autoComplete="tel"
-                  value={form.phone}
-                  onChange={updatePhone}
-                  placeholder="0XX XXX XXX"
-                  aria-describedby={errors.phone ? "signup-phone-err" : undefined}
-                  aria-invalid={errors.phone ? "true" : undefined}
-                />
-              </div>
-              {errors.phone && (
-                <p className="auth-field__error" id="signup-phone-err" role="alert">
-                  {errors.phone}
-                </p>
-              )}
-            </div>
-
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="signup-password">
-                {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}
-              </label>
-              <PasswordInput
-                id="signup-password"
-                name="password"
-                value={form.password}
-                onChange={update("password")}
-                placeholder={t({ en: "At least 8 characters", km: "យ៉ាងតិច ៨ តួអក្សរ" })}
-                autoComplete="new-password"
-                required
-                minLength={8}
-                errorId={errors.password ? "signup-password-err" : undefined}
-              />
-              {errors.password && (
-                <p className="auth-field__error" id="signup-password-err" role="alert">
-                  {errors.password}
-                </p>
-              )}
-            </div>
-
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="signup-confirm">
-                {t({ en: "Confirm password", km: "បញ្ជាក់ពាក្យសម្ងាត់" })}
-              </label>
-              <PasswordInput
-                id="signup-confirm"
-                name="confirm"
-                value={form.confirm}
-                onChange={update("confirm")}
-                placeholder={t({ en: "Re-enter your password", km: "សូមបញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
-                autoComplete="new-password"
-                required
-                minLength={8}
-                errorId={errors.confirm ? "signup-confirm-err" : undefined}
-              />
-              {errors.confirm && (
-                <p className="auth-field__error" id="signup-confirm-err" role="alert">
-                  {errors.confirm}
-                </p>
-              )}
-            </div>
-
-            <div className="auth-field">
-              <Checkbox
-                id="signup-terms"
-                checked={agreeTerms}
-                onChange={(e) => setAgreeTerms(e.target.checked)}
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="signup-phone">
+              {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
+            </label>
+            <div className="flex gap-2">
+              <select
+                className={`min-w-[175px] shrink-0 ${CONTROL}`}
+                aria-label="Country code"
+                value={form.code}
+                onChange={update("code")}
               >
-                {t({
-                  en: "I agree to the Terms of Service and Privacy Policy",
-                  km: "ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌសេវាកម្ម និងគោលការណ៍ឯកជនភាព",
-                })}
-              </Checkbox>
-              {errors.terms && (
-                <p className="auth-field__error" id="signup-terms-err" role="alert">
-                  {errors.terms}
-                </p>
-              )}
+                <option value="+855">+855</option>
+                <option value="+84">+84</option>
+                <option value="+856">+856</option>
+                <option value="+60">+60</option>
+                <option value="+65">+65</option>
+                <option value="+62">+62</option>
+                <option value="+63">+63</option>
+                <option value="+86">+86</option>
+                <option value="+81">+81</option>
+                <option value="+82">+82</option>
+              </select>
+              <input
+                id="signup-phone"
+                name="phone"
+                className={`w-full ${CONTROL}${errors.phone ? " !border-red-600" : ""}`}
+                type="tel"
+                autoComplete="tel"
+                value={form.phone}
+                onChange={updatePhone}
+                placeholder="0XX XXX XXX"
+                aria-describedby={errors.phone ? "signup-phone-err" : undefined}
+                aria-invalid={errors.phone ? "true" : undefined}
+              />
             </div>
+            {errors.phone && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-phone-err" role="alert">
+                {errors.phone}
+              </p>
+            )}
+          </div>
 
-            <button type="submit" className="btn btn-primary btn-lg auth-submit" disabled={submitting}>
-              {t({ en: "Create account", km: "បង្កើតគណនី" })}
-            </button>
-          </form>
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="signup-password">
+              {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}
+            </label>
+            <PasswordInput
+              id="signup-password"
+              name="password"
+              value={form.password}
+              onChange={update("password")}
+              placeholder={t({ en: "At least 8 characters", km: "យ៉ាងតិច ៨ តួអក្សរ" })}
+              autoComplete="new-password"
+              required
+              minLength={8}
+              errorId={errors.password ? "signup-password-err" : undefined}
+            />
+            {errors.password && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-password-err" role="alert">
+                {errors.password}
+              </p>
+            )}
+          </div>
 
-          <p className="auth-alt">
-            {t({ en: "Already have an account?", km: "មានគណនីរួចហើយមែនទេ?" })}{" "}
-            <Link to="/login">{t({ en: "Sign in", km: "ចូលគណនី" })}</Link>
-          </p>
-        </>
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="signup-confirm">
+              {t({ en: "Confirm password", km: "បញ្ជាក់ពាក្យសម្ងាត់" })}
+            </label>
+            <PasswordInput
+              id="signup-confirm"
+              name="confirm"
+              value={form.confirm}
+              onChange={update("confirm")}
+              placeholder={t({ en: "Re-enter your password", km: "សូមបញ្ចូលពាក្យសម្ងាត់ម្តងទៀត" })}
+              autoComplete="new-password"
+              required
+              minLength={8}
+              errorId={errors.confirm ? "signup-confirm-err" : undefined}
+            />
+            {errors.confirm && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-confirm-err" role="alert">
+                {errors.confirm}
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-[0.4rem]">
+            <Checkbox
+              id="signup-terms"
+              checked={agreeTerms}
+              onChange={(e) => setAgreeTerms(e.target.checked)}
+            >
+              {t({
+                en: "I agree to the Terms of Service and Privacy Policy",
+                km: "ខ្ញុំយល់ព្រមតាមលក្ខខណ្ឌសេវាកម្ម និងគោលការណ៍ឯកជនភាព",
+              })}
+            </Checkbox>
+            {errors.terms && (
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="signup-terms-err" role="alert">
+                {errors.terms}
+              </p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className={`${BTN_LG} mt-2 w-full border-transparent bg-blue-800 text-white shadow-sm hover:bg-blue-700 hover:-translate-y-px`}
+            disabled={submitting}
+          >
+            {t({ en: "Create account", km: "បង្កើតគណនី" })}
+          </button>
+        </form>
+
+        <p className="mt-[1.2rem] text-center text-[0.92rem] text-[#56657f]">
+          {t({ en: "Already have an account?", km: "មានគណនីរួចហើយមែនទេ?" })}{" "}
+          <Link className="font-semibold text-blue-700 hover:underline" to="/login">{t({ en: "Sign in", km: "ចូលគណនី" })}</Link>
+        </p>
+      </>
     </AuthLayout>
   )
 }

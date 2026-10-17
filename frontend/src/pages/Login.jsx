@@ -8,6 +8,11 @@ import { AuthTabs } from "@/components/auth/AuthTabs"
 import { PasswordInput } from "@/components/auth/PasswordInput"
 import { Checkbox } from "@/components/auth/Checkbox"
 
+const CONTROL =
+  "rounded-[10px] border border-[#e3e9f3] bg-white px-[0.9rem] py-[0.68rem] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-blue-500 focus:shadow-[0_0_0_3px_var(--color-blue-100)] focus:outline-none"
+const BTN_LG =
+  "inline-flex items-center justify-center gap-2 rounded-full border cursor-pointer px-[1.7rem] py-[0.88rem] text-[1.03rem] font-semibold whitespace-nowrap transition-[background-color,box-shadow,transform] duration-[180ms] ease-out km:pt-[0.62rem] km:pb-[0.62rem]"
+
 const LOGIN_ERRORS = {
   "No account found for this phone number": {
     en: "No account found for this phone number",
@@ -108,28 +113,32 @@ export function Login() {
   return (
     <AuthLayout>
       <>
-        <button type="button" className="auth-back" onClick={goBack}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <button
+          type="button"
+          className="mb-[1.3rem] inline-flex cursor-pointer items-center gap-[0.45rem] border-none bg-transparent px-0 py-[0.3rem] text-[0.88rem] font-semibold text-blue-700 transition-colors duration-150 hover:text-blue-600"
+          onClick={goBack}
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-4 w-4">
             <path d="m15 18-6-6 6-6" />
           </svg>
           {t({ en: "Back", km: "ត្រឡប់ក្រោយ" })}
         </button>
-        <h1 className="auth-split__heading auth-split__heading--login">
+        <h1 className="mb-4 font-display text-[1.6rem] font-bold leading-[1.3] text-ink max-[480px]:text-[1.35rem]">
           {t({ en: "Welcome to Angket!", km: "សូមស្វាគមន៍មកកាន់ Angket!" })}
         </h1>
 
         <AuthTabs activeTab={activeTab} onChange={(tab) => { setActiveTab(tab); setErrors({}) }} />
 
-        <form className="auth-form" onSubmit={handleLogin} noValidate>
+        <form className="flex flex-col gap-[1.15rem]" onSubmit={handleLogin} noValidate>
           {activeTab === "email" ? (
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="login-email">
+            <div className="flex flex-col gap-[0.4rem]">
+              <label className="text-[0.88rem] font-semibold text-ink" htmlFor="login-email">
                 {t({ en: "Email address", km: "អាសយដ្ឋានអ៊ីមែល" })}
               </label>
               <input
                 id="login-email"
                 name="email"
-                className={`control ${errors.email ? "control--error" : ""}`}
+                className={`w-full ${CONTROL}${errors.email ? " !border-red-600" : ""}`}
                 type="email"
                 autoComplete="email"
                 value={email}
@@ -139,18 +148,23 @@ export function Login() {
                 aria-invalid={errors.email ? "true" : undefined}
               />
               {errors.email && (
-                <p className="auth-field__error" id="login-email-err" role="alert">
+                <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="login-email-err" role="alert">
                   {errors.email}
                 </p>
               )}
             </div>
           ) : (
-            <div className="auth-field">
-              <label className="auth-field__label" htmlFor="login-phone">
+            <div className="flex flex-col gap-[0.4rem]">
+              <label className="text-[0.88rem] font-semibold text-ink" htmlFor="login-phone">
                 {t({ en: "Phone number", km: "លេខទូរស័ព្ទ" })}
               </label>
-              <div className="auth-phone">
-                <select className="control auth-phone__code" aria-label="Country code">
+              <div className="flex gap-2">
+                <select
+                  className={`min-w-[175px] shrink-0 ${CONTROL}`}
+                  aria-label="Country code"
+                  value={phoneCode}
+                  onChange={(e) => setPhoneCode(e.target.value)}
+                >
                   <option value="+855">+855</option>
                   <option value="+84">+84</option>
                   <option value="+856">+856</option>
@@ -165,7 +179,7 @@ export function Login() {
                 <input
                   id="login-phone"
                   name="phone"
-                  className={`control ${errors.phone ? "control--error" : ""}`}
+                  className={`w-full ${CONTROL}${errors.phone ? " !border-red-600" : ""}`}
                   type="tel"
                   autoComplete="tel"
                   value={phone}
@@ -176,15 +190,15 @@ export function Login() {
                 />
               </div>
               {errors.phone && (
-                <p className="auth-field__error" id="login-phone-err" role="alert">
+                <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="login-phone-err" role="alert">
                   {errors.phone}
                 </p>
               )}
             </div>
           )}
 
-          <div className="auth-field">
-            <label className="auth-field__label" htmlFor="login-password">
+          <div className="flex flex-col gap-[0.4rem]">
+            <label className="text-[0.88rem] font-semibold text-ink" htmlFor="login-password">
               {t({ en: "Password", km: "ពាក្យសម្ងាត់" })}
             </label>
             <PasswordInput
@@ -198,13 +212,13 @@ export function Login() {
               errorId={errors.password ? "login-password-err" : undefined}
             />
             {errors.password && (
-              <p className="auth-field__error" id="login-password-err" role="alert">
+              <p className="mt-[0.15rem] text-[0.82rem] font-medium text-red-600" id="login-password-err" role="alert">
                 {errors.password}
               </p>
             )}
           </div>
 
-          <div className="auth-row">
+          <div className="flex items-center justify-between text-[0.88rem]">
             <Checkbox
               id="login-keep"
               checked={keepSignedIn}
@@ -212,19 +226,23 @@ export function Login() {
             >
               {t({ en: "Keep me signed in", km: "រក្សាការចូលរបស់ខ្ញុំ" })}
             </Checkbox>
-            <Link className="auth-row__link" to="/login">
+            <Link className="text-[0.88rem] font-semibold text-blue-700 hover:underline" to="/login">
               {t({ en: "Forgot password?", km: "ភ្លេចពាក្យសម្ងាត់?" })}
             </Link>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg auth-submit" disabled={submitting}>
+          <button
+            type="submit"
+            className={`${BTN_LG} mt-2 w-full border-transparent bg-blue-800 text-white shadow-sm hover:bg-blue-700 hover:-translate-y-px`}
+            disabled={submitting}
+          >
             {submitting ? t({ en: "Signing in…", km: "កំពុងចូលគណនី…" }) : t({ en: "Sign in", km: "ចូលគណនី" })}
           </button>
         </form>
 
-        <p className="auth-alt">
+        <p className="mt-[1.2rem] text-center text-[0.92rem] text-[#56657f]">
           {t({ en: "Do not have an account yet?", km: "តើអ្នកមិនទាន់មានគណនីមែនទេ?" })}{" "}
-          <Link to="/signup">{t({ en: "Sign up", km: "បង្កើតគណនី" })}</Link>
+          <Link className="font-semibold text-blue-700 hover:underline" to="/signup">{t({ en: "Sign up", km: "បង្កើតគណនី" })}</Link>
         </p>
       </>
     </AuthLayout>

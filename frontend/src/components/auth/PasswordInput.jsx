@@ -1,16 +1,19 @@
 import { useState } from "react"
 import { useLang } from "@/lib/i18n"
 
+const CONTROL =
+  "rounded-[10px] border border-[#e3e9f3] bg-white px-[0.9rem] py-[0.68rem] text-ink transition-[border-color,box-shadow] duration-150 placeholder:text-faint focus:border-blue-500 focus:shadow-[0_0_0_3px_var(--color-blue-100)] focus:outline-none"
+
 export function PasswordInput({ id, name, value, onChange, placeholder, autoComplete, required, minLength, errorId }) {
   const { t } = useLang()
   const [visible, setVisible] = useState(false)
 
   return (
-    <div className="pass-field">
+    <div className="relative flex items-center">
       <input
         id={id}
         name={name}
-        className={`control ${errorId ? "control--error" : ""}`}
+        className={`w-full pr-12 ${CONTROL}${errorId ? " !border-red-600" : ""}`}
         type={visible ? "text" : "password"}
         autoComplete={autoComplete}
         required={required}
@@ -23,11 +26,12 @@ export function PasswordInput({ id, name, value, onChange, placeholder, autoComp
       />
       <button
         type="button"
-        className="pass-field__toggle"
+        className="absolute right-[0.4rem] grid cursor-pointer place-items-center rounded-[6px] border-none bg-transparent p-[0.3rem] text-[#56657f] transition-[color,background] duration-150 hover:bg-surface hover:text-blue-700"
         onClick={() => setVisible((v) => !v)}
-        aria-label={visible
-          ? t({ en: "Hide password", km: "លាក់ពាក្យសម្ងាត់" })
-          : t({ en: "Show password", km: "បង្ហាញពាក្យសម្ងាត់" })
+        aria-label={
+          visible
+            ? t({ en: "Hide password", km: "លាក់ពាក្យសម្ងាត់" })
+            : t({ en: "Show password", km: "បង្ហាញពាក្យសម្ងាត់" })
         }
         aria-pressed={visible}
       >

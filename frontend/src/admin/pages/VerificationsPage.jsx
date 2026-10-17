@@ -30,35 +30,35 @@ export default function VerificationsPage() {
 
   return (
     <PageShell title="Verifications">
-      {error && <div className="placeholder-card"><p>Failed: {error}</p></div>}
+      {error && <div className="bg-white border border-admin-border rounded-2xl p-10 text-center text-admin-slate-600 text-[15px]"><p>Failed: {error}</p></div>}
       {!error && (
-        <div className="table-card">
-          <table className="data-table">
+        <div className="bg-white border border-admin-border rounded-2xl overflow-hidden">
+          <table className="w-full border-collapse text-[14px]">
             <thead>
               <tr>
-                <th>User</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Submitted</th>
-                <th>Action</th>
+                <th className="text-left px-5 py-3 bg-slate-50 text-admin-slate-600 font-semibold text-[12px] uppercase tracking-wider border-b border-admin-border-light">User</th>
+                <th className="text-left px-5 py-3 bg-slate-50 text-admin-slate-600 font-semibold text-[12px] uppercase tracking-wider border-b border-admin-border-light">Type</th>
+                <th className="text-left px-5 py-3 bg-slate-50 text-admin-slate-600 font-semibold text-[12px] uppercase tracking-wider border-b border-admin-border-light">Status</th>
+                <th className="text-left px-5 py-3 bg-slate-50 text-admin-slate-600 font-semibold text-[12px] uppercase tracking-wider border-b border-admin-border-light">Submitted</th>
+                <th className="text-left px-5 py-3 bg-slate-50 text-admin-slate-600 font-semibold text-[12px] uppercase tracking-wider border-b border-admin-border-light">Action</th>
               </tr>
             </thead>
             <tbody>
-              {loading && <tr><td colSpan={5} className="table-empty">Loading…</td></tr>}
+              {loading && <tr><td colSpan={5} className="text-center text-admin-slate-600 py-8">Loading…</td></tr>}
               {!loading && verifications.length === 0 && (
-                <tr><td colSpan={5} className="table-empty">No verifications yet.</td></tr>
+                <tr><td colSpan={5} className="text-center text-admin-slate-600 py-8">No verifications yet.</td></tr>
               )}
               {!loading && verifications.map((v) => (
-                <tr key={v.id}>
-                  <td className="cell-strong">{v.user_name || v.email || "—"}</td>
-                  <td>{v.type}</td>
-                  <td><span className={`badge ${statusBadge(v.status)}`}>{v.status}</span></td>
-                  <td>{v.submitted_at ? new Date(v.submitted_at).toLocaleDateString() : "—"}</td>
-                  <td>
+                <tr key={v.id} className="border-b border-admin-border-light last:border-b-0 hover:bg-admin-surface-hover">
+                  <td className="px-5 py-3 font-semibold text-admin-slate">{v.user_name || v.email || "—"}</td>
+                  <td className="px-5 py-3">{v.type}</td>
+                  <td className="px-5 py-3"><span className={`inline-block px-2.5 py-[3px] rounded-full text-[12px] font-semibold capitalize ${statusBadge(v.status)}`}>{v.status}</span></td>
+                  <td className="px-5 py-3">{v.submitted_at ? new Date(v.submitted_at).toLocaleDateString() : "—"}</td>
+                  <td className="px-5 py-3">
                     {v.status === "pending" && (
-                      <div className="table-actions">
-                        <button type="button" className="btn-sm btn-sm-green" onClick={() => handleReview(v.id, "approved")}>Approve</button>
-                        <button type="button" className="btn-sm btn-sm-rose" onClick={() => handleReview(v.id, "rejected")}>Reject</button>
+                      <div className="flex gap-2 flex-wrap">
+                        <button type="button" className="inline-block px-3 py-[6px] rounded-lg text-[12px] font-semibold border border-transparent bg-admin-green-bg text-admin-green hover:bg-emerald-100 transition-colors" onClick={() => handleReview(v.id, "approved")}>Approve</button>
+                        <button type="button" className="inline-block px-3 py-[6px] rounded-lg text-[12px] font-semibold border border-transparent bg-admin-rose-bg text-admin-rose hover:bg-rose-100 transition-colors" onClick={() => handleReview(v.id, "rejected")}>Reject</button>
                       </div>
                     )}
                   </td>
@@ -74,9 +74,9 @@ export default function VerificationsPage() {
 
 function statusBadge(status) {
   switch (status) {
-    case "approved": return "badge-green"
-    case "pending": return "badge-amber"
-    case "rejected": return "badge-rose"
-    default: return "badge-neutral"
+    case "approved": return "bg-admin-green-bg text-admin-green"
+    case "pending": return "bg-admin-amber-bg text-admin-amber"
+    case "rejected": return "bg-admin-rose-bg text-admin-rose"
+    default: return "bg-slate-100 text-admin-slate-600"
   }
 }

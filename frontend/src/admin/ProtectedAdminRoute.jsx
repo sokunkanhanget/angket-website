@@ -6,7 +6,7 @@ export default function ProtectedAdminRoute() {
   const location = useLocation()
 
   if (loading) {
-    return <div className="placeholder-card" style={{ margin: 24 }}>Loading…</div>
+    return <div className="bg-white border border-admin-border rounded-2xl p-10 text-center text-admin-slate-600 text-[15px] m-6">Loading…</div>
   }
 
   if (!admin || admin.role !== "admin") {

@@ -12,14 +12,14 @@ function PhoneIcon() {
 export function AuthTabs({ activeTab, onChange, tabs = ["email", "phone"] }) {
   const { t } = useLang()
   return (
-    <div className="auth-tabs" role="tablist" aria-label="Authentication method">
+    <div className="mb-[1.6rem] flex gap-1 rounded-full border border-[#e3e9f3] bg-surface p-[0.35rem]" role="tablist" aria-label="Authentication method">
       {tabs.map((tab) => (
         <button
           key={tab}
           type="button"
           role="tab"
           aria-selected={activeTab === tab}
-          className={`auth-tabs__tab ${activeTab === tab ? "auth-tabs__tab--active" : ""}`}
+          className={`flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-full border-none bg-transparent py-[0.6rem] text-[0.92rem] font-semibold text-[#56657f] transition-[color,background,box-shadow] duration-[180ms] hover:text-blue-700 [&>svg]:h-[17px] [&>svg]:w-[17px] ${activeTab === tab ? "bg-blue-700 text-white shadow-sm" : ""}`}
           onClick={() => onChange(tab)}
         >
           {tab === "email" ? <IconMail /> : <PhoneIcon />}

@@ -32,17 +32,27 @@ import {
 } from "lucide-react"
 import { Reveal } from "./reveal"
 
+const CONTAINER = "mx-auto w-full max-w-[1440px] px-[clamp(1rem,4vw,3rem)]"
+const BTN =
+  "inline-flex items-center justify-center gap-2 rounded-full border cursor-pointer font-semibold whitespace-nowrap transition-[background-color,box-shadow,transform] duration-[180ms] ease-out"
+const BTN_LG = "px-[1.7rem] py-[0.88rem] text-[1.03rem] km:pt-[0.62rem] km:pb-[0.62rem]"
+const BTN_PRIMARY = "border-transparent bg-blue-800 text-white shadow-sm hover:bg-blue-700 hover:-translate-y-px"
+
 function TipsHero() {
   const { t } = useLang()
   return (
-    <section className="tips-hero" id="stay-safe" style={{ backgroundImage: `url(${staySafeBg})` }}>
-      <div className="container tips-hero-grid">
-        <div className="tips-hero-copy">
+    <section
+      className="flex flex-col justify-center bg-blue-50 bg-cover bg-center pt-[4.75rem] pb-[5.25rem] min-[1025px]:min-h-[680px]"
+      id="stay-safe"
+      style={{ backgroundImage: `url(${staySafeBg})` }}
+    >
+      <div className={`${CONTAINER} grid grid-cols-2 items-center gap-[3rem] max-[1020px]:grid-cols-1 max-[1020px]:gap-[2rem]`}>
+        <div className="flex flex-col gap-[1.4rem]">
           <Reveal className="d1">
-            <h1>{t({ en: "Stay Safe Online", km: "សុវត្ថិភាព​នៅ​​លើ​បណ្តាញសង្គម" })}</h1>
+            <h1 className="text-[clamp(2rem,4.4vw,3rem)] leading-[1.12] font-bold text-white">{t({ en: "Stay Safe Online", km: "សុវត្ថិភាព​នៅ​​លើ​បណ្តាញសង្គម" })}</h1>
           </Reveal>
           <Reveal className="d2">
-            <p className="lede">
+            <p className="text-white text-[clamp(1rem,1.6vw,1.1rem)]">
               {t({
                 en: "Learn simple ways to recognize scams, protect your information, and stay safer online.",
                 km: "រៀនពីវិធីសាស្ត្រក្នុងការកត់សម្គាល់ពីវិធីក្លែង​បន្លំ, ការពារ​ព័ត៌មាន​របស់​អ្នក, និង​រក្សារ​សុវត្ថិភាព​លើ​បណ្តាញសង្គម",
@@ -50,7 +60,7 @@ function TipsHero() {
             </p>
           </Reveal>
           <Reveal className="d3">
-            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
+            <a href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer" className={`${BTN} ${BTN_LG} ${BTN_PRIMARY}`}>
               <Radar size={18} />
               <span>{t({ en: "Check with Angket", km: "ពិនិត្យ​ជាមួយ Angket" })}</span>
             </a>
@@ -170,11 +180,11 @@ whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវ�
   ]
 
   return (
-    <section className="tips-stop" id="stop-check-protect">
-      <div className="container">
-        <Reveal className="section-head">
-          <h2>{t({ en: "Stop, Check, Protect", km: "ឈប់ ត្រួតពិនិត្យ ការពារ" })}</h2>
-          <p>
+    <section className="bg-white border-y border-[#e3e9f3]" id="stop-check-protect">
+      <div className={CONTAINER}>
+        <Reveal className="mb-10">
+          <h2 className="text-[clamp(1.6rem,3.4vw,2.15rem)] font-bold mt-[0.9rem] mb-[0.6rem]">{t({ en: "Stop, Check, Protect", km: "ឈប់ ត្រួតពិនិត្យ ការពារ" })}</h2>
+          <p className="text-[#56657f] text-[1.02rem]">
             {t({
               en: "Scams can happen to anyone. From suspicious messages, phishing links, and malicious files, scammers use different tactics to gain your trust and convince you to take action. Before you click, reply, send money, or share personal information, remember three simple steps: Stop. Check. Protect.",
               km: "ការបោកប្រាស់អាចកើតឡើងចំពោះអ្នកណាក៏បាន។ ចាប់ពីសារដែលគួរឱ្យសង្ស័យ តំណភ្ជាប់បន្លំ រហូតដល់ឯកសារដែលអាចបង្កគ្រោះថ្នាក់ អ្នកបោកប្រាស់ប្រើវិធីសាស្ត្រផ្សេងៗ ដើម្បីបង្កើតការជឿទុកចិត្ត និងបញ្ចុះបញ្ចូលអ្នកឱ្យធ្វើសកម្មភាពណាមួយ។ មុនពេលអ្នកចុច តបសារ ផ្ញើប្រាក់ ឬចែករំលែកព័ត៌មានផ្ទាល់ខ្លួន សូមចងចាំ ៣ ជំហានសាមញ្ញ៖ បញ្ឈប់ ពិនិត្យ ការពារ",
@@ -182,26 +192,29 @@ whatToDoLabel: t({ en: "What to do:", km: "អ្វីដែលត្រូវ�
           </p>
         </Reveal>
 
-        <div className="tips-stop-grid">
+        <div className="grid grid-cols-3 gap-[1.2rem] items-stretch max-[1020px]:grid-cols-2 max-[720px]:grid-cols-1">
           {cards.map((c, i) => {
             const Icon = c.icon
             return (
-              <Reveal key={i}>
-                <article className="tip-card" style={{ borderTopColor: c.accent }}>
-                  {c.image && <img src={c.image} alt={c.label} className="tip-card-image" />}
-                  <div className="tip-head">
-                  <div className="tip-ic" style={{ background: c.accentBg }}>
+              <Reveal key={i} className="h-full">
+                <article
+                  className="h-full flex flex-col rounded-[20px] bg-surface border border-[#e3e9f3] border-t-[3px] border-t-transparent p-[1.5rem_1.4rem] transition-[box-shadow,transform] duration-200 hover:shadow-md hover:-translate-y-[3px]"
+                  style={{ borderTopColor: c.accent }}
+                >
+                  {c.image && <img src={c.image} alt={c.label} className="w-full h-auto rounded-[14px] mb-4 object-contain" />}
+                  <div className="flex items-center gap-3 mb-[0.9rem]">
+                  <div className="w-[46px] h-[46px] rounded-[13px] grid place-items-center" style={{ background: c.accentBg }}>
                     <Icon size={26} style={{ color: c.accent }} strokeWidth={2} />
                   </div>
-                  <span className="tip-label" style={{ color: c.accent }}>{c.label}</span>
+                  <span className="text-[1.15rem] font-bold uppercase tracking-[0.02em]" style={{ color: c.accent }}>{c.label}</span>
                 </div>
-                <h3>{c.tagline}</h3>
-                  <p className="tip-desc">{c.description}</p>
-                  <p className="tip-whattodo">{c.whatToDoLabel}</p>
-                  <ul className="tip-bullets">
+                <h3 className="text-[1.15rem] mb-[0.3rem]">{c.tagline}</h3>
+                  <p className="text-[#56657f] text-[0.92rem] leading-[1.55] mb-[0.8rem] min-h-[6.5rem] min-[1440px]:min-h-[4.6rem] max-[1020px]:min-h-[4.6rem] max-[720px]:min-h-0">{c.description}</p>
+                  <p className="text-[0.92rem] leading-[1.55] font-semibold text-[#56657f] mt-[0.8rem] mb-[0.8rem]">{c.whatToDoLabel}</p>
+                  <ul className="list-none p-0 mt-auto">
                     {c.bullets.map((b, j) => (
-                      <li key={j}>
-                        <b.Icon size={16} style={{ color: c.accent }} strokeWidth={2} />
+                      <li key={j} className="flex items-start gap-2 text-[0.88rem] text-text py-[0.4rem] border-t border-[#e3e9f3] first:border-t-0">
+                        <b.Icon size={16} style={{ color: c.accent }} strokeWidth={2} className="shrink-0 mt-[2px]" />
                         <span>{b.text}</span>
                       </li>
                     ))}
@@ -233,39 +246,39 @@ function ProtectAccounts() {
   ]
 
   return (
-    <section className="tips-protect" id="protect-accounts">
-      <div className="tips-dark-panel">
-        <div className="container">
+    <section className="bg-[linear-gradient(135deg,#0d1730,#1e40af)]" id="protect-accounts">
+      <div className="text-white">
+        <div className={CONTAINER}>
           <Reveal className="d1">
-            <h2>{t({ en: "Protect your accounts", km: "ការពារ​គណនី​របស់​អ្នក" })}</h2>
+            <h2 className="text-white text-[clamp(1.7rem,3.6vw,2.35rem)] font-bold tracking-[-0.02em] mt-0 mb-[0.6rem]">{t({ en: "Protect your accounts", km: "ការពារ​គណនី​របស់​អ្នក" })}</h2>
           </Reveal>
 
           <Reveal>
-            <div className="tips-do-donts">
-              <div className="tips-do-list">
-                <span className="tips-do-label">
+            <div className="grid grid-cols-2 gap-[2.5rem] max-[1020px]:gap-[1.5rem] max-[720px]:grid-cols-1">
+              <div className="flex flex-col">
+                <span className="text-[1.15rem] font-bold uppercase tracking-[0.02em] mb-[0.75rem] flex items-center gap-2 text-[#34D399]">
                   <CircleCheck size={20} />
                   {t({ en: "Do", km: "ធ្វើ" })}
                 </span>
                 <ul>
                   {dos.map((d, i) => (
-                    <li key={i}>
-                      <CircleCheck size={16} />
+                    <li key={i} className="flex items-start gap-[0.55rem] text-[0.88rem] text-[#e5e7eb] py-[0.6rem] border-t border-[rgba(255,255,255,0.08)] first:border-t-0">
+                      <CircleCheck size={16} className="shrink-0 mt-[0.12rem] text-[#34D399]" />
                       <span>{d}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="tips-dont-list">
-                <span className="tips-dont-label">
+              <div className="flex flex-col">
+                <span className="text-[1.15rem] font-bold uppercase tracking-[0.02em] mb-[0.75rem] flex items-center gap-2 text-[#F87171]">
                   <XCircle size={20} />
                   {t({ en: "Don't", km: "កុំ" })}
                 </span>
                 <ul>
                   {donts.map((d, i) => (
-                    <li key={i}>
-                      <XCircle size={16} />
+                    <li key={i} className="flex items-start gap-[0.55rem] text-[0.88rem] text-[#e5e7eb] py-[0.6rem] border-t border-[rgba(255,255,255,0.08)] first:border-t-0">
+                      <XCircle size={16} className="shrink-0 mt-[0.12rem] text-[#F87171]" />
                       <span>{d}</span>
                     </li>
                   ))}
@@ -361,19 +374,19 @@ function ScammedSteps() {
     },
   ]
   return (
-    <section className="tips-steps" id="scammed-steps">
-      <div className="container">
-        <Reveal className="section-head">
-          <h2>
+    <section className="bg-white border-y border-[#e3e9f3]" id="scammed-steps">
+      <div className={CONTAINER}>
+        <Reveal className="mb-10">
+          <h2 className="text-[clamp(1.6rem,3.4vw,2.15rem)] font-bold mt-[0.9rem] mb-[0.6rem]">
             {t({ en: "Don't panic. Act quickly.", km: "កុំភ័យខ្លាច - ចាត់វិធានការភ្លាមៗ" })}
           </h2>
-          <p>
+          <p className="text-[#56657f] text-[1.02rem]">
             {t({
               en: "If you think you may have encountered a scam, don't panic. Acting quickly can help reduce the potential damage.",
               km: "ប្រសិនបើអ្នកគិតថាអ្នកអាចបានជួបប្រទះនឹងការបោកប្រាស់ សូមកុំភ័យខ្លាច។ ការចាត់វិធានការភ្លាមៗ អាចជួយកាត់បន្ថយការខូចខាតដែលអាចកើតមាន។",
             })}
           </p>
-          <p>
+          <p className="text-[#56657f] text-[1.02rem]">
             {t({
               en: "Follow these five steps in order to protect yourself, secure your information, and help prevent others from becoming victims.",
               km: "ធ្វើតាមជំហានទាំងប្រាំនេះតាមលំដាប់លំដោយ ដើម្បីការពារខ្លួនអ្នក រក្សាសុវត្ថិភាពព័ត៌មាន និងជួយទប់ស្កាត់អ្នកដទៃពីការក្លាយជាជនរងគ្រោះ។",
@@ -382,21 +395,24 @@ function ScammedSteps() {
         </Reveal>
 
         <Reveal>
-          <ol className="tips-timeline">
+          <ol className="relative">
             {steps.map((s, i) => (
-              <li key={i}>
-                <span className="tips-step-num">{String(i + 1).padStart(2, "0")}</span>
-                <div className="tips-step-body">
-                  <h3>
+              <li
+                key={i}
+                className="relative flex gap-[1.25rem] pb-8 last:pb-0 max-[720px]:gap-[0.85rem] before:content-[''] before:absolute before:left-[19px] before:top-[40px] before:bottom-0 before:w-[2px] before:bg-[#e3e9f3] last:before:hidden"
+              >
+                <span className="w-10 h-10 rounded-full shrink-0 bg-blue-600 text-white grid place-items-center text-[0.82rem] font-bold font-display shadow-sm relative z-[1]">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="text-[1.05rem] mb-[0.2rem] flex items-center gap-[0.4rem]">
                     <s.Icon size={18} />
                     {s.title}
                   </h3>
-                  <p>{s.desc}</p>
-                  <p className="tip-whattodo">{s.actionLabel}</p>
-                  <ul className="tips-step-list">
+                  <p className="text-[#56657f] text-[0.92rem] leading-[1.55]">{s.desc}</p>
+                  <p className="mt-[0.8rem] mb-[0.4rem] text-[0.92rem] leading-[1.55] font-semibold text-[#56657f]">{s.actionLabel}</p>
+                  <ul className="list-none p-0 m-0">
                     {s.actions.map((a, j) => (
-                      <li key={j}>
-                        <CircleCheck size={16} />
+                      <li key={j} className="flex items-start gap-2 text-[0.88rem] text-text py-[0.4rem]">
+                        <CircleCheck size={16} className="text-blue-600 shrink-0 mt-[0.15rem]" />
                         <span>{a}</span>
                       </li>
                     ))}

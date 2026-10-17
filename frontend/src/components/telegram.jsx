@@ -7,6 +7,13 @@ import incomingContentImg from "@/assets/livescan/incoming_message.jpg"
 import checkingContentImg from "@/assets/livescan/checking_content.png"
 import resultImg from "@/assets/livescan/result.png"
 
+const CONTAINER = "mx-auto w-full max-w-[1400px] px-6"
+
+const BTN =
+  "inline-flex items-center justify-center gap-2 rounded-full border cursor-pointer font-semibold whitespace-nowrap transition-[background-color,box-shadow,transform] duration-[180ms] ease-out"
+const BTN_LG = "px-[1.7rem] py-[0.88rem] text-[1.03rem] km:pt-[0.62rem] km:pb-[0.62rem]"
+const BTN_WHITE = "border-transparent bg-white text-blue-800 shadow-[0_8px_24px_rgba(4,16,46,0.28)] hover:bg-blue-50 hover:-translate-y-px"
+
 const FLOW = [
   {
     num: 1,
@@ -77,44 +84,47 @@ export function TelegramBand() {
   const { t } = useLang()
 
   return (
-    <section className="tg-band" id="telegram" aria-labelledby="tg-title">
-      <div className="container">
-        <Reveal className="tg-inner">
-          <h2 id="tg-title">{t({ en: "Angket Bot Usage​ With Live Scan Mode", km: "របៀបប្រើប្រាស់ Bot Angket ជាមួយនឹងមុខងារវិភាគ​ និងជូនដំណឹងដោយស្វ័យប្រវត្តិ" })}</h2>
-          <p className="tg-copy">
+    <section className="relative overflow-hidden bg-[radial-gradient(640px_340px_at_90%_0%,rgba(56,189,248,0.35),transparent_70%),radial-gradient(520px_320px_at_0%_100%,rgba(37,99,235,0.55),transparent_70%),linear-gradient(135deg,#0d1730,#1e40af)] text-white" id="telegram" aria-labelledby="tg-title">
+      <div className={CONTAINER}>
+        <Reveal className="text-left">
+          <h2 className="mt-[1rem] mb-[0.7rem] text-[clamp(1.7rem,3.6vw,2.3rem)]" id="tg-title">{t({ en: "Angket Bot Usage​ With Live Scan Mode", km: "របៀបប្រើប្រាស់ Bot Angket ជាមួយនឹងមុខងារវិភាគ​ និងជូនដំណឹងដោយស្វ័យប្រវត្តិ" })}</h2>
+          <p className="text-[1.04rem] text-[#c9d8f5]">
             {t({
               en: "With Live Scanning feature, the bot automatically scans incoming messages without requiring the user to forward them manually.",
               km: "ជាមួយនឹងមុខងារវិភាគ​ និងជូនដំណឹងដោយស្វ័យប្រវត្តិនេះ បូតនឹងធ្វើការស្កេន​ និងវិភាគមាតិការក្នុងសារដែលចូលមក ដោយអ្នកមិនចាំបាច់ផ្ញើទៅបូតផ្ទាល់នោះទេ។",
             })}
           </p>
 
-          <Reveal as="ol" className="flow tg-flow">
+          <Reveal
+            as="ol"
+            className="mt-[2.1rem] mb-[2.2rem] flex list-none flex-nowrap items-stretch gap-2 p-0 max-[1024px]:overflow-x-auto max-[1024px]:[-webkit-overflow-scrolling:touch] max-[1024px]:[scroll-snap-type:x_mandatory] max-[1024px]:[overscroll-behavior-x:contain] max-[640px]:flex-wrap max-[640px]:overflow-x-visible max-[640px]:[scroll-snap-type:none]"
+          >
             {FLOW.map((step) => (
-              <li className="flow-step" key={step.num}>
-                <span className="step-num" aria-hidden="true">
+              <li className="relative flex min-w-0 flex-col rounded-[20px] border border-[#e3e9f3] bg-surface px-3 pt-3 pb-5 text-left transition-[box-shadow,transform] duration-200 hover:-translate-y-[3px] hover:shadow-md flex-[1_1_0%] max-[1024px]:flex-[0_0_240px] max-[1024px]:[scroll-snap-align:start] max-[640px]:flex-[1_1_100%] max-[640px]:[scroll-snap-align:none]" key={step.num}>
+                <span className="absolute -top-[14px] left-0 z-[2] grid h-[30px] w-[30px] place-items-center rounded-full bg-blue-600 text-[0.8rem] font-bold text-white shadow-sm" aria-hidden="true">
                   {String(step.num).padStart(2, "0")}
                 </span>
-                <div className="step-shot">
+                <div className="relative mb-4 grid aspect-[325/406] w-full flex-none place-items-center overflow-hidden rounded-[8px] border border-[#e3e9f3] bg-blue-50">
                   {step.img ? (
-                    <img src={step.img} alt={t(step.title)} loading="lazy" />
+                    <img className="block h-full w-full object-contain" src={step.img} alt={t(step.title)} loading="lazy" />
                   ) : (
-                    <span className="step-shot-ph">
+                    <span className="text-[0.75rem] font-semibold text-blue-500">
                       {t({ en: "Add screenshot", km: "បន្ថែមរូបថតអេក្រង់" })}
                     </span>
                   )}
                 </div>
-                <div className="step-head">
-                  <span className="step-ic" aria-hidden="true">
-                    <step.Icon />
+                <div className="mb-[10px] flex items-center gap-[0.7rem]">
+                  <span className="grid h-8 w-8 flex-none place-items-center rounded-[12px] border border-blue-100 bg-blue-50 text-blue-700" aria-hidden="true">
+                    <step.Icon style={{ width: 16, height: 16 }} />
                   </span>
-                  <h3>{t(step.title)}</h3>
+                  <h3 className="m-0 text-[1rem] font-bold leading-[1.3] text-ink">{t(step.title)}</h3>
                 </div>
-                <p className="step-tag">{t(step.tag)}</p>
-                <p>{t(step.desc)}</p>
+                <p className="mb-[6px] text-[0.875rem] font-semibold leading-[1.4] text-blue-700">{t(step.tag)}</p>
+                <p className="mt-[6px] text-[0.8125rem] leading-[1.6] text-[#56657f]">{t(step.desc)}</p>
                 {step.details && (
-                  <ul className="flow-details">
+                  <ul className="m-0 mt-auto flex list-none flex-wrap gap-[0.35rem_0.5rem] p-0 pt-3">
                     {step.details.map((d) => (
-                      <li key={d.en}>{t(d)}</li>
+                      <li className="inline-flex items-center gap-[0.35rem] rounded-full border border-blue-100 bg-blue-50 px-[0.5rem] py-[0.25rem] text-[0.68rem] font-semibold text-blue-700 before:content-[''] before:h-[6px] before:w-[6px] before:rounded-full before:bg-blue-500" key={d.en}>{t(d)}</li>
                     ))}
                   </ul>
                 )}
@@ -122,8 +132,8 @@ export function TelegramBand() {
             ))}
           </Reveal>
 
-          <div className="tg-ctas">
-            <a className="btn btn-white btn-lg" href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
+          <div className="flex flex-wrap justify-start gap-[0.9rem]">
+            <a className={`${BTN} ${BTN_WHITE} ${BTN_LG}`} href={TELEGRAM_BOT_URL} target="_blank" rel="noopener noreferrer">
               <IconSend />
               <span>{t({ en: "Open Angket on Telegram", km: "បើក Angket នៅលើ Telegram" })}</span>
             </a>
